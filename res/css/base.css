@@ -13,8 +13,7 @@ body {
     min-height: calc(100% - 2.7em);
 }
 
-body.nav main {
-    margin-top: 2.7em;
+body.nav > main {
     padding: 0 1em;
     min-height: 85%;
 }
@@ -24,6 +23,7 @@ x-i18n {
 }
 
 nav {
+    position: static;
     background-color: #009688;
     color: #fff;
 
@@ -36,7 +36,6 @@ nav {
 
     overflow: hidden;
 
-    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -81,6 +80,52 @@ input, select {
     width: 100%;
 }
 
+button {
+    padding: 0.5em 1em;
+    border: none;
+    cursor: pointer;
+
+    font-family: "Oswald";
+    font-weight: 700;
+    font-size: 0.9em;
+    
+    border-radius: 1em;
+}
+
+button:hover {
+    box-shadow: 1px 2.5px 5px 2px #00000044;
+}
+
+button.green {
+    color: #fff;
+    background-color: #43a047;
+}
+
+button.green:hover {
+    background-color: #2e7d32;
+}
+
+button.blue {
+    color: #fff;
+    background-color: #039be5;
+}
+
+button.blue:hover {
+    background-color: #0277bd;
+}
+
+button.right {
+    float: right;
+}
+
+button.left {
+    float: left;
+}
+
+.hide-scroll {
+    overflow: hidden;
+}
+
 .main-card {
     position: absolute;
     top: 50%;
@@ -103,17 +148,61 @@ input, select {
     color: #fff;
 }
 
-
-.card-red  header {
-    background-color: #f44336;
-}
-
 .main-card main {
     margin: 1em;
 }
 
-.card h1 {
-    margin: 0px;
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal.hide {
+    display: none;
+}
+
+.modal-content {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-height: 100%;
+    
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    background-color: #fff;
+
+    opacity: 1;
+    transition: opacity top .5s ease-out;
+}
+
+.modal.hide .modal-content {
+    opacity: 0;
+    top: -50%;
+}
+
+.modal-content header {
+    font: bold small-caps 2em "Oswald", sans-serif;
+    letter-spacing: .1em;
+    padding: .5em 1em;
+
+    background-color: #009688;
+    color: #fff;
+}
+
+.modal-content main {
+    padding: 1em;
+    padding-top: 0;
+
+    overflow: auto;
+    flex-grow: 1;
 }
 
 .selector {
@@ -177,7 +266,6 @@ input, select {
     background-color: #004d40;
 }
 
-
 .text-icon {
     height: 2em;
     vertical-align: middle;
@@ -189,6 +277,15 @@ input, select {
     background-repeat: no-repeat;
     background-position: center right;
     padding-right: 1em;
+}
+
+.double-column > div:first-child {
+    border-bottom: dotted #fff;
+}
+
+.double-column > div {
+    padding: 1em 0;
+    margin: 0 1em;
 }
 
 #nav-logo {
@@ -213,25 +310,42 @@ input, select {
     height: 1.7em;
 }
 
-.double-column > div:first-child {
-    border-bottom: dotted #fff;
-}
+@media(min-height: 500px) {
+    body.nav > main {
+        margin-top: 2.7em;
+    }
 
-.double-column > div {
-    padding: 1em 0;
-    margin: 0 1em;
+    nav {
+        position: fixed;
+    }
 }
 
 @media (min-width: 700px) {
-  .main-card {
+    .main-card {
         left: 50%;
         right: unset;
+
         min-width: 66%;
+        max-width: 90%;
 
         transform: translate(-50%, -50%);
 
         border-radius: 1em;
         overflow: hidden; /* hide border radius overflow */
+    }
+
+    .modal-content {
+        left: 50%;
+        right: unset;
+        min-width: 66%;
+        max-width: 90%;
+
+        margin: 3em 0;
+        max-height: calc(100% - 6em); /* remove margins */
+
+        transform: translateX(-50%);
+
+        border-radius: 1em;
     }
 
     .double-column {
@@ -252,7 +366,13 @@ input, select {
 
 
 @media (min-width: 1000px) {
-  .main-card {
+    .main-card {
         min-width: 50%;
+        max-width: max(60%, 800px);
+    }
+
+    .modal-content {
+        min-width: 50%;
+        max-width: max(60%, 800px);
     }
 }

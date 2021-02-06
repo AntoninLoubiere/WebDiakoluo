@@ -7,12 +7,12 @@ var languageSelector = document.getElementById("language-selector");
 /*
 Custom element that hold a translation.
 */
-class I18nElement extends HTMLSpanElement {
+class I18nElement extends HTMLElement {
     static get observedAttributes() { return ['key']; }
 
     constructor() {
         super();
-        this.textContent = this.getAttribute('key')
+        this.textContent = this.getAttribute('key');
     }
 
     /* Update the translation */
@@ -35,15 +35,15 @@ class I18nElement extends HTMLSpanElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-      if (name == 'key') {
-        this.updateI18n();
-      }
+        if (name == 'key') {
+            this.updateI18n();
+        }
     }
 }
 
 /* Initialise the module */
 function initialise() {
-    customElements.define('x-i18n', I18nElement, { extends: 'span' });
+    customElements.define('x-i18n', I18nElement);
     let request = new XMLHttpRequest();
     request.open('GET', '/res/translations/universal.json');
     request.responseType = 'json';
@@ -57,7 +57,7 @@ function initialise() {
     let lang = localStorage.getItem("lang");
     if (lang == null) {
         lang = detectLang();
-        localStorage.setItem("lang", lang);
+        loadModal('cookies');
     }
     setLang(lang, true);
 
@@ -127,4 +127,10 @@ function detectLang() {
     }
     return 'en'; // by default return en
 }
+
+function cookiesCallback() {
+    deleteModal('cookies');
+    localStorage.setItem("lang", detectLang());
+}
+
 initialise();
