@@ -10,8 +10,7 @@
 </head>
 <body class="nav">
 <nav>
-    <a href="#" id="nav-logo"><img src="/res/img/favicon.svg"></a>
-    <x-i18n id="page-title" key="title-index"></x-i18n>
+    <x-include key="navbar"></x-include>
 </nav>
 <main>
     <x-i18n key="lorem-max"></x-i18n>
@@ -26,17 +25,9 @@
                 <div class="selector-dropdown-child lang" lang="fr">&#127467;&#127479; Français</div>
             </div>
         </div>
-        <div>
-            <a href="/about.html"><x-i18n key="footer-about"></x-i18n></a><br>
-            <a href="/legal.html"><x-i18n key="footer-legal"></x-i18n></a>
-        </div>
+        <x-include key="footer-1"></x-include>
     </div>
-    <div>
-        <x-i18n key="footer-diakoluo"></x-i18n><br>
-        <x-i18n key="footer-source-code"></x-i18n><br>
-        <x-i18n key="footer-hosted"></x-i18n><br>
-        <a href="/about.html"><x-i18n key="more-informations"></x-i18n></a>
-    </div>
+    <div><x-include key="footer-2"></x-include></div>
 </footer>
 </body>
 </html>

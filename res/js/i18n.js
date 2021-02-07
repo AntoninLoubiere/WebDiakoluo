@@ -35,7 +35,7 @@ class I18nElement extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        if (name == 'key') {
+        if (name == 'key' && newValue != null) {
             this.updateI18n();
         }
     }
