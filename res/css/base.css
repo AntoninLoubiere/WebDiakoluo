@@ -76,7 +76,7 @@ b {
     font-weight: 500;
 }
 
-input, select {
+select {
     width: 100%;
 }
 
@@ -189,12 +189,19 @@ button.left {
 }
 
 .modal-content header {
-    font: bold small-caps 2em "Oswald", sans-serif;
+    position: relative;
+
+    font: bold small-caps 2em/1em "Oswald", sans-serif;
     letter-spacing: .1em;
     padding: .5em 1em;
+    padding-right: 1.5em; /* if close button */
 
     background-color: #009688;
     color: #fff;
+}
+
+.modal-content.red header {
+    background-color: #f44336;
 }
 
 .modal-content main {
@@ -205,7 +212,46 @@ button.left {
     flex-grow: 1;
 }
 
+.modal-close {
+    position: absolute;
+    top: 50%;
+    right: .5em;
+
+    width: 1em;
+    height: 1em;
+
+    padding: 0;
+
+    font: 1em/1em "sans-serif";
+    letter-spacing: 0;
+    text-align: center;
+
+    border-radius: 1em;
+    background-color: inherit;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    user-select: none;
+    color: white;
+
+    transform: translateY(-50%);
+
+    transition: all .1s;
+}
+
+.modal-close:hover {
+    color: #f44336;
+    background-color: #fff;
+    box-shadow: none;
+}
+
 .selector {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     user-select: none;
     position: relative;
     display: inline;

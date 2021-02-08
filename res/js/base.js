@@ -1,5 +1,7 @@
 if (navigator.storage && navigator.storage.persist) {
 
 } else {
-    document.location = "./error/storage.html";
+    if (localStorage.getItem('modal-persist-c-storage') != "true") {
+        loadModal('persist-storage-c-warning');
+    }
 }
