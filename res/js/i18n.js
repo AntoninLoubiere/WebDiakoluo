@@ -1,4 +1,5 @@
 var LANGUAGES = ['en', 'fr'];
+var LANGUAGES_BUTTONS = {'en': "&#127468;&#127463; English", 'fr': "&#127467;&#127479; Français"};
 var translations = null;
 var universal = null;
 
@@ -53,24 +54,28 @@ function initialise() {
         universal = request.response;
         onSetLang();
     }
-    
+
+    let parent = document.getElementById('language-selector-childs');
+    for (var i = 0; i < LANGUAGES.length; i++) {
+        let lang = LANGUAGES[i];
+        let button = document.createElement('div');
+        button.classList = ['selector-dropdown-child'];
+        button.innerHTML = LANGUAGES_BUTTONS[lang];
+        button.setAttribute('lang', lang)
+        button.onclick = function() {
+            setLang(lang, false);
+            languageSelector.textContent = button.textContent;
+            localStorage.setItem("lang", lang);
+        }
+        parent.appendChild(button);
+    }
+
     let lang = localStorage.getItem("lang");
     if (lang == null) {
         lang = detectLang();
         loadModal('cookies');
     }
     setLang(lang, true);
-
-    let buttons = document.getElementsByClassName("lang");
-    for (let i = 0; i < buttons.length; i++) {
-        buttons[i].onclick = function() {
-            let lang = buttons[i].getAttribute("lang");
-            setLang(lang, false);
-            languageSelector.textContent = buttons[i].textContent;
-            localStorage.setItem("lang", lang);
-        }
-    }
-    
 }
 
 /* Set a new lang */
@@ -93,12 +98,7 @@ function setLang(lang, updateButton) {
     }
 
     if (updateButton) {
-        let buttons = document.getElementsByClassName("lang");
-        for (var i = 0; i < buttons.length; i++) {
-            if (buttons[i].getAttribute("lang") == lang) {
-                languageSelector.textContent = buttons[i].textContent;
-            }
-        }
+        languageSelector.textContent = document.querySelector("[lang=" + lang + "]").textContent;
     }
 }
 
