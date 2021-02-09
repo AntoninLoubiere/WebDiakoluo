@@ -12,7 +12,7 @@ class IncludeElement extends HTMLElement {
         let obj = this;
         let key = this.getAttribute('key');
         let request = new XMLHttpRequest();
-        request.open('GET', '/res/include/' + key + '.html');
+        request.open('GET', '/WebDiakoluo/res/include/' + key + '.html');
         request.responseType = 'html';
         request.send();
 

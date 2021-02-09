@@ -45,7 +45,7 @@ class I18nElement extends HTMLElement {
 function initialise() {
     customElements.define('x-i18n', I18nElement);
     let request = new XMLHttpRequest();
-    request.open('GET', '/res/translations/universal.json');
+    request.open('GET', '/WebDiakoluo/res/translations/universal.json');
     request.responseType = 'json';
     request.send();
 
@@ -76,7 +76,7 @@ function initialise() {
 /* Set a new lang */
 function setLang(lang, updateButton) {
     let request = new XMLHttpRequest();
-    request.open('GET', '/res/translations/' + lang + '.json');
+    request.open('GET', '/WebDiakoluo/res/translations/' + lang + '.json');
     request.responseType = 'json';
     request.send();
 

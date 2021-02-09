@@ -1,7 +1,7 @@
 /* load a modal from a file */
 function loadModal(id) {
     let request = new XMLHttpRequest();
-    request.open('GET', '/res/modals/' + id + '.html');
+    request.open('GET', '/WebDiakoluo/res/modals/' + id + '.html');
     request.responseType = 'html';
     request.send();
 

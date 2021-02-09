@@ -51,7 +51,7 @@ footer {
 }
 
 footer .open-new-icon {
-    background-image: url("/res/img/open_in_new_w.svg");
+    background-image: url("/WebDiakoluo/res/img/open_in_new_w.svg");
     background-repeat: no-repeat;
     background-position: center right;
     padding-right: 1em;
@@ -319,7 +319,7 @@ button.left {
 }
 
 .open-new-icon {
-    background-image: url("/res/img/open_in_new_b.svg");
+    background-image: url("/WebDiakoluo/res/img/open_in_new_b.svg");
     background-repeat: no-repeat;
     background-position: center right;
     padding-right: 1em;
