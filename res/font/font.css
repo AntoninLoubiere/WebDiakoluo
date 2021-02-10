@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'Oswald';
+  src: url('./Oswald/Oswald-Variable.ttf');
+  font-weight: 1 999;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('./Roboto/Roboto-Light.ttf');
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/base.css">
+    <link rel="icon" href="/WebDiakoluo/res/img/favicon.svg" />
+    <script type="text/javascript" src="/WebDiakoluo/res/js/all.min.js" defer=""></script>
+    <title>Diakôluô</title>
+</head>
+<body class="nav">
+<nav>
+    <x-include key="navbar"></x-include>
+</nav>
+<main>
+    <x-i18n key="legal-text"></x-i18n>
+</main>
+<footer class="double-column">
+    <div>
+        <x-i18n key="language"></x-i18n>
+        <div class="selector">
+            <span id="language-selector"></span>
+            <div class="selector-dropdown" id="language-selector-childs">
+            </div>
+        </div>
+        <x-include key="footer-1"></x-include>
+    </div>
+    <div><x-include key="footer-2"></x-include></div>
+</footer>
+</body>
+</html>
