@@ -1,5 +1,7 @@
 var LANGUAGES = ['en', 'fr'];
 var LANGUAGES_BUTTONS = {'en': "&#127468;&#127463; English", 'fr': "&#127467;&#127479; Français"};
+var PATH_OFFSET = 13;
+var DEFAULT_LANGUAGE = 'en';
 var translations = null;
 var universal = null;
 
@@ -88,15 +90,14 @@ function setLang(lang, updateButton) {
 
     request.onload = function() {
         if (request.response == null) {
-            if (translations == null) {
-                setLang(detectLang());
-            }
+            langError(lang);
         } else {
             translations = request.response
             onSetLang();
         }
-        
     }
+
+    request.onerror = function(e) {console.log("Test");langError(lang);};
 
     if (updateButton) {
         languageSelector.textContent = document.querySelector("[lang=" + lang + "]").textContent;
@@ -109,12 +110,29 @@ function onSetLang() {
         updateAll();
 }
 
+function langError(lang) {
+    console.error("Can't load the language:", lang)
+    if (translations == null) {
+        let l = detectLang();
+        if (l == lang) {
+            if (lang == DEFAULT_LANGUAGE) {
+                console.error("FATAL ERROR: can't load default language !")
+            } else {
+                setLang(DEFAULT_LANGUAGE);
+            }
+        } else {
+            setLang(l);                
+        }
+    }
+}
+
 /* Update all translations in the page */
 function updateAll() {
     let i18n = document.getElementsByTagName('x-i18n');
     for (var i = 0; i < i18n.length; i++) {
         i18n[i].updateI18n();
     }
+    updatePageTitle();
 }
 
 /* Return the lang detected from the navigator */
@@ -126,12 +144,42 @@ function detectLang() {
             }
         }
     }
-    return 'en'; // by default return en
+    return DEFAULT_LANGUAGE; // by default return en
 }
 
 function cookiesCallback() {
     deleteModal('cookies');
     localStorage.setItem("lang", detectLang());
+}
+
+/* update page title */
+function updatePageTitle() {
+    if (translations == null) {
+        setTimeout(updatePageTitle, 100);
+        return;
+    }
+
+    let path = document.location.pathname.substring(PATH_OFFSET);
+    let title = translations['title-' + path];
+    if (title == undefined) {
+        title = translations['title-' + path + 'index.html']
+        if (title == undefined) {
+            title = "";
+            console.warn('Title for this page not found:', path)
+        }
+    }
+    let pageTitle = document.getElementById('page-title');
+    if (title == "") {
+        document.title = "Diakôluô";
+        if (pageTitle) {
+            pageTitle.textContent = "Diakôluô";
+        }
+    } else {
+        document.title = title + " - Diakôluô"
+        if (pageTitle) {
+            pageTitle.textContent = title;
+        }
+    }
 }
 
 initialise();

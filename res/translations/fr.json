@@ -1,7 +1,6 @@
 {
     "ok": "Ok",
     "dont-show-again": "Ne plus afficher",
-    "title-index": "Page principale",
     "language": "Langue: ",
     "more-informations": "Plus d'informations",
     "legal-text": "<p>Les données stokées par votre navigateur ne sont destiné qu'à un <b>usage local</b> pour les besoins de l'application. Les données stokées ne sont <b>transmis à aucun serveur tiers</b>. Vous êtes le seul déteneur de vos données, ainsi, vous êtes le seul responsable de la sécurité de vos données.</p><p>L'utilisation de cookies et mécanismes similaires sont <b>indispensables</b> pour le bon fonctionnement du site web.</p>",
@@ -17,5 +16,8 @@
     "footer-about": "À propos",
     "footer-legal": "Mentions légales",
     "footer-report-bug": "Signaler un bug",
-    "footer-request-feature": "Proposer une amélioration"
+    "footer-request-feature": "Proposer une amélioration",
+    "title-index.html": "Page principale",
+    "title-about.html": "À propos",
+    "title-legal.html": "Mentions légales"
 }
