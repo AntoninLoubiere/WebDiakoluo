@@ -45,15 +45,6 @@ class I18nElement extends HTMLElement {
 /* Initialise the module */
 function initialise() {
     customElements.define('x-i18n', I18nElement);
-    let request = new XMLHttpRequest();
-    request.open('GET', '/WebDiakoluo/res/translations/universal.json');
-    request.responseType = 'json';
-    request.send();
-
-    request.onload = function() {
-        universal = request.response;
-        onSetLang();
-    }
 
     let parent = document.getElementById('language-selector-childs');
     for (var i = 0; i < LANGUAGES.length; i++) {
@@ -73,9 +64,19 @@ function initialise() {
     let lang = localStorage.getItem("lang");
     if (lang == null) {
         lang = detectLang();
-        loadModal('cookies');
+        if (document.location.pathname != "/WebDiakoluo/legal.html") loadModal('cookies');
     }
     setLang(lang, true);
+
+    let request = new XMLHttpRequest();
+    request.open('GET', '/WebDiakoluo/res/translations/universal.json');
+    request.responseType = 'json';
+    request.send();
+
+    request.onload = function() {
+        universal = request.response;
+        onSetLang();
+    }
 }
 
 /* Set a new lang */

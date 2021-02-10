@@ -4,14 +4,18 @@
     "title-index": "Page principale",
     "language": "Langue: ",
     "more-informations": "Plus d'informations",
+    "legal-text": "<p>Les données stokées par votre navigateur ne sont destiné qu'à un <b>usage local</b> pour les besoins de l'application. Les données stokées ne sont <b>transmis à aucun serveur tiers</b>. Vous êtes le seul déteneur de vos données, ainsi, vous êtes le seul responsable de la sécurité de vos données.</p><p>L'utilisation de cookies et mécanismes similaires sont <b>indispensables</b> pour le bon fonctionnement du site web.</p>",
+    "about-text": "<h1>DIAKÔLUÔ V<x-i18n key=\"version\"></x-i18n></h1><h3>QU'EST DIAKÔLUÔ ?</h3><p>Diakôluô est un projet open-source dans le but d'aider à la révision. Une version pour <a href=\"https://github.com/AntoninLoubiere/Diakoluo/releases\" class=\"open-new-icon\"><b>Android</b></a> et une version <a href=\"/WebDiakoluo/index.html\"><b>en ligne</b></a> sont disponibles.</p><h3>LE CODE</h3><p>Le code a été fait par: <x-i18n key=\"authors\"></x-i18n> Le code est disponible sur <a href=\"https://gihub.com/AntoninLoubiere/WebDiakoluo\" class=\"open-new-icon\">GitHub</a> sous la license <a class=\"open-new-icon\" href=\"https://www.gnu.org/licenses/agpl-3.0.html\">GNU APGL</a>.<br>Vous pouvez reporter un <b>bug</b> ou proposer une <b>fonctionalité</b> sur <a href=\"https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose\" class=\"open-new-icon\">GitHub</a>.<br></p>",
     "cookies": "Cookies",
     "cookies-message": "Les cookies et processus resemblant sont utilisées à des fins de stockage de paramètres et de données que l'utilisateur créer tels que les tests, le nombre de victoires... Ces données sont <b>stockées par votre navigateur</b> et ne sont <b>dans aucun cas transmis, stocker et traiter</b> par des serveurs externes.",
     "cookies-accept": "Accpeter et continuer",
     "error-storage-c-title": "Attention: compatibilité",
     "error-storage-c-message": "Vôtre navigateur n'est pas compatible avec la fonctionalité « stockage persistent ». Les données <u>peuvent</u> être supprimés par le navigateur. Pensez donc à exporter vos données avant de quitter.",
-    "footer-diakoluo": "<img src=\"/WebDiakoluo/res/img/favicon.svg\" class=\"text-icon\">Diakôluô application web.",
+    "footer-diakoluo": "<img src=\"/WebDiakoluo/res/img/favicon.svg\" class=\"text-icon\">Diakôluô application web - v<x-i18n key=\"version\"></x-i18n>",
     "footer-source-code": "<a class=\"open-new-icon\" href=\"https://github.com/AntoninLoubiere/diakoluo-webapp\">Code source</a> par <a class=\"open-new-icon\" href=\"https://github.com/AntoninLoubiere\"><b>Antonin LOUBIERE</b></a> sous license <a class=\"open-new-icon\" href=\"https://www.gnu.org/licenses/agpl-3.0.html\"><b>GNU APGL</b></a>.",
     "footer-hosted": "Hébergé par <a class=\"open-new-icon\" href=\"https://github.com\"><b>GitHub</b></a>",
     "footer-about": "À propos",
-    "footer-legal": "Mentions légales"
+    "footer-legal": "Mentions légales",
+    "footer-report-bug": "Signaler un bug",
+    "footer-request-feature": "Proposer une amélioration"
 }

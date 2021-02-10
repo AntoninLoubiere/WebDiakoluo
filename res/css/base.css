@@ -13,6 +13,12 @@ body {
     min-height: calc(100% - 2.7em);
 }
 
+h1, h2,  h3, h4, h5, h6 {
+    font-family: "Oswald", "Roboto", sans-serif;
+    font-weight: 400;
+    letter-spacing: .1em;
+}
+
 body.nav > main {
     padding: 0 1em;
     min-height: 85%;
