@@ -2,6 +2,8 @@ var LANGUAGES = ['en', 'fr'];
 var LANGUAGES_BUTTONS = {'en': "&#127468;&#127463; English", 'fr': "&#127467;&#127479; Français"};
 var PATH_OFFSET = 13;
 var DEFAULT_LANGUAGE = 'en';
+var LEGAL_PATH = "/WebDiakoluo/legal.html";
+
 var translations = null;
 var universal = null;
 
@@ -58,7 +60,7 @@ function initialise() {
         button.onclick = function() {
             setLang(lang, false);
             languageSelector.textContent = button.textContent;
-            localStorage.setItem("lang", lang);
+            if (document.location.pathname != LEGAL_PATH) localStorage.setItem("lang", lang);
         }
         parent.appendChild(button);
     }
@@ -66,7 +68,7 @@ function initialise() {
     let lang = localStorage.getItem("lang");
     if (lang == null) {
         lang = detectLang();
-        if (document.location.pathname != "/WebDiakoluo/legal.html") loadModal('cookies');
+        if (document.location.pathname != LEGAL_PATH) loadModal('cookies');
     }
     setLang(lang, true);
 
