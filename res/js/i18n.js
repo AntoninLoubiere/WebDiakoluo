@@ -112,6 +112,7 @@ function onSetLang() {
         updateAll();
 }
 
+/* When an error occur while importing translations */
 function langError(lang) {
     console.error("Can't load the language:", lang)
     if (translations == null) {
@@ -149,6 +150,7 @@ function detectLang() {
     return DEFAULT_LANGUAGE; // by default return en
 }
 
+/* accept cookies button callback*/
 function cookiesCallback() {
     deleteModal('cookies');
     localStorage.setItem("lang", detectLang());
