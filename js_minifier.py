@@ -2,9 +2,11 @@ from jsmin import jsmin
 import os
 import sys
 
-DIR = {'res/js/': 'res/js/all.min.js'}
+DIR = {'res/js/base/': 'res/js/all.min.js', 'res/js/diakoluo/': 'res/js/diakoluo.min.js'}
 EXCLUDE_FILES = ['storage.js']
 EXCLUDE_DIRS = {}  # root: [file names]
+
+MINIFY = False
 
 if not sys.argv[1].endswith('.js'):
     sys.exit(0)
@@ -22,7 +24,7 @@ def minify_dir(dir, file):
                     if not path.endswith(file):
                         print("Add files " + f)
                         with open(path, 'r') as fir:
-                            fiw.write(jsmin(fir.read()))
+                            fiw.write(jsmin(fir.read()) if MINIFY else f"\n\n/* {f' {f} '.center(80, '#')}*/\n\n" + fir.read())
 
             if root in EXCLUDE_DIRS:
                 for d in EXCLUDE_DIRS[root]:
