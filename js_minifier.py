@@ -8,19 +8,20 @@ EXCLUDE_DIRS = {}  # root: [file names]
 
 MINIFY = False
 
-if not sys.argv[1].endswith('.js'):
-    sys.exit(0)
-
-for d in DIR:
-    if sys.argv[1].endswith(DIR[d]):
+if len(sys.argv) > 1:
+    if not sys.argv[1].endswith('.js'):
         sys.exit(0)
+
+    for d in DIR:
+        if sys.argv[1].endswith(DIR[d]):
+            sys.exit(0)
 
 def minify_dir(dir, file):
     with open(file, 'w') as fiw:
         for root, dirs, files in os.walk(dir):
             for f in files:
                 if f.endswith('.js') and f not in EXCLUDE_FILES:
-                    path = root + f
+                    path = os.sep.join((root, f))
                     if not path.endswith(file):
                         print("Add files " + f)
                         with open(path, 'r') as fir:

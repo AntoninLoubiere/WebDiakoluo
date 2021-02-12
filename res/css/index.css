@@ -1,0 +1,64 @@
+.test-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: stretch;
+
+}
+
+.test {
+    flex: 1 0 auto;
+
+    width: 200px;
+
+    border-radius: .5em;
+    border: 1px solid #ddd;
+
+    margin: 16px 10px;
+    padding: .2em .5em;
+
+    box-shadow: 0 3px 4px 0 rgba(12,12,12,.1),0 1px 3px 0 rgba(12,12,12,.1);
+
+    cursor: pointer;
+
+    transition: all .3s ease-in-out;
+}
+
+.test:hover {
+    box-shadow: 0 7px 14px 0 rgba(12,12,12,.2),0 3px 6px 0 rgba(12,12,12,.2);
+
+    transform: translateY(-8px);
+}
+
+.test:hover .test-title {
+    color: #00796b;
+}
+
+.test-title {
+    font: small-caps 400 1.3em "Oswald", "Roboto", sans-serif;
+
+    margin: 0 0em;
+    padding: 0;
+    text-align: center;
+
+    border-bottom: 1px solid #ddd;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    transition: all .3s ease-in-out;
+}
+
+.test-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-top: 4px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.4em;
+    max-height: 3.6em;
+    line-height: 1.2em;
+}
