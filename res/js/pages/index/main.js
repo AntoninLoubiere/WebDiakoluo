@@ -52,8 +52,12 @@ function loadPageRequiringTestCallback(page) {
     }
 }
 
-function backToList() {
-    window.history.replaceState({}, 'view_title', MAIN_URL);
+function backToList(newState = false) {
+    if (newState) {
+        window.history.pushState({}, 'Main page', MAIN_URL);
+    } else {
+        window.history.replaceState({}, 'Main page', MAIN_URL);
+    }
     loadPage();
 }
 
