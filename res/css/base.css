@@ -51,7 +51,7 @@ footer {
     position: sticky;
     top: 100%;
     margin-top: 1em;
-    /*padding: 1em;*/
+    padding: 1em .5em;
     background-color: #004d40;
     color: #fff;
 }
@@ -120,6 +120,15 @@ button.blue:hover {
     background-color: #0277bd;
 }
 
+button.red {
+    color: #fff;
+    background-color: #e53935;
+}
+
+button.red:hover {
+    background-color: #c62828;
+}
+
 button.right {
     float: right;
 }
@@ -158,6 +167,15 @@ button.left {
     margin: 1em;
 }
 
+.card {
+    border-radius: .5em;
+    border: 1px solid #ddd;
+
+    padding: .3em .7em;
+
+    box-shadow: 0 3px 4px 0 rgba(12,12,12,.1),0 1px 3px 0 rgba(12,12,12,.1);
+}
+
 .modal {
     position: fixed;
     top: 0;
@@ -168,7 +186,7 @@ button.left {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal.hide {
+.hide {
     display: none;
 }
 
@@ -184,14 +202,6 @@ button.left {
     flex-direction: column;
 
     background-color: #fff;
-
-    opacity: 1;
-    transition: opacity top .5s ease-out;
-}
-
-.modal.hide .modal-content {
-    opacity: 0;
-    top: -50%;
 }
 
 .modal-content header {
@@ -331,13 +341,17 @@ button.left {
     padding-right: 1em;
 }
 
+
 .double-column > div:first-child {
+    border-bottom: dotted #000;
+}
+
+footer.double-column > div:first-child {
     border-bottom: dotted #fff;
 }
 
 .double-column > div {
-    padding: 1em 0;
-    margin: 0 1em;
+    padding: .5em 0;
 }
 
 #nav-logo {
@@ -407,12 +421,16 @@ button.left {
 
     .double-column > div:first-child {
         border-bottom: unset;
+        border-right: dotted #000;
+    }
+
+    footer.double-column > div:first-child {
+        border-bottom: unset;
         border-right: dotted #fff;
     }
 
     .double-column > div {
-        margin: 1em 0;
-        padding: 0 1em;
+        padding: 0 .5em;
     }
 }
 

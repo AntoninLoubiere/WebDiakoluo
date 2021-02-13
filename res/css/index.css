@@ -62,3 +62,20 @@
     max-height: 3.6em;
     line-height: 1.2em;
 }
+
+#test-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.action-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 2px;
+}
+
+.action-list > button {
+    margin: 2px;
+}

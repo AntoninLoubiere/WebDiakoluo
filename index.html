@@ -8,16 +8,51 @@
     <link rel="icon" href="/WebDiakoluo/res/img/favicon.svg" />
     <script type="text/javascript" src="/WebDiakoluo/res/js/all.min.js" defer=""></script>
     <script type="text/javascript" src="/WebDiakoluo/res/js/diakoluo.min.js" defer=""></script>
-    <script type="text/javascript" src="/WebDiakoluo/res/js/pages/index.js" defer=""></script>
+    <script type="text/javascript" src="/WebDiakoluo/res/js/pages/index.min.js" defer=""></script>
     <title>Diakôluô</title>
 </head>
 <body class="nav">
 <nav>
-    <x-include key="navbar"></x-include>
+    <a onclick="backToList();" id="nav-logo"><img src="/WebDiakoluo/res/img/favicon.svg"></a>
+    <span id="page-title"></span>
 </nav>
-<main>
-    <h1>Your tests:</h1>
+<main id="loading-page">
+    <h1><x-i18n key="loading"></x-i18n></h1>
+</main>
+<main id="list-page" class="hide">
+    <h1><x-i18n key="list-test-h"></x-i18n></h1>
     <div id="test-list" class="test-list">
+    </div>
+</main>
+<main id="view-page" class="hide">
+    <h1 id="test-title"></h1>
+    <div class="card">
+        <div class="action-list">
+            <button class="green"><x-i18n key="play"></x-i18n></button>
+            <button class="blue"><x-i18n key="edit"></x-i18n></button>
+            <button class="blue"><x-i18n key="export"></x-i18n></button>
+            <button class="red"><x-i18n key="delete"></x-i18n></button>
+        </div>
+        <div class="double-column">
+            <div>
+                <b><x-i18n key="title"></x-i18n></b></x-i18n> <span id="test-title2"></span><br>
+                <b><x-i18n key="description"></x-i18n></b> <span id="test-description"></span><br>
+                <b><x-i18n key="created-date"></x-i18n></b> <span id="test-created-date"></span><br>
+                <b><x-i18n key="modification-date"></x-i18n></b> <span id="test-modification-date"></span>
+            </div>
+            <div>
+                <x-i18n key="column"></x-i18n>
+                <div id="columns">
+                    <div>Column1</div>
+                    <div>Column2</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <x-i18n key="data"></x-i18n>
+    <div id="data">
+        <div>Line1</div>
+        <div>Line2</div>
     </div>
 </main>
 <footer class="double-column">

@@ -2,7 +2,7 @@ from jsmin import jsmin
 import os
 import sys
 
-DIR = {'res/js/base/': 'res/js/all.min.js', 'res/js/diakoluo/': 'res/js/diakoluo.min.js'}
+DIR = {'res/js/base/': 'res/js/all.min.js', 'res/js/diakoluo/': 'res/js/diakoluo.min.js', 'res/js/pages/index/': 'res/js/pages/index.min.js'}
 EXCLUDE_FILES = ['storage.js']
 EXCLUDE_DIRS = {}  # root: [file names]
 
