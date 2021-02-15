@@ -14,10 +14,9 @@ function reloadTestList() {
             t.querySelector('.test-title').textContent = v.title;
             t.querySelector('.test-description').textContent = v.description;
             t.children[0].onclick = function() {
-                const url = new URL(window.location);
-                url.searchParams.set('page', 'view');
-                url.searchParams.set('test', id);
-                window.history.pushState({}, 'View page', url);
+                currentURL.searchParams.set('page', 'view');
+                currentURL.searchParams.set('test', id);
+                window.history.pushState({}, 'View page', currentURL);
                 loadPage();
             }
             listPageTestList.appendChild(t);

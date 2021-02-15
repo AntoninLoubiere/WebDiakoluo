@@ -1,7 +1,11 @@
 const MAIN_URL = "/WebDiakoluo/index.html"
 
+var currentURL = new URL(window.location)
 var currentPage = null;
+var currentPageName = null;
 var currentTest = null;
+var currentModal = null;
+var currentState = {};
 
 /* init navigation */
 function initNavigation() {
@@ -14,22 +18,34 @@ function initNavigation() {
 
 /* load a page / process the ur l*/
 function loadPage() {
-    const url = new URL(window.location);
-    var page = url.searchParams.get('page');
-    if (currentPage) {
-        currentPage.classList.add('hide');
-    }
-
-    if (page == 'view') {
-        loadPageRequiringTest(url, page);
+    currentURL = new URL(window.location);
+    var page = currentURL.searchParams.get('page');
+    if (page && currentPageName == page) {
+        if (page == 'view') {
+            loadPageRequiringTest(page, true);
+        }
     } else {
-        loadListPage();
+        if (currentPage) {
+            currentPage.classList.add('hide');
+        }
+        if (currentModal) {
+            hideModal(currentModal); 
+            currentModal = null;
+        }
+        currentState = {};
+
+        if (page == 'view') {
+            loadPageRequiringTest(page);
+        } else {
+            loadListPage();
+        }
+        currentPageName = page;
     }
 }
 
 /* load a page that require a test */
-function loadPageRequiringTest(url, page) {
-    var testId = Number(url.searchParams.get('test'));
+function loadPageRequiringTest(page, update = false) {
+    var testId = Number(currentURL.searchParams.get('test'));
     if (testId) {
         if (!currentTest || testId != currentTest.id) {
             var request = getFullTest(testId);
@@ -40,8 +56,13 @@ function loadPageRequiringTest(url, page) {
             request.onerror = function(event) {
                 backToList();
             };
+            currentState = {};
         } else {
-            loadPageRequiringTestCallback(page);
+            if (update) {
+                updatePageRequiringTestCallback(page);
+            } else {
+                loadPageRequiringTestCallback(page);
+            }
         }
     } else {
         backToList();
@@ -52,6 +73,13 @@ function loadPageRequiringTest(url, page) {
 function loadPageRequiringTestCallback(page) {
     if (page == 'view') {
         loadViewPage();
+    }
+}
+
+/* callback of the update page requiring test if a test has been imported */
+function updatePageRequiringTestCallback(page) {
+    if (page == 'view') {
+        updateViewPage();
     }
 }
 

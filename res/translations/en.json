@@ -14,6 +14,7 @@
     "created-date": "Created:",
     "modification-date": "Modified:",
     "data": "Data:",
+    "data-number": "Data n°",
     "cookies": "Cookies",
     "cookies-message": "Cookies and similar mechanism sont utilisées are used for parameter storage or used for the storage of user data like number of test, number of victories... Data are <b>stored by your navigatpr</b> and are <b>never transmit, stored and handle</b> by external servers.",
     "cookies-accept": "Accept and continue",

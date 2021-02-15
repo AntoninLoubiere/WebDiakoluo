@@ -107,7 +107,7 @@ footer .open-new-icon {
 }
 
 td.min {
-    max-width: 10px;
+    width: 2em;
 }
 
 .table-parent {
@@ -200,6 +200,10 @@ button.left {
     cursor: pointer;
 }
 
+.no-margin {
+    margin: 0;
+}
+
 .main-card {
     position: absolute;
     top: 50%;
@@ -277,8 +281,8 @@ button.left {
 }
 
 .modal-content main {
-    padding: 1em;
-    padding-top: 0;
+    padding: .7em 1em;
+    padding-top: .5em;
 
     overflow: auto;
     flex-grow: 1;
@@ -314,9 +318,13 @@ button.left {
 }
 
 .modal-close:hover {
-    color: #f44336;
+    color: #009688;
     background-color: #fff;
     box-shadow: none;
+}
+
+.modal-content.red .modal-close:hover {
+    color: #f44336;
 }
 
 .selector {
