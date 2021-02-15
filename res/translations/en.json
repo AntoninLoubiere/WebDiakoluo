@@ -1,6 +1,7 @@
 {
     "ok": "Ok",
     "dont-show-again": "Don't show again.",
+    "view": "View",
     "language": "Language: ",
     "loading": "Loading",
     "more-informations": "More informations",
@@ -9,8 +10,10 @@
     "list-test-h": "Your tests:",
     "title": "Title:",
     "description": "Description:",
+    "columns": "Columns:",
     "created-date": "Created:",
     "modification-date": "Modified:",
+    "data": "Data:",
     "cookies": "Cookies",
     "cookies-message": "Cookies and similar mechanism sont utilisées are used for parameter storage or used for the storage of user data like number of test, number of victories... Data are <b>stored by your navigatpr</b> and are <b>never transmit, stored and handle</b> by external servers.",
     "cookies-accept": "Accept and continue",

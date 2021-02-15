@@ -32,20 +32,7 @@ class I18nElement extends HTMLElement {
     /* Update the translation */
     updateI18n() {
         if (universal == null || translations == null) return;
-
-        let key = this.getAttribute("key");
-        let tr = translations[key];
-        if (tr != undefined) {
-            this.innerHTML = tr;
-        } else {
-            tr = universal[key];
-            if (tr == undefined) {
-                console.warn("A key isn't available in this language !", key);
-                this.innerHTML = key;
-            } else {
-                this.innerHTML = tr;
-            }
-        }
+        this.innerHTML = getTranslation(this.getAttribute('key'));
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -108,7 +95,7 @@ function setLang(lang, updateButton) {
         }
     }
 
-    request.onerror = function(e) {console.log("Test");langError(lang);};
+    request.onerror = function(e) {langError(lang);};
 
     if (updateButton) {
         languageSelector.textContent = document.querySelector("[lang=" + lang + "]").textContent;
@@ -134,6 +121,22 @@ function langError(lang) {
             }
         } else {
             setLang(l);                
+        }
+    }
+}
+
+/* get a translations in the current language */
+function getTranslation(key) {
+    let tr = translations[key];
+    if (tr != undefined) {
+        return tr;
+    } else {
+        tr = universal[key];
+        if (tr == undefined) {
+            console.warn("A key isn't available in this language !", key);
+            return key;
+        } else {
+            return tr;
         }
     }
 }
@@ -201,7 +204,6 @@ function updatePageTitle(id = null) {
 
 /* set the page title */
 function setPageTitle(title) {
-    console.log("Set", title)
     var pageTitle = document.getElementById('page-title');
     if (title) {
         document.title = title + " - Diakôluô"

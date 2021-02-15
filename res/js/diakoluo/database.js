@@ -41,7 +41,7 @@ function initalizeDB() {
             console.error("Error", event);
         };
 
-        var header = testDBEditor.createObjectStore("header", { keyPath: "id", autoIncrement: true });
+        var header = testDBEditor.createObjectStore("header", { keyPath: "id" });
 
         header.createIndex("title", "title", { unique: false });
         header.createIndex("description", "description", { unique: false });
@@ -128,8 +128,31 @@ function getFullTest(id) {
     }
     var transaction = testDBEditor.transaction(['tests'], "readonly");
     var tests = transaction.objectStore(['tests']);
+    var r = tests.get(id);
+    var o = {onsuccess: null, onerror: null};
+    r.onsuccess = function(event) {
+        var test = event.target.result;
+        if (test) {
+            try {
+                test = Test.cast(test);  
+            } catch(e) {
+                console.error("Error while casting the test !", e);
+                if (o.onerror) o.onerror(event);
+                return;
+            }
+            if (o.onsuccess) o.onsuccess(test);
+        } else {
+            if (o.onerror) o.onerror(event);
+            
+        }
+    }
 
-    return tests.get(id);
+    r.onerror = function() {
+        if (o.onerror) o.onerror(event);
+        else indexedDB.onerror(event);
+    }
+
+    return o;
 }
 
 /* get the cursor to get all childs */

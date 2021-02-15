@@ -1,14 +1,14 @@
 const listPage = document.getElementById('list-page');
+const listPageTestList = document.getElementById('test-list');
+
+const testListTemplate = document.getElementById('test-child-template');
 
 function reloadTestList() {
-    var testList = document.getElementById('test-list');
-    while (testList.children.length) {
-        testList.removeChild(testList.children[0]);
-    }
+    removeAllChildren(listPageTestList);
     forEachHeader().onsuccess = function(event) {
         var cursor = event.target.result;
         if (cursor) {
-            var t = document.getElementById('test-child-template').content.cloneNode(true);
+            var t = testListTemplate.content.cloneNode(true);
             var v = cursor.value;
             var id = cursor.value.id;
             t.querySelector('.test-title').textContent = v.title;
@@ -20,7 +20,7 @@ function reloadTestList() {
                 window.history.pushState({}, 'View page', url);
                 loadPage();
             }
-            testList.appendChild(t);
+            listPageTestList.appendChild(t);
             cursor.continue();
         }
     };

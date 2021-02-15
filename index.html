@@ -41,18 +41,17 @@
                 <b><x-i18n key="modification-date"></x-i18n></b> <span id="test-modification-date"></span>
             </div>
             <div>
-                <x-i18n key="column"></x-i18n>
-                <div id="columns">
-                    <div>Column1</div>
-                    <div>Column2</div>
-                </div>
+                <b><x-i18n key="columns"></x-i18n></b>
+                <div id="test-columns"></div>
             </div>
         </div>
     </div>
-    <x-i18n key="data"></x-i18n>
-    <div id="data">
-        <div>Line1</div>
-        <div>Line2</div>
+    <b><x-i18n key="data"></x-i18n></b>
+    <div class="table-parent">
+        <table id="view-test-data" class="table">
+            <thead id="view-test-data-header"></thead>
+            <tbody id="view-test-data-body"></tbody>
+        </table>
     </div>
 </main>
 <footer class="double-column">
@@ -71,6 +70,19 @@
         <div class="test-title"></div>
         <div class="test-description"></div>
     </div>
+</template>
+<template id="column-child-template">
+    <div class="test-column">
+        <img src="/WebDiakoluo/res/img/view.svg" class="view-button"><span class="test-column-text"></span>
+        <span class="test-column-text"></span>
+    </div>
+</template>
+<template id="data-child-template">
+    <tr class="data clickable">
+        <td class="min">
+            <img src="/WebDiakoluo/res/img/view.svg" class="view-button"></td>
+        </td>
+    </tr>
 </template>
 </body>
 </html>
