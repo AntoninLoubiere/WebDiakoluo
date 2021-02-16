@@ -3,7 +3,7 @@ import os
 import sys
 
 DIR = {'res/js/base/': 'res/js/all.min.js', 'res/js/diakoluo/': 'res/js/diakoluo.min.js', 'res/js/pages/index/': 'res/js/pages/index.min.js'}
-EXCLUDE_FILES = ['storage.js']
+EXCLUDE_FILES = []
 EXCLUDE_DIRS = {}  # root: [file names]
 
 MINIFY = False
@@ -16,8 +16,15 @@ if len(sys.argv) > 1:
         if sys.argv[1].endswith(DIR[d]):
             sys.exit(0)
 
+def add_file(w, r, f):
+    w.write(jsmin(r.read()) if MINIFY else f"\n\n/* {f' {f} '.center(80, '#')}*/\n\n" + r.read())
+
 def minify_dir(dir, file):
     with open(file, 'w') as fiw:
+        if dir.startswith('res/js/pages/'):
+            with open('res/js/pages/page.js', 'r') as fir:
+                add_file(fiw, fir, 'page.js')
+
         for root, dirs, files in os.walk(dir):
             for f in files:
                 if f.endswith('.js') and f not in EXCLUDE_FILES:
@@ -25,7 +32,7 @@ def minify_dir(dir, file):
                     if not path.endswith(file):
                         print("Add files " + f)
                         with open(path, 'r') as fir:
-                            fiw.write(jsmin(fir.read()) if MINIFY else f"\n\n/* {f' {f} '.center(80, '#')}*/\n\n" + fir.read())
+                            add_file(fiw, fir, f)
 
             if root in EXCLUDE_DIRS:
                 for d in EXCLUDE_DIRS[root]:

@@ -1,7 +1,9 @@
 const MAIN_URL = "/WebDiakoluo/index.html"
 
+var PAGES = {};
+
 var currentURL = new URL(window.location)
-var currentPage = null;
+var currentPage = new Page(null, null);
 var currentPageName = null;
 var currentTest = null;
 var currentModal = null;
@@ -20,28 +22,32 @@ function initNavigation() {
 function loadPage() {
     currentURL = new URL(window.location);
     var page = currentURL.searchParams.get('page');
-    if (page && currentPageName == page) {
-        if (page == 'view') {
-            loadPageRequiringTest(page, true);
+    if (page && currentPage.name == page) {
+        if (currentPage.onupdate) {
+            if (currentPage.requireTest) loadPageRequiringTest(page, true);
+            else currentPage.onupdate?.();
         }
     } else {
-        if (currentPage) {
-            currentPage.classList.add('hide');
-        }
+        currentPage.hidePage();
         if (currentModal) {
             hideModal(currentModal); 
             currentModal = null;
         }
         currentState = {};
 
-        if (page == 'view') {
-            loadPageRequiringTest(page);
+        currentPage = PAGES[page] || listPage;
+        if (currentPage.requireTest) {
+            loadPageRequiringTest();
         } else {
-            loadListPage();
+            currentPage.onload?.();
         }
-        currentPageName = page;
     }
 }
+
+function onkeydown(event) {
+    currentPage.onkeydown?.(event);
+}
+document.onkeydown = onkeydown;
 
 /* load a page that require a test */
 function loadPageRequiringTest(page, update = false) {
@@ -51,7 +57,7 @@ function loadPageRequiringTest(page, update = false) {
             var request = getFullTest(testId);
             request.onsuccess = function(test) {
                 currentTest = test;
-                loadPageRequiringTestCallback(page);
+                currentPage.onload?.();
             };
             request.onerror = function(event) {
                 backToList();
@@ -59,27 +65,13 @@ function loadPageRequiringTest(page, update = false) {
             currentState = {};
         } else {
             if (update) {
-                updatePageRequiringTestCallback(page);
+                currentPage.onupdate?.();
             } else {
-                loadPageRequiringTestCallback(page);
+                currentPage.onload?.();
             }
         }
     } else {
         backToList();
-    }
-}
-
-/* callback of the load page requiring test if a test has been imported */
-function loadPageRequiringTestCallback(page) {
-    if (page == 'view') {
-        loadViewPage();
-    }
-}
-
-/* callback of the update page requiring test if a test has been imported */
-function updatePageRequiringTestCallback(page) {
-    if (page == 'view') {
-        updateViewPage();
     }
 }
 

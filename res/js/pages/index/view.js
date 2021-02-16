@@ -1,4 +1,4 @@
-const viewPage = document.getElementById('view-page');
+const viewPageView = document.getElementById('view-page');
 
 const viewPageTitle = [document.getElementById('test-title'), document.getElementById('test-title2')];
 const viewPageDescription = document.getElementById('test-description');
@@ -18,15 +18,16 @@ const viewDataModalId = document.getElementById('test-view-data-id');
 const columnTemplate = document.getElementById('column-child-template');
 const dataTemplate = document.getElementById('data-child-template');
 
+PAGES.view = new Page(viewPageView, "view", true, loadViewPage, updateViewPage, null, onkeydownViewPage);
+
 function loadViewPage() {
-    currentPage = viewPage;
     for (var i = 0; i < viewPageTitle.length; i++) {
         viewPageTitle[i].textContent = currentTest.title;
     }
     viewPageDescription.textContent = currentTest.description;
     viewPageCreatedDate.textContent = DATE_FORMATER.format(currentTest.createdDate);
     viewPageModificationDate.textContent = DATE_FORMATER.format(currentTest.modificationDate);
-    currentPage.classList.remove('hide');
+    viewPageView.classList.remove('hide');
 
     removeAllChildren(viewPageColumnsList);
     removeAllChildren(viewPageDataTableHeader);
@@ -38,7 +39,7 @@ function loadViewPage() {
         e = columnTemplate.content.cloneNode(true);
         e.querySelector('.test-column-text').textContent = currentTest.columns[i].name;
         e.children[0].onclick = function() {
-            columnClickCallback(i);
+            viewColumnClickCallback(i);
         };
 
         viewPageColumnsList.appendChild(e);
@@ -57,7 +58,7 @@ function loadViewPage() {
             row.children[0].appendChild(e);
         }
         row.children[0].onclick = function() {
-            dataClickCallback(i);
+            viewDataClickCallback(i);
         }
         viewPageDataTableBody.appendChild(row);
     }
@@ -66,13 +67,84 @@ function loadViewPage() {
     updateViewPage();
 }
 
-function updateColumnModal(id) {
+function updateViewPage() {
+    var p = Number(currentURL.searchParams.get('column'));
+    if (p) {
+        if (p > currentTest.columns.length) p = currentTest.data.length;
+        if (p <= 0) p = 1;
+        updateViewColumnModal(p - 1);
+        return;
+    }
+
+    p = Number(currentURL.searchParams.get('data'));
+    if (p) {
+        if (p > currentTest.data.length) p = currentTest.data.length;
+        if (p <= 0) p = 1;
+        updateViewDataModal(p - 1);
+        return;
+    }
+
+    if (currentModal) {
+        hideModal(currentModal);
+        currentModal = null;
+    }
+}
+
+function onkeydownViewPage(event) {
+    switch (event.keyCode) {
+        case KeyboardEvent.DOM_VK_ESCAPE:
+            if (currentModal == 'test-column-view') {
+                closeViewColumnModal();
+            } else if (currentModal == 'test-data-view') {
+                closeViewDataModal();
+            } else {
+                backToList();
+            }
+            break;
+
+        case KeyboardEvent.DOM_VK_RIGHT:
+            if (currentModal == 'test-column-view') {
+                nextViewColumn();
+            } else if (currentModal == 'test-data-view') {
+                nextViewData();
+            }
+            break;
+
+        case KeyboardEvent.DOM_VK_LEFT:
+            if (currentModal == 'test-column-view') {
+                previousViewColumn();
+            } else if (currentModal == 'test-data-view') {
+                previousViewData();
+            }
+            break;
+
+        case KeyboardEvent.DOM_VK_PAGE_DOWN:
+            if (currentModal == 'test-column-view') {
+                lastViewColumn();
+            } else if (currentModal == 'test-data-view') {
+                lastViewData();
+            }
+            break;
+
+        case KeyboardEvent.DOM_VK_PAGE_UP:
+            if (currentModal == 'test-column-view') {
+                firstViewColumn();
+            } else if (currentModal == 'test-data-view') {
+                firstViewData();
+            }
+            break;
+    }
+}
+
+function updateViewColumnModal(id) {
     if (currentModal != "test-column-view") {
         currentModal = "test-column-view";
         showModal(currentModal);
         currentState.id = -1;
     }
     if (currentState.id != id) {
+        currentState.id = id;
+        
         var column = currentTest.columns[id];
         viewColumnModalTitle1.textContent = column.name;
         viewColumnModalTitle2.textContent = column.name;
@@ -80,13 +152,15 @@ function updateColumnModal(id) {
     }
 }
 
-function updateDataModal(id) {
+function updateViewDataModal(id) {
     if (currentModal != "test-data-view") {
         currentModal = "test-data-view";
         showModal(currentModal);
         currentState.id = -1;
     }
     if (currentState.id != id) {
+        currentState.id = id;
+
         var row = currentTest.data[id];
         viewDataModalId.textContent = id + 1;
         removeAllChildren(viewDataModalContent);
@@ -106,35 +180,56 @@ function updateDataModal(id) {
     }
 }
 
-function updateViewPage() {
-    var p = Number(currentURL.searchParams.get('column'));
-    if (p) {
-        updateColumnModal(p - 1);
-        return;
-    }
-
-    p = Number(currentURL.searchParams.get('data'));
-    if (p) {
-        updateDataModal(p - 1);
-        return;
-    }
-
-    if (currentModal) {
-        hideModal(currentModal);
-        currentModal = null;
-    }
-}
-
-function columnClickCallback(id) {
-    updateColumnModal(id);
+function viewColumnClickCallback(id) {
+    updateViewColumnModal(id);
     currentURL.searchParams.set('column', id + 1);
     history.pushState({}, '', currentURL);
 }
 
-function dataClickCallback(id) {
-    updateDataModal(id);
+function nextViewColumn() {
+    if (currentState.id < currentTest.columns.length - 1) {
+        updateViewColumnModal(currentState.id + 1); // don't add to history in order to not spam the history 
+    }
+}
+
+function previousViewColumn() {
+    if (currentState.id > 0) {
+        updateViewColumnModal(currentState.id - 1);
+    }
+}
+
+function firstViewColumn() {
+    updateViewColumnModal(0);
+}
+
+function lastViewColumn() {
+    updateViewColumnModal(currentTest.columns.length - 1);
+}
+
+function viewDataClickCallback(id) {
+    updateViewDataModal(id);
     currentURL.searchParams.set('data', id + 1);
     history.pushState({}, '', currentURL);
+}
+
+function nextViewData() {
+    if (currentState.id < currentTest.data.length - 1) {
+        updateViewDataModal(currentState.id + 1);
+    }
+}
+
+function previousViewData() {
+    if (currentState.id > 0) {
+        updateViewDataModal(currentState.id - 1);
+    }
+}
+
+function firstViewData() {
+    updateViewDataModal(0);
+}
+
+function lastViewData() {
+    updateViewDataModal(currentTest.data.length - 1);
 }
 
 function closeViewColumnModal() {

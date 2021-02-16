@@ -1,7 +1,9 @@
-const listPage = document.getElementById('list-page');
+const listPageView = document.getElementById('list-page');
 const listPageTestList = document.getElementById('test-list');
 
 const testListTemplate = document.getElementById('test-child-template');
+
+const listPage = new Page(listPageView, "", false, loadListPage);
 
 function reloadTestList() {
     removeAllChildren(listPageTestList);
@@ -26,8 +28,7 @@ function reloadTestList() {
 }
 
 function loadListPage() {
-    currentPage = listPage;
-    currentPage.classList.remove('hide');
+    listPageView.classList.remove('hide');
     updatePageTitle('title-index.html');
     reloadTestList();
 }

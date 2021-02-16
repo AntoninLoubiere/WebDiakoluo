@@ -287,6 +287,13 @@ button.left {
     flex-grow: 1;
 }
 
+.modal-content footer {
+    position: static;
+    background-color: #009688;
+    padding: 0;
+    margin: 0;
+}
+
 .modal-close {
     position: absolute;
     top: 50%;
@@ -415,6 +422,25 @@ footer.double-column > div:first-child {
 
 .double-column > div {
     padding: .5em 0;
+}
+
+.navigation-button {
+    width: 2em;
+    height: 1em;
+
+    padding: 0;
+    margin: .1em .3em;
+
+    font: 2em/1em "Roboto";
+
+    background-color: inherit;
+    color: #fff;
+}
+
+.navigation-button:hover {
+    color: #000;
+    background-color: #fff;
+    box-shadow: unset;
 }
 
 #nav-logo {

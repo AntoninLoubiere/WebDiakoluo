@@ -72,6 +72,12 @@
             <b><x-i18n key="title"></x-i18n></b> <span id="modal-view-column-title2"></span><br>
             <b><x-i18n key="description"></x-i18n></b> <span id="modal-view-column-description"></span>
         </main>
+        <footer>
+            <button class="navigation-button" onclick="firstViewColumn()">&lt;&lt;</button>
+            <button class="navigation-button" onclick="previousViewColumn()">&lt;</button>
+            <button class="right navigation-button" onclick="lastViewColumn()">&gt;&gt;</button>
+            <button class="right navigation-button" onclick="nextViewColumn()">&gt;</button>
+        </footer>
     </div>
 </div>
 <div id="test-data-view-modal" class="modal hide">
@@ -80,6 +86,12 @@
         <main>
             <div id="test-data-view-content"></div>
         </main>
+        <footer>
+            <button class="navigation-button" onclick="firstViewData()">&lt;&lt;</button>
+            <button class="navigation-button" onclick="previousViewData()">&lt;</button>
+            <button class="right navigation-button" onclick="lastViewData()">&gt;&gt;</button>
+            <button class="right navigation-button" onclick="nextViewData()">&gt;</button>
+        </footer>
     </div>
 </div>
 <template id="test-child-template">
