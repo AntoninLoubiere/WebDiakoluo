@@ -35,7 +35,7 @@ function loadPage() {
         }
         currentState = {};
 
-        currentPage = PAGES[page] || listPage;
+        currentPage = PAGES[page] || defaultPage;
         if (currentPage.requireTest) {
             loadPageRequiringTest();
         } else {

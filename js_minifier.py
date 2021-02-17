@@ -1,10 +1,27 @@
 from jsmin import jsmin
-import os
 import sys
 
-DIR = {'res/js/base/': 'res/js/all.min.js', 'res/js/diakoluo/': 'res/js/diakoluo.min.js', 'res/js/pages/index/': 'res/js/pages/index.min.js'}
-EXCLUDE_FILES = []
-EXCLUDE_DIRS = {}  # root: [file names]
+COMPILE_FILES = {
+    'res/js/all.min.js': [
+        'res/js/base/base.js',
+        'res/js/base/i18n.js',
+        'res/js/base/include.js',
+        'res/js/base/modals.js',
+    ],
+    'res/js/diakoluo.min.js': [
+        'res/js/diakoluo/database.js',
+        'res/js/diakoluo/main.js',
+        'res/js/diakoluo/test/test.js',
+        'res/js/diakoluo/test/columns/column.js',
+        'res/js/diakoluo/test/columns/column-string.js',
+    ],
+    'res/js/pages/index.min.js': [
+        'res/js/pages/page.js',
+        'res/js/pages/main.js',
+        'res/js/pages/index/list.js',
+        'res/js/pages/index/view.js',
+    ]
+}
 
 MINIFY = False
 
@@ -12,37 +29,22 @@ if len(sys.argv) > 1:
     if not sys.argv[1].endswith('.js'):
         sys.exit(0)
 
-    for d in DIR:
-        if sys.argv[1].endswith(DIR[d]):
+    for c in COMPILE_FILES:
+        if sys.argv[1].endswith(c):
             sys.exit(0)
 
-def add_file(w, r, f):
-    w.write(jsmin(r.read()) if MINIFY else f"\n\n/* {f' {f} '.center(80, '#')}*/\n\n" + r.read())
+def add_file(w, f):
+    with open(f, 'r') as r:
+        w.write(jsmin(r.read()) if MINIFY else f"\n\n/* {f' {f} '.center(80, '#')}*/\n\n" + r.read())
 
-def minify_dir(dir, file):
+def minify(file, list_files):
+    print(f"################ CREATE {file}")
     with open(file, 'w') as fiw:
-        if dir.startswith('res/js/pages/'):
-            with open('res/js/pages/page.js', 'r') as fir:
-                add_file(fiw, fir, 'page.js')
-
-        for root, dirs, files in os.walk(dir):
-            for f in files:
-                if f.endswith('.js') and f not in EXCLUDE_FILES:
-                    path = os.sep.join((root, f))
-                    if not path.endswith(file):
-                        print("Add files " + f)
-                        with open(path, 'r') as fir:
-                            add_file(fiw, fir, f)
-
-            if root in EXCLUDE_DIRS:
-                for d in EXCLUDE_DIRS[root]:
-                    if d in dirs:
-                        dirs.remove(d)
-
+        for f in list_files:
+            print(f)
+            add_file(fiw, f)
 
 print("Update")
-
-for d in DIR:
-    minify_dir(d, DIR[d])
-
+for c in COMPILE_FILES:
+    minify(c, COMPILE_FILES[c])
 print()

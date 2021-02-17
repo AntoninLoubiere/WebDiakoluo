@@ -22,7 +22,7 @@ var universal = null;
 Custom element that hold a translation.
 */
 class I18nElement extends HTMLElement {
-    static get observedAttributes() { return ['key']; }
+    static get observedAttributes() { return ['key', 'caps']; }
 
     constructor() {
         super();
@@ -32,11 +32,15 @@ class I18nElement extends HTMLElement {
     /* Update the translation */
     updateI18n() {
         if (universal == null || translations == null) return;
-        this.innerHTML = getTranslation(this.getAttribute('key'));
+        var tr = getTranslation(this.getAttribute('key'))
+        var caps = this.getAttribute('caps')
+        if (caps == 'upper') this.innerHTML = tr.toUpperCase();
+        else if (caps == 'lower') this.innerHTML = tr.toLowerCase();
+        else this.innerHTML = tr;
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        if (name == 'key' && newValue != null) {
+        if (name == 'key' && newValue != null || name == 'caps') {
             this.updateI18n();
         }
     }

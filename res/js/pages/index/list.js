@@ -3,7 +3,7 @@ const listPageTestList = document.getElementById('list-test');
 
 const testListTemplate = document.getElementById('list-test-child-template');
 
-const listPage = new Page(listPageView, "", false, loadListPage);
+const defaultPage = new Page(listPageView, "", false, loadListPage);
 
 function reloadTestList() {
     removeAllChildren(listPageTestList);
