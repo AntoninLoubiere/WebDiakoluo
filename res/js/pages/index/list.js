@@ -1,7 +1,7 @@
 const listPageView = document.getElementById('list-page');
-const listPageTestList = document.getElementById('test-list');
+const listPageTestList = document.getElementById('list-test');
 
-const testListTemplate = document.getElementById('test-child-template');
+const testListTemplate = document.getElementById('list-test-child-template');
 
 const listPage = new Page(listPageView, "", false, loadListPage);
 

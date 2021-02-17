@@ -1,10 +1,10 @@
 const viewPageView = document.getElementById('view-page');
 
-const viewPageTitle = [document.getElementById('test-title'), document.getElementById('test-title2')];
-const viewPageDescription = document.getElementById('test-description');
-const viewPageCreatedDate = document.getElementById('test-created-date');
-const viewPageModificationDate = document.getElementById('test-modification-date');
-const viewPageColumnsList = document.getElementById('test-columns');
+const viewPageTitle = [document.getElementById('view-test-title'), document.getElementById('view-test-title2')];
+const viewPageDescription = document.getElementById('view-test-description');
+const viewPageCreatedDate = document.getElementById('view-test-created-date');
+const viewPageModificationDate = document.getElementById('view-test-modification-date');
+const viewPageColumnsList = document.getElementById('view-test-columns');
 const viewPageDataTableHeader = document.getElementById('view-test-data-header');
 const viewPageDataTableBody = document.getElementById('view-test-data-body');
 
@@ -12,11 +12,11 @@ const viewColumnModalTitle1 = document.getElementById('modal-view-column-title1'
 const viewColumnModalTitle2 = document.getElementById('modal-view-column-title2');
 const viewColumnModalDescription = document.getElementById('modal-view-column-description');
 
-const viewDataModalContent = document.getElementById('test-data-view-content');
-const viewDataModalId = document.getElementById('test-view-data-id');
+const viewDataModalContent = document.getElementById('view-test-data-content');
+const viewDataModalId = document.getElementById('view-test-data-id');
 
-const columnTemplate = document.getElementById('column-child-template');
-const dataTemplate = document.getElementById('data-child-template');
+const columnTemplate = document.getElementById('view-column-child-template');
+const dataTemplate = document.getElementById('view-data-child-template');
 
 PAGES.view = new Page(viewPageView, "view", true, loadViewPage, updateViewPage, null, onkeydownViewPage);
 
@@ -93,9 +93,9 @@ function updateViewPage() {
 function onkeydownViewPage(event) {
     switch (event.keyCode) {
         case KeyboardEvent.DOM_VK_ESCAPE:
-            if (currentModal == 'test-column-view') {
+            if (currentModal == 'view-test-column') {
                 closeViewColumnModal();
-            } else if (currentModal == 'test-data-view') {
+            } else if (currentModal == 'view-test-data') {
                 closeViewDataModal();
             } else {
                 backToList();
@@ -104,40 +104,40 @@ function onkeydownViewPage(event) {
             break;
 
         case KeyboardEvent.DOM_VK_RIGHT:
-            if (currentModal == 'test-column-view') {
+            if (currentModal == 'view-test-column') {
                 nextViewColumn();
                 event.preventDefault();
-            } else if (currentModal == 'test-data-view') {
+            } else if (currentModal == 'view-test-data') {
                 nextViewData();
                 event.preventDefault();
             }
             break;
 
         case KeyboardEvent.DOM_VK_LEFT:
-            if (currentModal == 'test-column-view') {
+            if (currentModal == 'view-test-column') {
                 previousViewColumn();
                 event.preventDefault();
-            } else if (currentModal == 'test-data-view') {
+            } else if (currentModal == 'view-test-data') {
                 previousViewData();
                 event.preventDefault();
             }
             break;
 
         case KeyboardEvent.DOM_VK_PAGE_DOWN:
-            if (currentModal == 'test-column-view') {
+            if (currentModal == 'view-test-column') {
                 lastViewColumn();
                 event.preventDefault();
-            } else if (currentModal == 'test-data-view') {
+            } else if (currentModal == 'view-test-data') {
                 lastViewData();
                 event.preventDefault();
             }
             break;
 
         case KeyboardEvent.DOM_VK_PAGE_UP:
-            if (currentModal == 'test-column-view') {
+            if (currentModal == 'view-test-column') {
                 firstViewColumn();
                 event.preventDefault();
-            } else if (currentModal == 'test-data-view') {
+            } else if (currentModal == 'view-test-data') {
                 firstViewData();
                 event.preventDefault();
             }
@@ -146,8 +146,8 @@ function onkeydownViewPage(event) {
 }
 
 function updateViewColumnModal(id) {
-    if (currentModal != "test-column-view") {
-        currentModal = "test-column-view";
+    if (currentModal != "view-test-column") {
+        currentModal = "view-test-column";
         showModal(currentModal);
         currentState.id = -1;
     }
@@ -162,8 +162,8 @@ function updateViewColumnModal(id) {
 }
 
 function updateViewDataModal(id) {
-    if (currentModal != "test-data-view") {
-        currentModal = "test-data-view";
+    if (currentModal != "view-test-data") {
+        currentModal = "view-test-data";
         showModal(currentModal);
         currentState.id = -1;
     }
