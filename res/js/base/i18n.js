@@ -13,7 +13,9 @@ const DATE_FORMATER = new Intl.DateTimeFormat(navigator.language, {
     second: 'numeric',
 });
 const languageSelector = document.getElementById("language-selector");
-const exceptTitlePath = ['/WebDiakoluo/', '/WebDiakoluo/index.html']
+const exceptTitlePath = ['/WebDiakoluo/', '/WebDiakoluo/index.html'];
+
+var onTranslationReady = null; // set var to null after use
 
 var translations = null;
 var universal = null;
@@ -108,8 +110,13 @@ function setLang(lang, updateButton) {
 
 /* When the request is receive */
 function onSetLang() {
-    if (universal != null && translations != null)
+    if (universal != null && translations != null) {
+        if (onTranslationReady) {
+            onTranslationReady();
+            onTranslationReady = null;
+        }
         updateAll();
+    }
 }
 
 /* When an error occur while importing translations */
@@ -220,6 +227,10 @@ function setPageTitle(title) {
             pageTitle.textContent = "Diakôluô";
         }
     }
+}
+
+function isTranslationsReady() {
+    return !(universal == null || translations == null);
 }
 
 initialise();

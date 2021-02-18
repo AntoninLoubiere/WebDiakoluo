@@ -13,7 +13,7 @@
 </head>
 <body class="nav">
 <nav>
-    <a onclick="backToList(true);" id="nav-logo"><img src="/WebDiakoluo/res/img/favicon.svg"></a>
+    <a onclick="backToMain(true);" id="nav-logo"><img src="/WebDiakoluo/res/img/favicon.svg"></a>
     <span id="page-title"></span>
 </nav>
 <main id="loading-page">
@@ -28,10 +28,10 @@
     <h1 id="view-test-title"></h1>
     <div class="card">
         <div class="action-list">
-            <button class="green"><x-i18n key="play"></x-i18n></button>
-            <button class="blue"><x-i18n key="edit"></x-i18n></button>
-            <button class="blue"><x-i18n key="export"></x-i18n></button>
-            <button class="red"><x-i18n key="delete"></x-i18n></button>
+            <button class="image-button"><img src="/WebDiakoluo/res/img/play.svg"><span><x-i18n key="play" caps="upper"></x-i18n></span></button>
+            <button class="image-button"><img src="/WebDiakoluo/res/img/edit.svg"><span><x-i18n key="edit" caps="upper"></x-i18n></span></button>
+            <button class="image-button"><img src="/WebDiakoluo/res/img/export.svg"><span><x-i18n key="export" caps="upper"></x-i18n></span></button>
+            <button class="image-button"><img src="/WebDiakoluo/res/img/delete.svg"><span><x-i18n key="delete" caps="upper"></x-i18n></span></button>
         </div>
         <div class="double-column">
             <div>
@@ -54,14 +54,17 @@
         </table>
     </div>
 </main>
-                <b><x-i18n key="title"></x-i18n></b></x-i18n> <span id="test-title2"></span><br>
-                <b><x-i18n key="description"></x-i18n></b> <span id="test-description"></span><br>
-                <b><x-i18n key="created-date"></x-i18n></b> <span id="test-created-date"></span><br>
-                <b><x-i18n key="modification-date"></x-i18n></b> <span id="test-modification-date"></span>
+<main id="edit-page" class="hide">
+    <h1 id="view-test-title"></h1>
+    <div class="card">
+        <div class="double-column">
+            <div>
+                <b><x-i18n key="title"></x-i18n></b></x-i18n> <span id="view-test-title2"></span><br>
+                <b><x-i18n key="description"></x-i18n></b> <span id="view-test-description"></span><br>
             </div>
             <div>
                 <b><x-i18n key="columns"></x-i18n></b>
-                <div id="test-columns"></div>
+                <div id="view-test-columns"></div>
             </div>
         </div>
     </div>

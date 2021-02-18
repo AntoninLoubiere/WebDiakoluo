@@ -20,6 +20,7 @@ COMPILE_FILES = {
         'res/js/pages/main.js',
         'res/js/pages/index/list.js',
         'res/js/pages/index/view.js',
+        'res/js/pages/index/edit.js',
     ]
 }
 

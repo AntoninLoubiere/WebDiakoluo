@@ -13,16 +13,28 @@ function reloadTestList() {
             var t = testListTemplate.content.cloneNode(true);
             var v = cursor.value;
             var id = cursor.value.id;
-            t.querySelector('.test-title').textContent = v.title;
-            t.querySelector('.test-description').textContent = v.description;
-            t.children[0].onclick = function() {
-                currentURL.searchParams.set('page', 'view');
-                currentURL.searchParams.set('test', id);
-                window.history.pushState({}, 'View page', currentURL);
-                loadPage();
+            if (id == "edit") {
+                t.querySelector('.test-title').textContent = getTranslation("edited-test");
+                t.querySelector('.test-description').textContent = v.title;
+                t.children[0].onclick = function() {
+                    currentURL.searchParams.set('page', 'edit');
+                    currentURL.searchParams.set('test', 'current');
+                    window.history.pushState({}, 'Edit page', currentURL);
+                    loadPage();
+                }
+                listPageTestList.insertBefore(t, listPageTestList.firstChild); // insert at first
+            } else {
+                t.querySelector('.test-title').textContent = v.title;
+                t.querySelector('.test-description').textContent = v.description;
+                t.children[0].onclick = function() {
+                    currentURL.searchParams.set('page', 'view');
+                    currentURL.searchParams.set('test', id);
+                    window.history.pushState({}, 'View page', currentURL);
+                    loadPage();
+                }
+                listPageTestList.appendChild(t);
+                cursor.continue();
             }
-            listPageTestList.appendChild(t);
-            cursor.continue();
         }
     };
 }

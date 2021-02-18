@@ -38,4 +38,8 @@ class Test {
     isPlayable() {
         return true; // TODO
     }
+
+    registerModificationDate() {
+        this.lastModficationDate = new Date();
+    }
 }

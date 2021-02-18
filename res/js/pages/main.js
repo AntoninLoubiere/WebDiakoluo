@@ -14,8 +14,17 @@ function initNavigation() {
     window.onpopstate = function() {
         loadPage();
     }
-    document.getElementById('loading-page').classList.add('hide');
-    loadPage();
+
+    const callback = function() {
+        document.getElementById('loading-page').classList.add('hide');
+        loadPage();
+    }
+
+    if (isTranslationsReady()) { // ensure that translations are ready
+        callback();
+    } else {
+        onTranslationReady = callback;
+    }
 }
 
 /* load a page / process the ur l*/
@@ -28,7 +37,7 @@ function loadPage() {
             else currentPage.onupdate?.();
         }
     } else {
-        currentPage.hidePage();
+        currentPage.hide();
         if (currentModal) {
             hideModal(currentModal); 
             currentModal = null;
@@ -44,23 +53,18 @@ function loadPage() {
     }
 }
 
-function onkeydown(event) {
-    currentPage.onkeydown?.(event);
-}
-document.onkeydown = onkeydown;
-
 /* load a page that require a test */
 function loadPageRequiringTest(page, update = false) {
     var testId = Number(currentURL.searchParams.get('test'));
     if (testId) {
-        if (!currentTest || testId != currentTest.id) {
+        if (testId != currentTest?.id) {
             var request = getFullTest(testId);
             request.onsuccess = function(test) {
                 currentTest = test;
                 currentPage.onload?.();
             };
             request.onerror = function(event) {
-                backToList();
+                backToMain();
             };
             currentState = {};
         } else {
@@ -71,12 +75,12 @@ function loadPageRequiringTest(page, update = false) {
             }
         }
     } else {
-        backToList();
+        backToMain();
     }
 }
 
 /* return to the list if an error occur for example */
-function backToList(newState = false) {
+function backToMain(newState = false) {
     if (newState) {
         window.history.pushState({}, 'Main page', MAIN_URL);
     } else {
@@ -84,5 +88,15 @@ function backToList(newState = false) {
     }
     loadPage();
 }
+
+function onkeydown(event) {
+    currentPage.onkeydown?.(event);
+}
+document.onkeydown = onkeydown;
+
+function onvisibilitychange(event) {
+    currentPage.onvisibilitychange?.(event);
+}
+document.onvisibilitychange = onvisibilitychange;
 
 testDBCallbacks.push(initNavigation);

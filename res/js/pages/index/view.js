@@ -18,7 +18,8 @@ const viewDataModalId = document.getElementById('view-test-data-id');
 const columnTemplate = document.getElementById('view-column-child-template');
 const dataTemplate = document.getElementById('view-data-child-template');
 
-PAGES.view = new Page(viewPageView, "view", true, loadViewPage, updateViewPage, null, onkeydownViewPage);
+PAGES.view = new Page(viewPageView, "view", true, loadViewPage, updateViewPage, null);
+PAGES.view.onkeydown = onkeydownViewPage;
 
 function loadViewPage() {
     for (var i = 0; i < viewPageTitle.length; i++) {
@@ -98,7 +99,7 @@ function onkeydownViewPage(event) {
             } else if (currentModal == 'view-test-data') {
                 closeViewDataModal();
             } else {
-                backToList();
+                backToMain();
             }
             event.preventDefault();
             break;

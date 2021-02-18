@@ -146,10 +146,13 @@ button {
     font-size: 0.9em;
     
     border-radius: 1em;
+
+    transition: all .3s;
 }
 
 button:hover {
     box-shadow: 1px 2.5px 5px 2px #00000044;
+    transform: translateY(-8px);
 }
 
 button.green {
@@ -190,11 +193,18 @@ button.left {
 button.image-button {
     width: 2em;
     height: 2em;
+
     line-height: 1em;
     font-size: 1.2em;
     padding: 0;
     background-color: inherit;
     border-radius: 3em;
+
+    border: #ddd 2px solid;
+}
+
+button.image-button span {
+    display: none;
 }
 
 button.image-button img {
@@ -202,12 +212,7 @@ button.image-button img {
 }
 
 button.image-button:hover {
-    border: #ddd 2px solid;
-    box-shadow: none;
-}
-
-button.image-button:hover img {
-    transform: scale(1.5);
+    border-color: #004d40;
 }
 
 .hide-scroll {
@@ -501,6 +506,20 @@ footer.double-column > div:first-child {
 }
 
 @media (min-width: 700px) {
+    button.image-button {
+        width: auto;
+
+        padding: 0 .5em;
+    }
+
+    button.image-button span {
+        display: inline-block;
+        font-weight: 300;
+        letter-spacing: .1em;
+        margin-left: .2em;
+        vertical-align: middle;
+    }
+
     .main-card {
         left: 50%;
         right: unset;
