@@ -75,8 +75,12 @@
         </table>
     </div>
     <div class="bottom-bar">
-        <button class="btn right image-button colored"><span><x-i18n key="save" caps="upper"></x-i18n></span></button>
-        <button class="btn right image-button"><span><x-i18n key="cancel" caps="upper"></x-i18n></span></button>
+        <button class="btn right image-button colored" onclick="saveButtonEditPage();">
+            <span><x-i18n key="save" caps="upper"></x-i18n></span>
+        </button>
+        <button class="btn right image-button" onclick="cancelButtonEditPage()">
+            <span><x-i18n key="cancel" caps="upper"></x-i18n></span>
+        </button>
     </div>
 </main>
 <footer class="double-column">
