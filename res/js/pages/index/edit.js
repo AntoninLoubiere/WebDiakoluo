@@ -9,20 +9,31 @@ PAGES.edit.onvisibilitychange = visibilityChangeEditPage;
 
 function loadEditPage() {
     var testId = currentURL.searchParams.get('test');
-    if (currentTest?.id != testId) {
-        if (testId == "new") {
-            currentTest = new Test(getTranslation("default-test-title"), getTranslation("defualt-test-description"));
+    if (testId == "new") {
+        currentTest = new Test(getTranslation("default-test-title"), getTranslation("defualt-test-description"));
+        currentTest.id = EDIT_KEY;
+        loadTestEditPage();
+    } else if (testId == "current") {
+        if (currentTest?.id == EDIT_KEY) {
             loadTestEditPage();
-        } else if (testId == "current") {
+        } else {
             var request = getFullTest(EDIT_KEY);
             request.onsuccess = function(test) {
                 currentTest = test;
                 loadTestEditPage();
             }
             request.onerror = backToMain;
-        } else {
-            testId = Number(testId);
-            if (testId) {
+        }
+    } else {
+        testId = Number(testId);
+        if (testId) {
+            if (currentTest?.id == EDIT_KEY) {
+                if (currentTest.edit_id == testId) {
+                    loadTestEditPage();
+                } else {
+                    initialiseTestEditPage(testId);
+                }
+            } else {
                 var request = getFullTest(EDIT_KEY);
                 request.onsuccess = function(test) {
                     if (testId == test.edit_id) {
@@ -35,9 +46,9 @@ function loadEditPage() {
                 request.onerror = function() {
                     initialiseTestEditPage(testId);
                 }
-            } else {
-                backToMain();
             }
+        } else {
+            backToMain();
         }
     }
 }

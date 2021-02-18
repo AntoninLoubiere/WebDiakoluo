@@ -255,3 +255,10 @@ function closeViewDataModal() {
     hideModal(currentModal);
     currentModal = null;
 }
+
+function editTestViewPage() {
+    console.log("test");
+    currentURL.searchParams.set('page', 'edit');
+    history.pushState({}, 'Edit test', currentURL);
+    loadPage();
+}
