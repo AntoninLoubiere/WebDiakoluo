@@ -1,10 +1,12 @@
 const EDIT_AUTO_SAVE_TIME = 10 * 1000;
 
 const editPageView = document.getElementById('edit-page');
+const editPageTitle = document.getElementById('edit-test-title');
+const editPageDescription = document.getElementById('edit-test-description');
 
 var editPageAutoSaveId;
 
-PAGES.edit = new Page(editPageView, 'edit', false, loadEditPage, null, deleteEditPage);
+PAGES.edit = new Page(editPageView, 'edit', false, loadEditPage, loadEditPage, deleteEditPage);
 PAGES.edit.onvisibilitychange = visibilityChangeEditPage;
 
 function loadEditPage() {
@@ -77,9 +79,11 @@ function deleteEditPage() {
 /* load the current test in the UI*/
 function loadTestEditPage() {
     // TODO
+    editPageTitle.value = currentTest.title;
+    editPageDescription.value = currentTest.description;
+
     visibilityChangeEditPage(); // set auto save automatic
     editPageView.classList.remove('hide');
-
 }
 
 function visibilityChangeEditPage() {
@@ -92,5 +96,8 @@ function visibilityChangeEditPage() {
 }
 
 function saveTestEditPage() {
-    console.log("Save");
+    currentTest.title = editPageTitle.value;
+    currentTest.description = editPageDescription.value;
+
+    updateTest(currentTest);
 }

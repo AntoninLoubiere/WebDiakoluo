@@ -28,10 +28,10 @@
     <h1 id="view-test-title"></h1>
     <div class="card">
         <div class="action-list">
-            <button class="image-button"><img src="/WebDiakoluo/res/img/play.svg"><span><x-i18n key="play" caps="upper"></x-i18n></span></button>
-            <button class="image-button" onclick="editTestViewPage();"><img src="/WebDiakoluo/res/img/edit.svg"><span><x-i18n key="edit" caps="upper"></x-i18n></span></button>
-            <button class="image-button"><img src="/WebDiakoluo/res/img/export.svg"><span><x-i18n key="export" caps="upper"></x-i18n></span></button>
-            <button class="image-button"><img src="/WebDiakoluo/res/img/delete.svg"><span><x-i18n key="delete" caps="upper"></x-i18n></span></button>
+            <button class="btn image-button compact"><img src="/WebDiakoluo/res/img/play.svg"><span><x-i18n key="play" caps="upper"></x-i18n></span></button>
+            <button class="btn image-button compact" onclick="editTestViewPage();"><img src="/WebDiakoluo/res/img/edit.svg"><span><x-i18n key="edit" caps="upper"></x-i18n></span></button>
+            <button class="btn image-button compact"><img src="/WebDiakoluo/res/img/export.svg"><span><x-i18n key="export" caps="upper"></x-i18n></span></button>
+            <button class="btn image-button compact"><img src="/WebDiakoluo/res/img/delete.svg"><span><x-i18n key="delete" caps="upper"></x-i18n></span></button>
         </div>
         <div class="double-column">
             <div>
@@ -55,12 +55,11 @@
     </div>
 </main>
 <main id="edit-page" class="hide">
-    <h1 id="view-test-title"></h1>
     <div class="card">
         <div class="double-column">
-            <div>
-                <b><x-i18n key="title"></x-i18n></b></x-i18n> <span id="view-test-title2"></span><br>
-                <b><x-i18n key="description"></x-i18n></b> <span id="view-test-description"></span><br>
+            <div class="grid-keys">
+                <b><x-i18n key="title"></x-i18n></b></x-i18n> <input type="text" id="edit-test-title"></input>
+                <b><x-i18n key="description"></x-i18n></b> <textarea id="edit-test-description" class="resize-vertical"></textarea><br>
             </div>
             <div>
                 <b><x-i18n key="columns"></x-i18n></b>
@@ -74,6 +73,10 @@
             <thead id="view-test-data-header"></thead>
             <tbody id="view-test-data-body"></tbody>
         </table>
+    </div>
+    <div class="bottom-bar">
+        <button class="btn right image-button colored"><span><x-i18n key="save" caps="upper"></x-i18n></span></button>
+        <button class="btn right image-button"><span><x-i18n key="cancel" caps="upper"></x-i18n></span></button>
     </div>
 </main>
 <footer class="double-column">

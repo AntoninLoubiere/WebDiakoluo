@@ -54,6 +54,7 @@ footer {
     padding: 1em .5em;
     background-color: #004d40;
     color: #fff;
+    clear: both;
 }
 
 footer .open-new-icon {
@@ -150,7 +151,11 @@ button {
     transition: all .3s;
 }
 
-button:hover {
+button.btn {
+    margin: .1em .2em;
+}
+
+button.btn:hover {
     box-shadow: 1px 2.5px 5px 2px #00000044;
     transform: translateY(-8px);
 }
@@ -191,12 +196,16 @@ button.left {
 }
 
 button.image-button {
-    width: 2em;
+    width: auto;
     height: 2em;
 
     line-height: 1em;
     font-size: 1.2em;
-    padding: 0;
+    font-weight: 300;
+    letter-spacing: .1em;
+    vertical-align: middle;
+
+    padding: 0 .5em;
     background-color: inherit;
     border-radius: 3em;
 
@@ -204,15 +213,36 @@ button.image-button {
 }
 
 button.image-button span {
-    display: none;
+    margin-left: .2em;
 }
 
-button.image-button img {
-    transition: all .3s;
+button.image-button.compact {
+    width: 2em;
+    padding: 0;
+}
+
+button.image-button.compact span {
+    display: none;
 }
 
 button.image-button:hover {
     border-color: #004d40;
+}
+
+button.image-button.colored {
+    background-color: #00695c;
+    color: #fff;
+    border-color: #00695c;
+}
+
+button.image-button.colored:hover {
+    background-color: #004d40;
+    border-color: #004d40;
+}
+
+textarea.resize-vertical {
+    resize: vertical;
+    min-height: 3.6em;
 }
 
 .hide-scroll {
@@ -354,7 +384,6 @@ button.image-button:hover {
 .modal-close:hover {
     color: #009688;
     background-color: #fff;
-    box-shadow: none;
 }
 
 .modal-content.red .modal-close:hover {
@@ -426,6 +455,16 @@ button.image-button:hover {
     background-color: #004d40;
 }
 
+.bottom-bar {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    border-top: solid 1px #ddd;
+    margin-top: 1em;
+    padding: 0 .5em;
+    min-height: 2.9em;
+}
+
 .text-icon {
     height: 2em;
     vertical-align: middle;
@@ -468,7 +507,12 @@ footer.double-column > div:first-child {
 .navigation-button:hover {
     color: #000;
     background-color: #fff;
-    box-shadow: unset;
+}
+
+.grid-keys {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: .2em;
 }
 
 #nav-logo {
@@ -506,18 +550,13 @@ footer.double-column > div:first-child {
 }
 
 @media (min-width: 700px) {
-    button.image-button {
+    button.image-button.compact {
         width: auto;
-
         padding: 0 .5em;
     }
 
-    button.image-button span {
+    button.image-button.compact span {
         display: inline-block;
-        font-weight: 300;
-        letter-spacing: .1em;
-        margin-left: .2em;
-        vertical-align: middle;
     }
 
     .main-card {
