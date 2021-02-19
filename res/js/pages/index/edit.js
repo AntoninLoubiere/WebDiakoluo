@@ -4,11 +4,26 @@ const editPageView = document.getElementById('edit-page');
 const editPageTitle = document.getElementById('edit-test-title');
 const editPageDescription = document.getElementById('edit-test-description');
 
+const editPageColumnsList = document.getElementById('edit-test-columns');
+const editPageDataTableHeader = document.getElementById('edit-test-data-header');
+const editPageDataTableBody = document.getElementById('edit-test-data-body');
+
+const editColumnModalTitle1 = document.getElementById('modal-edit-column-title1');
+const editColumnModalTitle2 = document.getElementById('modal-edit-column-title2');
+const editColumnModalDescription = document.getElementById('modal-edit-column-description');
+
+const editDataModalContent = document.getElementById('edit-test-data-content');
+const editDataModalId = document.getElementById('edit-test-data-id');
+
+const editColumnTemplate = document.getElementById('edit-column-child-template');
+const editDataTemplate = document.getElementById('edit-data-child-template');
+
 var editPageAutoSaveId;
 
-PAGES.edit = new Page(editPageView, 'edit', false, loadEditPage, loadEditPage, deleteEditPage);
+PAGES.edit = new Page(editPageView, 'edit', false, loadEditPage, updateEditPage, deleteEditPage);
 PAGES.edit.onvisibilitychange = visibilityChangeEditPage;
 
+/* When the page is loaded */
 function loadEditPage() {
     var testId = currentURL.searchParams.get('test');
     if (testId == "new") {
@@ -55,6 +70,29 @@ function loadEditPage() {
     }
 }
 
+/* When the page is updated */
+function updateEditPage() {
+    if (currentTest?.id == EDIT_KEY) {
+        var testId = currentURL.searchParams.get('test');
+        if (testId == "new") {
+            if (testId.edit_id) {
+                deleteEditPage();
+                loadEditPage();
+            }
+        } else if (testId != "current") {
+            testId = Number(testId);
+            if (testId != currentTest.edit_id) {
+                deleteEditPage();
+                loadEditPage();
+            }
+        }
+    } else {
+        deleteEditPage();
+        loadEditPage();
+    }
+
+}
+
 /* create a new edit test from a test already existing */
 function initialiseTestEditPage(id) {
     // TODO warning erase test
@@ -86,8 +124,10 @@ function loadTestEditPage() {
     editPageView.classList.remove('hide');
 }
 
+/* when the visibility of the page change */
 function visibilityChangeEditPage() {
     if (document.hidden) {
+        saveTestEditPage();
         clearInterval(editPageAutoSaveId);
         editPageAutoSaveId = null;
     } else {
@@ -95,6 +135,7 @@ function visibilityChangeEditPage() {
     }
 }
 
+/* save the edited test */
 function saveTestEditPage() {
     currentTest.title = editPageTitle.value;
     currentTest.description = editPageDescription.value;
@@ -102,26 +143,33 @@ function saveTestEditPage() {
     updateTest(currentTest);
 }
 
+/* callback for the cancel button */
 function cancelButtonEditPage() {
+    var id = currentTest.edit_id;
     currentTest = null;
     deleteTest(EDIT_KEY);
-    backToMain(true);
+    if (id) viewTestPage(id);
+    else backToMain(true);
 }
 
+/* callback for the save button */
 function saveButtonEditPage() {
     saveTestEditPage();
+    currentTest.registerModificationDate();
     if (currentTest.edit_id) {
         currentTest.id = currentTest.edit_id;
         delete currentTest.edit_id;
-        updateTest(currentTest);
+        updateTest(currentTest).onsuccess = function(event) {
+            viewTestPage(event.target.result);
+        };
         deleteTest(EDIT_KEY);
-        currentTest = null;
-        backToMain(true);
+        currentTest = null; // do not save on delete
     } else {
         delete currentTest.id;
-        addNewTest(currentTest);
+        addNewTest(currentTest).onsuccess = function(event) {
+            viewTestPage(event.target.result);
+        };
         deleteTest(EDIT_KEY);
-        currentTest = null;
-        backToMain(true);
+        currentTest = null; // do not save on delete
     }
 }

@@ -15,8 +15,8 @@ const viewColumnModalDescription = document.getElementById('modal-view-column-de
 const viewDataModalContent = document.getElementById('view-test-data-content');
 const viewDataModalId = document.getElementById('view-test-data-id');
 
-const columnTemplate = document.getElementById('view-column-child-template');
-const dataTemplate = document.getElementById('view-data-child-template');
+const viewColumnTemplate = document.getElementById('view-column-child-template');
+const viewDataTemplate = document.getElementById('view-data-child-template');
 
 PAGES.view = new Page(viewPageView, "view", true, loadViewPage, updateViewPage, null);
 PAGES.view.onkeydown = onkeydownViewPage;
@@ -26,18 +26,18 @@ function loadViewPage() {
         viewPageTitle[i].textContent = currentTest.title;
     }
     viewPageDescription.textContent = currentTest.description;
-    viewPageCreatedDate.textContent = DATE_FORMATER.format(currentTest.createdDate);
-    viewPageModificationDate.textContent = DATE_FORMATER.format(currentTest.modificationDate);
+    viewPageCreatedDate.textContent = DATE_FORMATER.format(currentTest.createDate);
+    viewPageModificationDate.textContent = DATE_FORMATER.format(currentTest.lastModificationDate);
     viewPageView.classList.remove('hide');
 
     removeAllChildren(viewPageColumnsList);
     removeAllChildren(viewPageDataTableHeader);
     removeAllChildren(viewPageDataTableBody);
     var e;
-    var row = dataTemplate.content.cloneNode(true);
+    var row = viewDataTemplate.content.cloneNode(true);
     row.querySelector('.min').innerHTML = '<x-i18n key="view"></x-i18n>';
     for (let i = 0; i < currentTest.columns.length; i++) {
-        e = columnTemplate.content.cloneNode(true);
+        e = viewColumnTemplate.content.cloneNode(true);
         e.querySelector('.test-column-text').textContent = currentTest.columns[i].name;
         e.children[0].onclick = function() {
             viewColumnClickCallback(i);
@@ -52,7 +52,7 @@ function loadViewPage() {
     viewPageDataTableHeader.appendChild(row);
 
     for (let i = 0; i < currentTest.data.length; i++) {
-        row = dataTemplate.content.cloneNode(true);
+        row = viewDataTemplate.content.cloneNode(true);
         for (var j = 0; j < currentTest.data[i].length; j++) {
             e = document.createElement('td');
             e.textContent = currentTest.columns[j].getDataValueString(currentTest.data[i][j]);

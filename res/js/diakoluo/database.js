@@ -95,7 +95,7 @@ function addNewTest(test) {
     var header = transaction.objectStore('header');
     var tests = transaction.objectStore('tests');
 
-    var request = header.add(test.getHeader());
+    header.add(test.getHeader());
     return tests.add(test);
 }
 
@@ -109,10 +109,8 @@ function updateTest(test) {
     var header = transaction.objectStore('header');
     var tests = transaction.objectStore('tests');
 
-    var request = header.put(test.getHeader());
-    var request = tests.put(test);
-    request.onsuccess = function(event) {
-    }
+    header.put(test.getHeader());
+    return tests.put(test);
 }
 
 /* delete a test */

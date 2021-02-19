@@ -23,7 +23,7 @@ class Test {
             this.title = title;
             this.description = description;
             this.createDate = new Date();
-            this.lastModficationDate = new Date();
+            this.lastModificationDate = new Date();
             this.columns = [];
             this.data = [];
         }
@@ -40,6 +40,6 @@ class Test {
     }
 
     registerModificationDate() {
-        this.lastModficationDate = new Date();
+        this.lastModificationDate = new Date();
     }
 }

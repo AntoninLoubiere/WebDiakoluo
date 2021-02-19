@@ -511,7 +511,7 @@ footer.double-column > div:first-child {
 
 .grid-keys {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
     grid-gap: .2em;
 }
 
@@ -549,7 +549,7 @@ footer.double-column > div:first-child {
     }
 }
 
-@media (min-width: 700px) {
+@media (min-width: 800px) {
     button.image-button.compact {
         width: auto;
         padding: 0 .5em;
@@ -604,10 +604,14 @@ footer.double-column > div:first-child {
     .double-column > div {
         padding: 0 .5em;
     }
+
+    .grid-keys {
+        grid-template-columns: auto 1fr;
+    }
 }
 
 
-@media (min-width: 1000px) {
+@media (min-width: 1100px) {
     .main-card {
         min-width: 50%;
         max-width: max(60%, 800px);

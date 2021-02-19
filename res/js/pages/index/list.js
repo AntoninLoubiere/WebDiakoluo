@@ -27,10 +27,7 @@ function reloadTestList() {
                 t.querySelector('.test-title').textContent = v.title;
                 t.querySelector('.test-description').textContent = v.description;
                 t.children[0].onclick = function() {
-                    currentURL.searchParams.set('page', 'view');
-                    currentURL.searchParams.set('test', id);
-                    window.history.pushState({}, 'View page', currentURL);
-                    loadPage();
+                    viewTestPage(id);
                 }
                 listPageTestList.appendChild(t);
                 cursor.continue();
@@ -43,4 +40,11 @@ function loadListPage() {
     listPageView.classList.remove('hide');
     updatePageTitle('title-index.html');
     reloadTestList();
+}
+
+function viewTestPage(id) {
+    currentURL.searchParams.set('page', 'view');
+    currentURL.searchParams.set('test', id);
+    window.history.pushState({}, 'View page', currentURL);
+    loadPage();
 }
