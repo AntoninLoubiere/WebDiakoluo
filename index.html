@@ -123,6 +123,35 @@
         </footer>
     </div>
 </div>
+<div id="edit-test-column-modal" class="modal hide">
+    <div class="modal-content">
+        <header><span id="modal-edit-column-title1"></span><button class="modal-close" onclick="closeEditColumnModal()">&times;</button></header>
+        <main>
+            <b><x-i18n key="title"></x-i18n></b> <span id="modal-edit-column-title2"></span><br>
+            <b><x-i18n key="description"></x-i18n></b> <span id="modal-edit-column-description"></span>
+        </main>
+        <footer>
+            <button class="navigation-button" onclick="firstEditColumn()">&lt;&lt;</button>
+            <button class="navigation-button" onclick="previousEditColumn()">&lt;</button>
+            <button class="right navigation-button" onclick="lastEditColumn()">&gt;&gt;</button>
+            <button class="right navigation-button" onclick="nextEditColumn()">&gt;</button>
+        </footer>
+    </div>
+</div>
+<div id="edit-test-data-modal" class="modal hide">
+    <div class="modal-content">
+        <header><x-i18n key="data-number"></x-i18n><span id="edit-test-data-id"></span><button class="modal-close" onclick="closeEditDataModal()">&times;</button></header>
+        <main>
+            <div id="edit-test-data-content"></div>
+        </main>
+        <footer>
+            <button class="navigation-button" onclick="firstEditData()">&lt;&lt;</button>
+            <button class="navigation-button" onclick="previousEditData()">&lt;</button>
+            <button class="right navigation-button" onclick="lastEditData()">&gt;&gt;</button>
+            <button class="right navigation-button" onclick="nextEditData()">&gt;</button>
+        </footer>
+    </div>
+</div>
 <template id="list-test-child-template">
     <div class="test">
         <div class="test-title"></div>
@@ -139,6 +168,19 @@
     <tr class="data clickable">
         <td class="min">
             <img src="/WebDiakoluo/res/img/view.svg" class="view-button"></td>
+        </td>
+    </tr>
+</template>
+<template id="edit-column-child-template">
+    <div class="test-column">
+        <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button"><span class="test-column-text"></span>
+        <span class="test-column-text"></span>
+    </div>
+</template>
+<template id="edit-data-child-template">
+    <tr class="data clickable">
+        <td class="min">
+            <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button"></td>
         </td>
     </tr>
 </template>

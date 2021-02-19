@@ -99,3 +99,15 @@
 .view-button:hover {
     transform: scale(1.5);
 }
+
+.edit-button {
+    cursor: pointer;
+    vertical-align: middle;
+    transition: transform .3s ease-out;
+
+    margin: 0 .2em;
+}
+
+.edit-button:hover {
+    transform: scale(1.4);
+}
