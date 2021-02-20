@@ -1,10 +1,7 @@
 class Page {
-    constructor(pageView, pageName, requireTest, onload, onupdate, ondelete) {
+    constructor(pageView, pageName, requireTest) {
         this.page = pageView;
         this.pageName = pageName;
-        this.onload = onload;
-        this.onupdate = onupdate;
-        this.ondelete = ondelete;
         this.requireTest = requireTest;
     }
 
