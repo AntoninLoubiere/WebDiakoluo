@@ -27,9 +27,23 @@ PAGES.edit.onkeydown = onkeydownEditPage;
 function loadEditPage() {
     var testId = currentURL.searchParams.get('test');
     if (testId == "new") {
-        currentTest = new Test(getTranslation("default-test-title"), getTranslation("defualt-test-description"));
-        currentTest.id = EDIT_KEY;
-        loadTestEditPage();
+        if (currentTest?.id != EDIT_KEY) {
+            var request = getFullTest(EDIT_KEY);
+            request.success = function(test) {
+                console.log(test);
+                if (test.edit_id) {
+                    initialiseNewTestEditPage();
+                } else {
+                    loadTestEditPage();
+                }
+            }
+
+            request.onerror = initialiseNewTestEditPage();
+        } else if (currentTest.edit_id) {
+            initialiseNewTestEditPage();
+        } else {
+            loadTestEditPage();
+        }
     } else if (testId == "current") {
         if (currentTest?.id == EDIT_KEY) {
             loadTestEditPage();
@@ -132,6 +146,13 @@ function initialiseTestEditPage(id) {
     }
 
     request.onerror = backToMain;
+}
+
+/* initialise a new test */
+function initialiseNewTestEditPage() {
+    currentTest = new Test(getTranslation("default-test-title"), getTranslation("default-test-description"));
+    currentTest.id = EDIT_KEY;
+    loadTestEditPage();
 }
 
 /* when the page is deleted */
