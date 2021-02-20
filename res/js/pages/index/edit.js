@@ -233,6 +233,10 @@ function addDataChildEditPage(index) {
     row.children[0].onclick = function() {
         editDataClickCallback(index);
     }
+    row.querySelector('.data-delete-button').onclick = function(event) {
+        event.stopPropagation();
+        removeDataEditPage(index);
+    }
     editPageDataTableBody.appendChild(row);
 }
 
@@ -246,12 +250,22 @@ function updateDataChildEditPage(index) {
     }
 }
 
+/* Update a data in the UI */
+function removeDataChildEditPage(index) {
+    editPageDataTableBody.removeChild(editPageDataTableBody.children[index]);
+    resetDataClickEditPage();
+}
+
 /* reset onclick events in data when the order is modified */
 function resetDataClickEditPage() {
     for (let i = 0; i < currentTest.data.length; i++) {
-        editPageDataTableHeader.children[i].onclick = function() {
+        editPageDataTableBody.children[i].onclick = function() {
             editDataClickCallback(i);
         };
+        editPageDataTableBody.children[i].querySelector('.data-delete-button').onclick = function(event) {
+            event.stopPropagation();
+            removeDataEditPage(i);
+        }
     }
 }
 
@@ -364,6 +378,19 @@ function removeColumnEditPage(index) {
     currentTest.removeColumn(index);
     removeColumnChildEditPage(index);
     reloadDataEditPage();
+} 
+
+/* add a data */
+function addDataEditPage() {
+    var pos = currentTest.addData();
+    addDataChildEditPage(pos);
+    updateEditDataModal(pos);
+}
+
+/* remove a data */
+function removeDataEditPage(index) {
+    currentTest.removeData(index);
+    removeDataChildEditPage(index);
 } 
 
 function onkeydownEditPage(event) {

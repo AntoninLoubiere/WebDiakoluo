@@ -134,12 +134,15 @@
     cursor: pointer;
     vertical-align: middle;
     transition: transform .3s ease-out;
-
-    margin: 0 .2em;
 }
 
 .edit-button:hover {
     transform: scale(1.4);
+}
+
+.edit-min {
+    text-overflow: initial !important;
+    overflow: visible !important;
 }
 
 #edit-panel {

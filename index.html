@@ -78,7 +78,7 @@
         </table>
     </div>
     <div class="bottom-bar">
-        <button class="btn image-button"><img src="/WebDiakoluo/res/img/add.svg">
+        <button class="btn image-button" onclick="addDataEditPage()"><img src="/WebDiakoluo/res/img/add.svg">
                     <span><x-i18n key="add-data"></x-i18n></span>
                 </button>
         <button class="btn right image-button colored" onclick="saveButtonEditPage();">
@@ -181,13 +181,13 @@
     <div class="test-column-edit">
         <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button"><span class="test-column-text"></span>
         <span class="test-column-text"></span>
-        <img class="column-close-button" src="/WebDiakoluo/res/img/cancel.svg">
+        <img class="column-close-button" src="/WebDiakoluo/res/img/delete.svg">
     </div>
 </template>
 <template id="edit-data-child-template">
     <tr class="data clickable">
-        <td class="min">
-            <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button"></td>
+        <td class="min edit-min">
+            <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button"><img class="edit-button data-delete-button" src="/WebDiakoluo/res/img/delete.svg">
         </td>
     </tr>
 </template>
