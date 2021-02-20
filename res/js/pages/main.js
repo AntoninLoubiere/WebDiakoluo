@@ -61,7 +61,7 @@ function loadPageRequiringTest(page, update = false) {
     var testId = Number(currentURL.searchParams.get('test'));
     if (testId) {
         if (testId != currentTest?.id) {
-            var request = getFullTest(testId);
+            var request = DATABASE_MANAGER.getFullTest(testId);
             request.onsuccess = function(test) {
                 currentTest = test;
                 currentPage.onload?.();
@@ -102,4 +102,4 @@ function onvisibilitychange(event) {
 }
 document.onvisibilitychange = onvisibilitychange;
 
-testDBCallbacks.push(initNavigation);
+DATABASE_MANAGER.setOnLoaded(initNavigation);

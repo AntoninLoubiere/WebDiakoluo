@@ -271,7 +271,7 @@ function deleteTestViewPage() {
 }
 
 function deleteTestConfirmViewPage() {
-    deleteTest(currentTest.id);
+    DATABASE_MANAGER.deleteTest(currentTest.id);
     currentTest = null; // TODO cancel button
     backToMain(true);
 }

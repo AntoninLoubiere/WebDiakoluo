@@ -28,7 +28,7 @@ function loadEditPage() {
     var testId = currentURL.searchParams.get('test');
     if (testId == "new") {
         if (currentTest?.id != EDIT_KEY) {
-            var request = getFullTest(EDIT_KEY);
+            var request = DATABASE_MANAGER.getFullTest(EDIT_KEY);
             request.success = function(test) {
                 console.log(test);
                 if (test.edit_id) {
@@ -48,7 +48,7 @@ function loadEditPage() {
         if (currentTest?.id == EDIT_KEY) {
             loadTestEditPage();
         } else {
-            var request = getFullTest(EDIT_KEY);
+            var request = DATABASE_MANAGER.getFullTest(EDIT_KEY);
             request.onsuccess = function(test) {
                 currentTest = test;
                 loadTestEditPage();
@@ -65,7 +65,7 @@ function loadEditPage() {
                     initialiseTestEditPage(testId);
                 }
             } else {
-                var request = getFullTest(EDIT_KEY);
+                var request = DATABASE_MANAGER.getFullTest(EDIT_KEY);
                 request.onsuccess = function(test) {
                     if (testId == test.edit_id) {
                         currentTest = test;
@@ -137,7 +137,7 @@ function updateModalEditPage() {
 /* create a new edit test from a test already existing */
 function initialiseTestEditPage(id) {
     // TODO warning erase test
-    request = getFullTest(id);
+    request = DATABASE_MANAGER.getFullTest(id);
     request.onsuccess = function(test) {
         currentTest = test;
         currentTest.edit_id = id;
@@ -336,7 +336,7 @@ function saveTestEditPage() {
     if (currentModal == 'edit-test-column') applyEditColumnModal();
     else if (currentModal == 'edit-test-data') applyEditDataModal();
 
-    updateTest(currentTest);
+    DATABASE_MANAGER.updateTest(currentTest);
 }
 
 /* save the current data in modals */
@@ -361,7 +361,7 @@ function applyEditDataModal() {
 function cancelButtonEditPage() {
     var id = currentTest.edit_id;
     currentTest = null;
-    deleteTest(EDIT_KEY);
+    DATABASE_MANAGER.deleteTest(EDIT_KEY);
     if (id) viewTestPage(id);
     else backToMain(true);
 }
@@ -373,16 +373,16 @@ function saveButtonEditPage() {
     if (currentTest.edit_id) {
         currentTest.id = currentTest.edit_id;
         delete currentTest.edit_id;
-        updateTest(currentTest).onsuccess = function(event) {
+        DATABASE_MANAGER.updateTest(currentTest).onsuccess = function(event) {
             viewTestPage(event.target.result);
         };
-        deleteTest(EDIT_KEY);
+        DATABASE_MANAGER.deleteTest(EDIT_KEY);
     } else {
         delete currentTest.id;
-        addNewTest(currentTest).onsuccess = function(event) {
+        DATABASE_MANAGER.addNewTest(currentTest).onsuccess = function(event) {
             viewTestPage(event.target.result);
         };
-        deleteTest(EDIT_KEY);
+        DATABASE_MANAGER.deleteTest(EDIT_KEY);
     }
 }
 

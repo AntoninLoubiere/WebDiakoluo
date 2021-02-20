@@ -1,176 +1,188 @@
 const EDIT_KEY = "edit";
 
-var testDB;
-var testDBEditor;
+/* the manager of the database */
+class DatabaseManager {
+    constructor() {
+        this.testDB = null;
+        this.testDBEditor = null;
 
-var testDBFreeIndex = null;
-var testDBCallbacks = [];
-
-/* initialize databases*/
-function initalizeDB() {
-    testDB = indexedDB.open('tests', 1);
-    testDB.onerror = function(event) {
-        console.error('Database cannot be loaded', event);
-    };
-
-    testDB.onsuccess = function(event) {
-        testDBEditor = event.target.result;
-        testDBEditor.onerror = onTestDBError;
-
-        // get the last obhect key
-        testDBEditor.transaction(['header']).objectStore('header').openCursor(null, "prev").onsuccess = function(event) {
-            var cursor = event.target.result;
-            if (cursor) {
-                if (cursor.key == EDIT_KEY) {
-                    cursor.continue();
-                    return;
-                }
-                testDBFreeIndex = cursor.key + 1;
-            } else {
-                testDBFreeIndex = 1;
-            }
-            console.info("Database loaded.");
-
-            for (var i = testDBCallbacks.length - 1; i >= 0; i--) {
-                testDBCallbacks[i]();
-            }
-        };
+        this.freeIndex = null;
+        this.onloadedcallback = null;
     }
 
-    testDB.onupgradeneeded = function(event) {
-        testDBEditor = event.target.result;
+    /* initialise the x*/
+    initialise() {
+        this.testDB = indexedDB.open('tests', 1);
+        this.testDB.onerror = function(event) {
+            console.error('Database cannot be loaded', event);
+        };
 
-        testDBEditor.onerror = onTestDBError;
+        this.testDB.onsuccess = event => {
+            this.testDBEditor = event.target.result;
+            this.testDBEditor.onerror = this.onTestDBError;
 
-        console.log(testDBEditor.version, typeof testDBEditor.version, event, testDBEditor, testDB);
-
-        switch (testDBEditor.version) {
-            case "":
-                var header = testDBEditor.createObjectStore("header", { keyPath: "id" });
-
-                header.createIndex("title", "title", { unique: false });
-                header.createIndex("description", "description", { unique: false });
-                header.createIndex("playable", "playable", { unique: false });
-
-                var tests = testDBEditor.createObjectStore("tests", { keyPath: "id" }); // same id as above.
-
-                tests.createIndex("title", "title", { unique: false });
-                tests.createIndex("description", "title", { unique: false });
-
+            // get the last obhect key
+            this.testDBEditor.transaction(['header']).objectStore('header').openCursor(null, "prev").onsuccess = event => {
+                var cursor = event.target.result;
+                if (cursor) {
+                    if (cursor.key == EDIT_KEY) {
+                        cursor.continue();
+                        return;
+                    }
+                    this.freeIndex = cursor.key + 1;
+                } else {
+                    this.freeIndex = 1;
+                }
+                console.info("Database loaded.");
+                this.onloaded();
+            };
         }
-        console.info("Database initialized or upgraded.");
-    };
 
-    // set storage persistent if possible, else, warn the user
-    if (navigator.storage && navigator.storage.persist) {
-        navigator.storage.persist().then(function(persistent) {
-            // TODO: improve and create a new dialog
-            if (!persistent) {
+        this.testDB.onupgradeneeded = event => {
+            this.testDBEditor = event.target.result;
+
+            this.testDBEditor.onerror = this.onTestDBError;
+
+            switch (this.testDBEditor.version) {
+                case "":
+                    var header = this.testDBEditor.createObjectStore("header", { keyPath: "id" });
+
+                    header.createIndex("title", "title", { unique: false });
+                    header.createIndex("description", "description", { unique: false });
+                    header.createIndex("playable", "playable", { unique: false });
+
+                    var tests = testDBEditor.createObjectStore("tests", { keyPath: "id" }); // same id as above.
+
+                    tests.createIndex("title", "title", { unique: false });
+                    tests.createIndex("description", "title", { unique: false });
+
+            }
+            console.info("Database initialised or upgraded.");
+        };
+
+        // set storage persistent if possible, else, warn the user
+        if (navigator.storage && navigator.storage.persist) {
+            navigator.storage.persist().then(function(persistent) {
+                // TODO: improve and create a new dialog
+                if (!persistent) {
+                    loadModal('persist-storage-c-warning');
+                }
+            });
+        } else {
+            if (localStorage.getItem('modal-persist-c-storage') != "true") {
                 loadModal('persist-storage-c-warning');
             }
-        });
-    } else {
-        if (localStorage.getItem('modal-persist-c-storage') != "true") {
-            loadModal('persist-storage-c-warning');
         }
     }
-}
 
-function onTestDBError(event) {
-    let e = event.target.error;
-    console.error("In testDB, error n°" + e.code + " occur !\n\n" + e.name + "\n" + e.message, {e}, event);
-}
-
-/* add a new test*/
-function addNewTest(test) {
-    if (testDBFreeIndex == null) {
-        console.error("DB not initialized !");
-        return;
+    /* callback when an error occur on the database */
+    onError(event) {
+        let e = event.target.error;
+        console.error("In testDB, error n°" + e.code + " occur !\n\n" + e.name + "\n" + e.message, {e}, event);
     }
-    if (!test.id) {
-        test.id = testDBFreeIndex;
-        testDBFreeIndex++;
+
+    /* add a new test */
+    addNewTest(test) {
+        if (this.freeIndex == null) {
+            console.error("DB not initialised !");
+            return;
+        }
+        if (!test.id) {
+            test.id = this.freeIndex;
+            this.freeIndex++;
+        }
+        var transaction = this.testDBEditor.transaction(['header', 'tests'], "readwrite");
+        var header = transaction.objectStore('header');
+        var tests = transaction.objectStore('tests');
+
+        header.add(test.getHeader());
+        return tests.add(test);
     }
-    var transaction = testDBEditor.transaction(['header', 'tests'], "readwrite");
-    var header = transaction.objectStore('header');
-    var tests = transaction.objectStore('tests');
 
-    header.add(test.getHeader());
-    return tests.add(test);
-}
+    /* update a test */
+    updateTest(test) {
+        if (this.freeIndex == null) {
+            console.error("DB not initialised !");
+            return;
+        }
+        var transaction = this.testDBEditor.transaction(['header', 'tests'], "readwrite");
+        var header = transaction.objectStore('header');
+        var tests = transaction.objectStore('tests');
 
-/* update a test */
-function updateTest(test) {
-    if (testDBFreeIndex == null) {
-        console.error("DB not initialized !");
-        return;
+        header.put(test.getHeader());
+        return tests.put(test);
     }
-    var transaction = testDBEditor.transaction(['header', 'tests'], "readwrite");
-    var header = transaction.objectStore('header');
-    var tests = transaction.objectStore('tests');
 
-    header.put(test.getHeader());
-    return tests.put(test);
-}
+    /* delete a test */
+    deleteTest(id) {
+        if (this.freeIndex == null) {
+            console.error("DB not initialised !");
+            return;
+        }
+        var transaction = this.testDBEditor.transaction(['header', 'tests'], "readwrite");
+        var header = transaction.objectStore('header');
+        var tests = transaction.objectStore('tests');
 
-/* delete a test */
-function deleteTest(id) {
-    if (testDBFreeIndex == null) {
-        console.error("DB not initialized !");
-        return;
+        header.delete(id);
+        return tests.delete(id);
     }
-    var transaction = testDBEditor.transaction(['header', 'tests'], "readwrite");
-    var header = transaction.objectStore('header');
-    var tests = transaction.objectStore('tests');
 
-    var request = header.delete(id);
-    var request = tests.delete(id);
-    request.onsuccess = function(event) {
-    }
-}
-
-/* get a full test data*/
-function getFullTest(id) {
-    if (testDBFreeIndex == null) {
-        console.error("DB not initialized !");
-        return;
-    }
-    var transaction = testDBEditor.transaction(['tests'], "readonly");
-    var tests = transaction.objectStore(['tests']);
-    var r = tests.get(id);
-    var o = {onsuccess: null, onerror: null};
-    r.onsuccess = function(event) {
-        var test = event.target.result;
-        if (test) {
-            try {
-                test = Test.cast(test);  
-            } catch(e) {
-                console.error("Error while casting the test !", e);
+    /* get a full test data*/
+    getFullTest(id) {
+        if (this.freeIndex == null) {
+            console.error("DB not initialised !");
+            return;
+        }
+        var transaction = this.testDBEditor.transaction(['tests'], "readonly");
+        var tests = transaction.objectStore(['tests']);
+        var r = tests.get(id);
+        var o = {onsuccess: null, onerror: null};
+        r.onsuccess = function(event) {
+            var test = event.target.result;
+            if (test) {
+                try {
+                    test = Test.cast(test);  
+                } catch(e) {
+                    console.error("Error while casting the test !", e);
+                    if (o.onerror) o.onerror(event);
+                    return;
+                }
+                if (o.onsuccess) o.onsuccess(test);
+            } else {
                 if (o.onerror) o.onerror(event);
-                return;
+                
             }
-            if (o.onsuccess) o.onsuccess(test);
-        } else {
+        }
+
+        r.onerror = function() {
             if (o.onerror) o.onerror(event);
-            
+            else indexedDB.onerror(event);
+        }
+
+        return o;
+    }
+
+    /* get the cursor to get all childs */
+    forEachHeader() {
+        if (this.freeIndex == null) {
+            console.error("DB not initialised !");
+            return;
+        }
+        return this.testDBEditor.transaction(['header']).objectStore('header').openCursor();
+    }
+    /* set the on loaded callback */
+    setOnLoaded(c) {
+        if (this.freeIndex == null) {
+            this.onloadedcallback = c;
+        } else {
+            c();
         }
     }
 
-    r.onerror = function() {
-        if (o.onerror) o.onerror(event);
-        else indexedDB.onerror(event);
+    onloaded() {
+        this.onloadedcallback();
     }
-
-    return o;
 }
 
-/* get the cursor to get all childs */
-function forEachHeader() {
-    if (testDBFreeIndex == null) {
-        console.error("DB not initialized !");
-        return;
-    }
-    return testDBEditor.transaction(['header']).objectStore('header').openCursor();
-}
-
-setTimeout(initalizeDB, 0);
+const DATABASE_MANAGER = new DatabaseManager();
+DATABASE_MANAGER.initialise();

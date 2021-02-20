@@ -8,7 +8,7 @@ const defaultPage = new Page(listPageView, "", false, loadListPage);
 /* reload the test list */
 function reloadTestList() {
     removeAllChildren(listPageTestList);
-    forEachHeader().onsuccess = function(event) {
+    DATABASE_MANAGER.forEachHeader().onsuccess = function(event) {
         var cursor = event.target.result;
         if (cursor) {
             var t = testListTemplate.content.cloneNode(true);
