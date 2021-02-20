@@ -257,7 +257,6 @@ function closeViewDataModal() {
 }
 
 function editTestViewPage() {
-    console.log("test");
     currentURL.searchParams.set('page', 'edit');
     history.pushState({}, 'Edit test', currentURL);
     loadPage();

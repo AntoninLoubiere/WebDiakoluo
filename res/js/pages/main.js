@@ -31,12 +31,15 @@ function initNavigation() {
 function loadPage() {
     currentURL = new URL(window.location);
     var page = currentURL.searchParams.get('page');
-    if (page && currentPage.name == page) {
+    if (page && currentPage.pageName == page) {
         if (currentPage.onupdate) {
+            console.debug("Update page", page);
             if (currentPage.requireTest) loadPageRequiringTest(page, true);
             else currentPage.onupdate?.();
         }
     } else {
+        console.debug("Load page", page);
+
         currentPage.hide();
         if (currentModal) {
             hideModal(currentModal); 

@@ -39,7 +39,25 @@ class Test {
         return true; // TODO
     }
 
+    /* set the last modification date to now */
     registerModificationDate() {
         this.lastModificationDate = new Date();
+    }
+
+    /* add a column return the index of the column added*/
+    addColumn(column) {
+        for (var i = 0; i < this.data.length; i++) {
+            this.data[i].push(column.getDefaultValue());
+        }
+        return this.columns.push(column) - 1;
+    }
+
+    /* remove a column */
+    removeColumn(index) {
+        for (var i = 0; i < this.data.length; i++) {
+            this.data[i].splice(index, 1);
+        }
+
+        this.columns.splice(index, 1);
     }
 }

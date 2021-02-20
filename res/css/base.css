@@ -45,6 +45,8 @@ nav {
     top: 0;
     left: 0;
     right: 0;
+
+    z-index: 99;
 }
 
 footer {
@@ -133,6 +135,10 @@ select {
     width: 100%;
 }
 
+input.unique-line {
+    max-height: 1em;
+}
+
 img {
     vertical-align: middle;
 }
@@ -200,13 +206,11 @@ button.image-button {
     height: 2em;
 
     line-height: 1em;
-    font-size: 1.2em;
     font-weight: 300;
     letter-spacing: .1em;
-    vertical-align: middle;
 
     padding: 0 .5em;
-    background-color: inherit;
+    background-color: #fff;
     border-radius: 3em;
 
     border: #ddd 2px solid;
@@ -214,6 +218,7 @@ button.image-button {
 
 button.image-button span {
     margin-left: .2em;
+    vertical-align: middle;
 }
 
 button.image-button.compact {
@@ -462,7 +467,7 @@ textarea.resize-vertical {
     border-top: solid 1px #ddd;
     margin-top: 1em;
     padding: 0 .5em;
-    min-height: 2.9em;
+    min-height: 2.2em;
 }
 
 .text-icon {
@@ -489,6 +494,11 @@ footer.double-column > div:first-child {
 
 .double-column > div {
     padding: .5em 0;
+}
+
+.unique-column {
+    display: grid;
+    grid-template-columns: 1fr;
 }
 
 .navigation-button {

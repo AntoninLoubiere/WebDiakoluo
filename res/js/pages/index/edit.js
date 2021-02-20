@@ -141,7 +141,7 @@ function deleteEditPage() {
     editPageAutoSaveId = null;
 }
 
-/* load the current test in the UI*/
+/* load the current test in the UI */
 function loadTestEditPage() {
     // TODO
     editPageTitle.value = currentTest.title;
@@ -161,7 +161,7 @@ function loadTestEditPage() {
         addColumnChildEditPage(i);
     }
 
-    for (let i = 0; i < currentTest.data.length; i++) {
+    for (var i = 0; i < currentTest.data.length; i++) {
         addDataChildEditPage(i);
     }
 
@@ -177,6 +177,10 @@ function addColumnChildEditPage(index) {
     e.children[0].onclick = function() {
         editColumnClickCallback(index);
     };
+    e.querySelector('.column-close-button').onclick = function(event) {
+        event.stopPropagation();
+        removeColumnEditPage(index);
+    }
 
     editPageColumnsList.appendChild(e);
 
@@ -193,6 +197,12 @@ function updateColumnChildEditPage(index) {
 
     e = editPageDataTableHeader.children[0].children[index + 1]; // +1 because of the min td in first place
     e.textContent = column.name;
+}
+
+/* remove a column in the list */
+function removeColumnChildEditPage(index) {
+    editPageColumnsList.removeChild(editPageColumnsList.children[index]);
+    resetColumnsClickEditPage();
 }
 
 /* reset onclick events in columns when the order is modified */
@@ -230,7 +240,7 @@ function addDataChildEditPage(index) {
 function updateDataChildEditPage(index) {
     var row = editPageDataTableBody.children[index];
     var e;
-    for (var j = 0; j < currentTest.data[index].length; j++) {
+    for (var j = 0; j < currentTest.columns.length; j++) {
         e = row.children[j + 1]; // +1 because of the min td at first
         e.textContent = currentTest.columns[j].getDataValueString(currentTest.data[index][j]);
     }
@@ -242,6 +252,26 @@ function resetDataClickEditPage() {
         editPageDataTableHeader.children[i].onclick = function() {
             editDataClickCallback(i);
         };
+    }
+}
+
+/* reload the entire UI of the data set */
+function reloadDataEditPage() {
+    removeAllChildren(editPageDataTableHeader);
+    removeAllChildren(editPageDataTableBody);
+
+    var e;
+    var row = editDataTemplate.content.cloneNode(true);
+    row.querySelector('.min').innerHTML = '<x-i18n key="edit"></x-i18n>';
+    for (var i = 0; i < currentTest.columns.length; i++) {
+        e = document.createElement('td');
+        e.textContent = currentTest.columns[i].name;
+        row.children[0].appendChild(e);
+    }
+    editPageDataTableHeader.appendChild(row);
+
+    for (var i = 0; i < currentTest.data.length; i++) {
+        addDataChildEditPage(i);
     }
 }
 
@@ -268,7 +298,28 @@ function saveTestEditPage() {
     currentTest.title = editPageTitle.value;
     currentTest.description = editPageDescription.value;
 
+    if (currentModal == 'edit-test-column') applyEditColumnModal();
+    else if (currentModal == 'edit-test-data') applyEditDataModal();
+
     updateTest(currentTest);
+}
+
+/* save the current data in modals */
+function applyEditColumnModal() {
+    console.assert(currentModal == 'edit-test-column', "The edit test modal must be column");
+    var column = currentTest.columns[currentState.id];
+    column.name = editColumnModalTitle2.value;
+    column.description = editColumnModalDescription.value;
+    updateColumnChildEditPage(currentState.id);
+}
+
+function applyEditDataModal() {
+    console.assert(currentModal == 'edit-test-data', "The edit test modal must be data");
+    var row = currentTest.data[currentState.id];
+    for (var i = 0; i < currentTest.columns.length; i++) {
+        currentTest.columns[i].setValueFromView(row[i], editDataModalContent.children[i * 2 + 1]);
+    }
+    updateDataChildEditPage(currentState.id);
 }
 
 /* callback for the cancel button */
@@ -302,6 +353,21 @@ function saveButtonEditPage() {
     }
 }
 
+/* add a column */
+function addColumnEditPage() {
+    var pos = currentTest.addColumn(new ColumnString(getTranslation("default-column-title")));
+    addColumnChildEditPage(pos);
+    updateEditColumnModal(pos);
+    reloadDataEditPage();
+}
+
+/* remove a column */
+function removeColumnEditPage(index) {
+    currentTest.removeColumn(index);
+    removeColumnChildEditPage(index);
+    reloadDataEditPage();
+} 
+
 function onkeydownEditPage(event) {
     switch (event.keyCode) {
         case KeyboardEvent.DOM_VK_ESCAPE:
@@ -316,6 +382,7 @@ function onkeydownEditPage(event) {
             break;
 
         case KeyboardEvent.DOM_VK_RIGHT:
+            if (!event.altKey) return;
             if (currentModal == 'edit-test-column') {
                 nextEditColumn();
                 event.preventDefault();
@@ -326,6 +393,7 @@ function onkeydownEditPage(event) {
             break;
 
         case KeyboardEvent.DOM_VK_LEFT:
+            if (!event.altKey) return;
             if (currentModal == 'edit-test-column') {
                 previousEditColumn();
                 event.preventDefault();
@@ -336,6 +404,7 @@ function onkeydownEditPage(event) {
             break;
 
         case KeyboardEvent.DOM_VK_PAGE_DOWN:
+            if (!event.altKey) return;
             if (currentModal == 'edit-test-column') {
                 lastEditColumn();
                 event.preventDefault();
@@ -346,6 +415,7 @@ function onkeydownEditPage(event) {
             break;
 
         case KeyboardEvent.DOM_VK_PAGE_UP:
+            if (!event.altKey) return;
             if (currentModal == 'edit-test-column') {
                 firstEditColumn();
                 event.preventDefault();
@@ -365,12 +435,13 @@ function updateEditColumnModal(id) {
         currentState.id = -1;
     }
     if (currentState.id != id) {
+        if (currentState.id >= 0) applyEditColumnModal();
         currentState.id = id;
         
         var column = currentTest.columns[id];
         editColumnModalTitle1.textContent = column.name;
-        editColumnModalTitle2.textContent = column.name;
-        editColumnModalDescription.textContent = column.description;
+        editColumnModalTitle2.value = column.name;
+        editColumnModalDescription.value = column.description;
     }
 }
 
@@ -401,6 +472,7 @@ function lastEditColumn() {
 /* close the column modal */
 function closeEditColumnModal() {
     // TODO save
+    applyEditColumnModal();
     currentURL.searchParams.delete('column');
     history.pushState({}, '', currentURL);
     hideModal(currentModal);
@@ -415,6 +487,8 @@ function updateEditDataModal(id) {
         currentState.id = -1;
     }
     if (currentState.id != id) {
+
+        if (currentState.id >= 0) applyEditDataModal();
         currentState.id = id;
 
         var row = currentTest.data[id];
@@ -429,9 +503,7 @@ function updateEditDataModal(id) {
             e.classList = ['no-margin']
             editDataModalContent.appendChild(e);
 
-            e = document.createElement('div');
-            e.textContent = column.getDataValueString(row[i]);
-            editDataModalContent.appendChild(e);
+            editDataModalContent.appendChild(column.getEditView(row[i]));
         }
     }
 }
@@ -462,6 +534,7 @@ function lastEditData() {
 
 /* close the data modal */
 function closeEditDataModal() {
+    applyEditDataModal();
     currentURL.searchParams.delete('data');
     history.pushState({}, '', currentURL);
     hideModal(currentModal);

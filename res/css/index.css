@@ -88,6 +88,36 @@
     cursor: pointer;
 }
 
+.test-column-edit {
+    cursor: pointer;
+    position: relative;
+
+    padding-right: 1.2em;
+}
+
+.column-close-button {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #fff;
+    border-radius: 1em;
+
+    cursor: pointer;
+    transition: transform .3s ease-out;
+
+    margin: 0 .2em;
+}
+
+.column-close-button:hover {
+    transform: translateY(-50%) scale(1.5);
+}
+
+.test-column-edit:hover .column-close-button {
+    display: inline;
+}
+
 .view-button {
     cursor: pointer;
     vertical-align: middle;
@@ -110,4 +140,8 @@
 
 .edit-button:hover {
     transform: scale(1.4);
+}
+
+#edit-panel {
+    grid-template-rows: auto 1fr;
 }

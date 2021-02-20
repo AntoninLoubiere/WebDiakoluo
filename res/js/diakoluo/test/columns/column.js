@@ -26,7 +26,26 @@ class Column {
         }
     }
 
+    /* Get a string that represent the data */
     getDataValueString(data) {
         return data.value;
+    }
+
+    /* get the view that can edit the data */
+    getEditView(data) {
+        var i = document.createElement('input');
+        i.type = 'text';
+        i.value = data.value;
+        return i;
+    }
+
+    /* set the value from the value stored in the view */
+    setValueFromView(data, view) {
+        data.value = view.value;
+    }
+
+    /* get the default value of data for the column */
+    getDefaultValue() {
+        console.error("Not overrided");
     }
 }   
