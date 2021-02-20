@@ -37,8 +37,8 @@ function reloadTestList() {
 }
 
 function loadListPage() {
-    listPageView.classList.remove('hide');
     updatePageTitle('title-index.html');
+    listPageView.classList.remove('hide');
     reloadTestList();
 }
 

@@ -152,7 +152,6 @@ function loadTestEditPage() {
     removeAllChildren(editPageDataTableBody);
 
     visibilityChangeEditPage(); // set auto save automatic
-    editPageView.classList.remove('hide');
 
     var row = editDataTemplate.content.cloneNode(true);
     row.querySelector('.min').innerHTML = '<x-i18n key="edit"></x-i18n>';
@@ -166,6 +165,7 @@ function loadTestEditPage() {
     }
 
     setPageTitle(currentTest.title);
+    editPageView.classList.remove('hide');
     updateModalEditPage();
 }
 

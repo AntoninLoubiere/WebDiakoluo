@@ -28,7 +28,6 @@ function loadViewPage() {
     viewPageDescription.textContent = currentTest.description;
     viewPageCreatedDate.textContent = DATE_FORMATER.format(currentTest.createDate);
     viewPageModificationDate.textContent = DATE_FORMATER.format(currentTest.lastModificationDate);
-    viewPageView.classList.remove('hide');
 
     removeAllChildren(viewPageColumnsList);
     removeAllChildren(viewPageDataTableHeader);
@@ -65,6 +64,7 @@ function loadViewPage() {
     }
 
     setPageTitle(currentTest.title);
+    viewPageView.classList.remove('hide');
     updateViewPage();
 }
 
