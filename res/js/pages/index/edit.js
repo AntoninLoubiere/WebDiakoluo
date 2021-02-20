@@ -136,7 +136,7 @@ function initialiseTestEditPage(id) {
 
 /* when the page is deleted */
 function deleteEditPage() {
-    if (currentTest) saveTestEditPage();
+    if (currentTest?.id == EDIT_KEY) saveTestEditPage(); // save only if it's a edit test
     clearInterval(editPageAutoSaveId);
     editPageAutoSaveId = null;
 }
@@ -342,14 +342,12 @@ function saveButtonEditPage() {
             viewTestPage(event.target.result);
         };
         deleteTest(EDIT_KEY);
-        currentTest = null; // do not save on delete
     } else {
         delete currentTest.id;
         addNewTest(currentTest).onsuccess = function(event) {
             viewTestPage(event.target.result);
         };
         deleteTest(EDIT_KEY);
-        currentTest = null; // do not save on delete
     }
 }
 
