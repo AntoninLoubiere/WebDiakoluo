@@ -98,8 +98,10 @@ function onkeydownViewPage(event) {
                 closeViewColumnModal();
             } else if (currentModal == 'view-test-data') {
                 closeViewDataModal();
+            } else if (currentModal) {
+                hideModal(currentModal);
             } else {
-                backToMain();
+                backToMain(true);
             }
             event.preventDefault();
             break;
@@ -260,4 +262,16 @@ function editTestViewPage() {
     currentURL.searchParams.set('page', 'edit');
     history.pushState({}, 'Edit test', currentURL);
     loadPage();
+}
+
+function deleteTestViewPage() {
+    showModal('test-delete-confirm');
+    currentModal = 'test-delete-confirm';
+    history.pushState({}, 'Modal');
+}
+
+function deleteTestConfirmViewPage() {
+    deleteTest(currentTest.id);
+    currentTest = null; // TODO cancel button
+    backToMain(true);
 }

@@ -422,7 +422,7 @@ function onkeydownEditPage(event) {
             } else if (currentModal == 'edit-test-data') {
                 closeEditDataModal();
             } else {
-                backToMain();
+                backToMain(true);
             }
             event.preventDefault();
             break;

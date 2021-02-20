@@ -168,29 +168,29 @@ button.btn:hover {
 
 button.green {
     color: #fff;
-    background-color: #43a047;
+    background-color: #43a047 !important;
 }
 
 button.green:hover {
-    background-color: #2e7d32;
+    background-color: #2e7d32 !important;
 }
 
 button.blue {
     color: #fff;
-    background-color: #039be5;
+    background-color: #039be5 !important;
 }
 
 button.blue:hover {
-    background-color: #0277bd;
+    background-color: #0277bd !important;
 }
 
 button.red {
     color: #fff;
-    background-color: #e53935;
+    background-color: #e53935 !important;
 }
 
 button.red:hover {
-    background-color: #c62828;
+    background-color: #c62828 !important;
 }
 
 button.right {
@@ -237,12 +237,11 @@ button.image-button:hover {
 button.image-button.colored {
     background-color: #00695c;
     color: #fff;
-    border-color: #00695c;
+    border: none;
 }
 
 button.image-button.colored:hover {
     background-color: #004d40;
-    border-color: #004d40;
 }
 
 textarea.resize-vertical {

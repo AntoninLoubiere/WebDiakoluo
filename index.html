@@ -28,10 +28,22 @@
     <h1 id="view-test-title"></h1>
     <div class="card">
         <div class="action-list">
-            <button class="btn image-button compact"><img src="/WebDiakoluo/res/img/play.svg"><span><x-i18n key="play" caps="upper"></x-i18n></span></button>
-            <button class="btn image-button compact" onclick="editTestViewPage();"><img src="/WebDiakoluo/res/img/edit.svg"><span><x-i18n key="edit" caps="upper"></x-i18n></span></button>
-            <button class="btn image-button compact"><img src="/WebDiakoluo/res/img/export.svg"><span><x-i18n key="export" caps="upper"></x-i18n></span></button>
-            <button class="btn image-button compact"><img src="/WebDiakoluo/res/img/delete.svg"><span><x-i18n key="delete" caps="upper"></x-i18n></span></button>
+            <button class="btn image-button compact">
+                <img src="/WebDiakoluo/res/img/play.svg">
+                <span><x-i18n key="play" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button compact" onclick="editTestViewPage();">
+                <img src="/WebDiakoluo/res/img/edit.svg">
+                <span><x-i18n key="edit" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button compact">
+                <img src="/WebDiakoluo/res/img/export.svg">
+                <span><x-i18n key="export" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button compact" onclick="deleteTestViewPage();">
+                <img src="/WebDiakoluo/res/img/delete.svg">
+                <span><x-i18n key="delete" caps="upper"></x-i18n></span>
+            </button>
         </div>
         <div class="double-column">
             <div>
@@ -127,6 +139,16 @@
             <button class="right navigation-button" onclick="lastViewData()">&gt;&gt;</button>
             <button class="right navigation-button" onclick="nextViewData()">&gt;</button>
         </footer>
+    </div>
+</div>
+<div id="test-delete-confirm-modal" class="modal hide">
+    <div class="modal-content red">
+        <header><x-i18n key="delete-test-title"></x-i18n><button class="modal-close" onclick="hideModal('test-delete-confirm')">&times;</button></header>
+        <main>
+            <p><x-i18n key="delete-test-message"></x-i18n></p>
+            <button class="btn image-button right colored red" onclick="deleteTestConfirmViewPage()"><x-i18n key="delete" caps="upper"></x-i18n></button>
+            <button class="btn image-button right" onclick="hideModal('test-delete-confirm')"><x-i18n key="cancel" caps="upper"></x-i18n></button>
+        </main>
     </div>
 </div>
 <div id="edit-test-column-modal" class="modal hide">
