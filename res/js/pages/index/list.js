@@ -5,6 +5,7 @@ const testListTemplate = document.getElementById('list-test-child-template');
 
 const defaultPage = new Page(listPageView, "", false, loadListPage);
 
+/* reload the test list */
 function reloadTestList() {
     removeAllChildren(listPageTestList);
     forEachHeader().onsuccess = function(event) {
@@ -36,15 +37,25 @@ function reloadTestList() {
     };
 }
 
+/* load list page */
 function loadListPage() {
     updatePageTitle('title-index.html');
     listPageView.classList.remove('hide');
     reloadTestList();
 }
 
+/* redirect to the view page of a test */
 function viewTestPage(id) {
     currentURL.searchParams.set('page', 'view');
     currentURL.searchParams.set('test', id);
     window.history.pushState({}, 'View page', currentURL);
     loadPage();
 }
+
+/* redirect to add a test */
+function addTestRedirect() {
+    currentURL.searchParams.set('page', 'edit');
+    currentURL.searchParams.set('test', 'new');
+    window.history.pushState({}, 'Edit page', currentURL);
+    loadPage();
+} 
