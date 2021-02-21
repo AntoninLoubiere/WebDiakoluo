@@ -1,5 +1,5 @@
 /* redirect to the view page of a test */
-viewTestPage(id) {
+function viewTestPage(id) {
     currentURL.searchParams.set('page', 'view');
     currentURL.searchParams.set('test', id);
     window.history.pushState({}, 'View page', currentURL);
@@ -7,7 +7,7 @@ viewTestPage(id) {
 }
 
 /* redirect to add a test */
-addTestRedirect() {
+function addTestRedirect() {
     currentURL.searchParams.set('page', 'edit');
     currentURL.searchParams.set('test', 'new');
     window.history.pushState({}, 'Edit page', currentURL);

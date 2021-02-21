@@ -76,7 +76,7 @@
             <div>
                 <b><x-i18n key="columns"></x-i18n></b>
                 <div id="edit-test-columns"></div>
-                <button class="btn image-button" onclick="addColumnEditPage()"><img src="/WebDiakoluo/res/img/add.svg">
+                <button class="btn image-button" onclick="PAGES.edit.addColumn()"><img src="/WebDiakoluo/res/img/add.svg">
                     <span><x-i18n key="add-column"></x-i18n></span>
                 </button>
             </div>
@@ -90,13 +90,13 @@
         </table>
     </div>
     <div class="bottom-bar">
-        <button class="btn image-button" onclick="addDataEditPage()"><img src="/WebDiakoluo/res/img/add.svg">
+        <button class="btn image-button" onclick="PAGES.edit.addData()"><img src="/WebDiakoluo/res/img/add.svg">
                     <span><x-i18n key="add-data"></x-i18n></span>
                 </button>
-        <button class="btn right image-button colored" onclick="saveButtonEditPage();">
+        <button class="btn right image-button colored" onclick="PAGES.edit.saveButton();">
             <img src="/WebDiakoluo/res/img/save_w.svg"><span><x-i18n key="save" caps="upper"></x-i18n></span>
         </button>
-        <button class="btn right image-button" onclick="cancelButtonEditPage()">
+        <button class="btn right image-button" onclick="PAGES.edit.cancelButton()">
             <img src="/WebDiakoluo/res/img/cancel.svg"><span><x-i18n key="cancel" caps="upper"></x-i18n></span>
         </button>
     </div>
@@ -153,30 +153,30 @@
 </div>
 <div id="edit-test-column-modal" class="modal hide">
     <div class="modal-content">
-        <header><span id="modal-edit-column-title1"></span><button class="modal-close" onclick="closeEditColumnModal()">&times;</button></header>
+        <header><span id="modal-edit-column-title1"></span><button class="modal-close" onclick="PAGES.edit.closeColumnModal()">&times;</button></header>
         <main class="grid-keys">
             <b><x-i18n key="title"></x-i18n></b> <input type="text" id="modal-edit-column-title2" onblur="editColumnModalTitle1.textContent = editColumnModalTitle2.value"></input>
             <b><x-i18n key="description"></x-i18n></b> <textarea id="modal-edit-column-description"></textarea>
         </main>
         <footer>
-            <button class="navigation-button" onclick="firstEditColumn()">&lt;&lt;</button>
-            <button class="navigation-button" onclick="previousEditColumn()">&lt;</button>
-            <button class="right navigation-button" onclick="lastEditColumn()">&gt;&gt;</button>
-            <button class="right navigation-button" onclick="nextEditColumn()">&gt;</button>
+            <button class="navigation-button" onclick="PAGES.edit.firstColumn()">&lt;&lt;</button>
+            <button class="navigation-button" onclick="PAGES.edit.previousColumn()">&lt;</button>
+            <button class="right navigation-button" onclick="PAGES.edit.lastColumn()">&gt;&gt;</button>
+            <button class="right navigation-button" onclick="PAGES.edit.nextColumn()">&gt;</button>
         </footer>
     </div>
 </div>
 <div id="edit-test-data-modal" class="modal hide">
     <div class="modal-content">
-        <header><x-i18n key="data-number"></x-i18n><span id="edit-test-data-id"></span><button class="modal-close" onclick="closeEditDataModal()">&times;</button></header>
+        <header><x-i18n key="data-number"></x-i18n><span id="edit-test-data-id"></span><button class="modal-close" onclick="PAGES.edit.closeDataModal()">&times;</button></header>
         <main>
             <div id="edit-test-data-content" class="unique-column"></div>
         </main>
         <footer>
-            <button class="navigation-button" onclick="firstEditData()">&lt;&lt;</button>
-            <button class="navigation-button" onclick="previousEditData()">&lt;</button>
-            <button class="right navigation-button" onclick="lastEditData()">&gt;&gt;</button>
-            <button class="right navigation-button" onclick="nextEditData()">&gt;</button>
+            <button class="navigation-button" onclick="PAGES.edit.firstData()">&lt;&lt;</button>
+            <button class="navigation-button" onclick="PAGES.edit.previousData()">&lt;</button>
+            <button class="right navigation-button" onclick="PAGES.edit.lastData()">&gt;&gt;</button>
+            <button class="right navigation-button" onclick="PAGES.edit.nextData()">&gt;</button>
         </footer>
     </div>
 </div>

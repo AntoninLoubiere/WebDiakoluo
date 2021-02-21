@@ -137,7 +137,7 @@ class DatabaseManager {
         var tests = transaction.objectStore(['tests']);
         var r = tests.get(id);
         var o = {onsuccess: null, onerror: null};
-        r.onsuccess = function(event) {
+        r.onsuccess = event => {
             var test = event.target.result;
             if (test) {
                 try {
@@ -154,7 +154,7 @@ class DatabaseManager {
             }
         }
 
-        r.onerror = function() {
+        r.onerror = () => {
             if (o.onerror) o.onerror(event);
             else indexedDB.onerror(event);
         }
@@ -180,7 +180,7 @@ class DatabaseManager {
     }
 
     onloaded() {
-        this.onloadedcallback();
+        this.onloadedcallback?.();
     }
 }
 
