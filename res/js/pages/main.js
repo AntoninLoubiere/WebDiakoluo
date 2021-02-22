@@ -7,6 +7,7 @@ var currentPage = new Page(null, null);
 var currentPageName = null;
 var currentTest = null;
 var currentModal = null;
+// deprecated, use in class variables instead
 var currentState = {};
 
 /* init navigation */
@@ -30,7 +31,7 @@ function initNavigation() {
 /* load a page / process the ur l*/
 function loadPage() {
     currentURL = new URL(window.location);
-    var page = currentURL.searchParams.get('page');
+    var page = currentURL.searchParams.get('page') || "";
     if (page && currentPage.pageName == page) {
         if (currentPage.onupdate) {
             console.debug("Update page", page);
@@ -47,7 +48,7 @@ function loadPage() {
         }
         currentState = {};
 
-        currentPage = PAGES[page] || defaultPage;
+        currentPage = PAGES[page.replaceAll('-', '_')] || defaultPage;
         if (currentPage.requireTest) {
             loadPageRequiringTest();
         } else {

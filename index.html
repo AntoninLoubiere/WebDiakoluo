@@ -28,7 +28,7 @@
     <h1 id="view-test-title"></h1>
     <div class="card">
         <div class="action-list">
-            <button class="btn image-button compact">
+            <button class="btn image-button compact" onclick="PAGES.view.playTest();">
                 <img src="/WebDiakoluo/res/img/play.svg">
                 <span><x-i18n key="play" caps="upper"></x-i18n></span>
             </button>
@@ -100,6 +100,32 @@
             <img src="/WebDiakoluo/res/img/cancel.svg"><span><x-i18n key="cancel" caps="upper"></x-i18n></span>
         </button>
     </div>
+</main>
+<main id="play-page" class="hide">
+</main>
+<main id="play-settings-page" class="hide">
+    <form onsubmit="PAGES.play_settings.playTest(event);">
+        <h1 id="play-set-test-title"></h1>
+        <div id="play-set-params" class="unique-column">
+            <b><x-i18n key="play-number-data"></x-i18n></b>
+            <select id="play-set-number-data">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="1-4">1/4</option>
+                <option value="1-3">1/3</option>
+                <option value="1-2">1/2</option>
+                <option value="1-1">100%</option>
+            </select>
+            <label for="play-set-number-column"><b><x-i18n key="number-columns"></x-i18n></b></label>
+            <div class="flex flex-center">
+                <input type="number" name="columns" id="play-set-number-column" min="1" value="1" />/<span id="play-set-number-column-max"></span>
+            </div>
+        </div>
+        <button id="play-set-start-button" class="btn image-button colored major" type="submit">
+            <span><x-i18n key="play" caps="upper"></x-i18n></span>
+            <img src="/WebDiakoluo/res/img/play_w.svg">
+        </button>
+    </form>
 </main>
 <footer class="double-column">
     <div>

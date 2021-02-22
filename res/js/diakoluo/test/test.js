@@ -36,7 +36,7 @@ class Test {
 
     /* get if the test is playable */
     isPlayable() {
-        return true; // TODO
+        return this.columns.length > 1 && this.data.length > 1;
     }
 
     /* set the last modification date to now */

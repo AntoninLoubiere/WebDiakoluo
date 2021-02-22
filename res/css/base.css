@@ -244,6 +244,11 @@ button.image-button.colored:hover {
     background-color: #004d40;
 }
 
+button.major {
+    width: 100%;
+    font-weight: 500;
+}
+
 textarea.resize-vertical {
     resize: vertical;
     min-height: 3.6em;
@@ -263,6 +268,19 @@ textarea.resize-vertical {
 
 .no-margin {
     margin: 0;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-grow {
+    flex-grow: 1;
+    margin: 0 .2em;
+}
+
+.flex-center {
+    align-items: center;
 }
 
 .main-card {

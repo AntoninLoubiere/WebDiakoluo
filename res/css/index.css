@@ -148,3 +148,11 @@
 #edit-panel {
     grid-template-rows: auto 1fr;
 }
+
+#play-set-number-column {
+    width: 3em;
+}
+
+#play-set-params {
+    margin-bottom: .5em;
+}

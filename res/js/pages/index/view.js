@@ -284,6 +284,17 @@ class ViewPage extends Page {
         loadPage();
     }
 
+    /* play the test */
+    playTest() {
+        if (currentTest.isPlayable()) {
+            currentURL.searchParams.set('page', 'play-settings');
+            history.pushState({}, 'Play settings', currentURL);
+            loadPage();
+        } else {
+            // TODO, warning
+        }
+    }
+
     /* delete the test */
     deleteTest() {
         showModal('test-delete-confirm');
