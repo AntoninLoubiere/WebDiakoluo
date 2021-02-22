@@ -102,6 +102,19 @@
     </div>
 </main>
 <main id="play-page" class="hide">
+    <form onsubmit="PAGES.play.submitCallback(event);">
+        <h1 id="play-test-title"></h1>
+        <div id="play-progress-parent">
+            <div id="play-progress-text"><span id="play-progress-index"></span>/<span id="play-progress-max"></span></div>
+            <progress id="play-progress" value="75" max="1"></progress>
+        </div>
+        <div id="play-inputs" class="unique-column">
+        </div>
+        <button id="play-continue-button" class="btn image-button colored major" type="submit">
+            <span><x-i18n key="continue" caps="upper" id="play-continue-button-text"></x-i18n></span>
+            <img src="/WebDiakoluo/res/img/play_w.svg">
+        </button>
+    </form>
 </main>
 <main id="play-settings-page" class="hide">
     <form onsubmit="PAGES.play_settings.playTest(event);">
@@ -118,7 +131,7 @@
             </select>
             <label for="play-set-number-column"><b><x-i18n key="number-columns"></x-i18n></b></label>
             <div class="flex flex-center">
-                <input type="number" name="columns" id="play-set-number-column" min="1" value="1" />/<span id="play-set-number-column-max"></span>
+                <input type="number" name="columns" id="play-set-number-column" min="1" value="1" required="" />/<span id="play-set-number-column-max"></span>
             </div>
         </div>
         <button id="play-set-start-button" class="btn image-button colored major" type="submit">

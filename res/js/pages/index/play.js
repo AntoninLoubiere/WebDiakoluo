@@ -1,33 +1,46 @@
 const playPageView = document.getElementById('play-page');
 
+const playPageTestTitle = document.getElementById('play-test-title');
+const playPageInputs = document.getElementById('play-inputs');
+const playPageContinueButtonText = document.getElementById('play-continue-button-text');
+
+const playProgressBar = document.getElementById('play-progress');
+const playProgressIndex = document.getElementById('play-progress-index');
+const playProgressMax = document.getElementById('play-progress-max');
+
 class PlayPage extends Page {
     constructor() {
         super(playPageView, "play", true);
+
+        // define test context
+        this.dataNumberToDo = null;
+        this.currentIndex = null;
+        this.dataIndexes = null;
+        this.answerIsShow = false;
+        this.numberColumns = null;
+        this.columnsAsked = null;
     }
 
     onload() {
-        playPageView.classList.remove('hide');
-        setPageTitle(currentTest.title);
+        this.dataNumberToDo = currentURL.searchParams.get("data")?.split('-') ?? [];
+        this.numberColumns = Number(currentURL.searchParams.get("columns"));
 
-        var data = currentURL.searchParams.get("data")?.split('-') ?? [];
-        var columns = Number(currentURL.searchParams.get("columns"));
-
-        if (!Number.isInteger(columns)) {
+        if (!Number.isInteger(this.numberColumns)) {
             backToMain();
             return;
         }
 
-        if (data.length == 1) {
-            data = Number(data[0]);
-            if (!data) {
+        if (this.dataNumberToDo.length == 1) {
+            this.dataNumberToDo = Number(this.dataNumberToDo[0]);
+            if (!this.dataNumberToDo) {
                 backToMain();
                 return;
             }
-        } else if (data.length >= 2) {
-            data = [Number(data[0]), Number(data[1])]
-            if (data[0] && data[1]) {
-                data = clamp(
-                    Math.round(data[0] * currentTest.data.length / data[1]),
+        } else if (this.dataNumberToDo.length >= 2) {
+            this.dataNumberToDo = [Number(this.dataNumberToDo[0]), Number(this.dataNumberToDo[1])]
+            if (this.dataNumberToDo[0] && this.dataNumberToDo[1]) {
+                this.dataNumberToDo = clamp(
+                    Math.round(this.dataNumberToDo[0] * currentTest.data.length / this.dataNumberToDo[1]),
                     1, currentTest.data.length
                 );
             } else {
@@ -39,7 +52,102 @@ class PlayPage extends Page {
             return;
         }
 
-        columns = clamp(columns, 1, currentTest.columns.length);
+        this.numberColumns = clamp(this.numberColumns, 1, currentTest.columns.length);
+
+        console.log(this.numberColumns);
+
+        this.currentIndex = 0;
+        this.answerIsShow = false;
+        this.dataIndexes = randomUniqueNumberList(this.dataNumberToDo, currentTest.data.length);
+
+        playPageTestTitle.textContent = currentTest.title;
+        playProgressMax.textContent = this.dataNumberToDo;
+
+        this.initialise();
+
+        playPageView.classList.remove('hide');
+        setPageTitle(currentTest.title);
+    }
+
+    /* when a key is press */
+    onkeydown(event) {
+        if (event.keyCode === KeyboardEvent.DOM_VK_RETURN) {
+            this.submitCallback(event);
+        }
+    }
+
+    /* initialise the UI */
+    initialise() {
+        var e;
+        for (var i = 0; i < currentTest.columns.length; i++) {
+            e = document.createElement('h3');
+            e.classList = ['no-margin'];
+            e.textContent = currentTest.columns[i].name;
+            playPageInputs.appendChild(e);
+            playPageInputs.appendChild(document.createElement('div')); // setup a dummy element
+        }
+        this.update();
+    }
+
+    /* update the UI */
+    update() {
+        var row = currentTest.data[this.dataIndexes[this.currentIndex]];
+        
+        if (this.answerIsShow) {
+            for (var i = 0; i < currentTest.columns.length; i++) {
+                if (this.columnsAsked[i]) {
+                    playPageInputs.replaceChild(
+                        currentTest.columns[i].updateAnswerTestView(
+                            row[i],  
+                            playPageInputs.children[i * 2 + 1]),
+                        playPageInputs.children[i * 2 + 1]
+                    );
+                }                
+            }
+            playPageContinueButtonText.setAttribute('key', 'continue');
+            playProgressBar.value = (this.currentIndex + 1) / this.dataNumberToDo;
+            playProgressIndex.textContent = this.currentIndex + 1; // humanify
+        } else {
+            this.columnsAsked = new Array(currentTest.columns.length).fill(true);
+            var i = this.numberColumns;
+            var j;
+            while (i > 0) {
+                j = randint(currentTest.columns.length);
+                if (this.columnsAsked[j]) {
+                    i--;
+                    this.columnsAsked[j] = false;
+                }
+            }
+
+            for (var i = 0; i < currentTest.columns.length; i++) {
+                if (this.columnsAsked[i]) {
+                    playPageInputs.replaceChild(currentTest.columns[i].getTestView(row[i]), playPageInputs.children[i * 2 + 1]);
+                } else {
+                    playPageInputs.replaceChild(currentTest.columns[i].getViewView(row[i]), playPageInputs.children[i * 2 + 1]);
+                }
+            }
+            playPageContinueButtonText.setAttribute('key', 'valid');
+            playPageInputs.children[1].focus();
+            playProgressBar.value = this.currentIndex / this.dataNumberToDo;
+            playProgressIndex.textContent = this.currentIndex + 1; // humanify
+        }
+    }
+
+    /* callback for the submit form */
+    submitCallback(event) {
+        event.preventDefault();
+
+        if (this.answerIsShow) {
+            this.answerIsShow = false;
+            if (++this.currentIndex >= this.dataNumberToDo) {
+                console.log("End !");
+            } else {
+                this.update();
+            }
+        } else {
+            this.answerIsShow = true;
+            this.update();
+        }
     }
 }
 

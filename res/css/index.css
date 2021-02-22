@@ -153,6 +153,71 @@
     width: 3em;
 }
 
-#play-set-params {
+#play-set-params, #play-inputs {
     margin-bottom: .5em;
+}
+
+#play-inputs > span, #play-inputs > input, #play-inputs > select {
+    line-height: 34px;
+}
+
+.right-answer {
+    color: #00c853;
+    padding-left: 1.2em;
+    background: no-repeat left url("/WebDiakoluo/res/img/right.svg");
+}
+
+.skipped-answer {
+    color: #dd2c00;
+    font-style: italic;
+}
+
+.wrong-answer {
+    color: #d50000;
+    text-decoration: line-through;
+    padding-left: 1.2em;
+    background: no-repeat left url("/WebDiakoluo/res/img/wrong.svg");
+}
+
+.answer-answer {
+    margin: 0 .5em;
+}
+
+#play-test-title {
+    margin-bottom: 0;
+}
+
+#play-progress {
+    position: relative;
+    width: 100%;
+}
+
+#play-progress::-moz-progress-bar, #play-progress::-webkit-progress-value {
+    background-color: #009688;
+    transition: all .3s ease-out;
+}
+
+#play-progress:before {
+  content: "test";
+  font-size: 0.8em;
+  vertical-align: 0;
+  
+  /*Position text over the progress bar */
+  position:absolute;
+  left:0;
+  right:0;
+}
+
+#play-progress-parent {
+    position: relative;
+    margin-bottom: .5em;
+}
+
+#play-progress-text {
+    z-index: 2;
+    font: bold 1em "Roboto";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
