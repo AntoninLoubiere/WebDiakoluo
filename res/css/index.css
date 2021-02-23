@@ -1,0 +1,217 @@
+#loading {
+    cursor: wait;
+}
+
+.test-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: stretch;
+
+}
+
+.test {
+    flex: 1 0 auto;
+
+    width: 200px;
+
+    border-radius: .5em;
+    border: 1px solid #ddd;
+
+    margin: 16px 10px;
+    padding: .2em .5em;
+
+    box-shadow: 0 3px 4px 0 rgba(12,12,12,.1),0 1px 3px 0 rgba(12,12,12,.1);
+
+    cursor: pointer;
+
+    transition: all .3s ease-in-out;
+}
+
+.test:hover {
+    box-shadow: 0 7px 14px 0 rgba(12,12,12,.2),0 3px 6px 0 rgba(12,12,12,.2);
+
+    transform: translateY(-8px);
+}
+
+.test:hover .test-title {
+    color: #00796b;
+}
+
+.test-title {
+    font: small-caps 400 1.3em "Oswald", "Roboto", sans-serif;
+
+    margin: 0 0em;
+    padding: 0;
+    text-align: center;
+
+    border-bottom: 1px solid #ddd;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    transition: all .3s ease-in-out;
+}
+
+.test-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-top: 4px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.4em;
+    max-height: 3.6em;
+    line-height: 1.2em;
+}
+
+#test-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.action-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 2px;
+}
+
+.action-list > button {
+    margin: 2px;
+}
+
+.test-column {
+    cursor: pointer;
+}
+
+.test-column-edit {
+    cursor: pointer;
+    position: relative;
+
+    padding-right: 1.2em;
+}
+
+.column-close-button {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #fff;
+    border-radius: 1em;
+
+    cursor: pointer;
+    transition: transform .3s ease-out;
+
+    margin: 0 .2em;
+}
+
+.column-close-button:hover {
+    transform: translateY(-50%) scale(1.5);
+}
+
+.test-column-edit:hover .column-close-button {
+    display: inline;
+}
+
+.view-button {
+    cursor: pointer;
+    vertical-align: middle;
+    transition: transform .3s ease-out;
+
+    margin: 0 .2em;
+}
+
+.view-button:hover {
+    transform: scale(1.5);
+}
+
+.edit-button {
+    cursor: pointer;
+    vertical-align: middle;
+    transition: transform .3s ease-out;
+}
+
+.edit-button:hover {
+    transform: scale(1.4);
+}
+
+.edit-min {
+    text-overflow: initial !important;
+    overflow: visible !important;
+}
+
+#edit-panel {
+    grid-template-rows: auto 1fr;
+}
+
+#play-set-number-column {
+    width: 3em;
+}
+
+#play-set-params, #play-inputs {
+    margin-bottom: .5em;
+}
+
+#play-inputs > span, #play-inputs > input, #play-inputs > select {
+    line-height: 34px;
+}
+
+.right-answer {
+    color: #00c853;
+    padding-left: 1.2em;
+    background: no-repeat left url("/WebDiakoluo/res/img/right.svg");
+}
+
+.skipped-answer {
+    color: #dd2c00;
+    font-style: italic;
+}
+
+.wrong-answer {
+    color: #d50000;
+    text-decoration: line-through;
+    padding-left: 1.2em;
+    background: no-repeat left url("/WebDiakoluo/res/img/wrong.svg");
+}
+
+.answer-answer {
+    margin: 0 .5em;
+}
+
+#play-test-title {
+    margin-bottom: 0;
+}
+
+#play-progress {
+    position: relative;
+    width: 100%;
+}
+
+#play-progress-parent {
+    position: relative;
+    margin-bottom: .5em;
+}
+
+#play-progress-text {
+    z-index: 2;
+    font: bold 1em "Roboto";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#play-score-progress-parent {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#play-score-progress {
+    align-self: stretch;
+}
