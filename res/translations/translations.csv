@@ -1,0 +1,56 @@
+key,en,fr
+ok,Ok,Ok
+cancel,Cancel,Annuler
+valid,Valid,Valider
+continue,Continue,Continuer
+restart,Restart,Recommencer
+main-menu,Main menu,Menu principal
+export,Export,Exporter
+save,Save,Sauvegarder
+delete,Delete,Supprimer
+all,All,Tous
+dont-show-again,Don't show again.,Ne plus afficher
+view,View,Voir
+edit,Edit,Éditer
+play,Play,Démarrer
+language,Language: ,Langue: 
+loading,Loading,Chargement
+more-informations,More informations,Plus d'informations
+legal-text,"<p>Data stored by your navigator is for a <b>local use only</b> and necessary for the application. The data stored is <b>never transmit to a third server</b>. Your are the only owner of your data, so, you are responsible of the security of yours data.</p><p>The usage of cookies and similar mechanisms are <b>essential</b> to the application.</p>","<p>Les données stokées par votre navigateur ne sont destiné qu'à un <b>usage local</b> pour les besoins de l'application. Les données stokées ne sont <b>transmis à aucun serveur tiers</b>. Vous êtes le seul déteneur de vos données, ainsi, vous êtes le seul responsable de la sécurité de vos données.</p><p>L'utilisation de cookies et mécanismes similaires sont <b>indispensables</b> pour le bon fonctionnement du site web.</p>"
+about-text,"<h1>DIAKÔLUÔ V<x-i18n key=""version""></x-i18n></h1><h3>WHAT IS DIAKÔLUÔ ?</h3><p>Diakôluô îs an open-source project in order to help memorize. An <a href=""https://github.com/AntoninLoubiere/Diakoluo/releases"" class=""open-new-icon""><b>Android</b></a> version and an <a href=""/WebDiakoluo/index.html""><b>online</b></a> version are available.</p><h3>THE CODE</h3><p>The code is by: <x-i18n key=""authors""></x-i18n> The code is available on <a href=""https://gihub.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon"">GitHub</a> under the <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html"">GNU APGL</a> license.<br>You can report a <b>bug</b> or demand <b>features</b> on <a href=""https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose"" class=""open-new-icon"">GitHub</a>.<br></p>","<h1>DIAKÔLUÔ V<x-i18n key=""version""></x-i18n></h1><h3>QU'EST DIAKÔLUÔ ?</h3><p>Diakôluô est un projet open-source dans le but d'aider à la révision. Une version pour <a href=""https://github.com/AntoninLoubiere/Diakoluo/releases"" class=""open-new-icon""><b>Android</b></a> et une version <a href=""/WebDiakoluo/index.html""><b>en ligne</b></a> sont disponibles.</p><h3>LE CODE</h3><p>Le code a été fait par: <x-i18n key=""authors""></x-i18n> Le code est disponible sur <a href=""https://gihub.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon"">GitHub</a> sous la license <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html"">GNU APGL</a>.<br>Vous pouvez reporter un <b>bug</b> ou proposer une <b>fonctionalité</b> sur <a href=""https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose"" class=""open-new-icon"">GitHub</a>.<br></p>"
+list-test-h,Your tests:,Vos tests :
+title,Title:,Titre :
+description,Description:,Description :
+columns,Columns:,Colonnes : 
+created-date,Created:,Crée :
+modification-date,Modified:,Modifié :
+data,Data:,Données :
+data-number,Data n°,Donnée n°
+edited-test,Current edited test,Test édité actuellement
+add-column,Add a column,Ajouter une colonne
+add-data,Add a data,Ajouter une donnée
+add-test,Add a test,Ajouter un test
+default-column-title,Column,Colonne
+default-test-title,Test,Test
+default-test-description,A test,Un test
+play-number-data,Number of data to do:,Nombre de donnée a faire :
+skipped,(Skipped),(Passé)
+empty-string,(empty),(vide)
+number-columns,Number of column to show:,Nombre de colonne à montrer
+cookies,Cookies,Cookies
+cookies-message,"Cookies and similar mechanism sont utilisées are used for parameter storage or used for the storage of user data like number of test, number of victories... Data are <b>stored by your navigatpr</b> and are <b>never transmit, stored and handle</b> by external servers.","Les cookies et processus resemblant sont utilisées à des fins de stockage de paramètres ou de stockage des données d'utilisateur tels que les tests, le nombre de victoires... Ces données sont <b>stockées par votre navigateur</b> et ne sont <b>dans aucun cas transmis, stocker et traiter</b> par des serveurs externes."
+cookies-accept,Accept and continue,Accpeter et continuer
+error-storage-c-title,Warning: compatibility,Attention: compatibilité
+error-storage-c-message,"Your navigator isn't compatible with the feature « persistent storage ». Data <u>could</u> be removed by the navigator at any point. So, think to export your data before exiting.",Vôtre navigateur n'est pas compatible avec la fonctionalité « stockage persistent ». Les données <u>peuvent</u> être supprimés par le navigateur. Pensez donc à exporter vos données avant de quitter.
+delete-test-title,Delete this test,Supprimer ce test
+delete-test-message,Are you sure to delete this test ? This action is irreversible.,Êtes vous sûr de vouloir supprimer ce test ? Cette action est irréversible.
+footer-diakoluo,"<img src=""/WebDiakoluo/res/img/favicon.svg"" class=""text-icon"">Diakôluô wep application.","<img src=""/WebDiakoluo/res/img/favicon.svg"" class=""text-icon"">Diakôluô application web - v<x-i18n key=""version""></x-i18n>"
+footer-source-code,"<a href=""https://github.com/AntoninLoubiere/diakoluo-webapp"">Source code</a> by <b>Antonin LOUBIERE</b> under license <a href=""https://www.gnu.org/licenses/agpl-3.0.html""><b>GNU APGL</b></a>.","<a class=""open-new-icon"" href=""https://github.com/AntoninLoubiere/diakoluo-webapp"">Code source</a> par <a class=""open-new-icon"" href=""https://github.com/AntoninLoubiere""><b>Antonin LOUBIERE</b></a> sous license <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html""><b>GNU APGL</b></a>."
+footer-hosted,"Hosted by <a href=""https://github.com""><b>GitHub</b></a>","Hébergé par <a class=""open-new-icon"" href=""https://github.com""><b>GitHub</b></a>"
+footer-about,About,À propos
+footer-legal,Legals mentions,Mentions légales
+footer-report-bug,Report a bug,Signaler un bug
+footer-request-feature,Request an improvement,Proposer une amélioration
+title-index.html,Home page,Page principale
+title-about.html,About,À propos
+title-legal.html,Legals mentions,Mentions légales
