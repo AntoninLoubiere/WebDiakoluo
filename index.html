@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/index.css">
+    <link rel="icon" href="/WebDiakoluo/res/img/favicon.svg" />
+    <script type="text/javascript" src="/WebDiakoluo/res/js/all.min.js" defer=""></script>
+    <script type="text/javascript" src="/WebDiakoluo/res/js/diakoluo.min.js" defer=""></script>
+    <script type="text/javascript" src="/WebDiakoluo/res/js/pages/index.min.js" defer=""></script>
+    <title>Diakôluô</title>
+</head>
+<body class="nav">
+<nav>
+    <a onclick="backToMain(true);" id="nav-logo"><img src="/WebDiakoluo/res/img/favicon.svg"></a>
+    <span id="page-title"></span>
+</nav>
+<main id="loading-page">
+    <h1><x-i18n key="loading"></x-i18n></h1>
+</main>
+<main id="list-page" class="hide">
+    <h1><x-i18n key="list-test-h"></x-i18n></h1>
+    <div id="list-test" class="test-list"></div>
+    <button class="btn image-button"><img src="/WebDiakoluo/res/img/add.svg"><x-i18n key="add-test" onclick="addTestRedirect();"></x-i18n></button>
+</main>
+<main id="view-page" class="hide">
+    <h1 id="view-test-title"></h1>
+    <div class="card">
+        <div class="action-list">
+            <button class="btn image-button compact" onclick="PAGES.view.playTest();">
+                <img src="/WebDiakoluo/res/img/play.svg">
+                <span><x-i18n key="play" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button compact" onclick="PAGES.view.editTest();">
+                <img src="/WebDiakoluo/res/img/edit.svg">
+                <span><x-i18n key="edit" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button compact hide">
+                <img src="/WebDiakoluo/res/img/export.svg">
+                <span><x-i18n key="export" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button compact" onclick="PAGES.view.deleteTest();">
+                <img src="/WebDiakoluo/res/img/delete.svg">
+                <span><x-i18n key="delete" caps="upper"></x-i18n></span>
+            </button>
+        </div>
+        <div class="double-column">
+            <div>
+                <b><x-i18n key="title"></x-i18n></b></x-i18n> <span id="view-test-title2"></span><br>
+                <b><x-i18n key="description"></x-i18n></b> <span id="view-test-description"></span><br>
+                <b><x-i18n key="created-date"></x-i18n></b> <span id="view-test-created-date"></span><br>
+                <b><x-i18n key="modification-date"></x-i18n></b> <span id="view-test-modification-date"></span>
+            </div>
+            <div>
+                <b><x-i18n key="columns"></x-i18n></b>
+                <div id="view-test-columns"></div>
+            </div>
+        </div>
+    </div>
+    <b><x-i18n key="data"></x-i18n></b>
+    <div class="table-parent">
+        <table id="view-test-data" class="table">
+            <thead id="view-test-data-header"></thead>
+            <tbody id="view-test-data-body"></tbody>
+        </table>
+    </div>
+</main>
+<main id="edit-page" class="hide">
+    <div class="card">
+        <div class="double-column">
+            <div class="grid-keys" id="edit-panel">
+                <b><x-i18n key="title"></x-i18n></b></x-i18n> <input type="text" id="edit-test-title" class="unique-line"></input>
+                <b><x-i18n key="description"></x-i18n></b> <textarea id="edit-test-description" class="resize-vertical"></textarea>
+            </div>
+            <div>
+                <b><x-i18n key="columns"></x-i18n></b>
+                <div id="edit-test-columns"></div>
+                <button class="btn image-button" onclick="PAGES.edit.addColumn()"><img src="/WebDiakoluo/res/img/add.svg">
+                    <span><x-i18n key="add-column"></x-i18n></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <b><x-i18n key="data"></x-i18n></b>
+    <div class="table-parent">
+        <table id="edit-test-data" class="table">
+            <thead id="edit-test-data-header"></thead>
+            <tbody id="edit-test-data-body"></tbody>
+        </table>
+    </div>
+    <div class="bottom-bar">
+        <button class="btn image-button" onclick="PAGES.edit.addData()"><img src="/WebDiakoluo/res/img/add.svg">
+                    <span><x-i18n key="add-data"></x-i18n></span>
+                </button>
+        <button class="btn right image-button colored" onclick="PAGES.edit.saveButton();">
+            <img src="/WebDiakoluo/res/img/save_w.svg"><span><x-i18n key="save" caps="upper"></x-i18n></span>
+        </button>
+        <button class="btn right image-button" onclick="PAGES.edit.cancelButton()">
+            <img src="/WebDiakoluo/res/img/cancel.svg"><span><x-i18n key="cancel" caps="upper"></x-i18n></span>
+        </button>
+    </div>
+</main>
+<main id="play-page" class="hide">
+    <form onsubmit="PAGES.play.submitCallback(event);">
+        <h1 id="play-test-title"></h1>
+        <div id="play-progress-parent">
+            <div id="play-progress-text"><span id="play-progress-index"></span>/<span id="play-progress-max"></span></div>
+            <progress id="play-progress" value="75" max="1"></progress>
+        </div>
+        <div id="play-inputs" class="unique-column">
+        </div>
+        <button id="play-continue-button" class="btn image-button colored major" type="submit">
+            <span><x-i18n key="continue" caps="upper" id="play-continue-button-text"></x-i18n></span>
+            <img src="/WebDiakoluo/res/img/play_w.svg">
+        </button>
+    </form>
+</main>
+<main id="play-settings-page" class="hide">
+    <form onsubmit="PAGES.play_settings.playTest(event);">
+        <h1 id="play-set-test-title"></h1>
+        <div id="play-set-params" class="unique-column">
+            <b><x-i18n key="play-number-data"></x-i18n></b>
+            <select id="play-set-number-data">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="1-4">1/4</option>
+                <option value="1-3">1/3</option>
+                <option value="1-2">1/2</option>
+                <option value="1-1">100%</option>
+            </select>
+            <label for="play-set-number-column"><b><x-i18n key="number-columns"></x-i18n></b></label>
+            <div class="flex flex-center">
+                <input type="number" name="columns" id="play-set-number-column" min="1" value="1" required="" />/<span id="play-set-number-column-max"></span>
+            </div>
+        </div>
+        <button id="play-set-start-button" class="btn image-button colored major" type="submit">
+            <span><x-i18n key="play" caps="upper"></x-i18n></span>
+            <img src="/WebDiakoluo/res/img/play_w.svg">
+        </button>
+    </form>
+</main>
+<main id="play-score-page" class="hide">
+    <div id="play-score-progress-parent">
+        <h1 class="no-margin" id="play-score-major">1/10</h1>
+        <progress value="0" max="1" id="play-score-progress"></progress>
+        <h3 class="no-margin" id="play-score-minor">1/10</h3>
+    </div>
+    <button class="btn image-button colored right" onclick="loadPage();">
+        <img src="/WebDiakoluo/res/img/restart_w.svg">
+        <span><x-i18n key="restart" caps="upper"></x-i18n></span>
+    </button>
+    <button class="btn image-button right" onclick="backToMain(true);">
+        <img src="/WebDiakoluo/res/img/home.svg">
+        <span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
+    </button>
+</main>
+<footer class="double-column">
+    <div>
+        <x-i18n key="language"></x-i18n>
+        <div class="selector">
+            <span id="language-selector"></span>
+            <div class="selector-dropdown" id="language-selector-childs"></div>
+        </div>
+        <x-include key="footer-1"></x-include>
+    </div>
+    <div><x-include key="footer-2"></x-include></div>
+</footer>
+<div id="view-test-column-modal" class="modal hide">
+    <div class="modal-content">
+        <header><span id="modal-view-column-title1"></span><button class="modal-close" onclick="PAGES.view.closeColumnModal()">&times;</button></header>
+        <main>
+            <b><x-i18n key="title"></x-i18n></b> <span id="modal-view-column-title2"></span><br>
+            <b><x-i18n key="description"></x-i18n></b> <span id="modal-view-column-description"></span>
+        </main>
+        <footer>
+            <button class="navigation-button" onclick="PAGES.view.firstColumn()">&lt;&lt;</button>
+            <button class="navigation-button" onclick="PAGES.view.previousColumn()">&lt;</button>
+            <button class="right navigation-button" onclick="PAGES.view.lastColumn()">&gt;&gt;</button>
+            <button class="right navigation-button" onclick="PAGES.view.nextColumn()">&gt;</button>
+        </footer>
+    </div>
+</div>
+<div id="view-test-data-modal" class="modal hide">
+    <div class="modal-content">
+        <header><x-i18n key="data-number"></x-i18n><span id="view-test-data-id"></span><button class="modal-close" onclick="PAGES.view.closeDataModal()">&times;</button></header>
+        <main>
+            <div id="view-test-data-content"></div>
+        </main>
+        <footer>
+            <button class="navigation-button" onclick="PAGES.view.firstData()">&lt;&lt;</button>
+            <button class="navigation-button" onclick="PAGES.view.previousData()">&lt;</button>
+            <button class="right navigation-button" onclick="PAGES.view.lastData()">&gt;&gt;</button>
+            <button class="right navigation-button" onclick="PAGES.view.nextData()">&gt;</button>
+        </footer>
+    </div>
+</div>
+<div id="test-delete-confirm-modal" class="modal hide">
+    <div class="modal-content red">
+        <header><x-i18n key="delete-test-title"></x-i18n><button class="modal-close" onclick="hideModal('test-delete-confirm')">&times;</button></header>
+        <main>
+            <p><x-i18n key="delete-test-message"></x-i18n></p>
+            <button class="btn image-button right colored red" onclick="PAGES.view.deleteTestConfirm()"><x-i18n key="delete" caps="upper"></x-i18n></button>
+            <button class="btn image-button right" onclick="hideModal('test-delete-confirm')"><x-i18n key="cancel" caps="upper"></x-i18n></button>
+        </main>
+    </div>
+</div>
+<div id="edit-test-column-modal" class="modal hide">
+    <div class="modal-content">
+        <header><span id="modal-edit-column-title1"></span><button class="modal-close" onclick="PAGES.edit.closeColumnModal()">&times;</button></header>
+        <main class="grid-keys">
+            <b><x-i18n key="title"></x-i18n></b> <input type="text" id="modal-edit-column-title2" onblur="editColumnModalTitle1.textContent = editColumnModalTitle2.value"></input>
+            <b><x-i18n key="description"></x-i18n></b> <textarea id="modal-edit-column-description"></textarea>
+        </main>
+        <footer>
+            <button class="navigation-button" onclick="PAGES.edit.firstColumn()">&lt;&lt;</button>
+            <button class="navigation-button" onclick="PAGES.edit.previousColumn()">&lt;</button>
+            <button class="right navigation-button" onclick="PAGES.edit.lastColumn()">&gt;&gt;</button>
+            <button class="right navigation-button" onclick="PAGES.edit.nextColumn()">&gt;</button>
+        </footer>
+    </div>
+</div>
+<div id="edit-test-data-modal" class="modal hide">
+    <div class="modal-content">
+        <header><x-i18n key="data-number"></x-i18n><span id="edit-test-data-id"></span><button class="modal-close" onclick="PAGES.edit.closeDataModal()">&times;</button></header>
+        <main>
+            <div id="edit-test-data-content" class="unique-column"></div>
+        </main>
+        <footer>
+            <button class="navigation-button" onclick="PAGES.edit.firstData()">&lt;&lt;</button>
+            <button class="navigation-button" onclick="PAGES.edit.previousData()">&lt;</button>
+            <button class="right navigation-button" onclick="PAGES.edit.lastData()">&gt;&gt;</button>
+            <button class="right navigation-button" onclick="PAGES.edit.nextData()">&gt;</button>
+        </footer>
+    </div>
+</div>
+<template id="list-test-child-template">
+    <div class="test">
+        <div class="test-title"></div>
+        <div class="test-description"></div>
+    </div>
+</template>
+<template id="view-column-child-template">
+    <div class="test-column">
+        <img src="/WebDiakoluo/res/img/view.svg" class="view-button"><span class="test-column-text"></span>
+        <span class="test-column-text"></span>
+    </div>
+</template>
+<template id="view-data-child-template">
+    <tr class="data clickable">
+        <td class="min">
+            <img src="/WebDiakoluo/res/img/view.svg" class="view-button"></td>
+        </td>
+    </tr>
+</template>
+<template id="edit-column-child-template">
+    <div class="test-column-edit">
+        <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button"><span class="test-column-text"></span>
+        <span class="test-column-text"></span>
+        <img class="column-close-button" src="/WebDiakoluo/res/img/delete.svg">
+    </div>
+</template>
+<template id="edit-data-child-template">
+    <tr class="data clickable">
+        <td class="min edit-min">
+            <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button"><img class="edit-button data-delete-button" src="/WebDiakoluo/res/img/delete.svg">
+        </td>
+    </tr>
+</template>
+</body>
+</html>
