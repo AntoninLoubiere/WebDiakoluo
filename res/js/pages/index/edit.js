@@ -311,7 +311,7 @@ class EditPage extends Page {
     }
 
     /* when a data is clicked */
-    DataClickCallback(id) {
+    dataClickCallback(id) {
         this.updateDataModal(id);
         currentURL.searchParams.set('data', id + 1);
         history.pushState({}, '', currentURL);
@@ -471,7 +471,7 @@ class EditPage extends Page {
     /* remove a data */
     removeData(index) {
         currentTest.removeData(index);
-        this.removeDataChildPage(index);
+        this.removeDataChild(index);
     }
 
     /* update the modal from an id */
