@@ -135,6 +135,10 @@ select {
     width: 100%;
 }
 
+progress {
+    height: 1.3em;
+}
+
 progress::-moz-progress-bar, progress::-webkit-progress-value {
     background-color: #009688;
     transition: all .3s ease-out;

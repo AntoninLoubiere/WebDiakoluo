@@ -192,17 +192,6 @@
     width: 100%;
 }
 
-#play-progress:before {
-  content: "test";
-  font-size: 0.8em;
-  vertical-align: 0;
-  
-  /*Position text over the progress bar */
-  position:absolute;
-  left:0;
-  right:0;
-}
-
 #play-progress-parent {
     position: relative;
     margin-bottom: .5em;
