@@ -140,6 +140,21 @@
         </button>
     </form>
 </main>
+<main id="play-score-page" class="hide">
+    <div id="play-score-progress-parent">
+        <h1 class="no-margin" id="play-score-major">1/10</h1>
+        <progress value="0" max="1" id="play-score-progress"></progress>
+        <h3 class="no-margin" id="play-score-minor">1/10</h3>
+    </div>
+    <button class="btn image-button colored right" onclick="loadPage();">
+        <img src="/WebDiakoluo/res/img/restart_w.svg">
+        <span><x-i18n key="restart" caps="upper"></x-i18n></span>
+    </button>
+    <button class="btn image-button right" onclick="backToMain(true);">
+        <img src="/WebDiakoluo/res/img/home.svg">
+        <span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
+    </button>
+</main>
 <footer class="double-column">
     <div>
         <x-i18n key="language"></x-i18n>

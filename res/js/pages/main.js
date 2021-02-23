@@ -35,30 +35,34 @@ function loadPage() {
     if (page && currentPage.pageName == page) {
         if (currentPage.onupdate) {
             console.debug("Update page", page);
-            if (currentPage.requireTest) loadPageRequiringTest(page, true);
+            if (currentPage.requireTest) loadPageRequiringTest(true);
             else currentPage.onupdate?.();
         }
     } else {
         console.debug("Load page", page);
 
-        currentPage.hide();
-        if (currentModal) {
-            hideModal(currentModal); 
-            currentModal = null;
-        }
-        currentState = {};
+        setPage(PAGES[page.replaceAll('-', '_')] || defaultPage);
+    }
+}
 
-        currentPage = PAGES[page.replaceAll('-', '_')] || defaultPage;
-        if (currentPage.requireTest) {
-            loadPageRequiringTest();
-        } else {
-            currentPage.onload?.();
-        }
+function setPage(page) {
+    currentPage.hide();
+    if (currentModal) {
+        hideModal(currentModal); 
+        currentModal = null;
+    }
+    currentState = {};
+    
+    currentPage = page;
+    if (currentPage.requireTest) {
+        loadPageRequiringTest();
+    } else {
+        currentPage.onload?.();
     }
 }
 
 /* load a page that require a test */
-function loadPageRequiringTest(page, update = false) {
+function loadPageRequiringTest(update = false) {
     var testId = Number(currentURL.searchParams.get('test'));
     if (testId) {
         if (testId != currentTest?.id) {

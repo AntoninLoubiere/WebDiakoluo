@@ -41,7 +41,12 @@ class Column {
     /* get a dom element that show the data */
     getViewView(data) {
         var e = document.createElement('span');
-        e.textContent = data.value;
+        if (data.value)
+            e.textContent = data.value;
+        else {
+            e.textContent = getTranslation('empty-string');
+            e.style.fontStyle = "italic";
+        }
         return e;
     }
 
@@ -60,14 +65,18 @@ class Column {
         return i;
     }
 
-    /* set the score and show the answer of the view */
-    updateAnswerTestView(data, view) {
+    /* set the score and show the answer of the view and apply score */
+    updateAnswerTestView(data, view, score) {
         var value = this.getValueFromView(view);
         if (this.isRight(data, value)) {
+            score?.pushScore(1, 1);
+
             var e = this.getViewView(value);
             e.classList.add('right-answer');
             return e;
         } else if (this.isSkipped(data, value)) {
+            score?.pushScore(0, 1);
+
             var div = document.createElement('div');
             div.appendChild(Column.getSkippedView());
             var e = this.getViewView(data);
@@ -76,6 +85,8 @@ class Column {
 
             return div;
         }  else {
+            score?.pushScore(0, 1);
+
             var div = document.createElement('div');
             var e = this.getViewView(value);
             e.classList.add('wrong-answer');

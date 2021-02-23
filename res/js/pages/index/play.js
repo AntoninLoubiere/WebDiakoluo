@@ -8,6 +8,27 @@ const playProgressBar = document.getElementById('play-progress');
 const playProgressIndex = document.getElementById('play-progress-index');
 const playProgressMax = document.getElementById('play-progress-max');
 
+/* A score context that hold the score of the session */
+class ScoreContext {
+    /* initialise */
+    constructor() {
+        this.score = 0;
+        this.max = 0;
+    }
+
+    /* start a new session */
+    reset() {
+        this.score = 0;
+        this.max = 0;
+    }
+
+    /* add a score */
+    pushScore(score, max) {
+        this.score += score;
+        this.max += max;
+    }
+}
+
 class PlayPage extends Page {
     constructor() {
         super(playPageView, "play", true);
@@ -19,6 +40,7 @@ class PlayPage extends Page {
         this.answerIsShow = false;
         this.numberColumns = null;
         this.columnsAsked = null;
+        this.score = new ScoreContext();
     }
 
     onload() {
@@ -31,7 +53,7 @@ class PlayPage extends Page {
         }
 
         if (this.dataNumberToDo.length == 1) {
-            this.dataNumberToDo = Number(this.dataNumberToDo[0]);
+            this.dataNumberToDo = clamp(Number(this.dataNumberToDo[0]), 1, currentTest.data.length);
             if (!this.dataNumberToDo) {
                 backToMain();
                 return;
@@ -54,14 +76,11 @@ class PlayPage extends Page {
 
         this.numberColumns = clamp(this.numberColumns, 1, currentTest.columns.length);
 
-        console.log(this.numberColumns);
-
         this.currentIndex = 0;
         this.answerIsShow = false;
         this.dataIndexes = randomUniqueNumberList(this.dataNumberToDo, currentTest.data.length);
 
-        playPageTestTitle.textContent = currentTest.title;
-        playProgressMax.textContent = this.dataNumberToDo;
+        this.score.reset();
 
         this.initialise();
 
@@ -78,6 +97,11 @@ class PlayPage extends Page {
 
     /* initialise the UI */
     initialise() {
+        removeAllChildren(playPageInputs);
+
+        playPageTestTitle.textContent = currentTest.title;
+        playProgressMax.textContent = this.dataNumberToDo;
+
         var e;
         for (var i = 0; i < currentTest.columns.length; i++) {
             e = document.createElement('h3');
@@ -90,16 +114,18 @@ class PlayPage extends Page {
     }
 
     /* update the UI */
-    update() {
+    update(applyScore = false) {
         var row = currentTest.data[this.dataIndexes[this.currentIndex]];
         
         if (this.answerIsShow) {
+            var score = applyScore ? this.score : null;
             for (var i = 0; i < currentTest.columns.length; i++) {
                 if (this.columnsAsked[i]) {
                     playPageInputs.replaceChild(
                         currentTest.columns[i].updateAnswerTestView(
                             row[i],  
-                            playPageInputs.children[i * 2 + 1]),
+                            playPageInputs.children[i * 2 + 1],
+                            score),
                         playPageInputs.children[i * 2 + 1]
                     );
                 }                
@@ -127,7 +153,10 @@ class PlayPage extends Page {
                 }
             }
             playPageContinueButtonText.setAttribute('key', 'valid');
-            playPageInputs.children[1].focus();
+            var i = 0;
+            while (!this.columnsAsked[i] && ++i < currentTest.columns.length - 1) {}
+            playPageInputs.children[i * 2 + 1].focus();
+ 
             playProgressBar.value = this.currentIndex / this.dataNumberToDo;
             playProgressIndex.textContent = this.currentIndex + 1; // humanify
         }
@@ -140,13 +169,14 @@ class PlayPage extends Page {
         if (this.answerIsShow) {
             this.answerIsShow = false;
             if (++this.currentIndex >= this.dataNumberToDo) {
-                console.log("End !");
+                playScorePage.setScore(this.score);
+                setPage(playScorePage);
             } else {
                 this.update();
             }
         } else {
             this.answerIsShow = true;
-            this.update();
+            this.update(true);
         }
     }
 }

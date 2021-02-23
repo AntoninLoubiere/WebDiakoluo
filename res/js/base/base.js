@@ -23,7 +23,6 @@ function randint(maxi) {
 
 /* get a list of n numbers between 0 and maxi all unique. Maxi isn't include */
 function randomUniqueNumberList(n, maxi) {
-    console.assert(n <= maxi, "Infinite loop error !");
     if (n <= maxi) {
         var arr = [];
         var r;

@@ -24,6 +24,7 @@ COMPILE_FILES = {
         'res/js/pages/index/edit.js',
         'res/js/pages/index/play.js',
         'res/js/pages/index/play-settings.js',
+        'res/js/pages/index/play-score.js',
     ]
 }
 

@@ -135,6 +135,11 @@ select {
     width: 100%;
 }
 
+progress::-moz-progress-bar, progress::-webkit-progress-value {
+    background-color: #009688;
+    transition: all .3s ease-out;
+}
+
 input.unique-line {
     max-height: 1em;
 }
