@@ -1,6 +1,10 @@
 var columnsClass = [];
 
 class Column {
+    static SET_CAN_BE_SHOW = 1; // 1 << 0
+    static SET_CAN_BE_ASK = 2; // 1 << 1
+    static DEFAULT_SETTINGS = Column.SET_CAN_BE_SHOW | Column.SET_CAN_BE_ASK;
+
     /* cast a column */
     static cast(column) {
         var columnClass;
@@ -30,6 +34,7 @@ class Column {
         if (name != null) {
             this.name = name;
             this.description = description;
+            this.settings = Column.DEFAULT_SETTINGS;
         }
     }
 
@@ -122,5 +127,35 @@ class Column {
     /* get the default value of data for the column */
     getDefaultValue() {
         console.error("Not overrided");
+    }
+
+    /* get the settings view of the column */
+    getViewColumnSettings() {
+        var div = document.createElement('div');
+        div.classList = ['unique-column'];
+        
+        div.appendChild(
+            booleanView(
+                this.getSettings(Column.SET_CAN_BE_SHOW), 
+                getTranslation('column-can-show')
+            )
+        );
+        div.appendChild(
+            booleanView(
+                this.getSettings(Column.SET_CAN_BE_ASK), 
+                getTranslation('column-can-asked')
+            )
+        );
+        return div;
+    }
+
+    /* get some parameters in settings */
+    getSettings(params) {
+        return this.settings & params === params;
+    }
+
+    /* set some parameters in settings */
+    setSettings(params, value) {
+        this.settings = value ? this.settings | params : this.settings & ~params;
     }
 }   

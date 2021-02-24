@@ -552,6 +552,16 @@ footer.double-column > div:first-child {
     grid-gap: .2em;
 }
 
+.boolean-true {
+    padding-left: 1.2em;
+    background: no-repeat left url("/WebDiakoluo/res/img/right.svg");
+}
+
+.boolean-false {
+    padding-left: 1.2em;
+    background: no-repeat left url("/WebDiakoluo/res/img/wrong.svg");
+}
+
 #nav-logo {
     display: inline-block;
     height: 2em;
