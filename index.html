@@ -47,18 +47,18 @@
         </div>
         <div class="double-column">
             <div>
-                <b><x-i18n key="title"></x-i18n></b></x-i18n> <span id="view-test-title2"></span><br>
-                <b><x-i18n key="description"></x-i18n></b> <span id="view-test-description"></span><br>
-                <b><x-i18n key="created-date"></x-i18n></b> <span id="view-test-created-date"></span><br>
-                <b><x-i18n key="modification-date"></x-i18n></b> <span id="view-test-modification-date"></span>
+                <b><x-i18n key="title"></x-i18n> :</b></x-i18n> <span id="view-test-title2"></span><br>
+                <b><x-i18n key="description"></x-i18n> :</b> <span id="view-test-description"></span><br>
+                <b><x-i18n key="created-date"></x-i18n> :</b> <span id="view-test-created-date"></span><br>
+                <b><x-i18n key="modification-date"></x-i18n> :</b> <span id="view-test-modification-date"></span>
             </div>
             <div>
-                <b><x-i18n key="columns"></x-i18n></b>
+                <b><x-i18n key="columns"></x-i18n> :</b>
                 <div id="view-test-columns"></div>
             </div>
         </div>
     </div>
-    <b><x-i18n key="data"></x-i18n></b>
+    <b><x-i18n key="data"></x-i18n> :</b>
     <div class="table-parent">
         <table id="view-test-data" class="table">
             <thead id="view-test-data-header"></thead>
@@ -70,11 +70,11 @@
     <div class="card">
         <div class="double-column">
             <div class="grid-keys" id="edit-panel">
-                <b><x-i18n key="title"></x-i18n></b></x-i18n> <input type="text" id="edit-test-title" class="unique-line"></input>
-                <b><x-i18n key="description"></x-i18n></b> <textarea id="edit-test-description" class="resize-vertical"></textarea>
+                <b><x-i18n key="title"></x-i18n> :</b></x-i18n> <input type="text" id="edit-test-title" class="unique-line"></input>
+                <b><x-i18n key="description"></x-i18n> :</b> <textarea id="edit-test-description" class="resize-vertical"></textarea>
             </div>
             <div>
-                <b><x-i18n key="columns"></x-i18n></b>
+                <b><x-i18n key="columns"></x-i18n> :</b>
                 <div id="edit-test-columns"></div>
                 <button class="btn image-button" onclick="PAGES.edit.addColumn()"><img src="/WebDiakoluo/res/img/add.svg">
                     <span><x-i18n key="add-column"></x-i18n></span>
@@ -82,7 +82,7 @@
             </div>
         </div>
     </div>
-    <b><x-i18n key="data"></x-i18n></b>
+    <b><x-i18n key="data"></x-i18n> :</b>
     <div class="table-parent">
         <table id="edit-test-data" class="table">
             <thead id="edit-test-data-header"></thead>
@@ -213,8 +213,14 @@
     <div class="modal-content">
         <header><span id="modal-edit-column-title1"></span><button class="modal-close" onclick="PAGES.edit.closeColumnModal()">&times;</button></header>
         <main class="grid-keys">
-            <b><x-i18n key="title"></x-i18n></b> <input type="text" id="modal-edit-column-title2" onblur="editColumnModalTitle1.textContent = editColumnModalTitle2.value"></input>
-            <b><x-i18n key="description"></x-i18n></b> <textarea id="modal-edit-column-description"></textarea>
+            <b><x-i18n key="title"></x-i18n> :</b> <input type="text" id="modal-edit-column-title2" onblur="editColumnModalTitle1.textContent = editColumnModalTitle2.value"></input>
+            <b><x-i18n key="description"></x-i18n> :</b> <textarea id="modal-edit-column-description"></textarea>
+            <div id="modal-edit-column-settings-parent">
+                <b><x-i18n key="settings"></x-i18n> :</b>
+                <div id="modal-edit-column-settings">
+                    <div></div><!-- required because of child replace-->
+                </div>
+            </div>
         </main>
         <footer>
             <button class="navigation-button" onclick="PAGES.edit.firstColumn()">&lt;&lt;</button>

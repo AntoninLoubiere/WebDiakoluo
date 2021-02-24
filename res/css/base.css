@@ -148,6 +148,10 @@ input.unique-line {
     max-height: 1em;
 }
 
+input[type='checkbox'] {
+    vertical-align: middle;
+}
+
 img {
     vertical-align: middle;
 }

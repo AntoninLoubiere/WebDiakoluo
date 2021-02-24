@@ -135,23 +135,48 @@ class Column {
         div.classList = ['unique-column'];
         
         div.appendChild(
-            booleanView(
+            VIEW_UTILS.booleanView(
                 this.getSettings(Column.SET_CAN_BE_SHOW), 
                 getTranslation('column-can-show')
             )
         );
         div.appendChild(
-            booleanView(
+            VIEW_UTILS.booleanView(
                 this.getSettings(Column.SET_CAN_BE_ASK), 
-                getTranslation('column-can-asked')
+                getTranslation('column-can-ask')
             )
         );
         return div;
     }
 
+    /* get the settings view of the column */
+    getEditColumnSettings() {
+        var div = document.createElement('div');
+        div.classList = ['unique-column'];
+        
+        div.appendChild(VIEW_UTILS.booleanEdit(
+            this.getSettings(Column.SET_CAN_BE_SHOW), 
+            getTranslation('column-can-show'),
+            'column-show'
+        ));
+
+        div.appendChild(VIEW_UTILS.booleanEdit(
+            this.getSettings(Column.SET_CAN_BE_ASK), 
+            getTranslation('column-can-ask'),
+            'column-ask'
+        ));
+        return div;
+    }
+
+    /* set the settings from the view */
+    setEditColumnSettings(view) {
+        this.setSettings(Column.SET_CAN_BE_SHOW, view.querySelector('#column-show').checked);
+        this.setSettings(Column.SET_CAN_BE_ASK, view.querySelector('#column-ask').checked);
+    }
+
     /* get some parameters in settings */
     getSettings(params) {
-        return this.settings & params === params;
+        return (this.settings & params) === params;
     }
 
     /* set some parameters in settings */

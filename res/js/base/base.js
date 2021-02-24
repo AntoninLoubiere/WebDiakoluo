@@ -36,3 +36,8 @@ function randomUniqueNumberList(n, maxi) {
         throw new Error("Infinite loop warning !");
     }
 }
+
+/* get a random id */
+function randomId() {
+    return Math.random().toString(36).substr(2, 9);
+}
