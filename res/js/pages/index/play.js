@@ -35,19 +35,21 @@ class PlayPage extends Page {
 
         // define test context
         this.dataNumberToDo = null;
+        this.numberColumnsRandomReveal = null;
         this.currentIndex = null;
         this.dataIndexes = null;
         this.answerIsShow = false;
-        this.numberColumns = null;
         this.columnsAsked = null;
         this.score = new ScoreContext();
+        this.playInputs = [];
+        this.randomInputs = 0;
     }
 
     onload() {
         this.dataNumberToDo = currentURL.searchParams.get("data")?.split('-') ?? [];
-        this.numberColumns = Number(currentURL.searchParams.get("columns"));
+        this.numberColumnsRandomReveal = Number(currentURL.searchParams.get("columns"));
 
-        if (!Number.isInteger(this.numberColumns)) {
+        if (!Number.isInteger(this.numberColumnsRandomReveal)) {
             backToMain();
             return;
         }
@@ -74,7 +76,7 @@ class PlayPage extends Page {
             return;
         }
 
-        this.numberColumns = clamp(this.numberColumns, 1, currentTest.columns.length);
+        this.numberColumnsRandomReveal = clamp(this.numberColumnsRandomReveal, 0, currentTest.columns.length - 1);
 
         this.currentIndex = 0;
         this.answerIsShow = false;
@@ -101,15 +103,51 @@ class PlayPage extends Page {
 
         playPageTestTitle.textContent = currentTest.title;
         playProgressMax.textContent = this.dataNumberToDo;
+        this.playInputs = [];
+        this.randomInputs = 0;
+
+        var show_only = 0;
+        var ask_only = 0;
 
         var e;
+        var c;
+        var p;
+        var set_show;
+        var set_ask;
+        var is_random;
         for (var i = 0; i < currentTest.columns.length; i++) {
-            e = document.createElement('h3');
-            e.classList = ['no-margin'];
-            e.textContent = currentTest.columns[i].name;
-            playPageInputs.appendChild(e);
-            playPageInputs.appendChild(document.createElement('div')); // setup a dummy element
+            c = currentTest.columns[i];
+
+            set_show = c.getSettings(Column.SET_CAN_BE_SHOW);
+            set_ask = c.getSettings(Column.SET_CAN_BE_ASK);
+
+            if (set_show || set_ask) {
+                is_random = set_show && set_ask;
+                e = document.createElement('h3');
+                e.classList = ['no-margin'];
+                e.textContent = c.name;
+                playPageInputs.appendChild(e);
+                e = document.createElement('div');
+                this.playInputs.push(new PlayInput(i, c, e, set_show, set_ask, is_random));
+                playPageInputs.appendChild(e); // setup a dummy element
+
+                if (is_random) this.randomInputs++;
+                else if (set_show) {
+                    show_only++;
+                }
+                else {
+                    this.numberColumnsRandomReveal--;
+                    ask_only++;
+                }
+            }
         }
+
+        this.numberColumnsRandomReveal = clamp(
+            this.numberColumnsRandomReveal, 
+            show_only ? 0 : 1,
+            ask_only ? this.randomInputs : this.randomInputs - 1
+        );
+
         this.update();
     }
 
@@ -118,43 +156,64 @@ class PlayPage extends Page {
         var row = currentTest.data[this.dataIndexes[this.currentIndex]];
         
         if (this.answerIsShow) {
+            var j = 0;
             var score = applyScore ? this.score : null;
-            for (var i = 0; i < currentTest.columns.length; i++) {
-                if (this.columnsAsked[i]) {
-                    playPageInputs.replaceChild(
-                        currentTest.columns[i].updateAnswerTestView(
-                            row[i],  
-                            playPageInputs.children[i * 2 + 1],
-                            score),
-                        playPageInputs.children[i * 2 + 1]
-                    );
-                }                
+            for (var i = 0; i < this.playInputs.length; i++) {
+                if (this.playInputs[i].set_ask) {
+                    if (!this.playInputs[i].is_random || this.columnsAsked[j++]) {
+                        this.playInputs[i].showAnswer(row, score);
+                    }
+                }
+                // if (this.columnsAsked[i]) {
+                //     playPageInputs.replaceChild(
+                //         currentTest.columns[i].updateAnswerTestView(
+                //             row[i],  
+                //             playPageInputs.children[i * 2 + 1],
+                //             score),
+                //         playPageInputs.children[i * 2 + 1]
+                //     );
+                // }                
             }
             playPageContinueButtonText.setAttribute('key', 'continue');
             playProgressBar.value = (this.currentIndex + 1) / this.dataNumberToDo;
             playProgressIndex.textContent = this.currentIndex + 1; // humanify
         } else {
             this.columnsAsked = new Array(currentTest.columns.length).fill(true);
-            var i = this.numberColumns;
+            var i = this.numberColumnsRandomReveal;
             var j;
             while (i > 0) {
-                j = randint(currentTest.columns.length);
+                j = randint(this.randomInputs);
                 if (this.columnsAsked[j]) {
                     i--;
                     this.columnsAsked[j] = false;
                 }
             }
-
-            for (var i = 0; i < currentTest.columns.length; i++) {
-                if (this.columnsAsked[i]) {
-                    playPageInputs.replaceChild(currentTest.columns[i].getTestView(row[i]), playPageInputs.children[i * 2 + 1]);
-                } else {
-                    playPageInputs.replaceChild(currentTest.columns[i].getViewView(row[i]), playPageInputs.children[i * 2 + 1]);
+            j = 0;
+            for (var i = 0; i < this.playInputs.length; i++) {
+                if (this.playInputs[i].is_random) {
+                    if (this.columnsAsked[j++]) {
+                        this.playInputs[i].ask(row);
+                    } else {
+                        this.playInputs[i].show(row);
+                    }
+                } else if (this.playInputs[i].set_ask) {
+                    this.playInputs[i].ask(row);
+                } else if (this.playInputs[i].set_show) {
+                    this.playInputs[i].show(row);
                 }
+                // if (this.columnsAsked[i]) {
+                //     playPageInputs.replaceChild(currentTest.columns[i].getTestView(row[i]), playPageInputs.children[i * 2 + 1]);
+                // } else {
+                //     playPageInputs.replaceChild(currentTest.columns[i].getViewView(row[i]), playPageInputs.children[i * 2 + 1]);
+                // }
             }
             playPageContinueButtonText.setAttribute('key', 'valid');
             var i = 0;
-            while (!this.columnsAsked[i] && ++i < currentTest.columns.length - 1) {}
+            console.log(this.playInputs)
+            while ((
+                    (this.playInputs[i].is_random && !this.columnsAsked[j++]) || 
+                    this.playInputs[i].set_ask) && 
+                ++i < this.playInputs.length - 1) {}
             playPageInputs.children[i * 2 + 1].focus();
  
             playProgressBar.value = this.currentIndex / this.dataNumberToDo;
@@ -178,6 +237,47 @@ class PlayPage extends Page {
             this.answerIsShow = true;
             this.update(true);
         }
+    }
+}
+
+class PlayInput {
+    constructor(index, column, view, set_show, set_ask, is_random) {
+        this.index = index;
+        this.column = column;
+        this.view = view;
+        this.set_show = set_show;
+        this.set_ask = set_ask;
+        this.is_random = is_random;
+    }
+
+    /* ask the input */
+    ask(row) {
+        var e = this.column.getTestView(row[this.index]);
+        playPageInputs.replaceChild(
+            e,
+            this.view
+        );
+        this.view = e;
+    }
+
+    /* show the input */
+    show(row) {
+        var e = this.column.getViewView(row[this.index]);
+        playPageInputs.replaceChild(
+            e,
+            this.view
+        );
+        this.view = e;
+    }
+
+    /* show the answer */
+    showAnswer(row, score) {
+        var e = this.column.updateAnswerTestView(row[this.index], this.view, score);
+        playPageInputs.replaceChild(
+            e,
+            this.view
+        );
+        this.view = e;
     }
 }
 

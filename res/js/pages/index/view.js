@@ -168,7 +168,7 @@ class ViewPage extends Page {
             viewColumnModalTitle1.textContent = column.name;
             viewColumnModalTitle2.textContent = column.name;
             viewColumnModalDescription.textContent = column.description;
-            viewColumnModalSettings.replaceChildren(
+            viewColumnModalSettings.replaceChild(
                 column.getViewColumnSettings(),
                 viewColumnModalSettings.children[0]
             );

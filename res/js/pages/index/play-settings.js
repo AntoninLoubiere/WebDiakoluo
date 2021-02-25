@@ -22,8 +22,7 @@ class PlaySettingsPage extends Page {
 
         playSetPageTestTitle.textContent = currentTest.title;
 
-        playSetPageNumberColumns.max = currentTest.columns.length - 1; // cannot be max
-        playSetPageNumberColumnsMax.textContent = playSetPageNumberColumns.max;
+        this.setMinMaxColumns();
 
         var maxData = currentTest.data.length;
         var d;
@@ -36,6 +35,40 @@ class PlaySettingsPage extends Page {
 
         playSetPageView.classList.remove('hide');
         setPageTitle(currentTest.title);
+    }
+
+    /* set the minimum and the maximum of the columns input */
+    setMinMaxColumns() {
+        var min = 0;
+        var max = 0; // a column must be show
+        var askOnly = false;
+        var columnCount = 0;
+        var c;
+        for (var i = 0; i < currentTest.columns.length; i++) {
+            c = currentTest.columns[i];
+            if (c.getSettings(Column.SET_CAN_BE_ASK)) {
+                if (c.getSettings(Column.SET_CAN_BE_SHOW)) {
+                    max++;
+                } else {
+                    askOnly = true;                    
+                }     
+                columnCount++;
+            } else if (c.getSettings(Column.SET_CAN_BE_SHOW)) {
+                min++;
+                max++;
+                columnCount++;
+            }
+        }
+
+        if (!askOnly) {
+            max--;
+        }
+        if (min <= 0)
+            min = 1;
+
+        playSetPageNumberColumns.min = min;
+        playSetPageNumberColumns.max = max;
+        playSetPageNumberColumnsMax.textContent = columnCount;
     }
 
     /* play the test */
