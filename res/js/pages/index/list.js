@@ -3,6 +3,8 @@ const listPageTestList = document.getElementById('list-test');
 
 const testListTemplate = document.getElementById('list-test-child-template');
 
+const listPageImportInput = document.getElementById('import-test-input');
+
 class ListPage extends Page {
     constructor() {
         super(listPageView, "", false);
@@ -13,6 +15,13 @@ class ListPage extends Page {
         updatePageTitle('title-index.html');
         listPageView.classList.remove('hide');
         this.reloadList();
+    }
+
+    onkeydown(event) {
+        if (event.keyCode == KeyboardEvent.DOM_VK_ESCAPE) {
+            if (currentModal)
+                hideModal(currentModal);
+        }
     }
 
     /* reload the test list */
@@ -45,7 +54,22 @@ class ListPage extends Page {
                 }
             }
         };
-    } 
+    }
+
+    importTest() {
+        showModal('import-test');
+        currentModal = 'import-test';
+        history.pushState({}, '');
+    }
+
+    importTestCallback(event) {
+        event.preventDefault();
+        hideModal('import-test');
+
+        for (var i = 0; i < listPageImportInput.files.length; i++) {
+            FILE_MANAGER.importTest(listPageImportInput.files[i], this.reloadList);
+        }
+    }
 }
 
 const defaultPage = new ListPage();

@@ -22,7 +22,14 @@
 <main id="list-page" class="hide">
     <h1><x-i18n key="list-test-h"></x-i18n></h1>
     <div id="list-test" class="test-list"></div>
-    <button class="btn image-button"><img src="/WebDiakoluo/res/img/add.svg"><x-i18n key="add-test" onclick="addTestRedirect();"></x-i18n></button>
+    <button class="btn image-button">
+        <img src="/WebDiakoluo/res/img/add.svg">
+        <span><x-i18n key="add-test" onclick="addTestRedirect();"></x-i18n></span>
+    </button>
+    <button class="btn image-button" onclick="currentPage.importTest()">
+        <img src="/WebDiakoluo/res/img/import.svg">
+        <span><x-i18n key="import-test" onclick=""></x-i18n></span>
+    </button>
 </main>
 <main id="view-page" class="hide">
     <h1 id="view-test-title"></h1>
@@ -242,6 +249,20 @@
             <button class="right navigation-button" onclick="PAGES.edit.lastData()">&gt;&gt;</button>
             <button class="right navigation-button" onclick="PAGES.edit.nextData()">&gt;</button>
         </footer>
+    </div>
+</div>
+<div class="modal hide" id="import-test-modal">
+    <div class="modal-content">
+        <header><x-i18n key="import-test"></x-i18n><button class="modal-close" onclick="hideModal('import-test')">&times;</button></header>
+        <main>
+            <form id="import-form" onsubmit="currentPage.importTestCallback(event)" class="unique-column">
+                <input type="file" id="import-test-input" required="" multiple="" accept=".dkl,text/plain,application/json">
+                <button type="submit" class="btn image-button colored">
+                    <img src="/WebDiakoluo/res/img/import_w.svg">
+                        <span><x-i18n key="import" caps="upper"></x-i18n></span>
+                </button>
+            </form>
+        </main>
     </div>
 </div>
 <template id="list-test-child-template">

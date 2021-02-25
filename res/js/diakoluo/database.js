@@ -87,10 +87,8 @@ class DatabaseManager {
             console.error("DB not initialised !");
             return;
         }
-        if (!test.id) {
-            test.id = this.freeIndex;
-            this.freeIndex++;
-        }
+        test.id = this.freeIndex;
+        this.freeIndex++;
         var transaction = this.testDBEditor.transaction(['header', 'tests'], "readwrite");
         var header = transaction.objectStore('header');
         var tests = transaction.objectStore('tests');

@@ -21,6 +21,13 @@ class Column {
         }
     }
 
+    static import(column) {
+        if (typeof column.type !== "string") {
+            return null;
+        }
+        return Column.cast(column);
+    }
+
     static getSkippedView() {
         var e = document.createElement('span');
         e.textContent = getTranslation('skipped');
@@ -182,5 +189,10 @@ class Column {
     /* set some parameters in settings */
     setSettings(params, value) {
         this.settings = value ? this.settings | params : this.settings & ~params;
+    }
+
+    /* when importing, verify that a data is valid */
+    verifyData(data) {
+        return typeof data.value === "string";
     }
 }   

@@ -220,6 +220,10 @@
     grid-column: 1/1;
 }
 
+#import-form {
+    grid-gap: .5em;
+}
+
 @media (min-width: 800px) {
     #modal-edit-column-settings-parent {
         grid-column: 1/3;

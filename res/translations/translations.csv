@@ -6,6 +6,7 @@ continue,Continue,Continuer
 restart,Restart,Recommencer
 main-menu,Main menu,Menu principal
 export,Export,Exporter
+import,Import,Importer
 save,Save,Sauvegarder
 delete,Delete,Supprimer
 all,All,Tous
@@ -31,6 +32,7 @@ edited-test,Current edited test,Test édité actuellement
 add-column,Add a column,Ajouter une colonne
 add-data,Add a data,Ajouter une donnée
 add-test,Add a test,Ajouter un test
+import-test,Import a test,Importer un test
 default-column-title,Column,Colonne
 default-test-title,Test,Test
 default-test-description,A test,Un test

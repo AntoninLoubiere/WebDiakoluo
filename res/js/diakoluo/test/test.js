@@ -17,6 +17,46 @@ class Test {
         return Object.assign(new Test(), test);
     }
 
+    static import(test) {
+        if (typeof test?.title !== "string" || 
+            typeof test.description !== "string" ||
+            !Array.isArray(test.columns) ||
+            !Array.isArray(test.data)||
+            typeof test.createDate !== "string" ||
+            typeof test.lastModificationDate !== "string") {            
+            
+            return null;
+        }
+
+        test.createDate = new Date(test.createDate);
+        test.lastModificationDate = new Date(test.lastModificationDate);
+
+        var nb_c = test.columns.length;
+        for (var i = 0; i < test.data.length; i++) {
+            if (test.data[i].length != nb_c) {
+                throw new Error("Data length isn't the same as columns");
+            }
+        }
+
+        var columns = [];
+        var c;
+        for (var i = 0; i < test.columns.length; i++) {
+            c = Column.import(test.columns[i]);
+            if (c)
+                columns.push(c);
+            else return null;
+        }
+        test.columns = columns;
+
+        for (var i = 0; i < test.data.length; i++) {
+            for (var j = 0; j < test.columns.length; j++) {
+                if (!test.columns[j].verifyData(test.data[i][j]))
+                    return null;
+            } 
+        }
+        return Object.assign(new Test(), test);   
+    }
+
     /* construct an object, if first param is null, don't create any fields */
     constructor(title, description = "") {
         if (title != null) {
