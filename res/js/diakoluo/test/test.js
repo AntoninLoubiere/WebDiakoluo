@@ -89,4 +89,21 @@ class Test {
     removeData(index) {
         this.data.splice(index, 1);
     }
+
+    /* get string */
+    toString() {
+        var id = this.id;
+        delete this.id;
+        var str = JSON.stringify(this);
+        this.id = id;
+        return str;
+    }
+
+    getFilename() {
+        return this.title
+            .replaceAll(' ', '_')
+            .replaceAll('.', '_')
+            .replaceAll('/', '_')
+            .replaceAll('\\', '_') + '.dkl';
+    }
 }
