@@ -215,3 +215,13 @@
 #play-score-progress {
     align-self: stretch;
 }
+
+#modal-edit-column-settings-parent {
+    grid-column: 1/1;
+}
+
+@media (min-width: 800px) {
+    #modal-edit-column-settings-parent {
+        grid-column: 1/3;
+    }
+}

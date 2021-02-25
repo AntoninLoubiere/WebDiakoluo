@@ -10,6 +10,7 @@ const editPageDataTableBody = document.getElementById('edit-test-data-body');
 const editColumnModalTitle1 = document.getElementById('modal-edit-column-title1');
 const editColumnModalTitle2 = document.getElementById('modal-edit-column-title2');
 const editColumnModalDescription = document.getElementById('modal-edit-column-description');
+const editColumnModalSettings = document.getElementById('modal-edit-column-settings')
 
 const editDataModalContent = document.getElementById('edit-test-data-content');
 const editDataModalId = document.getElementById('edit-test-data-id');
@@ -406,6 +407,9 @@ class EditPage extends Page {
         var column = currentTest.columns[currentState.id];
         column.name = editColumnModalTitle2.value;
         column.description = editColumnModalDescription.value;
+
+        column.setEditColumnSettings(editColumnModalSettings);
+
         this.updateColumnChild(currentState.id);
     }
 
@@ -489,6 +493,11 @@ class EditPage extends Page {
             editColumnModalTitle1.textContent = column.name;
             editColumnModalTitle2.value = column.name;
             editColumnModalDescription.value = column.description;
+
+            editColumnModalSettings.replaceChild(
+                column.getEditColumnSettings(),
+                editColumnModalSettings.children[0]
+            );
         }
     }
 

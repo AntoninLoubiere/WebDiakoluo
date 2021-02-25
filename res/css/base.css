@@ -148,6 +148,10 @@ input.unique-line {
     max-height: 1em;
 }
 
+input[type='checkbox'] {
+    vertical-align: middle;
+}
+
 img {
     vertical-align: middle;
 }
@@ -550,6 +554,16 @@ footer.double-column > div:first-child {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: .2em;
+}
+
+.boolean-true {
+    padding-left: 1.2em;
+    background: no-repeat left url("/WebDiakoluo/res/img/right.svg");
+}
+
+.boolean-false {
+    padding-left: 1.2em;
+    background: no-repeat left url("/WebDiakoluo/res/img/wrong.svg");
 }
 
 #nav-logo {
