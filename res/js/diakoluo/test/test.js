@@ -139,6 +139,35 @@ class Test {
         return str;
     }
 
+    /* get the test as csv file */
+    getCsv(columnName, columnType) {
+        var csv = "";
+        if (columnName) {
+            for (var i = 0; i < this.columns.length; i++) {
+                if (i > 0) csv += FILE_MANAGER.CSV_SEPARATOR;
+                csv += FILE_MANAGER.toCsvCell(this.columns[i].name);
+            }
+            csv += FILE_MANAGER.CSV_LINE_SEPARATOR;
+        }
+
+        if (columnType) {
+            for (var i = 0; i < this.columns.length; i++) {
+                if (i > 0) csv += FILE_MANAGER.CSV_SEPARATOR;
+                csv += FILE_MANAGER.toCsvCell(this.columns[i].getType());
+            }
+            csv += FILE_MANAGER.CSV_LINE_SEPARATOR;
+        }
+
+        for (var i = 0; i < this.data.length; i++) {
+            for (var j = 0; j < this.columns.length; j++) {
+                if (j > 0) csv += FILE_MANAGER.CSV_SEPARATOR;
+                csv += FILE_MANAGER.toCsvCell(this.columns[j].getCsvValue(this.data[i][j]));
+            }
+            csv += FILE_MANAGER.CSV_LINE_SEPARATOR;
+        }
+        return csv;
+    }
+
     getFilename() {
         return this.title
             .replaceAll(' ', '_')

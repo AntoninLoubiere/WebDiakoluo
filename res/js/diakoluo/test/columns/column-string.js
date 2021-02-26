@@ -6,5 +6,9 @@ class ColumnString extends Column {
     getDefaultValue() {
         return {value: ""};
     }
+
+    getType() {
+        return "String";
+    }
 }
 columnsClass.push(ColumnString);

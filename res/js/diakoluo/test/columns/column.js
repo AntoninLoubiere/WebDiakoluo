@@ -50,6 +50,11 @@ class Column {
         return data.value;
     }
 
+    /* Get the csv value (not escaped) */
+    getCsvValue(data) {
+        return data.value;
+    }
+
     /* get a dom element that show the data */
     getViewView(data) {
         var e = document.createElement('span');
@@ -133,7 +138,12 @@ class Column {
 
     /* get the default value of data for the column */
     getDefaultValue() {
-        console.error("Not overrided");
+        throw new Error("Not overrided");
+    }
+
+    /* get the type of the column (a string) */
+    getType() {
+        throw new Error("Not overrided");
     }
 
     /* get the settings view of the column */

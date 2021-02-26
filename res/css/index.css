@@ -224,6 +224,10 @@
     grid-gap: .5em;
 }
 
+#export-button {
+    margin-top: .7em;
+}
+
 @media (min-width: 800px) {
     #modal-edit-column-settings-parent {
         grid-column: 1/3;
