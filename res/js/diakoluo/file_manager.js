@@ -5,8 +5,8 @@ class FILE_MANAGER {
 
     /* export the test (download the file) */
     static exportTest(test) {
-        const a = document.createElement('a');  
         const t = FILE_MANAGER.getTestBlob(test);
+        const a = document.createElement('a');  
 
         a.href= URL.createObjectURL(t);
         a.download = test.getFilename();
@@ -17,14 +17,29 @@ class FILE_MANAGER {
 
     /* export the test in the csv format*/
     static exportCsvTest(test, columnName, columnType) {
-        const a = document.createElement('a');  
         const t = FILE_MANAGER.getTestBlobCsv(test, columnName, columnType);
+        const a = document.createElement('a');  
 
         a.href= URL.createObjectURL(t);
         a.download = test.getFilename();
         a.click();
 
         URL.revokeObjectURL(t);
+    }
+
+    /* export all tests */
+    static exportAllTest() {
+        FILE_MANAGER.getAllTestBlobCsv()
+            .then((t) => {
+                const a = document.createElement('a');  
+
+                a.href= URL.createObjectURL(t);
+                a.download = getTranslation('export-all-filename');
+                a.click();
+
+                URL.revokeObjectURL(t);
+            })
+            .catch((e) => {console.warn("Error", e);/* TODO */})
     }
 
     /* import a test */
@@ -37,7 +52,12 @@ class FILE_MANAGER {
                     try {
                         var t = formatDkl ? Test.import(JSON.parse(f.result)) : 
                                             Test.importCsv(new CsvContext(file, f.result), csvColumnName, csvColumnType);
-                        if (t) {
+                        if (Array.isArray(t)) {
+                            for (var i = 0; i < t.length; i++) {
+                                DATABASE_MANAGER.addNewTest(t[i]);
+                            }
+                            resolve();
+                        } else if (t) {
                             DATABASE_MANAGER.addNewTest(t);
                             resolve();
                         } else {
@@ -57,16 +77,22 @@ class FILE_MANAGER {
 
     /* get the type of file, return true for dkl and false for csv */
     static getTypeFile(file) {
-        if (file.name.endsWith('.dkl')) {
-            return true;
-        } else if (file.name.endsWith('.csv')) {
-            return false;
-        } else {
-            return (startsWithIgnoreSpace(f.result, '{') ||
-                    startsWithIgnoreSpace(f.result, '[')) &&
-                   (endsWithIgnoreSpace(f.result, '}') ||
-                    endsWithIgnoreSpace(f.result, ']'))
-        }
+        return new Promise((resolve, reject) => {
+            if (file.name.endsWith('.dkl')) {
+                resolve(true);
+            } else if (file.name.endsWith('.csv')) {
+                resolve(false);
+            } else {
+                var f = new FileReader();
+                f.onload = () => {
+                    resolve((startsWithIgnoreSpace(f.result, '{') ||
+                             startsWithIgnoreSpace(f.result, '[')) &&
+                            (endsWithIgnoreSpace(f.result, '}') ||
+                             endsWithIgnoreSpace(f.result, ']')));
+                }
+                f.onerror = reject;
+            }
+        });
     }
 
     /* return the blob of the test */
@@ -77,6 +103,24 @@ class FILE_MANAGER {
     /* return the blob of the test in csv */
     static getTestBlobCsv(test, columnName, columnType) {
         return new Blob([test.getCsv(columnName, columnType)], {type: 'text/csv'});
+    }
+
+    /* return the blob of all test in csv */
+    static getAllTestBlobCsv(test) {
+        return new Promise((resolve, reject) => {
+            var data = [];
+            DATABASE_MANAGER.forEach((test) => {
+                if (test)
+                    data.push(test.toString());
+                else {
+                    if (data) {
+                        resolve(new Blob(['[' + data.join(',') + ']'], {type: 'application/diakoluo'}));
+                    } else {
+                        reject();
+                    }
+                }
+            });
+        });
     }
 
     /* return the cell of the string (escape chars) */

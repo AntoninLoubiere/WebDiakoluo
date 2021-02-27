@@ -53,6 +53,8 @@ file-type,Format,Format
 export-warning-csv,This format doen’t support all the features of the applications.,Ce format ne supporte pas toutes les fonctionnalités de l’application.
 export-csv-column-name,Export the name of the columns,Exporter le nom des colonnes
 export-csv-column-type,Export the type of the columns,Exporter le type des colonnes
+export-all-test,Export all tests,Exporter tous les tests
+export-all-filename,tests.dkl,tests.dkl
 import-csv-column-name,Import the name of the columns,Importer le nom des colonnes
 import-csv-column-type,Import the type of the columns,Importer le type des colonnes
 footer-diakoluo,"<img src=""/WebDiakoluo/res/img/favicon.svg"" class=""text-icon"">Diakôluô wep application.","<img src=""/WebDiakoluo/res/img/favicon.svg"" class=""text-icon"">Diakôluô application web - v<x-i18n key=""version""></x-i18n>"

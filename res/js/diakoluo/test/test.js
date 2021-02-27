@@ -18,6 +18,13 @@ class Test {
     }
 
     static import(test) {
+        if (Array.isArray(test)) {
+            var tests = [];
+            for (var i = 0; i < test.length; i++) {
+                tests.push(Test.import(test[i]));
+            }
+            return tests;
+        }
         if (typeof test?.title !== "string" || 
             typeof test.description !== "string" ||
             !Array.isArray(test.columns) ||

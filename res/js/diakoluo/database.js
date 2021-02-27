@@ -168,6 +168,34 @@ class DatabaseManager {
         }
         return this.testDBEditor.transaction(['header']).objectStore('header').openCursor();
     }
+
+    /* get the cursor to get all childs (except edit) */
+    forEach(callback) {
+        if (this.freeIndex == null) {
+            console.error("DB not initialised !");
+            return;
+        }
+        this.testDBEditor.transaction(['tests']).objectStore('tests').openCursor().onsuccess = event => {
+            var cursor = event.target.result;
+            if (cursor) {
+                var id = cursor.value.id;
+                if (id != EDIT_KEY) {
+                    try {
+                        var test = Test.cast(cursor.value);
+                    } catch(e) {
+                        console.error("Error while casting the test !", e);
+                        cursor.continue();
+                        return;
+                    }
+                    callback(test);
+                }
+                cursor.continue();
+            } else {
+                callback();
+            }
+        };
+    }
+
     /* set the on loaded callback */
     setOnLoaded(c) {
         if (this.freeIndex == null) {

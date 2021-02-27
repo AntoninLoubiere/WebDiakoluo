@@ -42,6 +42,7 @@ function randomId() {
     return Math.random().toString(36).substr(2, 9);
 }
 
+/* get if str starts with start (ignoring spaces) */
 function startsWithIgnoreSpace(str, start) {
     var j = 0;
     var c;
@@ -57,12 +58,13 @@ function startsWithIgnoreSpace(str, start) {
     return false;
 }
 
-function endsWithIgnoreSpace(str, start) {
-    var j = start.length - 1;
+/* get if str ends with end (ignoring spaces) */
+function endsWithIgnoreSpace(str, end) {
+    var j = end.length - 1;
     var c;
     for (var i = str.length - 1; i >= 0 ; i--) {
         c = str[i];
-        if (c === start[j]) {
+        if (c === end[j]) {
             if (--j < 0)
                 return true;
         } else if (c !== ' ' && c !== '\n' && c !== '\t' && c !== '\r') {
