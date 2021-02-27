@@ -9,7 +9,7 @@ class Column {
     static cast(column) {
         var columnClass;
         for (var i = 0; i < columnsClass.length; i++) {
-            if (column.type == columnsClass[i].name) {
+            if (column.type == columnsClass[i].TYPE || columnsClass[i].name) { // backward compatibilty
                 columnClass = columnsClass[i];
                 break;
             }
@@ -21,6 +21,7 @@ class Column {
         }
     }
 
+    /* import a column */
     static import(column) {
         if (typeof column.type !== "string") {
             return null;
@@ -28,11 +29,26 @@ class Column {
         return Column.cast(column);
     }
 
+    /* get the skipped view */
     static getSkippedView() {
         var e = document.createElement('span');
         e.textContent = getTranslation('skipped');
         e.classList = ['skipped-answer'];
         return e;
+    }
+
+    /* get the class constructor from the type */
+    static getColumnClassCsv(type) {
+        var columnClass;
+        if (type) type = type.toLowerCase();
+        else return ColumnString;
+        for (var i = 0; i < columnsClass.length; i++) {
+            if (type == columnsClass[i].TYPE.toLowerCase()) {
+                return columnsClass[i];
+            }
+        }
+
+        return ColumnString;
     }
 
     /* create a column if second field is null, 0 fieds will be instentiate. Type represent the class name id */
@@ -141,11 +157,6 @@ class Column {
         throw new Error("Not overrided");
     }
 
-    /* get the type of the column (a string) */
-    getType() {
-        throw new Error("Not overrided");
-    }
-
     /* get the settings view of the column */
     getViewColumnSettings() {
         var div = document.createElement('div');
@@ -204,5 +215,10 @@ class Column {
     /* when importing, verify that a data is valid */
     verifyData(data) {
         return typeof data.value === "string";
+    }
+
+    /* cast a data from a csv cell */
+    getDataFromCsv(cell) {
+        return {value: cell};
     }
 }   

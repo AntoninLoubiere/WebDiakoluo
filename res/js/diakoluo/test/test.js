@@ -57,6 +57,44 @@ class Test {
         return Object.assign(new Test(), test);   
     }
 
+    /* import from a csv file */
+    static importCsv(csv, columnName, columnType) {
+        var columns = [];
+        var data = [];
+        if (columnName) {
+            var columnsName = FILE_MANAGER.readLine(csv);
+        }
+
+        if (columnType) {
+            var columnType = FILE_MANAGER.readLine(csv);
+        }
+
+        var line = FILE_MANAGER.readLine(csv);
+        for (var i = 0; i < line.length; i++) {
+            columns.push(new (Column.getColumnClassCsv(columnType?.[i]))
+                (columnName ? columnsName[i] : (getTranslation('default-column-title') + ' ' + (i + 1))))
+        }
+
+        var row;
+        do {
+            row = [];
+            for (var i = 0; i < columns.length; i++) {
+                row.push(columns[i].getDataFromCsv(line[i]));
+            }
+            data.push(row);
+        } while ((line = FILE_MANAGER.readLine(csv)).length > 0);
+
+        if (columns.length > 0) {
+            var t = new Test(csv.file.name.replace(/\.[^/.]*$/, ''));
+            if (csv.file.lastModified) t.createDate = t.lastModificationDate = new Date(csv.file.lastModified);
+            t.columns = columns;
+            t.data = data;
+            return t;
+        } else {
+            return null;
+        }
+    }
+
     /* construct an object, if first param is null, don't create any fields */
     constructor(title, description = "") {
         if (title != null) {
@@ -153,7 +191,7 @@ class Test {
         if (columnType) {
             for (var i = 0; i < this.columns.length; i++) {
                 if (i > 0) csv += FILE_MANAGER.CSV_SEPARATOR;
-                csv += FILE_MANAGER.toCsvCell(this.columns[i].getType());
+                csv += FILE_MANAGER.toCsvCell(this.columns[i].constructor.TYPE);
             }
             csv += FILE_MANAGER.CSV_LINE_SEPARATOR;
         }

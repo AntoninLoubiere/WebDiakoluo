@@ -256,7 +256,20 @@
         <header><x-i18n key="import-test"></x-i18n><button class="modal-close" onclick="hideModal('import-test')">&times;</button></header>
         <main>
             <form id="import-form" onsubmit="currentPage.importTestCallback(event)" class="unique-column">
-                <input type="file" id="import-test-input" required="" multiple="" accept=".dkl,text/plain,application/json">
+                <input type="file" id="import-test-input" required="" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv" onchange="currentPage.importFileChange();">
+                <div class="grid-keys" id="export-test-parent">
+                    <b><x-i18n key="file-type"></x-i18n> : </b>
+                    <select id="import-test-select" required="" onchange="currentPage.importSelectChange();">
+                        <option value="dkl" selected="">.dkl</option>
+                        <option value="csv">.csv</option>
+                    </select>
+                </div>
+                <div id="import-csv" class="hide">
+                    <input type="checkbox" name="" id="import-csv-column-name" checked="">
+                    <label for="import-csv-column-name"><x-i18n key="import-csv-column-name"></x-i18n></label><br>
+                    <input type="checkbox" name="" id="import-csv-column-type" checked="">
+                    <label for="import-csv-column-type"><x-i18n key="import-csv-column-type"></x-i18n></label>
+                </div>
                 <button type="submit" class="btn image-button colored">
                     <img src="/WebDiakoluo/res/img/import_w.svg">
                     <span><x-i18n key="import" caps="upper"></x-i18n></span>

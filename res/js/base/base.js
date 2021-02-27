@@ -41,3 +41,33 @@ function randomUniqueNumberList(n, maxi) {
 function randomId() {
     return Math.random().toString(36).substr(2, 9);
 }
+
+function startsWithIgnoreSpace(str, start) {
+    var j = 0;
+    var c;
+    for (var i = 0; i < str.length; i++) {
+        c = str[i];
+        if (c === start[j]) {
+            if (++j >= start.length)
+                return true;
+        } else if (c !== ' ' && c !== '\n' && c !== '\t' && c !== '\r') {
+            return false;
+        }
+    }
+    return false;
+}
+
+function endsWithIgnoreSpace(str, start) {
+    var j = start.length - 1;
+    var c;
+    for (var i = str.length - 1; i >= 0 ; i--) {
+        c = str[i];
+        if (c === start[j]) {
+            if (--j < 0)
+                return true;
+        } else if (c !== ' ' && c !== '\n' && c !== '\t' && c !== '\r') {
+            return false;
+        }
+    }
+    return false;
+}
