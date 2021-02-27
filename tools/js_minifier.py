@@ -12,6 +12,7 @@ COMPILE_FILES = {
     'res/js/diakoluo.min.js': [
         'res/js/diakoluo/database.js',
         'res/js/diakoluo/main.js',
+        'res/js/diakoluo/file_manager.js',
         'res/js/diakoluo/test/test.js',
         'res/js/diakoluo/test/columns/column.js',
         'res/js/diakoluo/test/columns/column-string.js',

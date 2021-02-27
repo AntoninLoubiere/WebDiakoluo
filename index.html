@@ -22,7 +22,18 @@
 <main id="list-page" class="hide">
     <h1><x-i18n key="list-test-h"></x-i18n></h1>
     <div id="list-test" class="test-list"></div>
-    <button class="btn image-button"><img src="/WebDiakoluo/res/img/add.svg"><x-i18n key="add-test" onclick="addTestRedirect();"></x-i18n></button>
+    <button class="btn image-button">
+        <img src="/WebDiakoluo/res/img/add.svg">
+        <span><x-i18n key="add-test" onclick="addTestRedirect();"></x-i18n></span>
+    </button>
+    <button class="btn image-button" onclick="currentPage.importTest()">
+        <img src="/WebDiakoluo/res/img/import.svg">
+        <span><x-i18n key="import-test" onclick=""></x-i18n></span>
+    </button>
+    <button class="btn image-button" onclick="currentPage.exportAllTest()">
+        <img src="/WebDiakoluo/res/img/export.svg">
+        <span><x-i18n key="export-all-test" onclick=""></x-i18n></span>
+    </button>
 </main>
 <main id="view-page" class="hide">
     <h1 id="view-test-title"></h1>
@@ -36,7 +47,7 @@
                 <img src="/WebDiakoluo/res/img/edit.svg">
                 <span><x-i18n key="edit" caps="upper"></x-i18n></span>
             </button>
-            <button class="btn image-button compact hide">
+            <button class="btn image-button compact" onclick="PAGES.view.exportTest();">
                 <img src="/WebDiakoluo/res/img/export.svg">
                 <span><x-i18n key="export" caps="upper"></x-i18n></span>
             </button>
@@ -242,6 +253,62 @@
             <button class="right navigation-button" onclick="PAGES.edit.lastData()">&gt;&gt;</button>
             <button class="right navigation-button" onclick="PAGES.edit.nextData()">&gt;</button>
         </footer>
+    </div>
+</div>
+<div class="modal hide" id="import-test-modal">
+    <div class="modal-content">
+        <header><x-i18n key="import-test"></x-i18n><button class="modal-close" onclick="hideModal('import-test')">&times;</button></header>
+        <main>
+            <form id="import-form" onsubmit="currentPage.importTestCallback(event)" class="unique-column">
+                <input type="file" id="import-test-input" required="" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv" onchange="currentPage.importFileChange();">
+                <div class="grid-keys" id="export-test-parent">
+                    <b><x-i18n key="file-type"></x-i18n> : </b>
+                    <select id="import-test-select" required="" onchange="currentPage.importSelectChange();">
+                        <option value="dkl" selected="">.dkl</option>
+                        <option value="csv">.csv</option>
+                    </select>
+                </div>
+                <div id="import-csv" class="hide">
+                    <input type="checkbox" name="" id="import-csv-column-name" checked="">
+                    <label for="import-csv-column-name"><x-i18n key="import-csv-column-name"></x-i18n></label><br>
+                    <input type="checkbox" name="" id="import-csv-column-type" checked="">
+                    <label for="import-csv-column-type"><x-i18n key="import-csv-column-type"></x-i18n></label>
+                </div>
+                <button type="submit" class="btn image-button colored">
+                    <img src="/WebDiakoluo/res/img/import_w.svg">
+                    <span><x-i18n key="import" caps="upper"></x-i18n></span>
+                </button>
+            </form>
+        </main>
+    </div>
+</div>
+<div class="modal hide" id="export-test-modal">
+    <div class="modal-content">
+        <header><x-i18n key="export"></x-i18n><button class="modal-close" onclick="hideModal('export-test')">&times;</button></header>
+        <main>
+            <form id="export-form" onsubmit="PAGES.view.exportTestConfirm(event)" class="unique-column">
+                <div class="grid-keys" id="export-test-parent">
+                    <b><x-i18n key="file-type"></x-i18n> : </b>
+                    <select id="export-test-select" onchange="PAGES.view.exportWarningCsv();" required="">
+                        <option value="dkl" selected="">.dkl</option>
+                        <option value="csv">.csv</option>
+                    </select>
+                </div>
+                <div id="export-csv" class="hide">
+                    <div>
+                        <b><x-i18n key="export-warning-csv"></x-i18n></b>
+                    </div>
+                    <input type="checkbox" name="" id="export-csv-column-name" checked="">
+                    <label for="export-csv-column-name"><x-i18n key="export-csv-column-name"></x-i18n></label><br>
+                    <input type="checkbox" name="" id="export-csv-column-type" checked="">
+                    <label for="export-csv-column-type"><x-i18n key="export-csv-column-type"></x-i18n></label>
+                </div>
+                <button type="submit" class="btn image-button colored" id="export-button">
+                    <img src="/WebDiakoluo/res/img/export_w.svg">
+                    <span><x-i18n key="export" caps="upper"></x-i18n></span>
+                </button>
+            </form>
+        </main>
     </div>
 </div>
 <template id="list-test-child-template">

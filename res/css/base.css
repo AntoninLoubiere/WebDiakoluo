@@ -8,7 +8,7 @@ html {
 body {
     margin: 0;
     font-family: "Roboto", sans-serif;
-    font-size: 1.2em;
+    font-size: 1em;
     text-align: justify;
     min-height: calc(100% - 2.7em);
 }
@@ -601,6 +601,10 @@ footer.double-column > div:first-child {
 }
 
 @media (min-width: 800px) {
+    body {
+        font-size: 1.2em;
+    }
+
     button.image-button.compact {
         width: auto;
         padding: 0 .5em;
