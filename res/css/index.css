@@ -228,6 +228,12 @@
     margin-top: .7em;
 }
 
+.columns-settings hr {
+    width: 50%;
+    border: none;
+    border-top: #333 dotted 3px;
+}
+
 @media (min-width: 800px) {
     #modal-edit-column-settings-parent {
         grid-column: 1/3;
