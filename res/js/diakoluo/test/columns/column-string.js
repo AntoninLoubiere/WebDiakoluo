@@ -20,10 +20,18 @@ class ColumnString extends Column {
 
     /* get if a value is right */
     isRight(data, value) {
-        if (this.getSettings(ColumnString.SET_CASE_SENSITIVE)) {
-            return data.value === value.value;
+        if (this.getSettings(ColumnString.SET_TRIM_SPACES)) {
+            var dv = data.value.trim(); 
+            var v = value.value.trim(); 
         } else {
-            return data.value.toLowerCase() === value.value.toLowerCase();
+            var dv = data.value; 
+            var v = value.value;
+        }
+        
+        if (this.getSettings(ColumnString.SET_CASE_SENSITIVE)) {
+            return dv === v;
+        } else {
+            return dv.toLowerCase() === v.toLowerCase();
         }
     }
 
