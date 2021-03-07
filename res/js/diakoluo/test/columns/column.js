@@ -86,8 +86,7 @@ class Column {
 
     /* get the view that can edit the data */
     getEditView(data) {
-        var i = document.createElement('input');
-        i.type = 'text';
+        var i = this.getTestView(data);
         i.value = data.value;
         return i;
     }

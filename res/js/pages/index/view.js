@@ -63,7 +63,7 @@ class ViewPage extends Page {
             row = viewDataTemplate.content.cloneNode(true);
             for (var j = 0; j < currentTest.data[i].length; j++) {
                 e = document.createElement('td');
-                e.textContent = currentTest.columns[j].getDataValueString(currentTest.data[i][j]);
+                e.appendChild(currentTest.columns[j].getViewView(currentTest.data[i][j]);
                 row.children[0].appendChild(e);
             }
             row.children[0].onclick = () => {
@@ -202,9 +202,7 @@ class ViewPage extends Page {
                 e.classList = ['no-margin']
                 viewDataModalContent.appendChild(e);
 
-                e = document.createElement('div');
-                e.textContent = column.getDataValueString(row[i]);
-                viewDataModalContent.appendChild(e);
+                viewDataModalContent.appendChild(column.getViewView(row[i]));
             }
         }
     }

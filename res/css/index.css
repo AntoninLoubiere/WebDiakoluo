@@ -1,3 +1,15 @@
+span.column-string-long {
+    white-space: pre-wrap;
+}
+
+td .column-string-long {
+    white-space: inherit;
+}
+
+textarea.column-string-long {
+    resize: vertical;
+}
+
 #loading {
     cursor: wait;
 }
