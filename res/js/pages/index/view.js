@@ -63,7 +63,7 @@ class ViewPage extends Page {
             row = viewDataTemplate.content.cloneNode(true);
             for (var j = 0; j < currentTest.data[i].length; j++) {
                 e = document.createElement('td');
-                e.appendChild(currentTest.columns[j].getViewView(currentTest.data[i][j]);
+                e.appendChild(currentTest.columns[j].getViewView(currentTest.data[i][j]));
                 row.children[0].appendChild(e);
             }
             row.children[0].onclick = () => {

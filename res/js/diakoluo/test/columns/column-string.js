@@ -9,7 +9,7 @@ class ColumnString extends Column {
     constructor(name, description="") {
         super(ColumnString.TYPE, name, description);
         if (name) {
-            this.settings |= SET_TRIM_SPACES;
+            this.settings |= ColumnString.SET_TRIM_SPACES;
         }
     }
 
