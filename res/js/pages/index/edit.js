@@ -249,7 +249,7 @@ class EditPage extends Page {
         var e;
         for (var j = 0; j < currentTest.data[index].length; j++) {
             e = document.createElement('td');
-            e.textContent = currentTest.columns[j].getDataValueString(currentTest.data[index][j]);
+            e.appendChild(currentTest.columns[j].getViewView(currentTest.data[index][j]));
             row.children[0].appendChild(e);
         }
         row.children[0].onclick = () => {
@@ -268,7 +268,7 @@ class EditPage extends Page {
         var e;
         for (var j = 0; j < currentTest.columns.length; j++) {
             e = row.children[j + 1]; // +1 because of the min td at first
-            e.textContent = currentTest.columns[j].getDataValueString(currentTest.data[index][j]);
+            e.replaceChild(currentTest.columns[j].getViewView(currentTest.data[index][j]), e.children[0]);
         }
     }
 

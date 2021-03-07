@@ -1,6 +1,7 @@
 var columnsClass = [];
 
 class Column {
+    // first 1 byte is reserved
     static SET_CAN_BE_SHOW = 1; // 1 << 0
     static SET_CAN_BE_ASK = 2; // 1 << 1
     static DEFAULT_SETTINGS = Column.SET_CAN_BE_SHOW | Column.SET_CAN_BE_ASK;
@@ -85,8 +86,7 @@ class Column {
 
     /* get the view that can edit the data */
     getEditView(data) {
-        var i = document.createElement('input');
-        i.type = 'text';
+        var i = this.getTestView(data);
         i.value = data.value;
         return i;
     }

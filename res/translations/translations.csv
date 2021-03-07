@@ -41,23 +41,26 @@ skipped,(Skipped),(Passé)
 empty-string,(empty),(vide)
 number-columns,Number of column to show:,Nombre de colonne à montrer
 cookies,Cookies,Cookies
-cookies-message,"Cookies and similar mechanism sont utilisées are used for parameter storage or used for the storage of user data like number of test, number of victories... Data are <b>stored by your navigatpr</b> and are <b>never transmit, stored and handle</b> by external servers.","Les cookies et processus resemblant sont utilisées à des fins de stockage de paramètres ou de stockage des données d'utilisateur tels que les tests, le nombre de victoires... Ces données sont <b>stockées par votre navigateur</b> et ne sont <b>dans aucun cas transmis, stocker et traiter</b> par des serveurs externes."
-cookies-accept,Accept and continue,Accpeter et continuer
+cookies-message,"Cookies and similar mechanism sont utilisées are used for parameter storage or used for the storage of user data like number of test, number of victories... Data are <b>stored by your navigatpr</b> and are <b>never transmit, stored and handle</b> by external servers.","Les cookies et processus ressemblant sont utilisées à des fins de stockage de paramètres ou de stockage des données d'utilisateur tels que les tests, le nombre de victoires... Ces données sont <b>stockées par votre navigateur</b> et ne sont <b>dans aucun cas transmis, stocker et traiter</b> par des serveurs externes."
+cookies-accept,Accept and continue,Accepter et continuer
 error-storage-c-title,Warning: compatibility,Attention: compatibilité
-error-storage-c-message,"Your navigator isn't compatible with the feature « persistent storage ». Data <u>could</u> be removed by the navigator at any point. So, think to export your data before exiting.",Vôtre navigateur n'est pas compatible avec la fonctionalité « stockage persistent ». Les données <u>peuvent</u> être supprimés par le navigateur. Pensez donc à exporter vos données avant de quitter.
+error-storage-c-message,"Your navigator isn't compatible with the feature « persistent storage ». Data <u>could</u> be removed by the navigator at any point. So, think to export your data before exiting.",Vôtre navigateur n'est pas compatible avec la fonctionnalité « stockage persistent ». Les données <u>peuvent</u> être supprimés par le navigateur. Pensez donc à exporter vos données avant de quitter.
 delete-test-title,Delete this test,Supprimer ce test
 delete-test-message,Are you sure to delete this test ? This action is irreversible.,Êtes vous sûr de vouloir supprimer ce test ? Cette action est irréversible.
 column-can-show,Can be reveal,Peut être révélée
 column-can-ask,Can be asked,Peut être demandée
+column-string-case-sensitive,Case sensitive,Sensible aux majuscules
+column-string-trim-spaces,Remove useless spaces (start and end spaces),Supprimer les espaces inutiles (espaces devant et derrières)
+column-string-long,Multi-lines,Multi-lignes
 file-type,Format,Format
-export-warning-csv,This format doen’t support all the features of the applications.,Ce format ne supporte pas toutes les fonctionnalités de l’application.
+export-warning-csv,This format doesn’t support all the features of the applications.,Ce format ne supporte pas toutes les fonctionnalités de l’application.
 export-csv-column-name,Export the name of the columns,Exporter le nom des colonnes
 export-csv-column-type,Export the type of the columns,Exporter le type des colonnes
 export-all-test,Export all tests,Exporter tous les tests
 export-all-filename,tests.dkl,tests.dkl
 import-csv-column-name,Import the name of the columns,Importer le nom des colonnes
 import-csv-column-type,Import the type of the columns,Importer le type des colonnes
-footer-diakoluo,"<img src=""/WebDiakoluo/res/img/favicon.svg"" class=""text-icon"">Diakôluô wep application.","<img src=""/WebDiakoluo/res/img/favicon.svg"" class=""text-icon"">Diakôluô application web - v<x-i18n key=""version""></x-i18n>"
+footer-diakoluo,"<img src=""/WebDiakoluo/res/img/favicon.svg"" class=""text-icon"">Diakôluô web application.","<img src=""/WebDiakoluo/res/img/favicon.svg"" class=""text-icon"">Diakôluô application web - v<x-i18n key=""version""></x-i18n>"
 footer-source-code,"<a href=""https://github.com/AntoninLoubiere/diakoluo-webapp"">Source code</a> by <b>Antonin LOUBIERE</b> under license <a href=""https://www.gnu.org/licenses/agpl-3.0.html""><b>GNU APGL</b></a>.","<a class=""open-new-icon"" href=""https://github.com/AntoninLoubiere/diakoluo-webapp"">Code source</a> par <a class=""open-new-icon"" href=""https://github.com/AntoninLoubiere""><b>Antonin LOUBIERE</b></a> sous license <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html""><b>GNU APGL</b></a>."
 footer-hosted,"Hosted by <a href=""https://github.com""><b>GitHub</b></a>","Hébergé par <a class=""open-new-icon"" href=""https://github.com""><b>GitHub</b></a>"
 footer-about,About,À propos

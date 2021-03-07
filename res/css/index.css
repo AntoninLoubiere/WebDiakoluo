@@ -1,3 +1,15 @@
+span.column-string-long {
+    white-space: pre-wrap;
+}
+
+td .column-string-long {
+    white-space: inherit;
+}
+
+textarea.column-string-long {
+    resize: vertical;
+}
+
 #loading {
     cursor: wait;
 }
@@ -226,6 +238,12 @@
 
 #export-button {
     margin-top: .7em;
+}
+
+.columns-settings hr {
+    width: 50%;
+    border: none;
+    border-top: #333 dotted 3px;
 }
 
 @media (min-width: 800px) {
