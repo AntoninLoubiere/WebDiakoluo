@@ -73,3 +73,7 @@ function endsWithIgnoreSpace(str, end) {
     }
     return false;
 }
+
+if('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/WebDiakoluo/sw.js', {scope: '/WebDiakoluo/'});
+}
