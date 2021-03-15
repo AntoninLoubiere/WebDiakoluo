@@ -13,9 +13,10 @@ for d in DIRS:
             if not name.startswith('.'):
                 services_files.append(os.path.join(root, name))
 
-services_files = ['f.push("/WebDiakoluo/{}");'.format(f) for f in services_files]
+services_files = ['/WebDiakoluo/{}'.format(f) for f in services_files]
 services_files.append('/')
 services_files.append('/css/index.css')
+services_files = ['f.push("{}");'.format(f) for f in services_files]
 
 file = ""
 with open(SERVICE_WORKER_TEMPLATE, 'r') as fir:

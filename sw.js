@@ -65,8 +65,8 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/translations/en.json");
     f.push("/WebDiakoluo/res/translations/fr.json");
     f.push("/WebDiakoluo/res/translations/translations.csv");
-    /
-    /css/index.css
+    f.push("/");
+    f.push("/css/index.css");
     return f;
 }
 
