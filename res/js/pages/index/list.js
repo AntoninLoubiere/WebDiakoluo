@@ -9,9 +9,18 @@ const importModalCsv = document.getElementById('import-csv');
 const importModalCsvColumnName = document.getElementById('import-csv-column-name');
 const importModalCsvColumnType = document.getElementById('import-csv-column-type');
 
+document.getElementById('list-add-button').onclick = addTestRedirect;
+
 class ListPage extends Page {
     constructor() {
         super(listPageView, "", false);
+
+        document.getElementById('import-form').onsubmit = this.importTestCallback.bind(this);
+        document.getElementById('list-import-button').onclick = this.importTest.bind(this);
+        document.getElementById('list-export-all-button').onclick = this.exportAllTest.bind(this);
+        
+        importModalInput.onchange = this.importFileChange.bind(this);
+        importModalSelect.onchange = this.importSelectChange.bind(this);
     }
 
     /* load list page */

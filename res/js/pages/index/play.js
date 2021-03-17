@@ -43,6 +43,8 @@ class PlayPage extends Page {
         this.score = new ScoreContext();
         this.playInputs = [];
         this.randomInputs = 0;
+
+        document.getElementById('play-form').onsubmit = this.submitCallback.bind(this);
     }
 
     onload() {

@@ -43,3 +43,21 @@ function deleteModal(id) {
 function modalShowCheck(id) {
     localStorage.setItem(id, document.getElementById('modal-show').checked);
 }
+
+class ButtonModal extends HTMLButtonElement {
+  constructor() {
+    super();
+    this.modalName = this.getAttribute('modal-name');
+    this.modalAction = this.getAttribute('modal-action');
+    this.addEventListener("click", this.onclick);
+  }
+  onclick() {
+    if (this.modalAction == 'show') {
+        showModal(this.modalName);
+    } else if (this.modalAction == 'hide') {
+        hideModal(this.modalName);
+    }
+  }
+}
+
+customElements.define('button-modal', ButtonModal, { extends: 'button' });

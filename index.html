@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
     <link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/base.css">
     <link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/index.css">
     <link rel="icon" href="/WebDiakoluo/res/img/favicon.svg" />
@@ -13,7 +14,7 @@
 </head>
 <body class="nav">
 <nav>
-    <a onclick="backToMain(true);" id="nav-logo"><img src="/WebDiakoluo/res/img/favicon.svg"></a>
+    <a id="nav-logo"><img src="/WebDiakoluo/res/img/favicon.svg"></a>
     <span id="page-title"></span>
     <span><img id="nav-offline" src="/WebDiakoluo/res/img/offline_w.svg"></img></span>
 </nav>
@@ -23,36 +24,36 @@
 <main id="list-page" class="hide">
     <h1><x-i18n key="list-test-h"></x-i18n></h1>
     <div id="list-test" class="test-list"></div>
-    <button class="btn image-button">
+    <button class="btn image-button" id="list-add-button">
         <img src="/WebDiakoluo/res/img/add.svg">
-        <span><x-i18n key="add-test" onclick="addTestRedirect();"></x-i18n></span>
+        <span><x-i18n key="add-test"></x-i18n></span>
     </button>
-    <button class="btn image-button" onclick="currentPage.importTest()">
+    <button class="btn image-button" id="list-import-button">
         <img src="/WebDiakoluo/res/img/import.svg">
-        <span><x-i18n key="import-test" onclick=""></x-i18n></span>
+        <span><x-i18n key="import-test"></x-i18n></span>
     </button>
-    <button class="btn image-button" onclick="currentPage.exportAllTest()">
+    <button class="btn image-button" id="list-export-all-button">
         <img src="/WebDiakoluo/res/img/export.svg">
-        <span><x-i18n key="export-all-test" onclick=""></x-i18n></span>
+        <span><x-i18n key="export-all-test"></x-i18n></span>
     </button>
 </main>
 <main id="view-page" class="hide">
     <h1 id="view-test-title"></h1>
     <div class="card">
         <div class="action-list">
-            <button class="btn image-button compact" onclick="PAGES.view.playTest();">
+            <button class="btn image-button compact" id="view-play-button">
                 <img src="/WebDiakoluo/res/img/play.svg">
                 <span><x-i18n key="play" caps="upper"></x-i18n></span>
             </button>
-            <button class="btn image-button compact" onclick="PAGES.view.editTest();">
+            <button class="btn image-button compact" id="view-edit-button">
                 <img src="/WebDiakoluo/res/img/edit.svg">
                 <span><x-i18n key="edit" caps="upper"></x-i18n></span>
             </button>
-            <button class="btn image-button compact" onclick="PAGES.view.exportTest();">
+            <button class="btn image-button compact" id="view-export-button">
                 <img src="/WebDiakoluo/res/img/export.svg">
                 <span><x-i18n key="export" caps="upper"></x-i18n></span>
             </button>
-            <button class="btn image-button compact" onclick="PAGES.view.deleteTest();">
+            <button class="btn image-button compact" id="view-delete-button">
                 <img src="/WebDiakoluo/res/img/delete.svg">
                 <span><x-i18n key="delete" caps="upper"></x-i18n></span>
             </button>
@@ -88,7 +89,7 @@
             <div>
                 <b><x-i18n key="columns"></x-i18n> :</b>
                 <div id="edit-test-columns"></div>
-                <button class="btn image-button" onclick="PAGES.edit.addColumn()"><img src="/WebDiakoluo/res/img/add.svg">
+                <button class="btn image-button" id="edit-add-column-button"><img src="/WebDiakoluo/res/img/add.svg">
                     <span><x-i18n key="add-column"></x-i18n></span>
                 </button>
             </div>
@@ -102,19 +103,19 @@
         </table>
     </div>
     <div class="bottom-bar">
-        <button class="btn image-button" onclick="PAGES.edit.addData()"><img src="/WebDiakoluo/res/img/add.svg">
+        <button class="btn image-button" id="edit-add-data-button"><img src="/WebDiakoluo/res/img/add.svg">
                     <span><x-i18n key="add-data"></x-i18n></span>
                 </button>
-        <button class="btn right image-button colored" onclick="PAGES.edit.saveButton();">
+        <button class="btn right image-button colored" id="edit-save-button">
             <img src="/WebDiakoluo/res/img/save_w.svg"><span><x-i18n key="save" caps="upper"></x-i18n></span>
         </button>
-        <button class="btn right image-button" onclick="PAGES.edit.cancelButton()">
+        <button class="btn right image-button" id="edit-cancel-button">
             <img src="/WebDiakoluo/res/img/cancel.svg"><span><x-i18n key="cancel" caps="upper"></x-i18n></span>
         </button>
     </div>
 </main>
 <main id="play-page" class="hide">
-    <form onsubmit="PAGES.play.submitCallback(event);">
+    <form id="play-form">
         <h1 id="play-test-title"></h1>
         <div id="play-progress-parent">
             <div id="play-progress-text"><span id="play-progress-index"></span>/<span id="play-progress-max"></span></div>
@@ -129,7 +130,7 @@
     </form>
 </main>
 <main id="play-settings-page" class="hide">
-    <form onsubmit="PAGES.play_settings.playTest(event);">
+    <form id="play-set-form">
         <h1 id="play-set-test-title"></h1>
         <div id="play-set-params" class="unique-column">
             <b><x-i18n key="play-number-data"></x-i18n></b>
@@ -158,11 +159,11 @@
         <progress value="0" max="1" id="play-score-progress"></progress>
         <h3 class="no-margin" id="play-score-minor">1/10</h3>
     </div>
-    <button class="btn image-button colored right" onclick="loadPage();">
+    <button class="btn image-button colored right" id="play-score-restart">
         <img src="/WebDiakoluo/res/img/restart_w.svg">
         <span><x-i18n key="restart" caps="upper"></x-i18n></span>
     </button>
-    <button class="btn image-button right" onclick="backToMain(true);">
+    <button class="btn image-button right" id="play-score-menu">
         <img src="/WebDiakoluo/res/img/home.svg">
         <span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
     </button>
@@ -180,7 +181,7 @@
 </footer>
 <div id="view-test-column-modal" class="modal hide">
     <div class="modal-content">
-        <header><span id="modal-view-column-title1"></span><button class="modal-close" onclick="PAGES.view.closeColumnModal()">&times;</button></header>
+        <header><span id="modal-view-column-title1"></span><button id="view-column-close-modal" class="modal-close">&times;</button></header>
         <main>
             <b><x-i18n key="title"></x-i18n></b> <span id="modal-view-column-title2"></span><br>
             <b><x-i18n key="description"></x-i18n></b> <span id="modal-view-column-description"></span><br>
@@ -189,43 +190,33 @@
                 <div></div><!-- required because of child replace-->
             </div>
         </main>
-        <footer>
-            <button class="navigation-button" onclick="PAGES.view.firstColumn()">&lt;&lt;</button>
-            <button class="navigation-button" onclick="PAGES.view.previousColumn()">&lt;</button>
-            <button class="right navigation-button" onclick="PAGES.view.lastColumn()">&gt;&gt;</button>
-            <button class="right navigation-button" onclick="PAGES.view.nextColumn()">&gt;</button>
-        </footer>
+        <footer id="view-column-nav-bar"></footer>
     </div>
 </div>
 <div id="view-test-data-modal" class="modal hide">
     <div class="modal-content">
-        <header><x-i18n key="data-number"></x-i18n><span id="view-test-data-id"></span><button class="modal-close" onclick="PAGES.view.closeDataModal()">&times;</button></header>
+        <header><x-i18n key="data-number"></x-i18n><span id="view-test-data-id"></span><button class="modal-close" id="view-data-close-modal">&times;</button></header>
         <main>
             <div id="view-test-data-content"></div>
         </main>
-        <footer>
-            <button class="navigation-button" onclick="PAGES.view.firstData()">&lt;&lt;</button>
-            <button class="navigation-button" onclick="PAGES.view.previousData()">&lt;</button>
-            <button class="right navigation-button" onclick="PAGES.view.lastData()">&gt;&gt;</button>
-            <button class="right navigation-button" onclick="PAGES.view.nextData()">&gt;</button>
-        </footer>
+        <footer id="view-data-nav-bar"></footer>
     </div>
 </div>
 <div id="test-delete-confirm-modal" class="modal hide">
     <div class="modal-content red">
-        <header><x-i18n key="delete-test-title"></x-i18n><button class="modal-close" onclick="hideModal('test-delete-confirm')">&times;</button></header>
+        <header><x-i18n key="delete-test-title"></x-i18n><button is="button-modal" class="modal-close" modal-name="test-delete-confirm" modal-action="hide">&times;</button></header>
         <main>
             <p><x-i18n key="delete-test-message"></x-i18n></p>
-            <button class="btn image-button right colored red" onclick="PAGES.view.deleteTestConfirm()"><x-i18n key="delete" caps="upper"></x-i18n></button>
-            <button class="btn image-button right" onclick="hideModal('test-delete-confirm')"><x-i18n key="cancel" caps="upper"></x-i18n></button>
+            <button id="test-delete-confirm-button" class="btn image-button right colored red"><x-i18n key="delete" caps="upper"></x-i18n></button>
+            <button is="button-modal" class="btn image-button right" modal-name="test-delete-confirm" modal-action="hide"><x-i18n key="cancel" caps="upper"></x-i18n></button>
         </main>
     </div>
 </div>
 <div id="edit-test-column-modal" class="modal hide">
     <div class="modal-content">
-        <header><span id="modal-edit-column-title1"></span><button class="modal-close" onclick="PAGES.edit.closeColumnModal()">&times;</button></header>
+        <header><span id="modal-edit-column-title1"></span><button class="modal-close" id="edit-column-close-modal">&times;</button></header>
         <main class="grid-keys">
-            <b><x-i18n key="title"></x-i18n> :</b> <input type="text" id="modal-edit-column-title2" onblur="editColumnModalTitle1.textContent = editColumnModalTitle2.value"></input>
+            <b><x-i18n key="title"></x-i18n> :</b> <input type="text" id="modal-edit-column-title2"></input>
             <b><x-i18n key="description"></x-i18n> :</b> <textarea id="modal-edit-column-description"></textarea>
             <div id="modal-edit-column-settings-parent">
                 <b><x-i18n key="settings"></x-i18n> :</b>
@@ -234,37 +225,27 @@
                 </div>
             </div>
         </main>
-        <footer>
-            <button class="navigation-button" onclick="PAGES.edit.firstColumn()">&lt;&lt;</button>
-            <button class="navigation-button" onclick="PAGES.edit.previousColumn()">&lt;</button>
-            <button class="right navigation-button" onclick="PAGES.edit.lastColumn()">&gt;&gt;</button>
-            <button class="right navigation-button" onclick="PAGES.edit.nextColumn()">&gt;</button>
-        </footer>
+        <footer id="edit-column-nav-bar"></footer>
     </div>
 </div>
 <div id="edit-test-data-modal" class="modal hide">
     <div class="modal-content">
-        <header><x-i18n key="data-number"></x-i18n><span id="edit-test-data-id"></span><button class="modal-close" onclick="PAGES.edit.closeDataModal()">&times;</button></header>
+        <header><x-i18n key="data-number"></x-i18n><span id="edit-test-data-id"></span><button class="modal-close" id="edit-data-close-modal">&times;</button></header>
         <main>
             <div id="edit-test-data-content" class="unique-column"></div>
         </main>
-        <footer>
-            <button class="navigation-button" onclick="PAGES.edit.firstData()">&lt;&lt;</button>
-            <button class="navigation-button" onclick="PAGES.edit.previousData()">&lt;</button>
-            <button class="right navigation-button" onclick="PAGES.edit.lastData()">&gt;&gt;</button>
-            <button class="right navigation-button" onclick="PAGES.edit.nextData()">&gt;</button>
-        </footer>
+        <footer id="edit-data-nav-bar"></footer>
     </div>
 </div>
 <div class="modal hide" id="import-test-modal">
     <div class="modal-content">
-        <header><x-i18n key="import-test"></x-i18n><button class="modal-close" onclick="hideModal('import-test')">&times;</button></header>
+        <header><x-i18n key="import-test"></x-i18n><button is="button-modal" class="modal-close" modal-name="import-test" modal-action="hide">&times;</button></header>
         <main>
-            <form id="import-form" onsubmit="currentPage.importTestCallback(event)" class="unique-column">
-                <input type="file" id="import-test-input" required="" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv" onchange="currentPage.importFileChange();">
+            <form id="import-form" class="unique-column">
+                <input type="file" id="import-test-input" required="" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv">
                 <div class="grid-keys" id="export-test-parent">
                     <b><x-i18n key="file-type"></x-i18n> : </b>
-                    <select id="import-test-select" required="" onchange="currentPage.importSelectChange();">
+                    <select id="import-test-select" required="">
                         <option value="dkl" selected="">.dkl</option>
                         <option value="csv">.csv</option>
                     </select>
@@ -285,12 +266,12 @@
 </div>
 <div class="modal hide" id="export-test-modal">
     <div class="modal-content">
-        <header><x-i18n key="export"></x-i18n><button class="modal-close" onclick="hideModal('export-test')">&times;</button></header>
+        <header><x-i18n key="export"></x-i18n><button is="button-modal" class="modal-close" modal-name="export-test" modal-action="hide">&times;</button></header>
         <main>
-            <form id="export-form" onsubmit="PAGES.view.exportTestConfirm(event)" class="unique-column">
+            <form id="export-form" class="unique-column">
                 <div class="grid-keys" id="export-test-parent">
                     <b><x-i18n key="file-type"></x-i18n> : </b>
-                    <select id="export-test-select" onchange="PAGES.view.exportWarningCsv();" required="">
+                    <select id="export-test-select" required="">
                         <option value="dkl" selected="">.dkl</option>
                         <option value="csv">.csv</option>
                     </select>

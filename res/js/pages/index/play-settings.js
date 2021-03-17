@@ -12,6 +12,8 @@ class PlaySettingsPage extends Page {
     constructor() {
         super(playSetPageView, "play-settings", true);
         this.currentTestId = -1;
+
+        document.getElementById('play-set-form').onsubmit = this.playTest.bind(this);
     }
 
     onload() {
