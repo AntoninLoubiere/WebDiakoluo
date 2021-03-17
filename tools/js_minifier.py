@@ -9,6 +9,7 @@ COMPILE_FILES = {
         'res/js/base/modals.js',
         'res/js/base/view-utils.js',
         'res/js/base/nav.js',
+        'res/js/base/navigation-bar.js',
     ],
     'res/js/diakoluo.min.js': [
         'res/js/diakoluo/database.js',
@@ -21,6 +22,7 @@ COMPILE_FILES = {
     'res/js/pages/index.min.js': [
         'res/js/pages/page.js',
         'res/js/pages/main.js',
+        'res/js/pages/index/callbacks.js',
         'res/js/pages/index/utils.js',
         'res/js/pages/index/list.js',
         'res/js/pages/index/view.js',

@@ -20,6 +20,8 @@ const playScoreMinor = document.getElementById('play-score-minor');
 class PlayScorePage extends Page {
     constructor() {
         super(playScoreView, 'play-score', true);
+        document.getElementById('play-score-restart').onclick = loadPage;
+        document.getElementById('play-score-menu').onclick = () => backToMain(false);
     }
 
     onload() {

@@ -9,6 +9,7 @@ const editPageDataTableBody = document.getElementById('edit-test-data-body');
 
 const editColumnModalTitle1 = document.getElementById('modal-edit-column-title1');
 const editColumnModalTitle2 = document.getElementById('modal-edit-column-title2');
+editColumnModalTitle2.onkeyup = () => {editColumnModalTitle1.textContent = editColumnModalTitle2.value};
 const editColumnModalDescription = document.getElementById('modal-edit-column-description');
 const editColumnModalSettings = document.getElementById('modal-edit-column-settings')
 
@@ -22,6 +23,25 @@ class EditPage extends Page {
     constructor() {
         super(editPageView, 'edit', false);
         this.autoSaveId = null;
+
+        document.getElementById('edit-add-column-button').onclick = this.addColumn.bind(this);
+        document.getElementById('edit-add-data-button').onclick = this.addData.bind(this);
+        document.getElementById('edit-save-button').onclick = this.saveButton.bind(this);
+        document.getElementById('edit-cancel-button').onclick = this.cancelButton.bind(this);
+        document.getElementById('edit-column-close-modal').onclick = this.closeColumnModal.bind(this);
+        document.getElementById('edit-data-close-modal').onclick = this.closeDataModal.bind(this);
+
+        this.columnsModalNav = new NavigationBar(document.getElementById('edit-column-nav-bar'));
+        this.columnsModalNav.onfirst = this.firstColumn.bind(this); 
+        this.columnsModalNav.onprevious = this.previousColumn.bind(this); 
+        this.columnsModalNav.onnext = this.nextColumn.bind(this); 
+        this.columnsModalNav.onlast = this.lastColumn.bind(this); 
+
+        this.dataModalNav = new NavigationBar(document.getElementById('edit-data-nav-bar'));
+        this.dataModalNav.onfirst = this.firstData.bind(this); 
+        this.dataModalNav.onprevious = this.previousData.bind(this); 
+        this.dataModalNav.onnext = this.nextData.bind(this); 
+        this.dataModalNav.onlast = this.lastData.bind(this); 
     }
 
     /* When the page is loaded */

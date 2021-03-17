@@ -27,6 +27,29 @@ const viewDataTemplate = document.getElementById('view-data-child-template');
 class ViewPage extends Page {
     constructor() {
         super(viewPageView, "view", true);
+
+        document.getElementById('view-play-button').onclick = this.playTest.bind(this);
+        document.getElementById('view-edit-button').onclick = this.editTest.bind(this);
+        document.getElementById('view-export-button').onclick = this.exportTest.bind(this);
+        document.getElementById('view-delete-button').onclick = this.deleteTest.bind(this);
+        document.getElementById('view-column-close-modal').onclick = this.closeColumnModal.bind(this);
+        document.getElementById('view-data-close-modal').onclick = this.closeDataModal.bind(this);
+        document.getElementById('test-delete-confirm-button').onclick = this.deleteTestConfirm.bind(this);
+
+        document.getElementById('export-form').onsubmit = this.exportTestConfirm.bind(this);
+        exportModalSelect.onchange = this.exportWarningCsv.bind(this);
+
+        this.columnsModalNav = new NavigationBar(document.getElementById('view-column-nav-bar'));
+        this.columnsModalNav.onfirst = this.firstColumn.bind(this); 
+        this.columnsModalNav.onprevious = this.previousColumn.bind(this); 
+        this.columnsModalNav.onnext = this.nextColumn.bind(this); 
+        this.columnsModalNav.onlast = this.lastColumn.bind(this); 
+
+        this.dataModalNav = new NavigationBar(document.getElementById('view-data-nav-bar'));
+        this.dataModalNav.onfirst = this.firstData.bind(this); 
+        this.dataModalNav.onprevious = this.previousData.bind(this); 
+        this.dataModalNav.onnext = this.nextData.bind(this); 
+        this.dataModalNav.onlast = this.lastData.bind(this); 
     }
 
     /* when the page is loaded */
