@@ -532,22 +532,55 @@ footer.double-column > div:first-child {
     grid-template-columns: 1fr;
 }
 
-.navigation-button {
-    width: 2em;
+.nav-bar {
+    margin: .25em .5em;    
+}
+
+.nav-button {
+
+    width: 1em;
     height: 1em;
 
     padding: 0;
-    margin: .1em .3em;
-
     font: 2em/1em "Roboto";
 
     background-color: inherit;
-    color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-.navigation-button:hover {
-    color: #000;
-    background-color: #fff;
+.nav-button:hover {
+    transform: scale(1.5);
+}
+
+.nav-button.disabled {
+    opacity: .4;
+    transform: none;
+}
+
+.nav-button.disabled:hover {
+    cursor: default;
+}
+
+.nav-right {
+    background-image: url('/WebDiakoluo/res/img/nav_next_w.svg');
+}
+
+.nav-right-max {
+    background-image: url('/WebDiakoluo/res/img/nav_last_w.svg');
+}
+
+.nav-right, .nav-right-max {
+    float: right;
+}
+
+.nav-left {
+    background-image: url('/WebDiakoluo/res/img/nav_prev_w.svg');
+}
+
+.nav-left-max {
+    background-image: url('/WebDiakoluo/res/img/nav_first_w.svg');
 }
 
 .grid-keys {

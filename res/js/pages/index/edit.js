@@ -508,6 +508,7 @@ class EditPage extends Page {
         if (currentState.id != id) {
             if (currentState.id >= 0) this.applyColumnModal();
             currentState.id = id;
+            this.columnsModalNav.updateStatus(id <= 0 ? 1 : id >= currentTest.columns.length - 1 ? 2 : 0);
             
             var column = currentTest.columns[id];
             editColumnModalTitle1.textContent = column.name;
@@ -566,6 +567,7 @@ class EditPage extends Page {
 
             if (currentState.id >= 0) this.applyDataModal();
             currentState.id = id;
+            this.dataModalNav.updateStatus(id <= 0 ? 1 : id >= currentTest.data.length - 1 ? 2 : 0);
 
             var row = currentTest.data[id];
             editDataModalId.textContent = id + 1;

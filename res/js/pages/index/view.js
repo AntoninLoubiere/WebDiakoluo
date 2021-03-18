@@ -191,6 +191,7 @@ class ViewPage extends Page {
         }
         if (currentState.id != id) {
             currentState.id = id;
+            this.columnsModalNav.updateStatus(id <= 0 ? 1 : id >= currentTest.columns.length - 1 ? 2 : 0);
             
             var column = currentTest.columns[id];
             viewColumnModalTitle1.textContent = column.name;
@@ -212,6 +213,7 @@ class ViewPage extends Page {
         }
         if (currentState.id != id) {
             currentState.id = id;
+            this.dataModalNav.updateStatus(id <= 0 ? 1 : id >= currentTest.data.length - 1 ? 2 : 0);
 
             var row = currentTest.data[id];
             viewDataModalId.textContent = id + 1;
