@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+
+python tools/services_workers_files.py
+git add sw.js
