@@ -351,9 +351,8 @@ class EditPage extends Page {
 
     /* when a key is press */
     onkeydown(event) {
-        switch (event.keyCode) {
-            case KeyboardEvent.DOM_VK_ESCAPE:
-                if (currentModal == 'edit-test-column') {
+        if (event.keyCode === KeyboardEvent.DOM_VK_ESCAPE) {
+            if (currentModal == 'edit-test-column') {
                     this.closeColumnModal();
                 } else if (currentModal == 'edit-test-data') {
                     this.closeDataModal();
@@ -361,10 +360,10 @@ class EditPage extends Page {
                     backToMain(true);
                 }
                 event.preventDefault();
-                break;
+        } else if (!event.altKey) return;
 
+        switch (event.keyCode) {
             case KeyboardEvent.DOM_VK_RIGHT:
-                if (!event.altKey) return;
                 if (currentModal == 'edit-test-column') {
                     this.nextColumn();
                     event.preventDefault();
@@ -375,7 +374,6 @@ class EditPage extends Page {
                 break;
 
             case KeyboardEvent.DOM_VK_LEFT:
-                if (!event.altKey) return;
                 if (currentModal == 'edit-test-column') {
                     this.previousColumn();
                     event.preventDefault();
@@ -385,8 +383,8 @@ class EditPage extends Page {
                 }
                 break;
 
+            case KeyboardEvent.DOM_VK_DOWN:
             case KeyboardEvent.DOM_VK_PAGE_DOWN:
-                if (!event.altKey) return;
                 if (currentModal == 'edit-test-column') {
                     this.lastColumn();
                     event.preventDefault();
@@ -396,8 +394,8 @@ class EditPage extends Page {
                 }
                 break;
 
+            case KeyboardEvent.DOM_VK_UP:
             case KeyboardEvent.DOM_VK_PAGE_UP:
-                if (!event.altKey) return;
                 if (currentModal == 'edit-test-column') {
                     this.firstColumn();
                     event.preventDefault();
@@ -405,6 +403,24 @@ class EditPage extends Page {
                     this.firstData();
                     event.preventDefault();
                 }
+                break;
+
+            case KeyboardEvent.DOM_VK_N:
+                event.preventDefault();
+                if (currentModal === 'edit-test-column') {
+                    this.addColumn();
+                } else if (currentModal === 'edit-test-data') {
+                    this.addData();
+                } else if (event.shiftKey) {
+                    this.addColumn();
+                } else {
+                    this.addData();
+                }
+                break;
+
+            case KeyboardEvent.DOM_VK_S:
+                event.preventDefault();
+                this.saveButton();
                 break;
         }
     }
