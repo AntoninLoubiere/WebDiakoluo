@@ -31,13 +31,19 @@ class EditPage extends Page {
         document.getElementById('edit-column-close-modal').onclick = this.closeColumnModal.bind(this);
         document.getElementById('edit-data-close-modal').onclick = this.closeDataModal.bind(this);
 
-        this.columnsModalNav = new NavigationBar(document.getElementById('edit-column-nav-bar'));
+        this.columnsModalNav = new NavigationBar(document.getElementById('edit-column-nav-bar'), [
+            {className: "nav-delete", onclick: this.removeColumnModal.bind(this)}, 
+            {className: "nav-add", onclick: this.addColumn.bind(this)}
+        ]);
         this.columnsModalNav.onfirst = this.firstColumn.bind(this); 
         this.columnsModalNav.onprevious = this.previousColumn.bind(this); 
         this.columnsModalNav.onnext = this.nextColumn.bind(this); 
         this.columnsModalNav.onlast = this.lastColumn.bind(this); 
 
-        this.dataModalNav = new NavigationBar(document.getElementById('edit-data-nav-bar'));
+        this.dataModalNav = new NavigationBar(document.getElementById('edit-data-nav-bar'), [
+            {className: "nav-delete", onclick: this.removeDataModal.bind(this)}, 
+            {className: "nav-add", onclick: this.addData.bind(this)}
+        ]);
         this.dataModalNav.onfirst = this.firstData.bind(this); 
         this.dataModalNav.onprevious = this.previousData.bind(this); 
         this.dataModalNav.onnext = this.nextData.bind(this); 
@@ -351,9 +357,8 @@ class EditPage extends Page {
 
     /* when a key is press */
     onkeydown(event) {
-        switch (event.keyCode) {
-            case KeyboardEvent.DOM_VK_ESCAPE:
-                if (currentModal == 'edit-test-column') {
+        if (event.keyCode === KeyboardEvent.DOM_VK_ESCAPE) {
+            if (currentModal == 'edit-test-column') {
                     this.closeColumnModal();
                 } else if (currentModal == 'edit-test-data') {
                     this.closeDataModal();
@@ -361,10 +366,10 @@ class EditPage extends Page {
                     backToMain(true);
                 }
                 event.preventDefault();
-                break;
+        } else if (!event.altKey) return;
 
+        switch (event.keyCode) {
             case KeyboardEvent.DOM_VK_RIGHT:
-                if (!event.altKey) return;
                 if (currentModal == 'edit-test-column') {
                     this.nextColumn();
                     event.preventDefault();
@@ -375,7 +380,6 @@ class EditPage extends Page {
                 break;
 
             case KeyboardEvent.DOM_VK_LEFT:
-                if (!event.altKey) return;
                 if (currentModal == 'edit-test-column') {
                     this.previousColumn();
                     event.preventDefault();
@@ -385,8 +389,8 @@ class EditPage extends Page {
                 }
                 break;
 
+            case KeyboardEvent.DOM_VK_DOWN:
             case KeyboardEvent.DOM_VK_PAGE_DOWN:
-                if (!event.altKey) return;
                 if (currentModal == 'edit-test-column') {
                     this.lastColumn();
                     event.preventDefault();
@@ -396,8 +400,8 @@ class EditPage extends Page {
                 }
                 break;
 
+            case KeyboardEvent.DOM_VK_UP:
             case KeyboardEvent.DOM_VK_PAGE_UP:
-                if (!event.altKey) return;
                 if (currentModal == 'edit-test-column') {
                     this.firstColumn();
                     event.preventDefault();
@@ -405,6 +409,24 @@ class EditPage extends Page {
                     this.firstData();
                     event.preventDefault();
                 }
+                break;
+
+            case KeyboardEvent.DOM_VK_N:
+                event.preventDefault();
+                if (currentModal === 'edit-test-column') {
+                    this.addColumn();
+                } else if (currentModal === 'edit-test-data') {
+                    this.addData();
+                } else if (event.shiftKey) {
+                    this.addColumn();
+                } else {
+                    this.addData();
+                }
+                break;
+
+            case KeyboardEvent.DOM_VK_S:
+                event.preventDefault();
+                this.saveButton();
                 break;
         }
     }
@@ -423,23 +445,27 @@ class EditPage extends Page {
 
     /* save the current data in modals */
     applyColumnModal() {
-        console.assert(currentModal == 'edit-test-column', "The edit test modal must be column");
-        var column = currentTest.columns[currentState.id];
-        column.name = editColumnModalTitle2.value;
-        column.description = editColumnModalDescription.value;
+        if (currentState.id >= 0) {
+            console.assert(currentModal == 'edit-test-column', "The edit test modal must be column");
+            var column = currentTest.columns[currentState.id];
+            column.name = editColumnModalTitle2.value;
+            column.description = editColumnModalDescription.value;
 
-        column.setEditColumnSettings(editColumnModalSettings);
+            column.setEditColumnSettings(editColumnModalSettings);
 
-        this.updateColumnChild(currentState.id);
+            this.updateColumnChild(currentState.id);
+        }
     }
 
     applyDataModal() {
-        console.assert(currentModal == 'edit-test-data', "The edit test modal must be data");
-        var row = currentTest.data[currentState.id];
-        for (var i = 0; i < currentTest.columns.length; i++) {
-            currentTest.columns[i].setValueFromView(row[i], editDataModalContent.children[i * 2 + 1]);
+        if (currentState.id >= 0) {
+            console.assert(currentModal == 'edit-test-data', "The edit test modal must be data");
+            var row = currentTest.data[currentState.id];
+            for (var i = 0; i < currentTest.columns.length; i++) {
+                currentTest.columns[i].setValueFromView(row[i], editDataModalContent.children[i * 2 + 1]);
+            }
+            this.updateDataChild(currentState.id);
         }
-        this.updateDataChild(currentState.id);
     }
 
     /* callback for the cancel button */
@@ -508,6 +534,7 @@ class EditPage extends Page {
         if (currentState.id != id) {
             if (currentState.id >= 0) this.applyColumnModal();
             currentState.id = id;
+            this.columnsModalNav.updateStatus(id <= 0 ? 1 : id >= currentTest.columns.length - 1 ? 2 : 0);
             
             var column = currentTest.columns[id];
             editColumnModalTitle1.textContent = column.name;
@@ -518,6 +545,18 @@ class EditPage extends Page {
                 column.getEditColumnSettings(),
                 editColumnModalSettings.children[0]
             );
+        }
+    }
+
+    /* remove the current column shown */
+    removeColumnModal() {
+        var id = currentState.id;
+        this.removeColumn(id);
+        currentState.id = -1; // very important, required to not save the current remove data
+        if (currentTest.columns.length > 0) {
+            this.updateColumnModal(id > 0 ? id - 1 : 0);
+        } else {
+            this.closeColumnModal();
         }
     }
 
@@ -566,6 +605,7 @@ class EditPage extends Page {
 
             if (currentState.id >= 0) this.applyDataModal();
             currentState.id = id;
+            this.dataModalNav.updateStatus(id <= 0 ? 1 : id >= currentTest.data.length - 1 ? 2 : 0);
 
             var row = currentTest.data[id];
             editDataModalId.textContent = id + 1;
@@ -581,6 +621,18 @@ class EditPage extends Page {
 
                 editDataModalContent.appendChild(column.getEditView(row[i]));
             }
+        }
+    }
+
+    /* remove the current data shown */
+    removeDataModal() {
+        var id = currentState.id;
+        this.removeData(id);
+        currentState.id = -1; // very important, required to not save the current remove data
+        if (currentTest.data.length > 0) {
+            this.updateDataModal(id > 0 ? id - 1 : 0);
+        } else {
+            this.closeDataModal();
         }
     }
 

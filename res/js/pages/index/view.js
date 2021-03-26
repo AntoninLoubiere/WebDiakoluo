@@ -39,13 +39,13 @@ class ViewPage extends Page {
         document.getElementById('export-form').onsubmit = this.exportTestConfirm.bind(this);
         exportModalSelect.onchange = this.exportWarningCsv.bind(this);
 
-        this.columnsModalNav = new NavigationBar(document.getElementById('view-column-nav-bar'));
+        this.columnsModalNav = new NavigationBar(document.getElementById('view-column-nav-bar'), [{className: "nav-edit", onclick: this.editTest.bind(this)}]);
         this.columnsModalNav.onfirst = this.firstColumn.bind(this); 
         this.columnsModalNav.onprevious = this.previousColumn.bind(this); 
         this.columnsModalNav.onnext = this.nextColumn.bind(this); 
         this.columnsModalNav.onlast = this.lastColumn.bind(this); 
 
-        this.dataModalNav = new NavigationBar(document.getElementById('view-data-nav-bar'));
+        this.dataModalNav = new NavigationBar(document.getElementById('view-data-nav-bar'), [{className: "nav-edit", onclick: this.editTest.bind(this)}]);
         this.dataModalNav.onfirst = this.firstData.bind(this); 
         this.dataModalNav.onprevious = this.previousData.bind(this); 
         this.dataModalNav.onnext = this.nextData.bind(this); 
@@ -180,6 +180,20 @@ class ViewPage extends Page {
                 }
                 break;
         }
+
+        if (event.altKey) {
+            switch (event.keyCode) {
+                case KeyboardEvent.DOM_VK_P:
+                    event.preventDefault();
+                    this.playTest();
+                    break;
+
+                case KeyboardEvent.DOM_VK_E:
+                    event.preventDefault();
+                    this.editTest();
+                    break;
+            }
+        }
     }
 
     /* update the column modal */
@@ -191,6 +205,7 @@ class ViewPage extends Page {
         }
         if (currentState.id != id) {
             currentState.id = id;
+            this.columnsModalNav.updateStatus(id <= 0 ? 1 : id >= currentTest.columns.length - 1 ? 2 : 0);
             
             var column = currentTest.columns[id];
             viewColumnModalTitle1.textContent = column.name;
@@ -212,6 +227,7 @@ class ViewPage extends Page {
         }
         if (currentState.id != id) {
             currentState.id = id;
+            this.dataModalNav.updateStatus(id <= 0 ? 1 : id >= currentTest.data.length - 1 ? 2 : 0);
 
             var row = currentTest.data[id];
             viewDataModalId.textContent = id + 1;

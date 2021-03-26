@@ -130,6 +130,21 @@ textarea.column-string-long {
     display: inline;
 }
 
+.nav-edit {
+    background-image: url('/WebDiakoluo/res/img/edit_w.svg');
+    background-size: 80%;
+}
+
+.nav-delete {
+    background-image: url('/WebDiakoluo/res/img/delete_w.svg');
+    background-size: 80%;
+}
+
+.nav-add {
+    background-image: url('/WebDiakoluo/res/img/add_w.svg');
+    background-size: 80%;
+}
+
 .view-button {
     cursor: pointer;
     vertical-align: middle;
