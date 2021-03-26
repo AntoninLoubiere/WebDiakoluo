@@ -39,13 +39,13 @@ class ViewPage extends Page {
         document.getElementById('export-form').onsubmit = this.exportTestConfirm.bind(this);
         exportModalSelect.onchange = this.exportWarningCsv.bind(this);
 
-        this.columnsModalNav = new NavigationBar(document.getElementById('view-column-nav-bar'));
+        this.columnsModalNav = new NavigationBar(document.getElementById('view-column-nav-bar'), [{className: "nav-edit", onclick: this.editTest.bind(this)}]);
         this.columnsModalNav.onfirst = this.firstColumn.bind(this); 
         this.columnsModalNav.onprevious = this.previousColumn.bind(this); 
         this.columnsModalNav.onnext = this.nextColumn.bind(this); 
         this.columnsModalNav.onlast = this.lastColumn.bind(this); 
 
-        this.dataModalNav = new NavigationBar(document.getElementById('view-data-nav-bar'));
+        this.dataModalNav = new NavigationBar(document.getElementById('view-data-nav-bar'), [{className: "nav-edit", onclick: this.editTest.bind(this)}]);
         this.dataModalNav.onfirst = this.firstData.bind(this); 
         this.dataModalNav.onprevious = this.previousData.bind(this); 
         this.dataModalNav.onnext = this.nextData.bind(this); 

@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-VLqAOJsX";
+ const CACHE_NAME = "WebDiakoluo-pyEk+FtQ";
 
 /* get the files of the app */
 function getAppFiles() {
@@ -47,14 +47,17 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/open_in_new_w.svg");
     f.push("/WebDiakoluo/res/img/add.svg");
     f.push("/WebDiakoluo/res/img/play.svg");
+    f.push("/WebDiakoluo/res/img/delete_w.svg");
     f.push("/WebDiakoluo/res/img/cancel.svg");
     f.push("/WebDiakoluo/res/img/favicon.svg");
     f.push("/WebDiakoluo/res/img/restart_w.svg");
     f.push("/WebDiakoluo/res/img/offline_w.svg");
     f.push("/WebDiakoluo/res/img/edit.svg");
     f.push("/WebDiakoluo/res/img/play_w.svg");
+    f.push("/WebDiakoluo/res/img/edit_w.svg");
     f.push("/WebDiakoluo/res/img/nav_last_w.svg");
     f.push("/WebDiakoluo/res/img/open_in_new_b.svg");
+    f.push("/WebDiakoluo/res/img/add_w.svg");
     f.push("/WebDiakoluo/res/img/nav_next_w.svg");
     f.push("/WebDiakoluo/res/img/nav_prev_w.svg");
     f.push("/WebDiakoluo/res/img/nav_first_w.svg");

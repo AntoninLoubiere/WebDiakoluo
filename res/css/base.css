@@ -533,11 +533,13 @@ footer.double-column > div:first-child {
 }
 
 .nav-bar {
+    display: flex;
+
+    justify-content: space-between;
     margin: .25em .5em;    
 }
 
 .nav-button {
-
     width: 1em;
     height: 1em;
 
@@ -563,16 +565,16 @@ footer.double-column > div:first-child {
     cursor: default;
 }
 
+.nav-div {
+    display: inline-block;
+}
+
 .nav-right {
     background-image: url('/WebDiakoluo/res/img/nav_next_w.svg');
 }
 
 .nav-right-max {
     background-image: url('/WebDiakoluo/res/img/nav_last_w.svg');
-}
-
-.nav-right, .nav-right-max {
-    float: right;
 }
 
 .nav-left {
