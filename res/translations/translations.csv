@@ -36,7 +36,7 @@ import-test,Import a test,Importer un test
 default-column-title,Column,Colonne
 default-test-title,Test,Test
 default-test-description,A test,Un test
-play-number-data,Number of data to do:,Nombre de donnée a faire :
+eval-number-data,Number of data to do:,Nombre de donnée a faire :
 skipped,(Skipped),(Passé)
 empty-string,(empty),(vide)
 number-columns,Number of column to show:,Nombre de colonne à montrer

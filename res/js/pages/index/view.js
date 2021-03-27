@@ -28,7 +28,7 @@ class ViewPage extends Page {
     constructor() {
         super(viewPageView, "view", true);
 
-        document.getElementById('view-play-button').onclick = this.playTest.bind(this);
+        document.getElementById('view-eval-button').onclick = this.evalTest.bind(this);
         document.getElementById('view-edit-button').onclick = this.editTest.bind(this);
         document.getElementById('view-export-button').onclick = this.exportTest.bind(this);
         document.getElementById('view-delete-button').onclick = this.deleteTest.bind(this);
@@ -185,7 +185,7 @@ class ViewPage extends Page {
             switch (event.keyCode) {
                 case KeyboardEvent.DOM_VK_P:
                     event.preventDefault();
-                    this.playTest();
+                    this.evalTest();
                     break;
 
                 case KeyboardEvent.DOM_VK_E:
@@ -331,11 +331,11 @@ class ViewPage extends Page {
         loadPage();
     }
 
-    /* play the test */
-    playTest() {
+    /* eval the test */
+    evalTest() {
         if (currentTest.isPlayable()) {
-            currentURL.searchParams.set('page', 'play-settings');
-            history.pushState({}, 'Play settings', currentURL);
+            currentURL.searchParams.set('page', 'eval-settings');
+            history.pushState({}, 'Eval settings', currentURL);
             loadPage();
         } else {
             // TODO, warning

@@ -45,6 +45,10 @@
                 <img src="/WebDiakoluo/res/img/play.svg">
                 <span><x-i18n key="play" caps="upper"></x-i18n></span>
             </button>
+            <button class="btn image-button compact" id="view-eval-button">
+                <img src="/WebDiakoluo/res/img/play.svg">
+                <span><x-i18n key="play" caps="upper"></x-i18n></span>
+            </button>
             <button class="btn image-button compact" id="view-edit-button">
                 <img src="/WebDiakoluo/res/img/edit.svg">
                 <span><x-i18n key="edit" caps="upper"></x-i18n></span>
@@ -114,27 +118,27 @@
         </button>
     </div>
 </main>
-<main id="play-page" class="hide">
-    <form id="play-form">
-        <h1 id="play-test-title"></h1>
-        <div id="play-progress-parent">
-            <div id="play-progress-text"><span id="play-progress-index"></span>/<span id="play-progress-max"></span></div>
-            <progress id="play-progress" value="75" max="1"></progress>
+<main id="eval-page" class="hide">
+    <form id="eval-form">
+        <h1 id="eval-test-title"></h1>
+        <div id="eval-progress-parent">
+            <div id="eval-progress-text"><span id="eval-progress-index"></span>/<span id="eval-progress-max"></span></div>
+            <progress id="eval-progress" value="75" max="1"></progress>
         </div>
-        <div id="play-inputs" class="unique-column">
+        <div id="eval-inputs" class="unique-column">
         </div>
-        <button id="play-continue-button" class="btn image-button colored major" type="submit">
-            <span><x-i18n key="continue" caps="upper" id="play-continue-button-text"></x-i18n></span>
+        <button id="eval-continue-button" class="btn image-button colored major" type="submit">
+            <span><x-i18n key="continue" caps="upper" id="eval-continue-button-text"></x-i18n></span>
             <img src="/WebDiakoluo/res/img/play_w.svg">
         </button>
     </form>
 </main>
-<main id="play-settings-page" class="hide">
-    <form id="play-set-form">
-        <h1 id="play-set-test-title"></h1>
-        <div id="play-set-params" class="unique-column">
-            <b><x-i18n key="play-number-data"></x-i18n></b>
-            <select id="play-set-number-data">
+<main id="eval-settings-page" class="hide">
+    <form id="eval-set-form">
+        <h1 id="eval-set-test-title"></h1>
+        <div id="eval-set-params" class="unique-column">
+            <b><x-i18n key="eval-number-data"></x-i18n></b>
+            <select id="eval-set-number-data">
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="1-4">1/4</option>
@@ -142,28 +146,28 @@
                 <option value="1-2">1/2</option>
                 <option value="1-1">100%</option>
             </select>
-            <label for="play-set-number-column"><b><x-i18n key="number-columns"></x-i18n></b></label>
+            <label for="eval-set-number-column"><b><x-i18n key="number-columns"></x-i18n></b></label>
             <div class="flex flex-center">
-                <input type="number" name="columns" id="play-set-number-column" min="1" value="1" required="" />/<span id="play-set-number-column-max"></span>
+                <input type="number" name="columns" id="eval-set-number-column" min="1" value="1" required="" />/<span id="eval-set-number-column-max"></span>
             </div>
         </div>
-        <button id="play-set-start-button" class="btn image-button colored major" type="submit">
-            <span><x-i18n key="play" caps="upper"></x-i18n></span>
+        <button id="eval-set-start-button" class="btn image-button colored major" type="submit">
+            <span><x-i18n key="eval" caps="upper"></x-i18n></span>
             <img src="/WebDiakoluo/res/img/play_w.svg">
         </button>
     </form>
 </main>
-<main id="play-score-page" class="hide">
-    <div id="play-score-progress-parent">
-        <h1 class="no-margin" id="play-score-major">1/10</h1>
-        <progress value="0" max="1" id="play-score-progress"></progress>
-        <h3 class="no-margin" id="play-score-minor">1/10</h3>
+<main id="eval-score-page" class="hide">
+    <div id="eval-score-progress-parent">
+        <h1 class="no-margin" id="eval-score-major">1/10</h1>
+        <progress value="0" max="1" id="eval-score-progress"></progress>
+        <h3 class="no-margin" id="eval-score-minor">1/10</h3>
     </div>
-    <button class="btn image-button colored right" id="play-score-restart">
+    <button class="btn image-button colored right" id="eval-score-restart">
         <img src="/WebDiakoluo/res/img/restart_w.svg">
         <span><x-i18n key="restart" caps="upper"></x-i18n></span>
     </button>
-    <button class="btn image-button right" id="play-score-menu">
+    <button class="btn image-button right" id="eval-score-menu">
         <img src="/WebDiakoluo/res/img/home.svg">
         <span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
     </button>

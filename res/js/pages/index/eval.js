@@ -1,12 +1,12 @@
-const playPageView = document.getElementById('play-page');
+const evalPageView = document.getElementById('eval-page');
 
-const playPageTestTitle = document.getElementById('play-test-title');
-const playPageInputs = document.getElementById('play-inputs');
-const playPageContinueButtonText = document.getElementById('play-continue-button-text');
+const evalPageTestTitle = document.getElementById('eval-test-title');
+const evalPageInputs = document.getElementById('eval-inputs');
+const evalPageContinueButtonText = document.getElementById('eval-continue-button-text');
 
-const playProgressBar = document.getElementById('play-progress');
-const playProgressIndex = document.getElementById('play-progress-index');
-const playProgressMax = document.getElementById('play-progress-max');
+const evalProgressBar = document.getElementById('eval-progress');
+const evalProgressIndex = document.getElementById('eval-progress-index');
+const evalProgressMax = document.getElementById('eval-progress-max');
 
 /* A score context that hold the score of the session */
 class ScoreContext {
@@ -29,9 +29,9 @@ class ScoreContext {
     }
 }
 
-class PlayPage extends Page {
+class EvalPage extends Page {
     constructor() {
-        super(playPageView, "play", true);
+        super(evalPageView, "eval", true);
 
         // define test context
         this.dataNumberToDo = null;
@@ -41,10 +41,10 @@ class PlayPage extends Page {
         this.answerIsShow = false;
         this.columnsAsked = null;
         this.score = new ScoreContext();
-        this.playInputs = [];
+        this.evalInputs = [];
         this.randomInputs = 0;
 
-        document.getElementById('play-form').onsubmit = this.submitCallback.bind(this);
+        document.getElementById('eval-form').onsubmit = this.submitCallback.bind(this);
     }
 
     onload() {
@@ -88,7 +88,7 @@ class PlayPage extends Page {
 
         this.initialise();
 
-        playPageView.classList.remove('hide');
+        evalPageView.classList.remove('hide');
         setPageTitle(currentTest.title);
     }
 
@@ -101,11 +101,11 @@ class PlayPage extends Page {
 
     /* initialise the UI */
     initialise() {
-        removeAllChildren(playPageInputs);
+        removeAllChildren(evalPageInputs);
 
-        playPageTestTitle.textContent = currentTest.title;
-        playProgressMax.textContent = this.dataNumberToDo;
-        this.playInputs = [];
+        evalPageTestTitle.textContent = currentTest.title;
+        evalProgressMax.textContent = this.dataNumberToDo;
+        this.evalInputs = [];
         this.randomInputs = 0;
 
         var show_only = 0;
@@ -128,10 +128,10 @@ class PlayPage extends Page {
                 e = document.createElement('h3');
                 e.classList = ['no-margin'];
                 e.textContent = c.name;
-                playPageInputs.appendChild(e);
+                evalPageInputs.appendChild(e);
                 e = document.createElement('div');
-                this.playInputs.push(new PlayInput(i, c, e, set_show, set_ask, is_random));
-                playPageInputs.appendChild(e); // setup a dummy element
+                this.evalInputs.push(new EvalInput(i, c, e, set_show, set_ask, is_random));
+                evalPageInputs.appendChild(e); // setup a dummy element
 
                 if (is_random) this.randomInputs++;
                 else if (set_show) {
@@ -160,25 +160,25 @@ class PlayPage extends Page {
         if (this.answerIsShow) {
             var j = 0;
             var score = applyScore ? this.score : null;
-            for (var i = 0; i < this.playInputs.length; i++) {
-                if (this.playInputs[i].set_ask) {
-                    if (!this.playInputs[i].is_random || this.columnsAsked[j++]) {
-                        this.playInputs[i].showAnswer(row, score);
+            for (var i = 0; i < this.evalInputs.length; i++) {
+                if (this.evalInputs[i].set_ask) {
+                    if (!this.evalInputs[i].is_random || this.columnsAsked[j++]) {
+                        this.evalInputs[i].showAnswer(row, score);
                     }
                 }
                 // if (this.columnsAsked[i]) {
-                //     playPageInputs.replaceChild(
+                //     evalPageInputs.replaceChild(
                 //         currentTest.columns[i].updateAnswerTestView(
                 //             row[i],  
-                //             playPageInputs.children[i * 2 + 1],
+                //             evalPageInputs.children[i * 2 + 1],
                 //             score),
-                //         playPageInputs.children[i * 2 + 1]
+                //         evalPageInputs.children[i * 2 + 1]
                 //     );
                 // }                
             }
-            playPageContinueButtonText.setAttribute('key', 'continue');
-            playProgressBar.value = (this.currentIndex + 1) / this.dataNumberToDo;
-            playProgressIndex.textContent = this.currentIndex + 1; // humanify
+            evalPageContinueButtonText.setAttribute('key', 'continue');
+            evalProgressBar.value = (this.currentIndex + 1) / this.dataNumberToDo;
+            evalProgressIndex.textContent = this.currentIndex + 1; // humanify
         } else {
             this.columnsAsked = new Array(currentTest.columns.length).fill(true);
             var i = this.numberColumnsRandomReveal;
@@ -191,34 +191,34 @@ class PlayPage extends Page {
                 }
             }
             j = 0;
-            for (var i = 0; i < this.playInputs.length; i++) {
-                if (this.playInputs[i].is_random) {
+            for (var i = 0; i < this.evalInputs.length; i++) {
+                if (this.evalInputs[i].is_random) {
                     if (this.columnsAsked[j++]) {
-                        this.playInputs[i].ask(row);
+                        this.evalInputs[i].ask(row);
                     } else {
-                        this.playInputs[i].show(row);
+                        this.evalInputs[i].show(row);
                     }
-                } else if (this.playInputs[i].set_ask) {
-                    this.playInputs[i].ask(row);
-                } else if (this.playInputs[i].set_show) {
-                    this.playInputs[i].show(row);
+                } else if (this.evalInputs[i].set_ask) {
+                    this.evalInputs[i].ask(row);
+                } else if (this.evalInputs[i].set_show) {
+                    this.evalInputs[i].show(row);
                 }
                 // if (this.columnsAsked[i]) {
-                //     playPageInputs.replaceChild(currentTest.columns[i].getTestView(row[i]), playPageInputs.children[i * 2 + 1]);
+                //     evalPageInputs.replaceChild(currentTest.columns[i].getTestView(row[i]), evalPageInputs.children[i * 2 + 1]);
                 // } else {
-                //     playPageInputs.replaceChild(currentTest.columns[i].getViewView(row[i]), playPageInputs.children[i * 2 + 1]);
+                //     evalPageInputs.replaceChild(currentTest.columns[i].getViewView(row[i]), evalPageInputs.children[i * 2 + 1]);
                 // }
             }
-            playPageContinueButtonText.setAttribute('key', 'valid');
+            evalPageContinueButtonText.setAttribute('key', 'valid');
             var i = 0;
             while ((
-                    (this.playInputs[i].is_random && !this.columnsAsked[j++]) || 
-                    this.playInputs[i].set_ask) && 
-                ++i < this.playInputs.length - 1) {}
-            playPageInputs.children[i * 2 + 1].focus();
+                    (this.evalInputs[i].is_random && !this.columnsAsked[j++]) || 
+                    this.evalInputs[i].set_ask) && 
+                ++i < this.evalInputs.length - 1) {}
+            evalPageInputs.children[i * 2 + 1].focus();
  
-            playProgressBar.value = this.currentIndex / this.dataNumberToDo;
-            playProgressIndex.textContent = this.currentIndex + 1; // humanify
+            evalProgressBar.value = this.currentIndex / this.dataNumberToDo;
+            evalProgressIndex.textContent = this.currentIndex + 1; // humanify
         }
     }
 
@@ -229,8 +229,8 @@ class PlayPage extends Page {
         if (this.answerIsShow) {
             this.answerIsShow = false;
             if (++this.currentIndex >= this.dataNumberToDo) {
-                playScorePage.setScore(this.score);
-                setPage(playScorePage);
+                evalScorePage.setScore(this.score);
+                setPage(evalScorePage);
             } else {
                 this.update();
             }
@@ -241,7 +241,7 @@ class PlayPage extends Page {
     }
 }
 
-class PlayInput {
+class EvalInput {
     constructor(index, column, view, set_show, set_ask, is_random) {
         this.index = index;
         this.column = column;
@@ -254,7 +254,7 @@ class PlayInput {
     /* ask the input */
     ask(row) {
         var e = this.column.getTestView(row[this.index]);
-        playPageInputs.replaceChild(
+        evalPageInputs.replaceChild(
             e,
             this.view
         );
@@ -264,7 +264,7 @@ class PlayInput {
     /* show the input */
     show(row) {
         var e = this.column.getViewView(row[this.index]);
-        playPageInputs.replaceChild(
+        evalPageInputs.replaceChild(
             e,
             this.view
         );
@@ -274,7 +274,7 @@ class PlayInput {
     /* show the answer */
     showAnswer(row, score) {
         var e = this.column.updateAnswerTestView(row[this.index], this.view, score);
-        playPageInputs.replaceChild(
+        evalPageInputs.replaceChild(
             e,
             this.view
         );
@@ -282,4 +282,4 @@ class PlayInput {
     }
 }
 
-PAGES.play = new PlayPage();
+PAGES.eval = new EvalPage();

@@ -176,15 +176,15 @@ textarea.column-string-long {
     grid-template-rows: auto 1fr;
 }
 
-#play-set-number-column {
+#eval-set-number-column {
     width: 3em;
 }
 
-#play-set-params, #play-inputs {
+#eval-set-params, #eval-inputs {
     margin-bottom: .5em;
 }
 
-#play-inputs > span, #play-inputs > input, #play-inputs > select {
+#eval-inputs > span, #eval-inputs > input, #eval-inputs > select {
     line-height: 34px;
 }
 
@@ -210,21 +210,21 @@ textarea.column-string-long {
     margin: 0 .5em;
 }
 
-#play-test-title {
+#eval-test-title {
     margin-bottom: 0;
 }
 
-#play-progress {
+#eval-progress {
     position: relative;
     width: 100%;
 }
 
-#play-progress-parent {
+#eval-progress-parent {
     position: relative;
     margin-bottom: .5em;
 }
 
-#play-progress-text {
+#eval-progress-text {
     z-index: 2;
     font: bold 1em "Roboto";
     position: absolute;
@@ -233,13 +233,13 @@ textarea.column-string-long {
     transform: translate(-50%, -50%);
 }
 
-#play-score-progress-parent {
+#eval-score-progress-parent {
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
-#play-score-progress {
+#eval-score-progress {
     align-self: stretch;
 }
 
