@@ -1,5 +1,5 @@
-/* load a modal from a file */
-function loadModal(id) {
+/* load a modal from a file and a list of buttons to bind callbacks */
+function loadModal(id, buttons) {
     let request = new XMLHttpRequest();
     request.open('GET', '/WebDiakoluo/res/modals/' + id + '.html');
     request.responseType = 'html';
@@ -15,6 +15,13 @@ function loadModal(id) {
     request.onload = function() {
         if (request.status == 200) {
             modal.innerHTML = request.response;
+            if (buttons) {
+                var b;
+                for (var i = 0; i < buttons.length; i++) {
+                    b = buttons[i];
+                    document.getElementById(b.id).onclick = b.onclick;
+                }
+            }
         } else {
             deleteModal(id);
         }

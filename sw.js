@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-pyEk+FtQ";
+ const CACHE_NAME = "WebDiakoluo-SSOdubph";
 
 /* get the files of the app */
 function getAppFiles() {

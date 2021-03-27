@@ -70,7 +70,7 @@ function initialise() {
     let lang = localStorage.getItem("lang");
     if (lang == null) {
         lang = detectLang();
-        if (document.location.pathname != LEGAL_PATH) loadModal('cookies');
+        if (document.location.pathname != LEGAL_PATH) loadModal('cookies', [{id: "cookies-accept", onclick: cookiesCallback}]);
     }
     setLang(lang, true);
 
