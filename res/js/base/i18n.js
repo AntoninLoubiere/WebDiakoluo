@@ -72,6 +72,7 @@ function initialise() {
         lang = detectLang();
         if (document.location.pathname != LEGAL_PATH) loadModal('cookies', [{id: "cookies-accept", onclick: cookiesCallback}]);
     }
+    addManifest(lang);
     setLang(lang, true);
 
     let request = new XMLHttpRequest();

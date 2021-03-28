@@ -11,6 +11,7 @@ ID_SIZE = 8
 SERVICE_WORKER_TEMPLATE = 'res/js/base/service-worker-template.js'
 SERVICE_WORKER = 'sw.js'
 DIRS = ['res/css', 'res/font', 'res/img', 'res/include', 'res/modals', 'res/translations']
+EXCLUDE_DIRS = {'res/img': ['manifest']}
 services_files = ['about.html', 'index.html', 'legal.html', 'template.html'] + list(js_minifier.COMPILE_FILES)
 
 
@@ -29,6 +30,10 @@ def main():
             for name in files:
                 if not name.startswith('.'):
                     services_files.append(os.path.join(root, name))
+
+            if root in EXCLUDE_DIRS:
+                for exclude_dir in EXCLUDE_DIRS[root]:
+                    dirs.remove(exclude_dir)
 
     services_files = ['/WebDiakoluo/{}'.format(f) for f in services_files]
     services_files.append('/')
