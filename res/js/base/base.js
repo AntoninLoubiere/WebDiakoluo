@@ -74,6 +74,14 @@ function endsWithIgnoreSpace(str, end) {
     return false;
 }
 
+/* add the manifest */
+function addManifest(lang) {
+    var l = document.createElement('link');
+    l.rel = "manifest";
+    l.href = "/WebDiakoluo/manifests/" + lang + '.webmanifest';
+    document.head.appendChild(l);
+}
+
 if('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/WebDiakoluo/sw.js', {scope: '/WebDiakoluo/'});
 }
