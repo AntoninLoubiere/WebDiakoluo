@@ -26,6 +26,7 @@ COMPILE_FILES = {
         'res/js/pages/index/utils.js',
         'res/js/pages/index/list.js',
         'res/js/pages/index/view.js',
+        'res/js/pages/index/play-card.js',
         'res/js/pages/index/edit.js',
         'res/js/pages/index/eval.js',
         'res/js/pages/index/eval-settings.js',
