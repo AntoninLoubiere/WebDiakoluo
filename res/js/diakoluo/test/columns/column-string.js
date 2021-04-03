@@ -22,6 +22,26 @@ class ColumnString extends Column {
         return e;
     }
 
+    /* get card view */
+    getCardView(data) {
+        if (this.getSettings(ColumnString.SET_LONG)) {
+            var e = super.getCardView(data);
+            e.classList.add('column-string-long');
+            return e;
+        } else {
+            var e = document.createElement('h1');
+            e.classList.add('card-center');
+            e.classList.add('big');
+            if (data.value)
+                e.textContent = data.value;
+            else {
+                e.textContent = getTranslation('empty-string');
+                e.style.fontStyle = "italic";
+            }
+            return e;
+        }
+    }
+
     /* get the default value of data for the column */
     getDefaultValue() {
         return {value: ""};

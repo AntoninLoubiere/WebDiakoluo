@@ -19,6 +19,10 @@ h1, h2,  h3, h4, h5, h6 {
     letter-spacing: .1em;
 }
 
+h1.big {
+    font-size: 2.5em;
+}
+
 body.nav > main {
     padding: 0 1em;
 }
@@ -293,7 +297,7 @@ textarea.resize-vertical {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 .clickable {
@@ -611,7 +615,7 @@ footer.double-column > div:first-child {
     transform: translateY(-50%);
 
     padding: 0;
-    background-color: inherit;
+    background-color: #fff8;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

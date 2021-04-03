@@ -28,6 +28,7 @@ class ViewPage extends Page {
     constructor() {
         super(viewPageView, "view", true);
 
+        document.getElementById('view-play-button').onclick = this.playCardTest.bind(this);
         document.getElementById('view-eval-button').onclick = this.evalTest.bind(this);
         document.getElementById('view-edit-button').onclick = this.editTest.bind(this);
         document.getElementById('view-export-button').onclick = this.exportTest.bind(this);
@@ -329,6 +330,17 @@ class ViewPage extends Page {
         currentURL.searchParams.set('page', 'edit');
         history.pushState({}, 'Edit test', currentURL);
         loadPage();
+    }
+
+    /* play card with the test */
+    playCardTest() {
+        if (currentTest.isPlayable()) {
+            currentURL.searchParams.set('page', 'play-card');
+            history.pushState({}, 'Play card', currentURL);
+            loadPage();
+        } else {
+            // TODO, warning
+        }
     }
 
     /* eval the test */

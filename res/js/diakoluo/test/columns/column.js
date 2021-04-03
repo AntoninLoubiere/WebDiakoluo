@@ -98,6 +98,11 @@ class Column {
         return i;
     }
 
+    /* get the view for the play card page (it's view view but bigger) */
+    getCardView(data) {
+        return this.getViewView(data);
+    }
+
     /* set the score and show the answer of the view and apply score */
     updateAnswerTestView(data, view, score) {
         var value = this.getValueFromView(view);
