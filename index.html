@@ -118,14 +118,18 @@
         </button>
     </div>
 </main>
-<main id="play-card-page" class="hide">
+<main id="play-card-page" class="hide expand">
+    <div class="progress">
+        <div><span id="play-card-progress-index"></span>/<span id="play-card-progress-max"></span></div>
+        <progress id="play-card-progress" value=".5" max="1"></progress>
+    </div>
 </main>
 <main id="eval-page" class="hide">
     <form id="eval-form">
         <h1 id="eval-test-title"></h1>
-        <div id="eval-progress-parent">
-            <div id="eval-progress-text"><span id="eval-progress-index"></span>/<span id="eval-progress-max"></span></div>
-            <progress id="eval-progress" value="75" max="1"></progress>
+        <div class="progress">
+            <div><span id="eval-progress-index"></span>/<span id="eval-progress-max"></span></div>
+            <progress id="eval-progress" value=".5" max="1"></progress>
         </div>
         <div id="eval-inputs" class="unique-column">
         </div>

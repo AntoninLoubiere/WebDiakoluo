@@ -214,25 +214,6 @@ textarea.column-string-long {
     margin-bottom: 0;
 }
 
-#eval-progress {
-    position: relative;
-    width: 100%;
-}
-
-#eval-progress-parent {
-    position: relative;
-    margin-bottom: .5em;
-}
-
-#eval-progress-text {
-    z-index: 2;
-    font: bold 1em "Roboto";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 #eval-score-progress-parent {
     display: flex;
     align-items: center;
@@ -259,6 +240,10 @@ textarea.column-string-long {
     width: 50%;
     border: none;
     border-top: #333 dotted 3px;
+}
+
+#play-card-page {
+    position: relative;
 }
 
 @media (min-width: 800px) {
