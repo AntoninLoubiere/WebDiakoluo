@@ -273,6 +273,17 @@ textarea.column-string-long {
 
 #play-card-card span {
     font-size: 1.2em;
+    overflow: auto;
+}
+
+#play-card-button-bar {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#play-play-button-bar button {
+    flex-grow: 1;
 }
 
 .card-column-name {
@@ -284,9 +295,16 @@ textarea.column-string-long {
 .card-column-name-parent {
     width: 100%;
     display: flex;
-    /*flex-wrap: wrap;*/
     flex-direction: column;
     justify-content: space-around;
+}
+
+.card-center {
+    align-self: center;
+}
+
+div.card-center {
+    display: inline-block;
 }
 
 @media (min-width: 800px) {

@@ -5,6 +5,8 @@ const playCardProgressIndex = document.getElementById('play-card-progress-index'
 const playCardProgressMax = document.getElementById('play-card-progress-max');
 
 const playCardCard = document.getElementById('play-card-card');
+const playCardRestartTemplate = document.getElementById('play-card-restart-template');
+
 
 class PlayCardPage extends Page {
 
@@ -146,6 +148,16 @@ class PlayCardPage extends Page {
         this.updateCard(0);
     }
 
+    /* initialise context.data so it is in order */
+    notShuffledData() {
+        this.context.index = this.context.data[this.context.index];
+        this.context.data = [];
+        for (var i = 0; i < currentTest.data.length; i++) {
+            this.context.data.push(i);
+        }
+        this.updateCard(this.context.index);
+    }
+
     /* get the selected columns to show / ask from cache or generate new */
     getSelectedColumns(index) {
         for (var i = this.context.columnsCache.length - 1; i >= 0; i--) {
@@ -188,13 +200,12 @@ class PlayCardPage extends Page {
 
     /* update the card at the index i, and show a face */
     updateCard(i) {
-        var max = currentTest.data.length;
         this.context.index = i;
         this.context.showOtherside = false;
-        this.globalNavigation.updateStatus(i <= 0 ? 1 : i >= max - 1 ? 2 : 0);
+        this.globalNavigation.updateStatus(i <= 0 && this.context.shuffleData ? 1 : 0);
         
         playCardProgressIndex.textContent = i + 1;
-        playCardProgress.value = i / (max - 1);
+        playCardProgress.value = i / (currentTest.data.length - 1);
         this.updateUI();
     }
 
@@ -202,35 +213,45 @@ class PlayCardPage extends Page {
     updateUI() {
         if (this.cardChild) {
             playCardCard.removeChild(this.cardChild);
+            this.cardChild = null;
         }
 
-        this.cardChild = document.createElement('div');
-        var columns = this.getSelectedColumns(this.context.index)[this.context.showOtherside ? 1 : 0];
-        var column;
-        var data;
-        var showName = this.context.showColumnName;
-        var div;
-        var e;
-        for (var i = 0; i < columns.length; i++) {
-            column = currentTest.columns[columns[i]];
-            data = currentTest.data[this.context.data[this.context.index]][columns[i]];
-            if (showName) {
-                div = document.createElement('div');
-                div.classList.add('card-column-name-parent');
+        if (this.context.index < this.context.data.length) {
+            this.cardChild = document.createElement('div');
+            var columns = this.getSelectedColumns(this.context.index)[this.context.showOtherside ? 1 : 0];
+            var column;
+            var data;
+            var showName = this.context.showColumnName;
+            var div;
+            var e;
+            for (var i = 0; i < columns.length; i++) {
+                column = currentTest.columns[columns[i]];
+                data = currentTest.data[this.context.data[this.context.index]][columns[i]];
+                if (showName) {
+                    div = document.createElement('div');
+                    div.classList.add('card-column-name-parent');
 
-                e = document.createElement('h2');
-                e.classList.add('card-column-name');
-                e.classList.add('card-center');
-                e.textContent = column.name + ' :';
-                div.appendChild(e);
+                    e = document.createElement('h2');
+                    e.classList.add('card-column-name');
+                    e.textContent = column.name + ' :';
+                    div.appendChild(e);
 
-                div.appendChild(column.getCardView(data));                
+                    div.appendChild(column.getCardView(data));                
 
-                this.cardChild.appendChild(div);
-            }  else {
-                this.cardChild.appendChild(column.getCardView(data));                
+                    this.cardChild.appendChild(div);
+                }  else {
+                    this.cardChild.appendChild(column.getCardView(data));                
+                }
             }
+        } else {
+            // show the restart panel
+            this.cardChild = playCardRestartTemplate.content.cloneNode(true).children[0];
+            this.cardChild.querySelector('#play-card-home-button').onclick = () => backToMain(true);
+            this.cardChild.querySelector('#play-card-view-button').onclick = () => viewTestPage(currentTest.id);
+            this.cardChild.querySelector('#play-card-restart-button').onclick = this.nextCard.bind(this);
+            this.cardChild.querySelector('#play-card-grade-button').onclick = PAGES.view.evalTest;
         }
+        
         playCardCard.appendChild(this.cardChild);
     }
 
@@ -244,6 +265,11 @@ class PlayCardPage extends Page {
     nextCard() {
         if (this.context.index < currentTest.data.length - 1) {
             this.updateCard(this.context.index + 1);
+        } else if (this.context.index < currentTest.data.length) {
+            this.context.index = this.context.index + 1;
+            this.updateUI();
+        } else {
+            this.reset();
         }
     }
 
@@ -251,6 +277,17 @@ class PlayCardPage extends Page {
     previousCard() {
         if (this.context.index > 0) {
             this.updateCard(this.context.index - 1);
+        } else if (!this.context.shuffleData) {
+            this.updateCard(this.context.data.length - 1);
+        }
+    }
+
+    /* reset and start a new context */
+    reset() {
+        if (this.context.shuffleData) {
+            this.shuffleData(this.context.index < currentTest.data.length - 1);
+        } else {
+            this.updateCard(0);
         }
     }
 }

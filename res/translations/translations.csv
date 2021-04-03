@@ -12,6 +12,7 @@ delete,Delete,Supprimer
 all,All,Tous
 dont-show-again,Don't show again.,Ne plus afficher
 view,View,Voir
+view-test,View the test,Voir le test
 edit,Edit,Éditer
 play,Play,Démarrer
 eval,Be evaluate,S'évaluer
@@ -34,6 +35,7 @@ add-column,Add a column,Ajouter une colonne
 add-data,Add a data,Ajouter une donnée
 add-test,Add a test,Ajouter un test
 import-test,Import a test,Importer un test
+play-card-end,"The End. It's finish.","La Fin. C'est terminé"
 default-column-title,Column,Colonne
 default-test-title,Test,Test
 default-test-description,A test,Un test

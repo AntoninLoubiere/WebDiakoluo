@@ -30,7 +30,6 @@ class ColumnString extends Column {
             return e;
         } else {
             var e = document.createElement('h1');
-            e.classList.add('card-center');
             e.classList.add('big');
             if (data.value)
                 e.textContent = data.value;

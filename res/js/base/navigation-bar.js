@@ -99,7 +99,7 @@ class GlobalNavigation {
         return e;
     }
 
-    /* create a navigation global in the parent*/
+    /* create a navigation global in the parent */
     constructor(parent) {
         this.status = 0; // status represent disabled buttons 0: none, 1: left, 2: right
 
