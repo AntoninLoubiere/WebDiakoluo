@@ -179,6 +179,7 @@ button {
 
 button.btn {
     margin: .1em .2em;
+    box-sizing: content-box;
 }
 
 button.btn:hover {

@@ -32,9 +32,9 @@ class Column {
 
     /* get the skipped view */
     static getSkippedView() {
-        var e = document.createElement('span');
+        var e = document.createElement('div');
         e.textContent = getTranslation('skipped');
-        e.classList = ['skipped-answer'];
+        e.classList = ['skipped-answer', 'text'];
         return e;
     }
 
@@ -74,7 +74,8 @@ class Column {
 
     /* get a dom element that show the data */
     getViewView(data) {
-        var e = document.createElement('span');
+        var e = document.createElement('div');
+        e.classList.add('text');
         if (data.value)
             e.textContent = data.value;
         else {
