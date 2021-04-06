@@ -246,8 +246,15 @@ textarea.column-string-long {
     position: relative;
     display: flex;
     flex-direction: column;
+}
 
-    overflow: auto;
+#play-card-header {
+    display: flex;
+}
+
+#play-card-header > .progress {
+    flex-grow: 1;
+    margin: 0 .2em;
 }
 
 #play-card-card {
@@ -255,6 +262,8 @@ textarea.column-string-long {
     cursor: pointer;
     user-select: none;
     font-size: .8em;
+
+    overflow: auto;
 }
 
 #play-card-card > div {
@@ -284,7 +293,7 @@ textarea.column-string-long {
     flex-wrap: wrap;
 }
 
-#play-play-button-bar button {
+#play-card-button-bar button {
     flex-grow: 1;
 }
 

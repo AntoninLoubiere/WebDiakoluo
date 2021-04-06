@@ -142,10 +142,6 @@ select {
     width: 100%;
 }
 
-progress {
-    height: 1.3em;
-}
-
 progress::-moz-progress-bar, progress::-webkit-progress-value {
     background-color: #009688;
     transition: all .3s ease-out;
@@ -244,6 +240,7 @@ button.image-button span {
 
 button.image-button.compact {
     padding: 0;
+    width: 2em;
 }
 
 button.image-button.compact span {
@@ -264,6 +261,47 @@ button.image-button.colored:hover {
     background-color: #004d40;
 }
 
+button.icon-button {
+    width: 24px;
+    height: 24px;
+
+    margin: 0 .2em;
+
+    position: relative;
+
+    padding: 0;
+
+    background-color: #fff;
+    border-radius: 3em;
+
+    z-index: 1;
+}
+
+button.icon-button > img {
+    vertical-align: baseline;
+}
+
+button.icon-button::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 3em;
+    background-color: #e6e6e6;
+
+    transition: transform .3s cubic-bezier(.6,-0.28,.74,.05);
+
+    transform: scale(0);
+}
+
+button.icon-button:hover::after {
+    transform: scale(1.25);
+    transition: transform .3s cubic-bezier(.18,.89,.32,1.28);
+}
+
 button.major {
     width: 100%;
     font-weight: 500;
@@ -277,11 +315,14 @@ textarea.resize-vertical {
 .progress {
     position: relative;
     margin-bottom: .5em;
+    min-height: 1.3em;
 }
 
 .progress > progress {
     position: relative;
     width: 100%;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .progress > div {
@@ -716,6 +757,7 @@ footer.double-column > div:first-child {
 
     button.image-button.compact {
         padding: 0 .5em;
+        width: auto;
     }
 
     button.image-button.compact span {

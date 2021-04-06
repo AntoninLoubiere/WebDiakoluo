@@ -109,8 +109,8 @@ class GlobalNavigation {
         this.next = GlobalNavigation.createNavButton(true);
         this.next.onclick = e => {this.next.blur();this.onnext?.(e)};
 
-        parent.appendChild(this.next);
         parent.appendChild(this.previous);
+        parent.appendChild(this.next);
     }
 
     updateStatus(status) {
