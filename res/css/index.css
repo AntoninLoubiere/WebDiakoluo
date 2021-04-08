@@ -176,10 +176,6 @@ textarea.column-string-long {
     grid-template-rows: auto 1fr;
 }
 
-#eval-set-number-column {
-    width: 3em;
-}
-
 #eval-set-params, #eval-inputs {
     margin-bottom: .5em;
 }
@@ -297,6 +293,30 @@ textarea.column-string-long {
     flex-grow: 1;
 }
 
+#play-card-set-columns {
+    display: grid;
+    text-align: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+
+    grid-gap: .2em;
+}
+
+#play-card-settings-modal h3 {
+    margin: .2em 0;
+}
+
+#play-card-set-set {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#play-card-set-set div {
+    margin: .5em;
+}
+
 .card-column-name {
     text-decoration: underline;
     margin: 0 .5em;
@@ -309,6 +329,24 @@ textarea.column-string-long {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+
+.play-card-set-col-child {
+    border: solid 1px #dfdfdf;
+    border-radius: .2em;
+    margin-bottom: -1px;
+
+    font-size: 1.1em;
+    padding: 0 .2em;
+
+    user-select: none;
+    cursor: move;
+
+    transition: background-color .2s;
+}
+
+.play-card-set-col-child:hover, .play-card-set-col-child.sortable-ghost {
+    background-color: #e0f2f1;
 }
 
 .card-center {
@@ -326,5 +364,14 @@ div.card-center {
     
     #play-card-card {
         font-size: 1.2em;
+    }
+
+    #play-card-set-columns {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    #play-card-set-columns > div:nth-child(4) {
+        grid-column: 2;
     }
 }

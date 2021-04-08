@@ -11,6 +11,16 @@ const playCardSettingsButton = document.getElementById('play-card-settings-butto
 const playCardShuffleButton = document.getElementById('play-card-shuffle-button');
 const playCardShuffleButtonImage = document.getElementById('play-card-shuffle-button-image');
 
+const playCardSetShowColumns = document.getElementById('play-card-set-show-columns'); 
+const playCardSetRandomColumns = document.getElementById('play-card-set-random-columns'); 
+const playCardSetAskColumns = document.getElementById('play-card-set-ask-columns'); 
+const playCardSetHideColumns = document.getElementById('play-card-set-hide-columns'); 
+
+const playCardSetNbColRandom = document.getElementById('play-card-set-nb-rand-col');
+const playCardSetRandomSide = document.getElementById('play-card-set-random-side');
+const playCardSetColumnName = document.getElementById('play-card-set-column-name');
+
+const playCardSetReset = document.getElementById('play-card-set-reset');
 
 class PlayCardPage extends Page {
 
@@ -35,6 +45,34 @@ class PlayCardPage extends Page {
          */
         this.context = {testId: -1};
 
+        window.sortable = new Sortable(playCardSetShowColumns, {
+            group: 'play-card-set-columns',
+            animation: 200,
+            ghostClass: 'sortable-ghost',
+            onEnd: this.onSettingsColumnMove.bind(this)
+        });
+
+        new Sortable(playCardSetRandomColumns, {
+            group: 'play-card-set-columns',
+            animation: 200,
+            ghostClass: 'sortable-ghost',
+            onEnd: this.onSettingsColumnMove.bind(this)
+        });
+
+        new Sortable(playCardSetAskColumns, {
+            group: 'play-card-set-columns',
+            animation: 200,
+            ghostClass: 'sortable-ghost',
+            onEnd: this.onSettingsColumnMove.bind(this)
+        });
+
+        new Sortable(playCardSetHideColumns, {
+            group: 'play-card-set-columns',
+            animation: 200,
+            ghostClass: 'sortable-ghost',
+            onEnd: this.onSettingsColumnMove.bind(this)
+        });
+
         this.globalNavigation = new GlobalNavigation(playCardPageView);
         this.globalNavigation.onnext = this.nextCard.bind(this);
         this.globalNavigation.onprevious = this.previousCard.bind(this);
@@ -47,10 +85,16 @@ class PlayCardPage extends Page {
 
         playCardSettingsButton.onclick = e => {
             playCardSettingsButton.blur(); // stop focus in order to prevent getting the click event again when pressing space
-            
+            this.showSettings();
         }
 
-        this.cardChild = null;
+        playCardSetNbColRandom.onchange = this.onNumberColumnRandomChange.bind(this);
+        playCardSetRandomSide.onchange = this.onSettingsRandomSideChanged.bind(this);
+        playCardSetColumnName.onchange = this.onSettingsColumnNameChanged.bind(this);
+        playCardSetReset.onclick = () => {
+            hideModal('play-card-settings');
+            this.reset()
+        };
     }
 
     /* when the page is loaded */
@@ -77,6 +121,15 @@ class PlayCardPage extends Page {
             case KeyboardEvent.DOM_VK_RIGHT:
                 this.nextCard();
                 break;
+
+            case KeyboardEvent.DOM_VK_ESCAPE:
+                if (currentModal) {
+                    hideModal(currentModal);
+                } else {
+                    backToMain(true);
+                }
+                event.preventDefault();
+                break;
         }
     }
 
@@ -90,6 +143,7 @@ class PlayCardPage extends Page {
             columnsShow: [],
             columnsAsk: [],
             columnsRandom: [],
+            columnsHide: [],
             nbColumnsRandom: 0,
             columnsCache: [],
             randomSide: true,
@@ -108,6 +162,8 @@ class PlayCardPage extends Page {
                 }
             } else if (c.getSettings(Column.SET_CAN_BE_ASK)) {
                 this.context.columnsAsk.push(i);
+            } else {
+                this.context.columnsHide.push(i);
             }
         }
 
@@ -201,6 +257,7 @@ class PlayCardPage extends Page {
 
         // generate new
         var columnsRandomShow = [];
+        var columnsRandomShowSorted = [];
         var columnsShow = [];
         var columnsAsk = [];
         var columnsRemaining = this.context.nbColumnsRandom;
@@ -216,14 +273,17 @@ class PlayCardPage extends Page {
         for (var i = 0; i < this.context.columnsRandom.length; i++) {
             if (columnsRandomShow.indexOf(i) === -1)
                 columnsAsk.push(i);
+            else {
+                columnsRandomShowSorted.push(i);
+            }
         }
 
         if (this.context.randomSide && Math.random() >= .5) {
-            columnsShow = columnsAsk.concat(this.context.columnsAsk);
-            columnsAsk = columnsRandomShow.concat(this.context.columnsShow);
+            columnsShow = this.context.columnsAsk.concat(columnsAsk);
+            columnsAsk = this.context.columnsShow.concat(columnsRandomShowSorted);
         } else {
-            columnsShow = columnsRandomShow.concat(this.context.columnsShow);
-            columnsAsk = columnsAsk.concat(this.context.columnsAsk);
+            columnsShow = this.context.columnsShow.concat(columnsRandomShowSorted);
+            columnsAsk = this.context.columnsAsk.concat(columnsAsk);
         }
 
         if (this.context.columnsCache.push([index, columnsShow, columnsAsk]) > PlayCardPage.MAX_CACHE_SIZE)
@@ -323,6 +383,106 @@ class PlayCardPage extends Page {
             this.updateCard(0);
         } else {
             this.updateCard(0);
+        }
+    }
+
+    /* show the settings modal */
+    showSettings() {
+        showModal(currentModal = 'play-card-settings');
+
+        removeAllChildren(playCardSetShowColumns);
+        removeAllChildren(playCardSetRandomColumns);
+        removeAllChildren(playCardSetAskColumns);
+        removeAllChildren(playCardSetHideColumns);
+
+        var e;
+        for (var i = 0; i < this.context.columnsShow.length; i++) {
+            e = document.createElement('div');
+            e.classList = 'play-card-set-col-child';
+            e.textContent = currentTest.columns[this.context.columnsShow[i]].name;
+            playCardSetShowColumns.appendChild(e);
+        }
+
+        for (var i = 0; i < this.context.columnsRandom.length; i++) {
+            e = document.createElement('div');
+            e.classList = 'play-card-set-col-child';
+            e.textContent = currentTest.columns[this.context.columnsRandom[i]].name;
+            playCardSetRandomColumns.appendChild(e);
+        }
+
+        for (var i = 0; i < this.context.columnsAsk.length; i++) {
+            e = document.createElement('div');
+            e.classList = 'play-card-set-col-child';
+            e.textContent = currentTest.columns[this.context.columnsAsk[i]].name;
+            playCardSetAskColumns.appendChild(e);
+        }
+
+        for (var i = 0; i < this.context.columnsHide.length; i++) {
+            e = document.createElement('div');
+            e.classList = 'play-card-set-col-child';
+            e.textContent = currentTest.columns[this.context.columnsHide[i]].name;
+            playCardSetHideColumns.appendChild(e);
+        }
+
+        this.updateBoundColumnsRandom();
+
+        playCardSetRandomSide.checked = this.context.randomSide;
+        playCardSetColumnName.checked = this.context.showColumnName;
+    }
+
+    /* update the bounds of the random columns input */
+    updateBoundColumnsRandom() {
+        playCardSetNbColRandom.min = 0;
+        playCardSetNbColRandom.max = this.context.columnsRandom.length;
+        this.context.nbColumnsRandom = clamp(this.context.nbColumnsRandom, 0, this.context.columnsRandom.length);
+        playCardSetNbColRandom.value = this.context.nbColumnsRandom;
+    }
+
+    /* when the input of random columns is changed */
+    onNumberColumnRandomChange() {
+        if (0 <= playCardSetNbColRandom.value && playCardSetNbColRandom.value <= this.context.columnsRandom.length) {
+            this.context.nbColumnsRandom = playCardSetNbColRandom.value;
+            this.resetCache();
+        }
+    }
+
+    /* when a column is moved */
+    onSettingsColumnMove(event) {
+        var fromList = this.context[event.from.getAttribute('column-list')];
+        var toList = this.context[event.to.getAttribute('column-list')];
+        var data = fromList[event.oldDraggableIndex];
+        fromList.splice(event.oldDraggableIndex, 1);
+        toList.splice(event.newDraggableIndex, 0, data);
+
+        if (event.from === playCardSetRandomColumns || event.to === playCardSetRandomColumns) {
+            this.updateBoundColumnsRandom();
+        }
+
+        this.resetCache();
+    }
+
+    /* when the settings random side is changed */
+    onSettingsRandomSideChanged() {
+        this.context.randomSide = playCardSetRandomSide.checked;
+        this.resetCache();
+    }
+
+
+    /* when the settings random side is changed */
+    onSettingsColumnNameChanged() {
+        this.context.showColumnName = playCardSetColumnName.checked;
+        this.updateCard(this.context.index);
+    }
+
+    /* reset the columns cache but preserver the current card */
+    resetCache() {
+        // preserve current columns selected cache
+        if (this.context.index < this.context.data.length) {
+            var data = this.getSelectedColumns(this.context.index);
+            data.unshift(this.context.index);
+            this.context.columnsCache = [data];
+        } else {
+            this.context.columnsCache = [];
         }
     }
 }

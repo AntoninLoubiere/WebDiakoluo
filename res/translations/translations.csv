@@ -4,6 +4,7 @@ cancel,Cancel,Annuler
 valid,Valid,Valider
 continue,Continue,Continuer
 restart,Restart,Recommencer
+reset,Reset,Réinitialiser
 main-menu,Main menu,Menu principal
 export,Export,Exporter
 import,Import,Importer
@@ -35,6 +36,13 @@ add-column,Add a column,Ajouter une colonne
 add-data,Add a data,Ajouter une donnée
 add-test,Add a test,Ajouter un test
 import-test,Import a test,Importer un test
+show-columns,Columns to show,Colonnes à afficher
+random-columns,Random columns,Colonnes aléatoire
+ask-columns,Columns to ask,Colonnes à demander
+hide-columns,Columns to hide,Colonnes à cacher
+number-columns-random,Number of random columns to show (other will be asked), Nombre de colonnes aléatoire à montrer (les autres seront cachées)
+play-card-column-name,Show column name,Afficher le nom des colonnes
+play-card-random-side,Randomly invert side shown,Inverser aléatoirement le coté affiché
 play-card-end,"The End. It's finish.","La Fin. C'est terminé"
 default-column-title,Column,Colonne
 default-test-title,Test,Test

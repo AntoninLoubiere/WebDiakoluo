@@ -155,6 +155,10 @@ input[type='checkbox'] {
     vertical-align: middle;
 }
 
+input.small {
+    width: 3em;
+}
+
 img {
     vertical-align: middle;
 }
@@ -407,14 +411,14 @@ textarea.resize-vertical {
     bottom: 0;
     z-index: 100;
 
+    display: grid;
+    place-items: center;
+
     background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
-    position: relative;
-    top: 0;
-    left: 0;
-    right: 0;
+    min-width: 100%;
     max-height: 100%;
     
     overflow: hidden;
@@ -556,6 +560,14 @@ textarea.resize-vertical {
 
 .selector-dropdown-child:hover {
     background-color: #004d40;
+}
+
+.sortable {
+    min-height: 3em;
+}
+
+.sortable-ghost {
+    opacity: .4;
 }
 
 .bottom-bar {
@@ -768,8 +780,8 @@ footer.double-column > div:first-child {
         left: 50%;
         right: unset;
 
-        min-width: 66%;
-        max-width: 90%;
+        min-width: max(400px, 75%);
+        max-width: min(90%, 800px);
 
         transform: translate(-50%, -50%);
 
@@ -778,15 +790,10 @@ footer.double-column > div:first-child {
     }
 
     .modal-content {
-        left: 50%;
-        right: unset;
-        min-width: 66%;
-        max-width: 90%;
-
+        min-width: max(400px, 75%);
+        max-width: min(90%, 800px);
         margin: 3em 0;
         max-height: calc(100% - 6em); /* remove margins */
-
-        transform: translateX(-50%);
 
         border-radius: 1em;
     }
@@ -818,12 +825,12 @@ footer.double-column > div:first-child {
 
 @media (min-width: 1100px) {
     .main-card {
-        min-width: 50%;
+        min-width: max(60%, 825px);
         max-width: max(60%, 800px);
     }
 
     .modal-content {
-        min-width: 50%;
+        min-width: max(60%, 825px);
         max-width: max(60%, 800px);
     }
 }
