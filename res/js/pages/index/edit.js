@@ -440,6 +440,7 @@ class EditPage extends Page {
         if (currentModal == 'edit-test-column') this.applyColumnModal();
         else if (currentModal == 'edit-test-data') this.applyDataModal();
 
+        DATABASE_MANAGER.removeAllPlayContext(testId); // TODO: improve only make a reset data flag and save settings
         DATABASE_MANAGER.updateTest(currentTest);
     }
 

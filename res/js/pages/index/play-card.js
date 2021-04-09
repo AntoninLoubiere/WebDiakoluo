@@ -25,6 +25,7 @@ const playCardSetReset = document.getElementById('play-card-set-reset');
 class PlayCardPage extends Page {
 
     static MAX_CACHE_SIZE = 10;
+    static DB_GAME_ID = "card";
 
     constructor() {
         super(playCardPageView, 'play-card', true);
@@ -43,7 +44,7 @@ class PlayCardPage extends Page {
          * columnsCache:     the cache of the columns selected: array of array with the first element representing the index of the element and after the list of columns to show and eventually, the list of columns to ask
          * showOtherside:    if the other side is shown
          */
-        this.context = {testId: -1};
+        // this.context;
 
         window.sortable = new Sortable(playCardSetShowColumns, {
             group: 'play-card-set-columns',
@@ -101,9 +102,22 @@ class PlayCardPage extends Page {
     onload() {
         setPageTitle(currentTest.title);
         playCardPageView.classList.remove('hide');
-        if (this.context.testId !== currentTest.id) {
-            this.initialiseContext();
+
+        const request = DATABASE_MANAGER.getPlayContext(currentTest.id, PlayCardPage);
+        request.onsuccess = this.initialiseContextFromDB.bind(this);
+        request.onerror = this.initialiseContext.bind(this);
+    }
+
+    onvisibilitychange() {
+        if (document.hidden) {
+            // save the context
+            DATABASE_MANAGER.updatePlayContext(this.context);
         }
+    }
+
+    ondelete() {
+        DATABASE_MANAGER.updatePlayContext(this.context);
+        this.context = null; // save memory
     }
 
     /* when a key is press */
@@ -192,7 +206,21 @@ class PlayCardPage extends Page {
         }
 
         this.initialise();
-        this.setShuffle(this.context.shuffleData)
+        this.setShuffle(this.context.shuffleData);
+        DATABASE_MANAGER.addPlayContext(this.context, PlayCardPage).onerror = console.log;
+    }
+
+    /* initialise the context from the db */
+    initialiseContextFromDB(event) {
+        var cursor = event.target.result;
+        if (cursor) {
+            this.context = cursor.value;
+            console.log(cursor, this.context, this.context.index);
+            this.initialise();
+            this.updateCard(this.context.index, false);
+        } else {
+            this.initialiseContext();
+        }
     }
 
     /* initialise the UI from the context */
@@ -292,10 +320,10 @@ class PlayCardPage extends Page {
         return [columnsShow, columnsAsk];
     }
 
-    /* update the card at the index i, and show a face */
-    updateCard(i) {
+    /* update the card at the index i, and show a face. resetSide: if the function should reset the side shown (used when the whole UI should reset) */
+    updateCard(i, resetSide = true) {
         this.context.index = i;
-        this.context.showOtherside = false;
+        if (resetSide) this.context.showOtherside = false;
         this.globalNavigation.updateStatus(i <= 0 && this.context.shuffleData ? 1 : 0);
         
         playCardProgressIndex.textContent = i + 1;

@@ -97,14 +97,16 @@ function backToMain(newState = false) {
     loadPage();
 }
 
-function onkeydown(event) {
+addEventListener("keydown", function(event) {
     currentPage.onkeydown?.(event);
-}
-document.onkeydown = onkeydown;
+}, {capture: true});
 
-function onvisibilitychange(event) {
+addEventListener("visibilitychange", function(event) {
     currentPage.onvisibilitychange?.(event);
-}
-document.onvisibilitychange = onvisibilitychange;
+}, {capture: true});
+
+addEventListener("beforeunload", function(event) {
+    currentPage.ondelete?.(); // make sure that the state is correctly
+}, {capture: true});
 
 DATABASE_MANAGER.setOnLoaded(initNavigation);
