@@ -115,10 +115,13 @@ class DatabaseManager {
 
         context.gameId = pageConstructor.DB_GAME_ID;
 
-        return this.testDBEditor
+        this.testDBEditor
             .transaction(['playContexts'], 'readwrite')
             .objectStore('playContexts')
-            .add(context);
+            .add(context)
+            .onsuccess = function(event) {
+                context.pk = event.target.result; // set the pk found
+            };
     }
 
     /* update a test */

@@ -207,7 +207,7 @@ class PlayCardPage extends Page {
 
         this.initialise();
         this.setShuffle(this.context.shuffleData);
-        DATABASE_MANAGER.addPlayContext(this.context, PlayCardPage).onerror = console.log;
+        DATABASE_MANAGER.addPlayContext(this.context, PlayCardPage);
     }
 
     /* initialise the context from the db */
@@ -215,7 +215,6 @@ class PlayCardPage extends Page {
         var cursor = event.target.result;
         if (cursor) {
             this.context = cursor.value;
-            console.log(cursor, this.context, this.context.index);
             this.initialise();
             this.updateCard(this.context.index, false);
         } else {
