@@ -36,30 +36,30 @@ COMPILE_FILES = {
 
 MINIFY = False
 
-def main():
-    if len(sys.argv) > 1:
-        if not sys.argv[1].endswith('.js'):
+def add_file(w, f):
+    with open(f, 'r') as r:
+        w.write(jsmin(r.read()) if MINIFY else f"\n\n/* {f' {f} '.center(80, '#')}*/\n\n" + r.read())
+
+def minify(file, list_files):
+    with open(file, 'w') as fiw:
+        for f in list_files:
+            add_file(fiw, f)
+
+def run(args=[]):
+    if len(args) > 1:
+        if not args[1].endswith('.js'):
             sys.exit(0)
 
         for c in COMPILE_FILES:
-            if sys.argv[1].endswith(c):
+            if args[1].endswith(c):
                 sys.exit(0)
 
-    def add_file(w, f):
-        with open(f, 'r') as r:
-            w.write(jsmin(r.read()) if MINIFY else f"\n\n/* {f' {f} '.center(80, '#')}*/\n\n" + r.read())
+    tot = 0
 
-    def minify(file, list_files):
-        print(f"################ CREATE {file}")
-        with open(file, 'w') as fiw:
-            for f in list_files:
-                print(f)
-                add_file(fiw, f)
-
-    print("Update")
     for c in COMPILE_FILES:
         minify(c, COMPILE_FILES[c])
-    print()
+        tot += len(COMPILE_FILES[c])
+    print(f"[JS MINIFIER] Process {tot} files compressed into {len(COMPILE_FILES)} files.")
 
 if __name__ == '__main__':
-    main()
+    run(sys.argv)

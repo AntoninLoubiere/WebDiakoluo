@@ -2,7 +2,7 @@ import os
 import js_minifier
 import random
 
-CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVQXYZ1234567890+/"
+CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVQXYZ1234567890?!"
 
 FILES = '// FILES //'
 ID = '// ID //'
@@ -23,7 +23,7 @@ def random_id():
     return i
 
 
-def main():
+def run(swId):
     global services_files
     for d in DIRS:
         for root, dirs, files in os.walk(d):
@@ -46,11 +46,12 @@ def main():
 
     file = file.replace(FILES, '\n    '.join(services_files))
 
-    file = file.replace(ID, random_id())
+    file = file.replace(ID, swId)
 
     with open(SERVICE_WORKER, 'w') as fiw:
         fiw.write(file)
+    print(f"[SERVICE WORKER] Service worker created with id: {swId}")
 
 
 if __name__ == '__main__':
-    main()
+    run(random_id())
