@@ -1,8 +1,37 @@
 @import url("../font/font.css");
 
+:root {
+    --color-background: #fff;
+    --color-font: #000;
+
+    --color-accent-1: #e0f2f1;
+    --color-accent-2: #b2dfdb;
+    --color-accent-1-dark: #333;
+
+    --color-background-colored: #009688;
+    --color-background-colored-medium-dark: #00897b;
+    --color-background-colored-almost-dark: #00695c;
+    --color-background-colored-dark: #004d40;
+    --color-font-colored: #fff;
+
+    --color-background-important: #f44336;
+    --color-font-important: #fff;
+    --color-shadow: #00000066;
+
+    --color-right: #00c853;
+    --color-skipped: #dd2c00;
+    --color-wrong: #d50000;
+
+    --shadow-card: 0 3px 4px 0 rgba(12,12,12,.1),0 1px 3px 0 rgba(12,12,12,.1);
+    --shadow-card-hover: 0 7px 14px 0 rgba(12,12,12,.2),0 3px 6px 0 rgba(12,12,12,.2);
+}
+
 html {
     width: 100%;
     height: 100%;
+
+    background-color: var(--color-background);
+    color: var(--color-font);
 }
 
 body {
@@ -37,10 +66,10 @@ x-i18n {
 
 nav {
     position: static;
-    background-color: #009688;
-    color: #fff;
+    background-color: var(--color-background-colored);
+    color: var(--color-font-colored);
 
-    box-shadow: 0px 3px 5px 2px #00000066;
+    box-shadow: 0px 3px 5px 2px var(--color-shadow);
 
     font: 700 1em "Oswald", sans-serif;
 
@@ -61,9 +90,12 @@ footer {
     top: 100%;
     margin-top: 1em;
     padding: 1em .5em;
-    background-color: #004d40;
-    color: #fff;
+    background-color: var(--color-background-colored-dark);
+    color: var(--color-font-colored);
     clear: both;
+
+    --color-background: var(--color-background-colored);
+    --color-font: var(--color-font-colored);
 }
 
 footer .open-new-icon {
@@ -79,26 +111,26 @@ footer .open-new-icon {
 }
 
 .table tr {
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-accent-2);
 }
 
 .table tr:nth-child(even) {
-    background-color: #eee;
+    background-color: var(--color-accent-1);
 }
 
 .table tr:hover {
-    background-color: #ddd;
+    background-color: var(--color-accent-2);
 }
 
 .table thead {
     font-weight: 700;
     font-family: "Oswald", sans-serif;
-    background-color: #00897b;
-    color: #fff;
+    background-color: var(--color-background-colored-medium-dark);
+    color: var(--color-font-colored);
 }
 
 .table thead tr:hover {
-    background-color: #004d40;
+    background-color: var(--color-background-colored-dark);
 }
 
 .table td {
@@ -120,7 +152,7 @@ td.min {
 }
 
 body.colored {
-    background-color: #52c7b8;
+    background-color: var(--color-background-colored);
 }
 
 a {
@@ -142,8 +174,12 @@ select {
     width: 100%;
 }
 
+progress {
+    background-color: var(--color-accent-1);
+}
+
 progress::-moz-progress-bar, progress::-webkit-progress-value {
-    background-color: #009688;
+    background-color: var(--color-background-colored);
     transition: all .3s ease-out;
 }
 
@@ -183,33 +219,39 @@ button.btn {
 }
 
 button.btn:hover {
-    box-shadow: 1px 2.5px 5px 2px #00000044;
+    box-shadow: 1px 2.5px 5px 2px var(--color-shadow);
     transform: translateY(-8px);
 }
 
+/* DEPRECATED */
 button.green {
     color: #fff;
     background-color: #43a047 !important;
 }
 
+/* DEPRECATED */
 button.green:hover {
     background-color: #2e7d32 !important;
 }
 
+/* DEPRECATED */
 button.blue {
     color: #fff;
     background-color: #039be5 !important;
 }
 
+/* DEPRECATED */
 button.blue:hover {
     background-color: #0277bd !important;
 }
 
+/* DEPRECATED */
 button.red {
     color: #fff;
     background-color: #e53935 !important;
 }
 
+/* DEPRECATED */
 button.red:hover {
     background-color: #c62828 !important;
 }
@@ -231,10 +273,11 @@ button.image-button {
     letter-spacing: .1em;
 
     padding: 0 .5em;
-    background-color: #fff;
     border-radius: 3em;
 
-    border: #ddd 2px solid;
+    background-color: var(--color-background);
+    color: var(--color-font);
+    border: var(--color-accent-1) 2px solid;
 }
 
 button.image-button span {
@@ -252,17 +295,17 @@ button.image-button.compact span {
 }
 
 button.image-button:hover {
-    border-color: #004d40;
+    border-color: var(--color-background-colored-dark);
 }
 
 button.image-button.colored {
-    background-color: #00695c;
-    color: #fff;
+    background-color: var(--color-background-colored-dark);
+    color: var(--color-font-colored);
     border: none;
 }
 
 button.image-button.colored:hover {
-    background-color: #004d40;
+    background-color: var(--color-background-colored-dark);
 }
 
 button.icon-button {
@@ -275,7 +318,7 @@ button.icon-button {
 
     padding: 0;
 
-    background-color: #fff;
+    background-color: var(--color-background);
     border-radius: 3em;
 
     z-index: 1;
@@ -294,7 +337,7 @@ button.icon-button::after {
     left: 0;
     z-index: -1;
     border-radius: 3em;
-    background-color: #e6e6e6;
+    background-color: var(--color-accent-1);
 
     transition: transform .3s cubic-bezier(.6,-0.28,.74,.05);
 
@@ -373,9 +416,10 @@ textarea.resize-vertical {
     left: 0;
     right: 0;
 
-    box-shadow: 0px 0px 10px 2px #000;
+    box-shadow: var(--shadow-card);
 
-    background-color: #fff;
+    background-color: var(--color-background);
+    color: var(--color-font);
 
     transform: translateY(-50%);
 }
@@ -385,8 +429,8 @@ textarea.resize-vertical {
     letter-spacing: .1em;
     padding: .5em 1em;
 
-    background-color: #009688;
-    color: #fff;
+    background-color: var(--color-background-colored);
+    color: var(--color-font-colored);
 }
 
 .main-card main {
@@ -395,12 +439,12 @@ textarea.resize-vertical {
 
 .card {
     border-radius: .5em;
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-accent-1);
 
     padding: .5em .7em;
     margin: 1em 0;
 
-    box-shadow: 0 3px 4px 0 rgba(12,12,12,.1),0 1px 3px 0 rgba(12,12,12,.1);
+    box-shadow: var(--shadow-card);
 }
 
 .modal {
@@ -425,7 +469,8 @@ textarea.resize-vertical {
     display: flex;
     flex-direction: column;
 
-    background-color: #fff;
+    background-color: var(--color-background);
+    color: var(--color-font);
 }
 
 .modal-content header {
@@ -436,12 +481,16 @@ textarea.resize-vertical {
     padding: .5em 1em;
     padding-right: 1.5em; /* if close button */
 
-    background-color: #009688;
-    color: #fff;
+    background-color: var(--color-background-colored);
+    color: var(--color-font-colored);
 }
 
 .modal-content.red header {
-    background-color: #f44336;
+    background-color: var(--color-background-important);
+    font-color: var(--color-font-important);
+
+    --color-background-colored: var(--color-background-important);
+    --color-font-colored: var(--color-font-important);
 }
 
 .modal-content main {
@@ -454,7 +503,7 @@ textarea.resize-vertical {
 
 .modal-content footer {
     position: static;
-    background-color: #009688;
+    background-color: var(--color-background-colored);
     padding: 0;
     margin: 0;
 }
@@ -489,12 +538,8 @@ textarea.resize-vertical {
 }
 
 .modal-close:hover {
-    color: #009688;
-    background-color: #fff;
-}
-
-.modal-content.red .modal-close:hover {
-    color: #f44336;
+    color: var(--color-background-colored);
+    background-color: var(--color-font-colored);
 }
 
 .selector {
@@ -508,7 +553,7 @@ textarea.resize-vertical {
 
     border-radius: 1em;
     padding: 0.3em 1em;
-    border: solid 1px #004d40;
+    border: solid 1px var(--color-background-colored-dark);
 
     cursor: pointer;
 
@@ -516,8 +561,8 @@ textarea.resize-vertical {
 }
 
 .selector:hover {
-    background-color: #00695c;
-    border-color: #4db6ac;
+    background-color: var(--color-background-colored-almost-dark);
+    border-color: var(--color-accent-2);
 }
 
 .selector-dropdown {
@@ -532,8 +577,8 @@ textarea.resize-vertical {
     margin-bottom: .5em;
     border-radius: .2em;
 
-    background-color: #00695c;
-    border: solid 0px #4db6ac;
+    background-color: var(--color-background-colored-almost-dark);
+    border: solid 0px var(--color-accent-2);
 
     overflow: hidden;
 
@@ -559,7 +604,7 @@ textarea.resize-vertical {
 }
 
 .selector-dropdown-child:hover {
-    background-color: #004d40;
+    background-color: var(--color-background-colored-dark);
 }
 
 .sortable {
@@ -583,8 +628,8 @@ textarea.resize-vertical {
     padding: .2em .5em;
     border-radius: 3em;
 
-    background-color: #00695c;
-    border: solid 1px #4db6ac;
+    background-color: var(--color-background-colored-almost-dark);
+    border: solid 1px var(--color-accent-2);
 
     opacity: 0;
     transition: opacity .3s .2s ease-out;
@@ -597,8 +642,9 @@ textarea.resize-vertical {
 .bottom-bar {
     position: sticky;
     bottom: 0;
-    background: #fff;
-    border-top: solid 1px #ddd;
+    background: var(--color-background);
+    color: var(--color-font);
+    border-top: solid 1px var(--color-accent-2);
     margin-top: 1em;
     padding: 0 .5em;
     min-height: 2.2em;
@@ -619,11 +665,7 @@ textarea.resize-vertical {
 
 
 .double-column > div:first-child {
-    border-bottom: dotted #000;
-}
-
-footer.double-column > div:first-child {
-    border-bottom: dotted #fff;
+    border-bottom: dotted var(--color-font);
 }
 
 .double-column > div {
@@ -693,13 +735,13 @@ footer.double-column > div:first-child {
     transform: translateY(-50%);
 
     padding: 0;
-    background-color: #fff8;
+    background-color: var(--color-background);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 3em;
 
-    border: #ddd 2px solid;
+    border: var(--color-accent-1) 2px solid;
 }
 
 .global-nav-button:hover {
@@ -717,7 +759,7 @@ footer.double-column > div:first-child {
 }
 
 .global-nav-button:hover {
-    border-color: #004d40;
+    border-color: var(--color-background-colored-dark);
 }
 
 .global-nav-button.disabled {
@@ -727,7 +769,7 @@ footer.double-column > div:first-child {
 }
 
 .global-nav-button.disabled:hover {
-    border-color: #ddd;
+    border-color: var(--color-accent-1);
 }
 
 .grid-keys {
@@ -835,12 +877,7 @@ footer.double-column > div:first-child {
 
     .double-column > div:first-child {
         border-bottom: unset;
-        border-right: dotted #000;
-    }
-
-    footer.double-column > div:first-child {
-        border-bottom: unset;
-        border-right: dotted #fff;
+        border-right: dotted var(--color-font);
     }
 
     .double-column > div {
