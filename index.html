@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/base.css">
     <link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/index.css">
     <link rel="icon" href="/WebDiakoluo/res/img/favicon.svg" />
+    <script type="text/javascript" src="/WebDiakoluo/res/lib/Sortable.min.js" defer=""></script>
     <script type="text/javascript" src="/WebDiakoluo/res/js/all.min.js" defer=""></script>
     <script type="text/javascript" src="/WebDiakoluo/res/js/diakoluo.min.js" defer=""></script>
     <script type="text/javascript" src="/WebDiakoluo/res/js/pages/index.min.js" defer=""></script>
@@ -44,6 +45,10 @@
             <button class="btn image-button compact" id="view-play-button">
                 <img src="/WebDiakoluo/res/img/play.svg">
                 <span><x-i18n key="play" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button compact" id="view-eval-button">
+                <img src="/WebDiakoluo/res/img/grade.svg">
+                <span><x-i18n key="eval" caps="upper"></x-i18n></span>
             </button>
             <button class="btn image-button compact" id="view-edit-button">
                 <img src="/WebDiakoluo/res/img/edit.svg">
@@ -114,27 +119,39 @@
         </button>
     </div>
 </main>
-<main id="play-page" class="hide">
-    <form id="play-form">
-        <h1 id="play-test-title"></h1>
-        <div id="play-progress-parent">
-            <div id="play-progress-text"><span id="play-progress-index"></span>/<span id="play-progress-max"></span></div>
-            <progress id="play-progress" value="75" max="1"></progress>
+<main id="play-card-page" class="hide expand">
+    <div id="play-card-header">
+        <div class="progress">
+            <div><span id="play-card-progress-index"></span>/<span id="play-card-progress-max"></span></div>
+            <progress id="play-card-progress" value=".5" max="1"></progress>
         </div>
-        <div id="play-inputs" class="unique-column">
+        <button class="icon-button" id="play-card-settings-button"><img src="/WebDiakoluo/res/img/settings.svg"></button>
+        <button class="icon-button" id="play-card-shuffle-button"><img src="/WebDiakoluo/res/img/shuffle.svg" id="play-card-shuffle-button-image"></button>
+    </div>
+    <div class="card" id="play-card-card">
+    </div>
+</main>
+<main id="eval-page" class="hide">
+    <form id="eval-form">
+        <h1 id="eval-test-title"></h1>
+        <div class="progress">
+            <div><span id="eval-progress-index"></span>/<span id="eval-progress-max"></span></div>
+            <progress id="eval-progress" value=".5" max="1"></progress>
         </div>
-        <button id="play-continue-button" class="btn image-button colored major" type="submit">
-            <span><x-i18n key="continue" caps="upper" id="play-continue-button-text"></x-i18n></span>
+        <div id="eval-inputs" class="unique-column">
+        </div>
+        <button id="eval-continue-button" class="btn image-button colored major" type="submit">
+            <span><x-i18n key="continue" caps="upper" id="eval-continue-button-text"></x-i18n></span>
             <img src="/WebDiakoluo/res/img/play_w.svg">
         </button>
     </form>
 </main>
-<main id="play-settings-page" class="hide">
-    <form id="play-set-form">
-        <h1 id="play-set-test-title"></h1>
-        <div id="play-set-params" class="unique-column">
-            <b><x-i18n key="play-number-data"></x-i18n></b>
-            <select id="play-set-number-data">
+<main id="eval-settings-page" class="hide">
+    <form id="eval-set-form">
+        <h1 id="eval-set-test-title"></h1>
+        <div id="eval-set-params" class="unique-column">
+            <b><x-i18n key="eval-number-data"></x-i18n></b>
+            <select id="eval-set-number-data">
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="1-4">1/4</option>
@@ -142,28 +159,28 @@
                 <option value="1-2">1/2</option>
                 <option value="1-1">100%</option>
             </select>
-            <label for="play-set-number-column"><b><x-i18n key="number-columns"></x-i18n></b></label>
+            <label for="eval-set-number-column"><b><x-i18n key="number-columns"></x-i18n></b></label>
             <div class="flex flex-center">
-                <input type="number" name="columns" id="play-set-number-column" min="1" value="1" required="" />/<span id="play-set-number-column-max"></span>
+                <input type="number" name="columns" id="eval-set-number-column" class="small" min="1" value="1" required="" />/<span id="eval-set-number-column-max"></span>
             </div>
         </div>
-        <button id="play-set-start-button" class="btn image-button colored major" type="submit">
-            <span><x-i18n key="play" caps="upper"></x-i18n></span>
+        <button id="eval-set-start-button" class="btn image-button colored major" type="submit">
+            <span><x-i18n key="eval" caps="upper"></x-i18n></span>
             <img src="/WebDiakoluo/res/img/play_w.svg">
         </button>
     </form>
 </main>
-<main id="play-score-page" class="hide">
-    <div id="play-score-progress-parent">
-        <h1 class="no-margin" id="play-score-major">1/10</h1>
-        <progress value="0" max="1" id="play-score-progress"></progress>
-        <h3 class="no-margin" id="play-score-minor">1/10</h3>
+<main id="eval-score-page" class="hide">
+    <div id="eval-score-progress-parent">
+        <h1 class="no-margin" id="eval-score-major">1/10</h1>
+        <progress value="0" max="1" id="eval-score-progress"></progress>
+        <h3 class="no-margin" id="eval-score-minor">1/10</h3>
     </div>
-    <button class="btn image-button colored right" id="play-score-restart">
+    <button class="btn image-button colored right" id="eval-score-restart">
         <img src="/WebDiakoluo/res/img/restart_w.svg">
         <span><x-i18n key="restart" caps="upper"></x-i18n></span>
     </button>
-    <button class="btn image-button right" id="play-score-menu">
+    <button class="btn image-button right" id="eval-score-menu">
         <img src="/WebDiakoluo/res/img/home.svg">
         <span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
     </button>
@@ -293,6 +310,49 @@
         </main>
     </div>
 </div>
+<div class="modal hide" id="play-card-settings-modal">
+    <div class="modal-content">
+        <header><x-i18n key="settings"></x-i18n><button is="button-modal" class="modal-close" modal-name="play-card-settings" modal-action="hide">&times;</button></header>
+        <main>
+            <div id="play-card-set-set">
+                <div>
+                    <input id="play-card-set-column-name" type="checkbox">
+                    <label for="play-card-set-column-name"><x-i18n key="play-card-column-name"></x-i18n></label>
+                </div>
+                <div>
+                    <input id="play-card-set-random-side" type="checkbox">
+                    <label for="play-card-set-random-side"><x-i18n key="play-card-random-side"></x-i18n></label>
+                </div>
+                <div>
+                    <label for="play-card-set-nb-rand-col"><x-i18n key="number-columns-random"></x-i18n> :</label>
+                    <input id="play-card-set-nb-rand-col" class="small" type="number">
+                </div>
+            </div>
+            <div id="play-card-set-columns">
+                <div>
+                    <h3><x-i18n key="show-columns"></x-i18n></h3>
+                    <div id="play-card-set-show-columns" class="sortable" column-list="columnsShow"></div>
+                </div>
+                <div>
+                    <h3><x-i18n key="random-columns"></x-i18n></h3>
+                    <div id="play-card-set-random-columns" class="sortable" column-list="columnsRandom"></div>
+                </div>
+                <div>
+                    <h3><x-i18n key="ask-columns"></x-i18n></h3>
+                    <div id="play-card-set-ask-columns" class="sortable" column-list="columnsAsk"></div>
+                </div>
+                <div>
+                    <h3><x-i18n key="hide-columns"></x-i18n></h3>
+                    <div id="play-card-set-hide-columns" class="sortable" column-list="columnsHide"></div>
+                </div>
+            </div>
+            <button is="button-modal" modal-name="play-card-settings" modal-action="hide" class="btn image-button colored right"><span><x-i18n key="ok" caps="upper"></x-i18n></span></button>
+            <button class="btn image-button right" id="play-card-set-reset">
+                <img src="/WebDiakoluo/res/img/restart.svg"><span><x-i18n key="reset" caps="upper"></x-i18n></span>
+            </button>
+        </main>
+    </div>
+</div>
 <template id="list-test-child-template">
     <div class="test">
         <div class="test-title"></div>
@@ -325,6 +385,25 @@
             <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button"><img class="edit-button data-delete-button" src="/WebDiakoluo/res/img/delete.svg">
         </td>
     </tr>
+</template>
+<template id="play-card-restart-template">
+    <div>
+        <h1 class="card-center"><x-i18n key="play-card-end"></x-i18n></h1>
+        <div class="card-center" id="play-card-button-bar">
+            <button class="btn image-button" id="play-card-home-button">
+                <img src="/WebDiakoluo/res/img/home.svg"><span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button" id="play-card-view-button">
+                <img src="/WebDiakoluo/res/img/view.svg"><span><x-i18n key="view-test" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button" id="play-card-restart-button">
+                <img src="/WebDiakoluo/res/img/restart.svg"><span><x-i18n key="restart" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button colored" id="play-card-grade-button">
+                <img src="/WebDiakoluo/res/img/grade_w.svg"><span><x-i18n key="eval" caps="upper"></x-i18n></span>
+            </button>
+        </div>
+    </div>
 </template>
 </body>
 </html>

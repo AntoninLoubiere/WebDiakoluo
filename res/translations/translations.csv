@@ -4,6 +4,7 @@ cancel,Cancel,Annuler
 valid,Valid,Valider
 continue,Continue,Continuer
 restart,Restart,Recommencer
+reset,Reset,Réinitialiser
 main-menu,Main menu,Menu principal
 export,Export,Exporter
 import,Import,Importer
@@ -12,8 +13,10 @@ delete,Delete,Supprimer
 all,All,Tous
 dont-show-again,Don't show again.,Ne plus afficher
 view,View,Voir
+view-test,View the test,Voir le test
 edit,Edit,Éditer
 play,Play,Démarrer
+eval,Be evaluate,S'évaluer
 language,Language: ,Langue: 
 loading,Loading,Chargement
 more-informations,More informations,Plus d'informations
@@ -24,8 +27,8 @@ list-test-h,Your tests:,Vos tests :
 title,Title,Titre
 description,Description,Description
 columns,Columns,Colonnes
-created-date,Created:,Crée
-modification-date,Modified:,Modifié
+created-date,Created,Crée
+modification-date,Modified,Modifié
 data,Data,Données
 data-number,Data n°,Donnée n°
 edited-test,Current edited test,Test édité actuellement
@@ -33,13 +36,21 @@ add-column,Add a column,Ajouter une colonne
 add-data,Add a data,Ajouter une donnée
 add-test,Add a test,Ajouter un test
 import-test,Import a test,Importer un test
+show-columns,Columns to show,Colonnes à afficher
+random-columns,Random columns,Colonnes aléatoires
+ask-columns,Columns to ask,Colonnes à demander
+hide-columns,Columns to hide,Colonnes à cacher
+number-columns-random,Number of random columns to show (other will be asked), Nombre de colonnes aléatoire à afficher (les autres seront demandées)
+play-card-column-name,Show column name,Afficher le nom des colonnes
+play-card-random-side,Randomly invert side shown,Inverser aléatoirement le coté affiché
+play-card-end,"The End. It's finish.","La Fin. C'est terminé"
 default-column-title,Column,Colonne
 default-test-title,Test,Test
 default-test-description,A test,Un test
-play-number-data,Number of data to do:,Nombre de donnée a faire :
+eval-number-data,Number of data to do:,Nombre de donnée a faire :
 skipped,(Skipped),(Passé)
 empty-string,(empty),(vide)
-number-columns,Number of column to show:,Nombre de colonne à montrer
+number-columns,Number of column to show,Nombre de colonne à montrer
 cookies,Cookies,Cookies
 cookies-message,"Cookies and similar mechanism sont utilisées are used for parameter storage or used for the storage of user data like number of test, number of victories... Data are <b>stored by your navigatpr</b> and are <b>never transmit, stored and handle</b> by external servers.","Les cookies et processus ressemblant sont utilisées à des fins de stockage de paramètres ou de stockage des données d'utilisateur tels que les tests, le nombre de victoires... Ces données sont <b>stockées par votre navigateur</b> et ne sont <b>dans aucun cas transmis, stocker et traiter</b> par des serveurs externes."
 cookies-accept,Accept and continue,Accepter et continuer

@@ -26,10 +26,11 @@ COMPILE_FILES = {
         'res/js/pages/index/utils.js',
         'res/js/pages/index/list.js',
         'res/js/pages/index/view.js',
+        'res/js/pages/index/play-card.js',
         'res/js/pages/index/edit.js',
-        'res/js/pages/index/play.js',
-        'res/js/pages/index/play-settings.js',
-        'res/js/pages/index/play-score.js',
+        'res/js/pages/index/eval.js',
+        'res/js/pages/index/eval-settings.js',
+        'res/js/pages/index/eval-score.js',
     ]
 }
 

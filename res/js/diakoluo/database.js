@@ -1,4 +1,5 @@
 const EDIT_KEY = "edit";
+const DATABASE_VERSION = 2;
 
 /* the manager of the database */
 class DatabaseManager {
@@ -12,7 +13,7 @@ class DatabaseManager {
 
     /* initialise the db */
     initialise() {
-        this.testDB = indexedDB.open('tests', 1);
+        this.testDB = indexedDB.open('tests', DATABASE_VERSION);
         this.testDB.onerror = function(event) {
             console.error('Database cannot be loaded', event);
         };
@@ -33,7 +34,7 @@ class DatabaseManager {
                 } else {
                     this.freeIndex = 1;
                 }
-                console.info("Database loaded.");
+                console.info("Database loaded. Version", DATABASE_VERSION);
                 this.onloaded();
             };
         }
@@ -43,8 +44,10 @@ class DatabaseManager {
 
             this.testDBEditor.onerror = this.onTestDBError;
 
-            switch (this.testDBEditor.version) {
-                case 1:
+
+
+            switch (event.oldVersion) {
+                default:
                     var header = this.testDBEditor.createObjectStore("header", { keyPath: "id" });
 
                     header.createIndex("title", "title", { unique: false });
@@ -56,8 +59,14 @@ class DatabaseManager {
                     tests.createIndex("title", "title", { unique: false });
                     tests.createIndex("description", "title", { unique: false });
 
+                case 1:
+                    var playContexts = this.testDBEditor.createObjectStore("playContexts", { autoIncrement: true, keyPath: "pk"});
+                    playContexts.createIndex("testId", "testId");
+                    playContexts.createIndex("gameId", "gameId");
+                    playContexts.createIndex("testContext", ["testId", "gameId"], { unique: true })
+
             }
-            console.info("Database initialised or upgraded from version", this.onTestDBError?.version);
+            console.info("Database initialised or upgraded from version", event.oldVersion, "to", DATABASE_VERSION);
         };
 
         // set storage persistent if possible, else, warn the user
@@ -97,6 +106,24 @@ class DatabaseManager {
         return tests.add(test);
     }
 
+    /* add a play context */
+    addPlayContext(context, pageConstructor) {
+        if (this.freeIndex == null) {
+            console.error("DB not initialised !");
+            return;
+        }
+
+        context.gameId = pageConstructor.DB_GAME_ID;
+
+        this.testDBEditor
+            .transaction(['playContexts'], 'readwrite')
+            .objectStore('playContexts')
+            .add(context)
+            .onsuccess = function(event) {
+                context.pk = event.target.result; // set the pk found
+            };
+    }
+
     /* update a test */
     updateTest(test) {
         if (this.freeIndex == null) {
@@ -111,6 +138,17 @@ class DatabaseManager {
         return tests.put(test);
     }
 
+    /* update the play context */
+    updatePlayContext(context) {
+        if (this.freeIndex == null) {
+            console.error("DB not initialised !");
+            return;
+        }
+
+        var playContexts = this.testDBEditor.transaction(['playContexts'], 'readwrite').objectStore('playContexts');
+        return playContexts.put(context);
+    }
+
     /* delete a test */
     deleteTest(id) {
         if (this.freeIndex == null) {
@@ -120,9 +158,26 @@ class DatabaseManager {
         var transaction = this.testDBEditor.transaction(['header', 'tests'], "readwrite");
         var header = transaction.objectStore('header');
         var tests = transaction.objectStore('tests');
+        var playContextsIndex = transaction.objectStore('playContexts').index('testId');
+
+        this.deleteAllPlayContext(id);
 
         header.delete(id);
         return tests.delete(id);
+    }
+
+    /* delete all play context of a specific test */
+    deleteAllPlayContext(testId) {
+        var transaction = this.testDBEditor.transaction(['playContexts'], "readwrite");
+        var playContextsIndex = transaction.objectStore('playContexts').index('testId');
+
+        playContextsIndex.openCursor(IDBKeyRange.only(testId)).onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                cursor.delete();
+                cursor.continue();
+            }
+        }
     }
 
     /* get a full test data*/
@@ -158,6 +213,17 @@ class DatabaseManager {
         }
 
         return o;
+    }
+
+    /* get a play context */
+    getPlayContext(testId, pageConstructor) {
+        return this.testDBEditor
+            .transaction(['playContexts'], 'readonly')
+            .objectStore('playContexts')
+            .index('testContext')
+            .openCursor(
+                IDBKeyRange.only([testId, pageConstructor.DB_GAME_ID])
+            );
     }
 
     /* get the cursor to get all childs */
