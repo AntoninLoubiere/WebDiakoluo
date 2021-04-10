@@ -570,6 +570,30 @@ textarea.resize-vertical {
     opacity: .4;
 }
 
+.popup-parent {
+    position: relative;
+}
+
+.popup-child {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -110%);
+
+    padding: .2em .5em;
+    border-radius: 3em;
+
+    background-color: #00695c;
+    border: solid 1px #4db6ac;
+
+    opacity: 0;
+    transition: opacity .3s .2s ease-out;
+}
+
+.popup-parent:hover > .popup-child {
+    opacity: 1;
+}
+
 .bottom-bar {
     position: sticky;
     bottom: 0;
