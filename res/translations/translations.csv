@@ -37,10 +37,10 @@ add-data,Add a data,Ajouter une donnée
 add-test,Add a test,Ajouter un test
 import-test,Import a test,Importer un test
 show-columns,Columns to show,Colonnes à afficher
-random-columns,Random columns,Colonnes aléatoire
+random-columns,Random columns,Colonnes aléatoires
 ask-columns,Columns to ask,Colonnes à demander
 hide-columns,Columns to hide,Colonnes à cacher
-number-columns-random,Number of random columns to show (other will be asked), Nombre de colonnes aléatoire à montrer (les autres seront cachées)
+number-columns-random,Number of random columns to show (other will be asked), Nombre de colonnes aléatoire à afficher (les autres seront demandées)
 play-card-column-name,Show column name,Afficher le nom des colonnes
 play-card-random-side,Randomly invert side shown,Inverser aléatoirement le coté affiché
 play-card-end,"The End. It's finish.","La Fin. C'est terminé"
