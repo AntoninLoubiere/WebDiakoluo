@@ -752,6 +752,12 @@ footer.double-column > div:first-child {
     margin-right: .5em;
 }
 
+.github-image {
+    width: 1em;
+    height: 1em;
+    margin: 0 .1em;
+}
+
 @media(min-height: 500px) {
     body.nav > main {
         margin-top: 2.7em;
