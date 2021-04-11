@@ -182,10 +182,6 @@ b {
     font-weight: 500;
 }
 
-select {
-    width: 100%;
-}
-
 progress {
     background-color: var(--color-accent-1);
     border-color: var(--color-accent-2);
@@ -196,13 +192,13 @@ progress::-moz-progress-bar, progress::-webkit-progress-value {
     transition: all .3s ease-out;
 }
 
-input, textarea {
+input, textarea, select {
     background-color: var(--color-background);
     color: var(--font-color);
     transition: border-color .2s, color .2s, background-color .2s;
 }
 
-input[type='text'], input[type='number'], input[type='checkbox'], textarea {
+input[type='text'], input[type='number'], input[type='checkbox'], textarea, select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -224,7 +220,7 @@ input[type='text'] {
     border-bottom: solid 2px var(--color-accent-1);
 }
 
-input[type='number'], textarea {
+input[type='number'], textarea, select {
     border: solid 2px var(--color-accent-1);
     border-radius: .25em;
 }
@@ -266,6 +262,20 @@ input[type='checkbox']::after {
     transition: opacity .2s;
 }
 
+select {
+    width: 100%;
+    
+    background-image: url();
+    background-position: right;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+input[type='text']:hover, input[type='number']:hover, textarea:hover, select:focus, select:hover {
+    border-color: var(--color-accent-2);
+    color: var(--color-font);
+}
+
 input[type='text']:focus, input[type='number']:focus, textarea:focus {
     background-color: var(--color-accent-1);
    
@@ -273,24 +283,19 @@ input[type='text']:focus, input[type='number']:focus, textarea:focus {
     color: var(--color-font);
 }
 
-input[type='text']:hover, input[type='number']:hover, textarea:hover {
-    border-color: var(--color-accent-2);
-    color: var(--color-font);
-}
-
 input[type='checkbox']:hover::after {
     opacity: .3;
 }
 
-input:invalid, textarea:invalid {
+input:invalid, textarea:invalid, select:invalid {
     border-color: var(--color-background-important) !important;
 }
 
-input[type='text']:invalid:focus, input[type='number']:invalid:focus, textarea:invalid:focus {
+input[type='text']:invalid:focus, input[type='number']:invalid:focus, textarea:invalid:focus, select:invalid:focus {
     background-color: var(--color-accent-important);
 }
 
-input:disabled, textarea:disabled {
+input:disabled, textarea:disabled, select:disabled {
     color: var(--color-font-50);
     border-color: var(--color-accent-1);
 }
@@ -378,6 +383,8 @@ button.image-button {
 
     padding: 0 .5em;
     border-radius: 3em;
+    
+    box-sizing: border-box;
 
     background-color: var(--color-background);
     color: var(--color-font);
