@@ -34,7 +34,7 @@ class Column {
     static getSkippedView() {
         var e = document.createElement('div');
         e.textContent = getTranslation('skipped');
-        e.classList = ['skipped-answer', 'text'];
+        e.classList = 'skipped-answer text';
         return e;
     }
 

@@ -216,6 +216,10 @@ textarea.column-string-long {
     flex-direction: column;
 }
 
+#eval-inputs div.text {
+    display: inline;
+}
+
 #eval-score-progress {
     align-self: stretch;
 }
