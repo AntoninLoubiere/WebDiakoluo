@@ -180,10 +180,6 @@ textarea.column-string-long {
     margin-bottom: .5em;
 }
 
-#eval-inputs > span, #eval-inputs > input, #eval-inputs > select {
-    line-height: 34px;
-}
-
 .right-answer {
     color: var(--color-right);
     padding-left: 1.2em;

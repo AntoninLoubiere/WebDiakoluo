@@ -96,6 +96,7 @@ class Column {
     getTestView(data) {
         var i = document.createElement('input');
         i.type = 'text';
+        i.placeholder = this.name;
         return i;
     }
 

@@ -58,6 +58,7 @@ class ColumnString extends Column {
         } else {
             var i = document.createElement('input');
             i.type = 'text';
+            i.placeholder = this.name;
         }
         return i;
     }

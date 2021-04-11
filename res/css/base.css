@@ -3,10 +3,15 @@
 :root {
     --color-background: #fff;
     --color-font: #000;
+    
+    --color-font-80: #444;
+    --color-font-50: #707070;
 
     --color-accent-1: #e0f2f1;
     --color-accent-2: #b2dfdb;
     --color-accent-1-dark: #333;
+    
+    --color-border: #ddd;
 
     --color-background-colored: #009688;
     --color-background-colored-medium-dark: #00897b;
@@ -16,6 +21,8 @@
 
     --color-background-important: #f44336;
     --color-font-important: #fff;
+    --color-accent-important: #ffebee;
+
     --color-shadow: #00000066;
 
     --color-right: #00c853;
@@ -24,6 +31,11 @@
 
     --shadow-card: 0 3px 4px 0 rgba(12,12,12,.1),0 1px 3px 0 rgba(12,12,12,.1);
     --shadow-card-hover: 0 7px 14px 0 rgba(12,12,12,.2),0 3px 6px 0 rgba(12,12,12,.2);
+}
+
+::selection, ::-moz-selection {
+    background: var(--color-background-colored-medium-dark);
+    color: var(--color-font-colored);
 }
 
 html {
@@ -176,11 +188,30 @@ select {
 
 progress {
     background-color: var(--color-accent-1);
+    border-color: var(--color-accent-2);
 }
 
 progress::-moz-progress-bar, progress::-webkit-progress-value {
     background-color: var(--color-background-colored);
     transition: all .3s ease-out;
+}
+
+input, textarea {
+    background-color: var(--color-background);
+    color: var(--font-color);
+    transition: border-color .2s, color .2s, background-color .2s;
+}
+
+input[type='text'], input[type='number'], textarea {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    box-shadow: none;
+    outline: none;
+    
+    padding: .3em .3em;
+    
+    color: var(--color-font-80);
 }
 
 input.unique-line {
@@ -189,6 +220,42 @@ input.unique-line {
 
 input[type='checkbox'] {
     vertical-align: middle;
+}
+
+input[type='text'] {
+    border: none;
+    border-radius: .5em .5em 0 0;
+    border-bottom: solid 2px var(--color-accent-1);
+}
+
+input[type='number'], textarea {
+    border: solid 2px var(--color-accent-1);
+    border-radius: .25em;
+}
+
+input[type='text']:hover, input[type='number']:hover, textarea:hover {
+    border-color: var(--color-accent-2);
+    color: var(--color-font);
+}
+
+input[type='text']:focus, input[type='number']:focus, textarea:focus {
+    background-color: var(--color-accent-1);
+   
+    border-color: var(--color-background-colored);
+    color: var(--color-font);
+}
+
+input:invalid, textarea:invalid {
+    border-color: var(--color-background-important) !important;
+}
+
+input[type='text']:invalid:focus, input[type='number']:invalid:focus, textarea:invalid:focus {
+    background-color: var(--color-accent-important);
+}
+
+input:disabled, textarea:disabled {
+    color: var(--color-font-50);
+    border-color: var(--color-accent-1);
 }
 
 input.small {
@@ -546,7 +613,6 @@ textarea.resize-vertical {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
     user-select: none;
     position: relative;
     display: inline;
