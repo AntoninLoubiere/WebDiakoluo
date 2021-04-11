@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-m7wVgmOY";
+ const CACHE_NAME = "WebDiakoluo-ee19Db!S";
 
 /* get the files of the app */
 function getAppFiles() {
@@ -48,6 +48,7 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/import_w.svg");
     f.push("/WebDiakoluo/res/img/delete.svg");
     f.push("/WebDiakoluo/res/img/grade.svg");
+    f.push("/WebDiakoluo/res/img/checkbox_on.svg");
     f.push("/WebDiakoluo/res/img/open_in_new_w.svg");
     f.push("/WebDiakoluo/res/img/add.svg");
     f.push("/WebDiakoluo/res/img/play.svg");
@@ -64,6 +65,7 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/offline_w.svg");
     f.push("/WebDiakoluo/res/img/edit.svg");
     f.push("/WebDiakoluo/res/img/play_w.svg");
+    f.push("/WebDiakoluo/res/img/checkbox.svg");
     f.push("/WebDiakoluo/res/img/edit_w.svg");
     f.push("/WebDiakoluo/res/img/nav_last_w.svg");
     f.push("/WebDiakoluo/res/img/open_in_new_b.svg");
