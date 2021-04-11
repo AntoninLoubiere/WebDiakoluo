@@ -1,8 +1,6 @@
 const playCardPageView = document.getElementById('play-card-page');
 
 const playCardProgress = document.getElementById('play-card-progress');
-const playCardProgressIndex = document.getElementById('play-card-progress-index');
-const playCardProgressMax = document.getElementById('play-card-progress-max');
 
 const playCardCard = document.getElementById('play-card-card');
 const playCardRestartTemplate = document.getElementById('play-card-restart-template');
@@ -152,7 +150,7 @@ class PlayCardPage extends Page {
         this.context = {
             testId: currentTest.id,
             shuffleData: true,
-            index: -1,
+            index: 0,
             data: [],
             columnsShow: [],
             columnsAsk: [],
@@ -224,7 +222,10 @@ class PlayCardPage extends Page {
 
     /* initialise the UI from the context */
     initialise() {
-        playCardProgressMax.textContent = currentTest.data.length;
+        if (this.context.index < currentTest.data.length)
+            playCardProgress.setProgress(this.context.index / (currentTest.data.length - 1), true);
+        else
+            playCardProgress.setProgress(1, true);
     }
 
     /* shuffle the data, and if reShuffle is true, make sure that the current index is correctly take in account */
@@ -325,8 +326,14 @@ class PlayCardPage extends Page {
         if (resetSide) this.context.showOtherside = false;
         this.globalNavigation.updateStatus(i <= 0 && this.context.shuffleData ? 1 : 0);
         
-        playCardProgressIndex.textContent = i + 1;
-        playCardProgress.value = i / (currentTest.data.length - 1);
+        if (i < this.context.data.length) {
+            playCardProgress.setText(i + 1 + '/' + currentTest.data.length);
+            playCardProgress.setProgress(i / (currentTest.data.length - 1));
+        } else {
+            i = currentTest.data.length;
+            playCardProgress.setText(i + '/' + i);
+            playCardProgress.setProgress(1);
+        }
         this.updateUI();
     }
 
@@ -378,7 +385,7 @@ class PlayCardPage extends Page {
 
     /* turn the card to see the other side */
     turnCard() {
-        this.context.showOtherside = !this.context.showOtherside;
+        this.context.showOtherside = !this.context?.showOtherside ?? false;
         this.updateUI();
     }
 

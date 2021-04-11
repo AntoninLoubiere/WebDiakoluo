@@ -182,14 +182,32 @@ b {
     font-weight: 500;
 }
 
-progress {
+progress-bar {
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+
     background-color: var(--color-accent-1);
-    border-color: var(--color-accent-2);
+    border: 1px solid var(--color-accent-2);
+    height: 1.3em;
+    width: 100%;
 }
 
-progress::-moz-progress-bar, progress::-webkit-progress-value {
+progress-bar > .progress-bar-inner {
+    display: inline-block;
+
     background-color: var(--color-background-colored);
-    transition: all .3s ease-out;
+    height: 100%;
+    transition: width 1s ease;
+}
+
+progress-bar > .progress-bar-text {
+    z-index: 2;
+    font: bold 1em "Roboto";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 input, textarea, select {
@@ -468,28 +486,6 @@ button.major {
 textarea.resize-vertical {
     resize: vertical;
     min-height: 3.6em;
-}
-
-.progress {
-    position: relative;
-    margin-bottom: .5em;
-    min-height: 1.3em;
-}
-
-.progress > progress {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-}
-
-.progress > div {
-    z-index: 2;
-    font: bold 1em "Roboto";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .hide-scroll {

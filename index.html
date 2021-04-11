@@ -121,10 +121,7 @@
 </main>
 <main id="play-card-page" class="hide expand">
     <div id="play-card-header">
-        <div class="progress">
-            <div><span id="play-card-progress-index"></span>/<span id="play-card-progress-max"></span></div>
-            <progress id="play-card-progress" value=".5" max="1"></progress>
-        </div>
+        <progress-bar id="play-card-progress"></progress-bar>
         <button class="icon-button" id="play-card-settings-button"><img src="/WebDiakoluo/res/img/settings.svg"></button>
         <button class="icon-button" id="play-card-shuffle-button"><img src="/WebDiakoluo/res/img/shuffle.svg" id="play-card-shuffle-button-image"></button>
     </div>
@@ -134,10 +131,7 @@
 <main id="eval-page" class="hide">
     <form id="eval-form">
         <h1 id="eval-test-title"></h1>
-        <div class="progress">
-            <div><span id="eval-progress-index"></span>/<span id="eval-progress-max"></span></div>
-            <progress id="eval-progress" value=".5" max="1"></progress>
-        </div>
+        <progress-bar id="eval-progress"></progress-bar>
         <div id="eval-inputs" class="unique-column">
         </div>
         <button id="eval-continue-button" class="btn image-button colored major" type="submit">
@@ -173,7 +167,7 @@
 <main id="eval-score-page" class="hide">
     <div id="eval-score-progress-parent">
         <h1 class="no-margin" id="eval-score-major">1/10</h1>
-        <progress value="0" max="1" id="eval-score-progress"></progress>
+        <progress-bar id="eval-score-progress"></progress-bar>
         <h3 class="no-margin" id="eval-score-minor">1/10</h3>
     </div>
     <button class="btn image-button colored right" id="eval-score-restart">

@@ -10,6 +10,7 @@ COMPILE_FILES = {
         'res/js/base/view-utils.js',
         'res/js/base/nav.js',
         'res/js/base/navigation-bar.js',
+        'res/js/base/progress-bar.js',
     ],
     'res/js/diakoluo.min.js': [
         'res/js/diakoluo/database.js',

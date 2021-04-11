@@ -5,8 +5,6 @@ const evalPageInputs = document.getElementById('eval-inputs');
 const evalPageContinueButtonText = document.getElementById('eval-continue-button-text');
 
 const evalProgressBar = document.getElementById('eval-progress');
-const evalProgressIndex = document.getElementById('eval-progress-index');
-const evalProgressMax = document.getElementById('eval-progress-max');
 
 /* A score context that hold the score of the session */
 class ScoreContext {
@@ -104,7 +102,6 @@ class EvalPage extends Page {
         removeAllChildren(evalPageInputs);
 
         evalPageTestTitle.textContent = currentTest.title;
-        evalProgressMax.textContent = this.dataNumberToDo;
         this.evalInputs = [];
         this.randomInputs = 0;
 
@@ -177,8 +174,8 @@ class EvalPage extends Page {
                 // }                
             }
             evalPageContinueButtonText.setAttribute('key', 'continue');
-            evalProgressBar.value = (this.currentIndex + 1) / this.dataNumberToDo;
-            evalProgressIndex.textContent = this.currentIndex + 1; // humanify
+            evalProgressBar.setProgress((this.currentIndex + 1) / this.dataNumberToDo);
+            evalProgressBar.setText(this.currentIndex + 1 + '/' + this.dataNumberToDo); // humanify
         } else {
             this.columnsAsked = new Array(currentTest.columns.length).fill(true);
             var i = this.numberColumnsRandomReveal;
@@ -217,8 +214,8 @@ class EvalPage extends Page {
                 ++i < this.evalInputs.length - 1) {}
             evalPageInputs.children[i * 2 + 1].focus();
  
-            evalProgressBar.value = this.currentIndex / this.dataNumberToDo;
-            evalProgressIndex.textContent = this.currentIndex + 1; // humanify
+            evalProgressBar.setProgress(this.currentIndex / this.dataNumberToDo);
+            evalProgressBar.setText(this.currentIndex + 1 + '/' + this.dataNumberToDo); // humanify
         }
     }
 
