@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-YMVTh!GL";
+ const CACHE_NAME = "WebDiakoluo-fgabGRC4";
 
 /* get the files of the app */
 function getAppFiles() {

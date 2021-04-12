@@ -147,7 +147,7 @@ class EvalPage extends Page {
             ask_only ? this.randomInputs : this.randomInputs - 1
         );
 
-        this.update();
+        setTimeout(this.update.bind(this), 10); // delay so the input could be focus
     }
 
     /* update the UI */
@@ -162,16 +162,7 @@ class EvalPage extends Page {
                     if (!this.evalInputs[i].is_random || this.columnsAsked[j++]) {
                         this.evalInputs[i].showAnswer(row, score);
                     }
-                }
-                // if (this.columnsAsked[i]) {
-                //     evalPageInputs.replaceChild(
-                //         currentTest.columns[i].updateAnswerTestView(
-                //             row[i],  
-                //             evalPageInputs.children[i * 2 + 1],
-                //             score),
-                //         evalPageInputs.children[i * 2 + 1]
-                //     );
-                // }                
+                }           
             }
             evalPageContinueButtonText.setAttribute('key', 'continue');
             evalProgressBar.setProgress((this.currentIndex + 1) / this.dataNumberToDo);
@@ -200,19 +191,13 @@ class EvalPage extends Page {
                 } else if (this.evalInputs[i].set_show) {
                     this.evalInputs[i].show(row);
                 }
-                // if (this.columnsAsked[i]) {
-                //     evalPageInputs.replaceChild(currentTest.columns[i].getTestView(row[i]), evalPageInputs.children[i * 2 + 1]);
-                // } else {
-                //     evalPageInputs.replaceChild(currentTest.columns[i].getViewView(row[i]), evalPageInputs.children[i * 2 + 1]);
-                // }
             }
             evalPageContinueButtonText.setAttribute('key', 'valid');
             var i = 0;
-            while ((
-                    (this.evalInputs[i].is_random && !this.columnsAsked[j++]) || 
-                    this.evalInputs[i].set_ask) && 
+            while (((this.evalInputs[i].is_random && this.columnsAsked[j++]) || 
+                    this.evalInputs[i].set_show) && 
                 ++i < this.evalInputs.length - 1) {}
-            evalPageInputs.children[i * 2 + 1].focus();
+            this.evalInputs[i].view.focus();
  
             evalProgressBar.setProgress(this.currentIndex / this.dataNumberToDo);
             evalProgressBar.setText(this.currentIndex + 1 + '/' + this.dataNumberToDo); // humanify

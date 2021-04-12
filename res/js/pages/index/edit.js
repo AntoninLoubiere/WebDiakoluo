@@ -540,6 +540,7 @@ class EditPage extends Page {
             var column = currentTest.columns[id];
             editColumnModalTitle1.textContent = column.name;
             editColumnModalTitle2.value = column.name;
+            editColumnModalTitle2.focus();
             editColumnModalDescription.value = column.description;
 
             editColumnModalSettings.replaceChild(
@@ -620,7 +621,9 @@ class EditPage extends Page {
                 e.classList = ['no-margin']
                 editDataModalContent.appendChild(e);
 
-                editDataModalContent.appendChild(column.getEditView(row[i]));
+                e = column.getEditView(row[i]);
+                editDataModalContent.appendChild(e);
+                if (i <= 0) e.focus();
             }
         }
     }
