@@ -132,10 +132,10 @@ class EvalPage extends Page {
 
                 if (is_random) this.randomInputs++;
                 else if (set_show) {
+                    this.numberColumnsRandomReveal--;
                     show_only++;
                 }
                 else {
-                    this.numberColumnsRandomReveal--;
                     ask_only++;
                 }
             }
@@ -147,7 +147,7 @@ class EvalPage extends Page {
             ask_only ? this.randomInputs : this.randomInputs - 1
         );
 
-        setTimeout(this.update.bind(this), 10); // delay so the input could be focus
+        this.update();
     }
 
     /* update the UI */
@@ -193,11 +193,24 @@ class EvalPage extends Page {
                 }
             }
             evalPageContinueButtonText.setAttribute('key', 'valid');
+
             var i = 0;
-            while (((this.evalInputs[i].is_random && this.columnsAsked[j++]) || 
-                    this.evalInputs[i].set_show) && 
-                ++i < this.evalInputs.length - 1) {}
-            this.evalInputs[i].view.focus();
+            var j = 0;
+            while (true) {
+                if (this.evalInputs[i].is_random) {
+                    if (this.columnsAsked[j++]) {
+                        break;
+                    }
+                } else if (this.evalInputs[i].set_ask) {
+                    break;
+                }
+                if (++i >= this.currentIndex) {
+                    i = 0;
+                    break;
+                }
+            }
+
+            setTimeout(() => this.evalInputs[i].view.focus(), 100);
  
             evalProgressBar.setProgress(this.currentIndex / this.dataNumberToDo);
             evalProgressBar.setText(this.currentIndex + 1 + '/' + this.dataNumberToDo); // humanify
