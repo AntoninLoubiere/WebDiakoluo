@@ -13,11 +13,6 @@ const viewColumnModalTitle2 = document.getElementById('modal-view-column-title2'
 const viewColumnModalDescription = document.getElementById('modal-view-column-description');
 const viewColumnModalSettings = document.getElementById('modal-view-column-settings');
 
-const exportModalSelect = document.getElementById('export-test-select');
-const exportModalCsv = document.getElementById('export-csv');
-const exportModalCsvColumnName = document.getElementById('export-csv-column-name');
-const exportModalCsvColumnType = document.getElementById('export-csv-column-type');
-
 const viewDataModalContent = document.getElementById('view-test-data-content');
 const viewDataModalId = document.getElementById('view-test-data-id');
 
@@ -28,25 +23,22 @@ class ViewPage extends Page {
     constructor() {
         super(viewPageView, "view", true);
 
-        document.getElementById('view-play-button').onclick = this.playCardTest.bind(this);
-        document.getElementById('view-eval-button').onclick = this.evalTest.bind(this);
-        document.getElementById('view-edit-button').onclick = this.editTest.bind(this);
-        document.getElementById('view-export-button').onclick = this.exportTest.bind(this);
-        document.getElementById('view-delete-button').onclick = this.deleteTest.bind(this);
+        document.getElementById('view-play-button').onclick = () => UTILS.playTestPage();
+        document.getElementById('view-eval-button').onclick = () => UTILS.evalTestPage();
+        document.getElementById('view-edit-button').onclick = () => UTILS.editTestPage();
+        document.getElementById('view-export-button').onclick = () => UTILS.exportTest();
+        document.getElementById('view-delete-button').onclick = () => UTILS.deleteTest();
         document.getElementById('view-column-close-modal').onclick = this.closeColumnModal.bind(this);
         document.getElementById('view-data-close-modal').onclick = this.closeDataModal.bind(this);
-        document.getElementById('test-delete-confirm-button').onclick = this.deleteTestConfirm.bind(this);
+        
 
-        document.getElementById('export-form').onsubmit = this.exportTestConfirm.bind(this);
-        exportModalSelect.onchange = this.exportWarningCsv.bind(this);
-
-        this.columnsModalNav = new NavigationBar(document.getElementById('view-column-nav-bar'), [{className: "nav-edit", onclick: this.editTest.bind(this)}]);
+        this.columnsModalNav = new NavigationBar(document.getElementById('view-column-nav-bar'), [{className: "nav-edit", onclick: () => UTILS.editTestPage()}]);
         this.columnsModalNav.onfirst = this.firstColumn.bind(this); 
         this.columnsModalNav.onprevious = this.previousColumn.bind(this); 
         this.columnsModalNav.onnext = this.nextColumn.bind(this); 
         this.columnsModalNav.onlast = this.lastColumn.bind(this); 
 
-        this.dataModalNav = new NavigationBar(document.getElementById('view-data-nav-bar'), [{className: "nav-edit", onclick: this.editTest.bind(this)}]);
+        this.dataModalNav = new NavigationBar(document.getElementById('view-data-nav-bar'), [{className: "nav-edit", onclick: () => UTILS.editTestPage()}]);
         this.dataModalNav.onfirst = this.firstData.bind(this); 
         this.dataModalNav.onprevious = this.previousData.bind(this); 
         this.dataModalNav.onnext = this.nextData.bind(this); 
@@ -323,76 +315,6 @@ class ViewPage extends Page {
         history.pushState({}, '', currentURL);
         hideModal(currentModal);
         currentModal = null;
-    }
-
-    /* edit the test */
-    editTest() {
-        currentURL.searchParams.set('page', 'edit');
-        history.pushState({}, 'Edit test', currentURL);
-        loadPage();
-    }
-
-    /* play card with the test */
-    playCardTest() {
-        if (currentTest.isPlayable()) {
-            currentURL.searchParams.set('page', 'play-card');
-            history.pushState({}, 'Play card', currentURL);
-            loadPage();
-        } else {
-            // TODO, warning
-        }
-    }
-
-    /* eval the test */
-    evalTest() {
-        if (currentTest.isPlayable()) {
-            currentURL.searchParams.set('page', 'eval-settings');
-            history.pushState({}, 'Eval settings', currentURL);
-            loadPage();
-        } else {
-            // TODO, warning
-        }
-    }
-
-    /* delete the test */
-    deleteTest() {
-        showModal('test-delete-confirm');
-        currentModal = 'test-delete-confirm';
-        history.pushState({}, 'Modal');
-    }
-
-    /* callback for the delete confirm button */
-    deleteTestConfirm() {
-        DATABASE_MANAGER.deleteTest(currentTest.id);
-        currentTest = null; // TODO cancel button
-        backToMain(true);
-    }
-
-    exportTest() {
-        showModal('export-test')
-        currentModal = 'export-test';
-        history.pushState({}, 'Modal');
-        this.exportWarningCsv();
-    }
-
-    exportWarningCsv() {
-        if (exportModalSelect.value == 'csv') {
-            exportModalCsv.classList.remove('hide');
-        } else {
-            exportModalCsv.classList.add('hide');
-        }
-    }
-
-    exportTestConfirm(event) {
-        event.preventDefault();
-        hideModal(currentModal);
-        currentModal = null;
-
-        if (exportModalSelect.value == 'dkl') {
-            FILE_MANAGER.exportTest(currentTest);
-        } else {
-            FILE_MANAGER.exportCsvTest(currentTest, exportModalCsvColumnName.checked, exportModalCsvColumnType.checked);
-        }
     }
 }
 

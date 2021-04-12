@@ -474,7 +474,7 @@ class EditPage extends Page {
         var id = currentTest.edit_id;
         currentTest = null;
         DATABASE_MANAGER.deleteTest(EDIT_KEY);
-        if (id) viewTestPage(id);
+        if (id) UTILS.viewTestPage(id);
         else backToMain(true);
     }
 
@@ -485,13 +485,13 @@ class EditPage extends Page {
             currentTest.id = currentTest.edit_id;
             delete currentTest.edit_id;
             DATABASE_MANAGER.updateTest(currentTest).onsuccess = event => {
-                viewTestPage(event.target.result);
+                UTILS.viewTestPage(event.target.result);
             };
             DATABASE_MANAGER.deleteTest(EDIT_KEY);
         } else {
             delete currentTest.id;
             DATABASE_MANAGER.addNewTest(currentTest).onsuccess = event => {
-                viewTestPage(event.target.result);
+                UTILS.viewTestPage(event.target.result);
             };
             DATABASE_MANAGER.deleteTest(EDIT_KEY);
         }

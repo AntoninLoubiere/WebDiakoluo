@@ -44,7 +44,7 @@ class PlayCardPage extends Page {
          */
         // this.context;
 
-        window.sortable = new Sortable(playCardSetShowColumns, {
+        new Sortable(playCardSetShowColumns, {
             group: 'play-card-set-columns',
             animation: 200,
             ghostClass: 'sortable-ghost',
@@ -375,7 +375,7 @@ class PlayCardPage extends Page {
             // show the restart panel
             this.cardChild = playCardRestartTemplate.content.cloneNode(true).children[0];
             this.cardChild.querySelector('#play-card-home-button').onclick = () => backToMain(true);
-            this.cardChild.querySelector('#play-card-view-button').onclick = () => viewTestPage(currentTest.id);
+            this.cardChild.querySelector('#play-card-view-button').onclick = () => UTILS.viewTestPage(currentTest.id);
             this.cardChild.querySelector('#play-card-restart-button').onclick = this.nextCard.bind(this);
             this.cardChild.querySelector('#play-card-grade-button').onclick = PAGES.view.evalTest;
         }

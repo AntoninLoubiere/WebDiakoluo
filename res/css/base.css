@@ -283,9 +283,9 @@ input[type='checkbox']::after {
 select {
     width: 100%;
     
-    background-image: url();
+    background-image: url('/WebDiakoluo/res/img/drop_down.svg');
     background-position: right;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
 }
 
@@ -743,6 +743,61 @@ textarea.resize-vertical {
 
 .popup-parent:hover > .popup-child {
     opacity: 1;
+}
+
+.context-menu {
+    position: absolute;
+    padding: .0em .3em;
+
+    z-index: 10;
+
+    overflow: hidden;
+
+    max-height: 0;
+    
+    background-color: var(--color-background);
+    color: var(--color-font);
+    border: 0px solid var(--color-accent-2);
+    border-radius: 0 .5em .5em .5em;
+    
+    transition: border-width .1s .4s, padding .5s, max-height .5s;
+}
+
+.context-menu.revertX {
+    border-radius: .5em 0 .5em .5em;
+}
+
+.context-menu.context-show {
+    padding: .3em;
+    border-width: 2px;
+    max-height: 10em;
+
+    transition: border-width .1s, padding .5s, max-height .5s;
+}
+
+.context-menu > button {
+    display: block;
+    width: 100%;
+    padding: .2em;
+    cursor: pointer;
+    
+    line-height: 1em;
+    font-weight: 300;
+    letter-spacing: .1em;
+    text-align: left;
+    
+    border-radius: .3em;
+    background-color: var(--color-background);
+    
+    transition: background-color .3s;
+}
+
+.context-menu x-i18n {
+    vertical-align: middle;
+}
+
+.context-menu > button:hover {
+    background-color: var(--color-accent-1);
 }
 
 .bottom-bar {

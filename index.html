@@ -37,6 +37,26 @@
         <img src="/WebDiakoluo/res/img/export.svg">
         <span><x-i18n key="export-all-test"></x-i18n></span>
     </button>
+    <div class="context-menu" id="list-page-context-menu">
+        <button id="list-test-play-button">
+            <img src="/WebDiakoluo/res/img/play.svg"><x-i18n key="play" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-eval-button">
+            <img src="/WebDiakoluo/res/img/grade.svg"><x-i18n key="eval" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-edit-button">
+            <img src="/WebDiakoluo/res/img/edit.svg"><x-i18n key="edit" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-duplicate-button">
+            <img src="/WebDiakoluo/res/img/duplicate.svg"><x-i18n key="duplicate" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-export-button">
+            <img src="/WebDiakoluo/res/img/export.svg"><x-i18n key="export" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-delete-button">
+            <img src="/WebDiakoluo/res/img/delete.svg"><x-i18n key="delete" caps="upper"></x-i18n>
+        </button>
+    </div>
 </main>
 <main id="view-page" class="hide">
     <h1 id="view-test-title"></h1>
@@ -348,7 +368,7 @@
     </div>
 </div>
 <template id="list-test-child-template">
-    <div class="test">
+    <div class="test" tabindex="0">
         <div class="test-title"></div>
         <div class="test-description"></div>
     </div>

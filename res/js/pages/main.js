@@ -101,6 +101,10 @@ addEventListener("keydown", function(event) {
     currentPage.onkeydown?.(event);
 }, {capture: true});
 
+addEventListener("click", function(event) {
+    currentPage.onclick?.(event);
+}, {capture: true});
+
 addEventListener("visibilitychange", function(event) {
     currentPage.onvisibilitychange?.(event);
 }, {capture: true});
