@@ -70,7 +70,6 @@ textarea.column-string-long {
 .test-description {
     display: -webkit-box;
     -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
     margin-top: 4px;
 
     overflow: hidden;
@@ -264,6 +263,9 @@ textarea.column-string-long {
 #play-card-card {
     flex-grow: 1;
     cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
     font-size: .8em;
 
@@ -347,6 +349,9 @@ textarea.column-string-long {
     font-size: 1.1em;
     padding: 0 .2em;
 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
     cursor: move;
 

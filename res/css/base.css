@@ -986,6 +986,10 @@ textarea.resize-vertical {
     margin-right: .5em;
 }
 
+#version {
+    text-decoration: underline dashed;
+}
+
 .github-image {
     width: 1em;
     height: 1em;
