@@ -59,11 +59,13 @@ function initialise() {
         button.classList = ['selector-dropdown-child'];
         button.innerHTML = LANGUAGES_BUTTONS[lang];
         button.setAttribute('lang', lang)
+        button.tabIndex = 0;
         button.onclick = function() {
             setLang(lang, false);
             languageSelector.textContent = button.textContent;
             if (document.location.pathname != LEGAL_PATH) localStorage.setItem("lang", lang);
         }
+        button.onkeydown = onReturnClick;
         parent.appendChild(button);
     }
 

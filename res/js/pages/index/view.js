@@ -66,6 +66,7 @@ class ViewPage extends Page {
             e.children[0].onclick = () => {
                 this.columnClickCallback(i);
             };
+            e.children[0].onkeydown = onReturnClick;
 
             viewPageColumnsList.appendChild(e);
 
@@ -85,6 +86,7 @@ class ViewPage extends Page {
             row.children[0].onclick = () => {
                 this.dataClickCallback(i);
             }
+            row.children[0].onkeydown = onReturnClick;
             viewPageDataTableBody.appendChild(row);
         }
 
@@ -176,14 +178,19 @@ class ViewPage extends Page {
 
         if (event.altKey) {
             switch (event.keyCode) {
-                case KeyboardEvent.DOM_VK_P:
+                case KeyboardEvent.DOM_VK_S:
                     event.preventDefault();
-                    this.evalTest();
+                    UTILS.playTestPage();
+                    break;
+
+                case KeyboardEvent.DOM_VK_G:
+                    event.preventDefault();
+                    UTILS.evalTestPage();
                     break;
 
                 case KeyboardEvent.DOM_VK_E:
                     event.preventDefault();
-                    this.editTest();
+                    UTILS.editTestPage();
                     break;
             }
         }

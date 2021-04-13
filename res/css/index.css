@@ -40,14 +40,15 @@ textarea.column-string-long {
     transition: all .3s ease-in-out;
 }
 
-.test:hover {
+.test:hover, .test:focus {
+    outline: none;
     box-shadow: var(--shadow-card-hover);
 
     transform: translateY(-8px);
 }
 
-.test:hover .test-title {
-    color: #00796b;
+.test:hover .test-title, .test:focus .test-title {
+    color: var(--color-background-colored);
 }
 
 .test-title {
@@ -115,6 +116,7 @@ textarea.column-string-long {
     transform: translateY(-50%);
     background: var(--color-background);
     border-radius: 1em;
+    outline: none;
 
     cursor: pointer;
     transition: transform .3s ease-out;
@@ -122,11 +124,11 @@ textarea.column-string-long {
     margin: 0 .2em;
 }
 
-.column-delete-button:hover {
+.column-delete-button:hover, .column-delete-button:focus  {
     transform: translateY(-50%) scale(1.5);
 }
 
-.test-column-edit:hover .column-delete-button {
+.test-column-edit:hover .column-delete-button, .test-column-edit:focus-within .column-delete-button {
     display: inline;
 }
 
@@ -146,6 +148,7 @@ textarea.column-string-long {
 }
 
 .view-button {
+    outline: none;
     cursor: pointer;
     vertical-align: middle;
     transition: transform .3s ease-out;
@@ -153,17 +156,18 @@ textarea.column-string-long {
     margin: 0 .2em;
 }
 
-.view-button:hover {
+.view-button:hover, .view-button:focus {
     transform: scale(1.5);
 }
 
 .edit-button {
+    outline: none;
     cursor: pointer;
     vertical-align: middle;
     transition: transform .3s ease-out;
 }
 
-.edit-button:hover {
+.edit-button:hover, .edit-button:focus {
     transform: scale(1.4);
 }
 

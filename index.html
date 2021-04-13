@@ -15,7 +15,7 @@
 </head>
 <body class="nav">
 <nav>
-    <a id="nav-logo"><img src="/WebDiakoluo/res/img/favicon.svg"></a>
+    <a id="nav-logo" tabindex="0"><img src="/WebDiakoluo/res/img/favicon.svg"></a>
     <span id="page-title"></span>
     <span><img id="nav-offline" src="/WebDiakoluo/res/img/offline_w.svg"></img></span>
 </nav>
@@ -25,19 +25,8 @@
 <main id="list-page" class="hide">
     <h1><x-i18n key="list-test-h"></x-i18n></h1>
     <div id="list-test" class="test-list"></div>
-    <button class="btn image-button" id="list-add-button">
-        <img src="/WebDiakoluo/res/img/add.svg">
-        <span><x-i18n key="add-test"></x-i18n></span>
-    </button>
-    <button class="btn image-button" id="list-import-button">
-        <img src="/WebDiakoluo/res/img/import.svg">
-        <span><x-i18n key="import-test"></x-i18n></span>
-    </button>
-    <button class="btn image-button" id="list-export-all-button">
-        <img src="/WebDiakoluo/res/img/export.svg">
-        <span><x-i18n key="export-all-test"></x-i18n></span>
-    </button>
     <div class="context-menu" id="list-page-context-menu">
+        <div tabindex="0"></div> <!-- will get focus when the context menu is open -->
         <button id="list-test-play-button">
             <img src="/WebDiakoluo/res/img/play.svg"><x-i18n key="play" caps="upper"></x-i18n>
         </button>
@@ -57,6 +46,18 @@
             <img src="/WebDiakoluo/res/img/delete.svg"><x-i18n key="delete" caps="upper"></x-i18n>
         </button>
     </div>
+    <button class="btn image-button" id="list-add-button">
+        <img src="/WebDiakoluo/res/img/add.svg">
+        <span><x-i18n key="add-test"></x-i18n></span>
+    </button>
+    <button class="btn image-button" id="list-import-button">
+        <img src="/WebDiakoluo/res/img/import.svg">
+        <span><x-i18n key="import-test"></x-i18n></span>
+    </button>
+    <button class="btn image-button" id="list-export-all-button">
+        <img src="/WebDiakoluo/res/img/export.svg">
+        <span><x-i18n key="export-all-test"></x-i18n></span>
+    </button>
 </main>
 <main id="view-page" class="hide">
     <h1 id="view-test-title"></h1>
@@ -97,7 +98,7 @@
         </div>
     </div>
     <b><x-i18n key="data"></x-i18n> :</b>
-    <div class="table-parent">
+    <div class="table-parent" tabindex="-1">
         <table id="view-test-data" class="table">
             <thead id="view-test-data-header"></thead>
             <tbody id="view-test-data-body"></tbody>
@@ -202,7 +203,7 @@
 <footer class="double-column">
     <div>
         <x-i18n key="language"></x-i18n>
-        <div class="selector">
+        <div class="selector" tabindex="0">
             <span id="language-selector"></span>
             <div class="selector-dropdown" id="language-selector-childs"></div>
         </div>
@@ -375,28 +376,28 @@
 </template>
 <template id="view-column-child-template">
     <div class="test-column">
-        <img src="/WebDiakoluo/res/img/view.svg" class="view-button"><span class="test-column-text"></span>
+        <img src="/WebDiakoluo/res/img/view.svg" class="view-button"  tabindex="0"><span class="test-column-text"></span>
         <span class="test-column-text"></span>
     </div>
 </template>
 <template id="view-data-child-template">
     <tr class="data clickable">
         <td class="min">
-            <img src="/WebDiakoluo/res/img/view.svg" class="view-button"></td>
+            <img src="/WebDiakoluo/res/img/view.svg" class="view-button" tabindex="0"></td>
         </td>
     </tr>
 </template>
 <template id="edit-column-child-template">
     <div class="test-column-edit">
-        <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button"><span class="test-column-text"></span>
+        <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button" tabindex="0"><span class="test-column-text"></span>
         <span class="test-column-text"></span>
-        <img class="column-delete-button" src="/WebDiakoluo/res/img/delete.svg">
+        <img class="column-delete-button" src="/WebDiakoluo/res/img/delete.svg" tabindex="0">
     </div>
 </template>
 <template id="edit-data-child-template">
     <tr class="data clickable">
         <td class="min edit-min">
-            <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button"><img class="edit-button data-delete-button" src="/WebDiakoluo/res/img/delete.svg">
+            <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button" tabindex="0"><img class="edit-button data-delete-button" src="/WebDiakoluo/res/img/delete.svg" tabindex="0">
         </td>
     </tr>
 </template>

@@ -225,10 +225,13 @@ class EditPage extends Page {
         e.children[0].onclick = () => {
             this.columnClickCallback(index);
         };
-        e.querySelector('.column-delete-button').onclick = event => {
+        e.children[0].onkeydown = onReturnClick;
+        var deleteButton = e.querySelector('.column-delete-button');
+        deleteButton.onclick = event => {
             event.stopPropagation();
             this.removeColumn(index);
         }
+        deleteButton.onkeydown = onReturnClick;
 
         editPageColumnsList.appendChild(e);
 
@@ -281,10 +284,13 @@ class EditPage extends Page {
         row.children[0].onclick = () => {
             this.dataClickCallback(index);
         }
-        row.querySelector('.data-delete-button').onclick = event => {
+        row.children[0].onkeydown = onReturnClick;
+        var deleteButton = row.querySelector('.data-delete-button');
+        deleteButton.onclick = event => {
             event.stopPropagation();
             this.removeData(index);
         }
+        deleteButton.onkeydown = onReturnClick;
         editPageDataTableBody.appendChild(row);
     }
 
@@ -422,6 +428,11 @@ class EditPage extends Page {
                 } else {
                     this.addData();
                 }
+                break;
+
+            case KeyboardEvent.DOM_VK_C:
+                event.preventDefault();
+                this.cancelButton();
                 break;
 
             case KeyboardEvent.DOM_VK_S:

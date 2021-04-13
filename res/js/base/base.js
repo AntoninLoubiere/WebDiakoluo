@@ -103,6 +103,13 @@ function addManifest(lang) {
     document.head.appendChild(l);
 }
 
+/* if the keypress is return redirect to on click */
+function onReturnClick(event) {
+    if (event.keyCode === KeyboardEvent.DOM_VK_RETURN) {
+        event.target.click();
+    }
+}
+
 if('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/WebDiakoluo/sw.js', {scope: '/WebDiakoluo/'});
 }

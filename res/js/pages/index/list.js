@@ -85,6 +85,7 @@ class ListPage extends Page {
                     t.children[0].onclick = function() {
                         UTILS.viewTestPage(id);
                     }
+                    t.children[0].onkeydown = onReturnClick;
                     t.children[0].oncontextmenu = e => this.oncontextmenu(e, id, playable);
                     listPageTestList.appendChild(t);
                     cursor.continue();

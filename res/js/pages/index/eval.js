@@ -147,7 +147,7 @@ class EvalPage extends Page {
             ask_only ? this.randomInputs : this.randomInputs - 1
         );
 
-        this.update();
+        setTimeout(this.update.bind(this), 10);
     }
 
     /* update the UI */
@@ -204,13 +204,13 @@ class EvalPage extends Page {
                 } else if (this.evalInputs[i].set_ask) {
                     break;
                 }
-                if (++i >= this.currentIndex) {
+                if (++i >= this.evalInputs.length) {
                     i = 0;
                     break;
                 }
             }
 
-            setTimeout(() => this.evalInputs[i].view.focus(), 100);
+            this.evalInputs[i].view.focus();
  
             evalProgressBar.setProgress(this.currentIndex / this.dataNumberToDo);
             evalProgressBar.setText(this.currentIndex + 1 + '/' + this.dataNumberToDo); // humanify

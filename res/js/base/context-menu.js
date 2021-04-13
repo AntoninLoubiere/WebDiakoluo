@@ -21,6 +21,8 @@ class ContextMenu {
 
         this.contextMenu.style.left = x + 'px';
         this.contextMenu.style.top = y + 'px';
+        this.elementFocus = document.activeElement;
+        this.contextMenu.children[0].focus();
     }
 
     /* disimiss the context menu and return if it has done something */
@@ -28,7 +30,8 @@ class ContextMenu {
         if (this.shown) {
             this.shown = false;
             this.contextMenu.classList.remove('context-show');
-
+            this.elementFocus.focus();
+            this.elementFocus = null;
             return true;
         }
         return false;
