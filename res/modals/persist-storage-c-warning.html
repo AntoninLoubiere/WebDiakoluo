@@ -1,11 +1,11 @@
 <div class="modal-content red">
-    <header><x-i18n key="error-storage-c-title"></x-i18n><button is="button-modal" modal-name="persist-storage-c-warning" modal-action="hide" class="modal-close">&times;</button></header>
+    <header><x-i18n key="error-storage-c-title"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
     <main>
         <p>
             <x-i18n key="error-storage-c-message"></x-i18n>
         </p>
         <input type="checkbox" id="modal-show">
         <label for="modal-show"><x-i18n key="dont-show-again"></x-i18n></label>
-        <button class="green right" is="button-modal" modal-name="persist-storage-c-warning" modal-action="hide"><x-i18n key="ok"></x-i18n></button>
+        <button class="green right" is="close-modal"><x-i18n key="ok"></x-i18n></button>
     </main>
 </div>

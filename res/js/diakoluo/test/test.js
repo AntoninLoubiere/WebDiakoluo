@@ -79,7 +79,7 @@ class Test {
         var line = FILE_MANAGER.readLine(csv);
         for (var i = 0; i < line.length; i++) {
             columns.push(new (Column.getColumnClassCsv(columnType?.[i]))
-                (columnName ? columnsName[i] : (getTranslation('default-column-title') + ' ' + (i + 1))))
+                (columnName ? columnsName[i] : (I18N.getTranslation('default-column-title') + ' ' + (i + 1))))
         }
 
         var row;

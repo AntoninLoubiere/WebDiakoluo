@@ -1,3 +1,6 @@
+const LEGAL_PATH = "/WebDiakoluo/legal.html";
+var cookiesConsent = false;
+
 /* remove all children of a DOM element*/
 function removeAllChildren(view) {
     while (view.children.length) {
@@ -113,3 +116,21 @@ function onReturnClick(event) {
 if('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/WebDiakoluo/sw.js', {scope: '/WebDiakoluo/'});
 }
+
+// verify cookies
+function verifyCookies() {
+    /* accept cookies button callback*/
+    function cookiesCallback() {
+        Modal.deleteModal();
+        localStorage.setItem("lang", I18NClass.detectLang());
+        cookiesConsent = true;
+    }
+
+    cookiesConsent = Boolean(localStorage.getItem("lang"));
+
+    if (!cookiesConsent && document.location.pathname != LEGAL_PATH) {
+        Modal.loadModal('cookies', [{id: "cookies-accept", onclick: cookiesCallback}]);
+    }
+}
+
+I18N.initAsyncFunc.then(verifyCookies);

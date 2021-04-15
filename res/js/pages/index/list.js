@@ -3,24 +3,14 @@ const listPageTestList = document.getElementById('list-test');
 
 const testListTemplate = document.getElementById('list-test-child-template');
 
-const importModalInput = document.getElementById('import-test-input');
-const importModalSelect = document.getElementById('import-test-select');
-const importModalCsv = document.getElementById('import-csv');
-const importModalCsvColumnName = document.getElementById('import-csv-column-name');
-const importModalCsvColumnType = document.getElementById('import-csv-column-type');
-
 document.getElementById('list-add-button').onclick = UTILS.addTestRedirect;
 
 class ListPage extends Page {
     constructor() {
         super(listPageView, "", false);
 
-        document.getElementById('import-form').onsubmit = this.importTestCallback.bind(this);
-        document.getElementById('list-import-button').onclick = this.importTest.bind(this);
+        document.getElementById('list-import-button').onclick = () => UTILS.importTest();
         document.getElementById('list-export-all-button').onclick = this.exportAllTest.bind(this);
-        
-        importModalInput.onchange = this.importFileChange.bind(this);
-        importModalSelect.onchange = this.importSelectChange.bind(this);
 
         this.contextMenu = new ContextMenu('list-page-context-menu');
         document.getElementById('list-test-play-button').onclick = () => UTILS.playTestPage(this.contextMenu.dataIndex);
@@ -33,17 +23,16 @@ class ListPage extends Page {
 
     /* load list page */
     onload() {
-        updatePageTitle('title-index.html');
+        I18N.updatePageTitle('title-index.html');
         listPageView.classList.remove('hide');
         this.reloadList();
     }
 
     onkeydown(event) {
         if (event.keyCode == KeyboardEvent.DOM_VK_ESCAPE) {
-            if (currentModal)
-                hideModal(currentModal);
-            else
-                this.contextMenu.disimiss();
+            if (this.contextMenu.disimiss()) {
+                event.stopPropagation();               
+            }
         }
     }
 
@@ -59,6 +48,7 @@ class ListPage extends Page {
     onclick(event) {
         if (this.contextMenu.disimiss()) {
             event.preventDefault();
+            document.activeElement.blur();
         }
     }
 
@@ -73,7 +63,7 @@ class ListPage extends Page {
                 var id = cursor.value.id;
                 var playable = cursor.value.playable;
                 if (id == EDIT_KEY) {
-                    t.querySelector('.test-title').textContent = getTranslation("edited-test");
+                    t.querySelector('.test-title').textContent = I18N.getTranslation("edited-test");
                     t.querySelector('.test-description').textContent = v.title;
                     t.children[0].onclick = function() {
                         UTILS.editTestPage('current');
@@ -92,52 +82,6 @@ class ListPage extends Page {
                 }
             }
         };
-    }
-
-    /* import a test */
-    importTest() {
-        showModal('import-test');
-        currentModal = 'import-test';
-        history.pushState({}, '');
-        this.importFileChange();
-        this.importSelectChange();
-    }
-
-    /* the import test callback */
-    importTestCallback(event) {
-        event.preventDefault();
-        hideModal('import-test');
-
-        for (var i = 0; i < importModalInput.files.length; i++) {
-            FILE_MANAGER.importTest(
-                importModalInput.files[i], 
-                importModalSelect.value == 'dkl', 
-                importModalCsvColumnName.checked, 
-                importModalCsvColumnType.checked
-            ).then(this.reloadList.bind(this)).catch(() => console.warn("Error while importing test"));
-        }
-    }
-
-    /* when a file is inputted */
-    importFileChange() {
-        if (importModalInput.files.length > 0) {
-            FILE_MANAGER.getTypeFile(importModalInput.files[0]).then(
-                (formatFile) => {
-                    importModalSelect.value = formatFile ? 'dkl' : 'csv'
-                    this.importSelectChange();
-                }
-            );
-            
-        }
-    }
-
-    /* when the select change */
-    importSelectChange() {
-        if (importModalSelect.value === 'dkl') {
-            importModalCsv.classList.add('hide');
-        } else {
-            importModalCsv.classList.remove('hide');
-        }
     }
 
     /* export all tests */

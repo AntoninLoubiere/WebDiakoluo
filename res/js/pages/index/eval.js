@@ -87,7 +87,7 @@ class EvalPage extends Page {
         this.initialise();
 
         evalPageView.classList.remove('hide');
-        setPageTitle(currentTest.title);
+        I18N.setPageTitle(currentTest.title);
     }
 
     /* when a key is press */

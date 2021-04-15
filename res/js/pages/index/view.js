@@ -8,11 +8,13 @@ const viewPageColumnsList = document.getElementById('view-test-columns');
 const viewPageDataTableHeader = document.getElementById('view-test-data-header');
 const viewPageDataTableBody = document.getElementById('view-test-data-body');
 
+const viewColumnModal = new Modal(document.getElementById('view-test-column-modal'));
 const viewColumnModalTitle1 = document.getElementById('modal-view-column-title1');
 const viewColumnModalTitle2 = document.getElementById('modal-view-column-title2');
 const viewColumnModalDescription = document.getElementById('modal-view-column-description');
 const viewColumnModalSettings = document.getElementById('modal-view-column-settings');
 
+const viewDataModal = new Modal(document.getElementById('view-test-data-modal'));
 const viewDataModalContent = document.getElementById('view-test-data-content');
 const viewDataModalId = document.getElementById('view-test-data-id');
 
@@ -28,9 +30,9 @@ class ViewPage extends Page {
         document.getElementById('view-edit-button').onclick = () => UTILS.editTestPage();
         document.getElementById('view-export-button').onclick = () => UTILS.exportTest();
         document.getElementById('view-delete-button').onclick = () => UTILS.deleteTest();
-        document.getElementById('view-column-close-modal').onclick = this.closeColumnModal.bind(this);
-        document.getElementById('view-data-close-modal').onclick = this.closeDataModal.bind(this);
-        
+
+        viewColumnModal.onhide = this.closeColumnModal.bind(this);
+        viewDataModal.onhide = this.closeDataModal.bind(this);
 
         this.columnsModalNav = new NavigationBar(document.getElementById('view-column-nav-bar'), [{className: "nav-edit", onclick: () => UTILS.editTestPage()}]);
         this.columnsModalNav.onfirst = this.firstColumn.bind(this); 
@@ -90,7 +92,9 @@ class ViewPage extends Page {
             viewPageDataTableBody.appendChild(row);
         }
 
-        setPageTitle(currentTest.title);
+        viewColumnModal.id = -1;
+        viewDataModal.id = -1;
+        I18N.setPageTitle(currentTest.title);
         viewPageView.classList.remove('hide');
         this.onupdate();
     }
@@ -113,63 +117,47 @@ class ViewPage extends Page {
             return;
         }
 
-        if (currentModal) {
-            hideModal(currentModal);
-            currentModal = null;
-        }
+        if (Modal.currentModal) hideModal();
     }
 
     /* when a key is press */
     onkeydown(event) {
         switch (event.keyCode) {
-            case KeyboardEvent.DOM_VK_ESCAPE:
-                if (currentModal == 'view-test-column') {
-                    this.closeColumnModal();
-                } else if (currentModal == 'view-test-data') {
-                    this.closeDataModal();
-                } else if (currentModal) {
-                    hideModal(currentModal);
-                } else {
-                    backToMain(true);
-                }
-                event.preventDefault();
-                break;
-
             case KeyboardEvent.DOM_VK_RIGHT:
-                if (currentModal == 'view-test-column') {
+                if (Modal.currentModal === viewColumnModal) {
                     this.nextColumn();
                     event.preventDefault();
-                } else if (currentModal == 'view-test-data') {
+                } else if (Modal.currentModal == viewDataModal) {
                     this.nextData();
                     event.preventDefault();
                 }
                 break;
 
             case KeyboardEvent.DOM_VK_LEFT:
-                if (currentModal == 'view-test-column') {
+                if (Modal.currentModal === viewColumnModal) {
                     this.previousColumn();
                     event.preventDefault();
-                } else if (currentModal == 'view-test-data') {
+                } else if (Modal.currentModal == viewDataModal) {
                     this.previousData();
                     event.preventDefault();
                 }
                 break;
 
             case KeyboardEvent.DOM_VK_PAGE_DOWN:
-                if (currentModal == 'view-test-column') {
+                if (Modal.currentModal === viewColumnModal) {
                     this.lastColumn();
                     event.preventDefault();
-                } else if (currentModal == 'view-test-data') {
+                } else if (Modal.currentModal == viewDataModal) {
                     this.lastData();
                     event.preventDefault();
                 }
                 break;
 
             case KeyboardEvent.DOM_VK_PAGE_UP:
-                if (currentModal == 'view-test-column') {
+                if (Modal.currentModal === viewColumnModal) {
                     this.firstColumn();
                     event.preventDefault();
-                } else if (currentModal == 'view-test-data') {
+                } else if (Modal.currentModal == viewDataModal) {
                     this.firstData();
                     event.preventDefault();
                 }
@@ -198,13 +186,11 @@ class ViewPage extends Page {
 
     /* update the column modal */
     updateColumnModal(id) {
-        if (currentModal != "view-test-column") {
-            currentModal = "view-test-column";
-            showModal(currentModal);
-            currentState.id = -1;
+        if (Modal.currentModal !== viewColumnModal) {
+            viewColumnModal.show();
         }
-        if (currentState.id != id) {
-            currentState.id = id;
+        if (viewColumnModal.id != id) {
+            viewColumnModal.id = id;
             this.columnsModalNav.updateStatus(id <= 0 ? 1 : id >= currentTest.columns.length - 1 ? 2 : 0);
             
             var column = currentTest.columns[id];
@@ -220,13 +206,11 @@ class ViewPage extends Page {
 
     /* update the data modal */
     updateDataModal(id) {
-        if (currentModal != "view-test-data") {
-            currentModal = "view-test-data";
-            showModal(currentModal);
-            currentState.id = -1;
+        if (Modal.currentModal !== viewDataModal) {
+            viewDataModal.show();
         }
-        if (currentState.id != id) {
-            currentState.id = id;
+        if (viewDataModal.id != id) {
+            viewDataModal.id = id;
             this.dataModalNav.updateStatus(id <= 0 ? 1 : id >= currentTest.data.length - 1 ? 2 : 0);
 
             var row = currentTest.data[id];
@@ -255,15 +239,15 @@ class ViewPage extends Page {
 
     /* go to the next column */
     nextColumn() {
-        if (currentState.id < currentTest.columns.length - 1) {
-            this.updateColumnModal(currentState.id + 1); // don't add to history in order to not spam the history 
+        if (viewColumnModal.id < currentTest.columns.length - 1) {
+            this.updateColumnModal(viewColumnModal.id + 1); // don't add to history in order to not spam the history 
         }
     }
 
     /* go to the previous column */
     previousColumn() {
-        if (currentState.id > 0) {
-            this.updateColumnModal(currentState.id - 1);
+        if (viewColumnModal.id > 0) {
+            this.updateColumnModal(viewColumnModal.id - 1);
         }
     }
 
@@ -286,15 +270,15 @@ class ViewPage extends Page {
 
     /* go to the next data */
     nextData() {
-        if (currentState.id < currentTest.data.length - 1) {
-            this.updateDataModal(currentState.id + 1);
+        if (viewDataModal.id < currentTest.data.length - 1) {
+            this.updateDataModal(viewDataModal.id + 1);
         }
     }
 
     /* go to the previous data */
     previousData() {
-        if (currentState.id > 0) {
-            this.updateDataModal(currentState.id - 1);
+        if (viewDataModal.id > 0) {
+            this.updateDataModal(viewDataModal.id - 1);
         }
     }
 
@@ -312,16 +296,12 @@ class ViewPage extends Page {
     closeColumnModal() {
         currentURL.searchParams.delete('column');
         history.pushState({}, '', currentURL);
-        hideModal(currentModal);
-        currentModal = null;
     }
 
     /* close the data modal */
     closeDataModal() {
         currentURL.searchParams.delete('data');
         history.pushState({}, '', currentURL);
-        hideModal(currentModal);
-        currentModal = null;
     }
 }
 

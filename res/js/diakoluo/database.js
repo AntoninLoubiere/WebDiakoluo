@@ -8,80 +8,91 @@ class DatabaseManager {
         this.testDBEditor = null;
 
         this.freeIndex = null;
-        this.onloadedcallback = null;
+
+        this.initAsyncFunc = this.initialise();
     }
 
     /* initialise the db */
-    initialise() {
-        this.testDB = indexedDB.open('tests', DATABASE_VERSION);
-        this.testDB.onerror = function(event) {
-            console.error('Database cannot be loaded', event);
-        };
-
-        this.testDB.onsuccess = event => {
-            this.testDBEditor = event.target.result;
-            this.testDBEditor.onerror = this.onTestDBError;
-
-            // get the last obhect key
-            this.testDBEditor.transaction(['header']).objectStore('header').openCursor(null, "prev").onsuccess = event => {
-                var cursor = event.target.result;
-                if (cursor) {
-                    if (cursor.key == EDIT_KEY) {
-                        cursor.continue();
-                        return;
-                    }
-                    this.freeIndex = cursor.key + 1;
-                } else {
-                    this.freeIndex = 1;
-                }
-                console.info("Database loaded. Version", DATABASE_VERSION);
-                this.onloaded();
+    async initialise() {
+        return new Promise((resolve, reject) => {
+            this.testDB = indexedDB.open('tests', DATABASE_VERSION);
+            this.testDB.onerror = function(event) {
+                console.error('Database cannot be loaded', event);
+                reject();
             };
-        }
 
-        this.testDB.onupgradeneeded = event => {
-            this.testDBEditor = event.target.result;
+            this.testDB.onsuccess = event => {
+                this.testDBEditor = event.target.result;
+                this.testDBEditor.onerror = this.onTestDBError;
 
-            this.testDBEditor.onerror = this.onTestDBError;
-
-
-
-            switch (event.oldVersion) {
-                default:
-                    var header = this.testDBEditor.createObjectStore("header", { keyPath: "id" });
-
-                    header.createIndex("title", "title", { unique: false });
-                    header.createIndex("description", "description", { unique: false });
-                    header.createIndex("playable", "playable", { unique: false });
-
-                    var tests = this.testDBEditor.createObjectStore("tests", { keyPath: "id" }); // same id as above.
-
-                    tests.createIndex("title", "title", { unique: false });
-                    tests.createIndex("description", "title", { unique: false });
-
-                case 1:
-                    var playContexts = this.testDBEditor.createObjectStore("playContexts", { autoIncrement: true, keyPath: "pk"});
-                    playContexts.createIndex("testId", "testId");
-                    playContexts.createIndex("gameId", "gameId");
-                    playContexts.createIndex("testContext", ["testId", "gameId"], { unique: true })
-
+                // get the last obhect key
+                this.testDBEditor.transaction(['header']).objectStore('header').openCursor(null, "prev").onsuccess = event => {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        if (cursor.key == EDIT_KEY) {
+                            cursor.continue();
+                            return;
+                        }
+                        this.freeIndex = cursor.key + 1;
+                    } else {
+                        this.freeIndex = 1;
+                    }
+                    console.info("Database loaded. Version", DATABASE_VERSION);
+                    resolve();
+                };
             }
-            console.info("Database initialised or upgraded from version", event.oldVersion, "to", DATABASE_VERSION);
-        };
 
-        // set storage persistent if possible, else, warn the user
-        if (navigator.storage && navigator.storage.persist) {
-            navigator.storage.persist().then(function(persistent) {
-                // TODO: improve and create a new dialog
-                if (!persistent) {
-                    loadModal('persist-storage-c-warning', [{id: "modal-show", onclick: () => modalShowCheck('modal-persist-c-storage')}]);
+            this.testDB.onupgradeneeded = event => {
+                this.testDBEditor = event.target.result;
+
+                this.testDBEditor.onerror = this.onTestDBError;
+
+
+
+                switch (event.oldVersion) {
+                    default:
+                        var header = this.testDBEditor.createObjectStore("header", { keyPath: "id" });
+
+                        header.createIndex("title", "title", { unique: false });
+                        header.createIndex("description", "description", { unique: false });
+                        header.createIndex("playable", "playable", { unique: false });
+
+                        var tests = this.testDBEditor.createObjectStore("tests", { keyPath: "id" }); // same id as above.
+
+                        tests.createIndex("title", "title", { unique: false });
+                        tests.createIndex("description", "title", { unique: false });
+
+                    case 1:
+                        var playContexts = this.testDBEditor.createObjectStore("playContexts", { autoIncrement: true, keyPath: "pk"});
+                        playContexts.createIndex("testId", "testId");
+                        playContexts.createIndex("gameId", "gameId");
+                        playContexts.createIndex("testContext", ["testId", "gameId"], { unique: true })
+
                 }
-            });
-        } else {
-            if (localStorage.getItem('modal-persist-c-storage') != "true") {
-                loadModal('persist-storage-c-warning', [{id: "modal-show", onclick: () => modalShowCheck('modal-persist-c-storage')}]);
+                console.info("Database initialised or upgraded from version", event.oldVersion, "to", DATABASE_VERSION);
+            };
+
+            // set storage persistent if possible, else, warn the user
+            if (navigator.storge && navigator.storage.persist) {
+                navigator.storage.persist().then(function(persistent) {
+                    // TODO: improve and create a new dialog
+                    if (!persistent) {
+                        Modal.loadModal('persist-storage-c-warning').then(
+                            modal => modal.onhide = () => Modal.modalShowCheck('modal-persist-c-storage')
+                        );
+                    }
+                });
+            } else {
+                if (localStorage.getItem('modal-persist-c-storage') != "true") {
+                    Modal.loadModal('persist-storage-c-warning').then(
+                        modal => modal.onhide = () => {
+                            Modal.modalShowCheck('modal-persist-c-storage');
+                            modal.delete();
+                        }
+                    );
+                }
             }
-        }
+        });
     }
 
     /* callback when an error occur on the database */
@@ -261,20 +272,6 @@ class DatabaseManager {
             }
         };
     }
-
-    /* set the on loaded callback */
-    setOnLoaded(c) {
-        if (this.freeIndex == null) {
-            this.onloadedcallback = c;
-        } else {
-            c();
-        }
-    }
-
-    onloaded() {
-        this.onloadedcallback?.();
-    }
 }
 
 const DATABASE_MANAGER = new DatabaseManager();
-DATABASE_MANAGER.initialise();

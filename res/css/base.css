@@ -692,7 +692,7 @@ textarea.resize-vertical {
     overflow: hidden;
 
 
-    transition: all .3s .5s ease-out, visibility 0s .8                          s;
+    transition: all .3s .5s ease-out, visibility 0s .8s;
 }
 
 .selector:hover .selector-dropdown, .selector:focus .selector-dropdown, .selector:focus-within .selector-dropdown {

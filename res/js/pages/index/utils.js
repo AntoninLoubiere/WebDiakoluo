@@ -1,3 +1,13 @@
+const deleteModal = new Modal(document.getElementById('test-delete-confirm-modal'));
+
+const importTestModal = new Modal(document.getElementById('import-test-modal'));
+const importModalInput = document.getElementById('import-test-input');
+const importModalSelect = document.getElementById('import-test-select');
+const importModalCsv = document.getElementById('import-csv');
+const importModalCsvColumnName = document.getElementById('import-csv-column-name');
+const importModalCsvColumnType = document.getElementById('import-csv-column-type');
+
+const exportModal = new Modal(document.getElementById('export-test-modal'));
 const exportModalSelect = document.getElementById('export-test-select');
 const exportModalCsv = document.getElementById('export-csv');
 const exportModalCsvColumnName = document.getElementById('export-csv-column-name');
@@ -7,8 +17,13 @@ class Utils {
     constructor() {
         document.getElementById('test-delete-confirm-button').onclick = this.deleteTestConfirm.bind(this);
 
+        document.getElementById('import-form').onsubmit = this.importTestCallback.bind(this);
+        importModalInput.onchange = this.importFileChange.bind(this);
+        importModalSelect.onchange = this.importSelectChange.bind(this);
+
         document.getElementById('export-form').onsubmit = this.exportTestConfirm.bind(this);
         exportModalSelect.onchange = this.exportWarningCsv.bind(this);
+        exportModal.onhide = deleteModal.onhide = () => this.data = null;
     }
     /* redirect to the view page of a test */
     viewTestPage(id) {
@@ -55,13 +70,14 @@ class Utils {
     /* delete the test */
     deleteTest(id) {
         this.data = id || currentTest.id;
-        showModal(currentModal = 'test-delete-confirm');
+        deleteModal.show();
         history.pushState({}, 'Modal');
     }
 
     /* callback for the delete confirm button */
     deleteTestConfirm() {
         DATABASE_MANAGER.deleteTest(this.data);
+        deleteModal.hide();
         currentTest = null; // TODO cancel button
         backToMain(true);
     }
@@ -82,8 +98,7 @@ class Utils {
 
     /* load export modal */
     loadExportModal() {
-        showModal('export-test')
-        currentModal = 'export-test';
+        exportModal.show();
         history.pushState({}, 'Modal');
         this.exportWarningCsv();
     }
@@ -100,7 +115,7 @@ class Utils {
     /* confirm the export */
     exportTestConfirm(event) {
         event.preventDefault();
-        hideModal(currentModal);
+        exportModal.hide();
         currentModal = null;
 
         if (exportModalSelect.value == 'dkl') {
@@ -126,10 +141,55 @@ class Utils {
     /* do the duplication of test, see #duplicateTest */
     doDuplicateTest(test) {
         this.data = test.title;
-        test.title = test.title + getTranslation('duplicate-suffix');
+        test.title = test.title + I18N.getTranslation('duplicate-suffix');
         DATABASE_MANAGER.addNewTest(test).onsuccess = () => {
             defaultPage.reloadList();
             test.title = this.data;
+        }
+    }
+
+    /* import a test */
+    importTest() {
+        importTestModal.show();
+        history.pushState({}, '');
+        this.importFileChange();
+        this.importSelectChange();
+    }
+
+    /* the import test callback */
+    importTestCallback(event) {
+        event.preventDefault();
+        importTestModal.hide();
+
+        for (var i = 0; i < importModalInput.files.length; i++) {
+            FILE_MANAGER.importTest(
+                importModalInput.files[i], 
+                importModalSelect.value == 'dkl', 
+                importModalCsvColumnName.checked, 
+                importModalCsvColumnType.checked
+            ).then(() => defaultPage.reloadList()).catch(() => console.warn("Error while importing test"));
+        }
+    }
+
+    /* when a file is inputted */
+    importFileChange() {
+        if (importModalInput.files.length > 0) {
+            FILE_MANAGER.getTypeFile(importModalInput.files[0]).then(
+                (formatFile) => {
+                    importModalSelect.value = formatFile ? 'dkl' : 'csv'
+                    this.importSelectChange();
+                }
+            );
+            
+        }
+    }
+
+    /* when the select change */
+    importSelectChange() {
+        if (importModalSelect.value === 'dkl') {
+            importModalCsv.classList.add('hide');
+        } else {
+            importModalCsv.classList.remove('hide');
         }
     }
 }

@@ -34,7 +34,7 @@ class FILE_MANAGER {
                 const a = document.createElement('a');  
 
                 a.href= URL.createObjectURL(t);
-                a.download = getTranslation('export-all-filename');
+                a.download = I18N.getTranslation('export-all-filename');
                 a.click();
 
                 URL.revokeObjectURL(t);

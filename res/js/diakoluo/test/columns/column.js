@@ -33,7 +33,7 @@ class Column {
     /* get the skipped view */
     static getSkippedView() {
         var e = document.createElement('div');
-        e.textContent = getTranslation('skipped');
+        e.textContent = I18N.getTranslation('skipped');
         e.classList = 'skipped-answer text';
         return e;
     }
@@ -79,7 +79,7 @@ class Column {
         if (data.value)
             e.textContent = data.value;
         else {
-            e.textContent = getTranslation('empty-string');
+            e.textContent = I18N.getTranslation('empty-string');
             e.style.fontStyle = "italic";
         }
         return e;
@@ -172,13 +172,13 @@ class Column {
         div.appendChild(
             VIEW_UTILS.booleanView(
                 this.getSettings(Column.SET_CAN_BE_SHOW), 
-                getTranslation('column-can-show')
+                gI18N.etTranslation('column-can-show')
             )
         );
         div.appendChild(
             VIEW_UTILS.booleanView(
                 this.getSettings(Column.SET_CAN_BE_ASK), 
-                getTranslation('column-can-ask')
+                I18N.getTranslation('column-can-ask')
             )
         );
         return div;
@@ -191,13 +191,13 @@ class Column {
         
         div.appendChild(VIEW_UTILS.booleanEdit(
             this.getSettings(Column.SET_CAN_BE_SHOW), 
-            getTranslation('column-can-show'),
+            I18N.getTranslation('column-can-show'),
             'column-show'
         ));
 
         div.appendChild(VIEW_UTILS.booleanEdit(
             this.getSettings(Column.SET_CAN_BE_ASK), 
-            getTranslation('column-can-ask'),
+            I18N.getTranslation('column-can-ask'),
             'column-ask'
         ));
         return div;

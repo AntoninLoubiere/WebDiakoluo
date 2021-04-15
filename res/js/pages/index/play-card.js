@@ -18,6 +18,8 @@ const playCardSetNbColRandom = document.getElementById('play-card-set-nb-rand-co
 const playCardSetRandomSide = document.getElementById('play-card-set-random-side');
 const playCardSetColumnName = document.getElementById('play-card-set-column-name');
 
+const playCardSettingsModal = new Modal(document.getElementById('play-card-settings-modal'));
+
 const playCardSetReset = document.getElementById('play-card-set-reset');
 
 class PlayCardPage extends Page {
@@ -91,14 +93,14 @@ class PlayCardPage extends Page {
         playCardSetRandomSide.onchange = this.onSettingsRandomSideChanged.bind(this);
         playCardSetColumnName.onchange = this.onSettingsColumnNameChanged.bind(this);
         playCardSetReset.onclick = () => {
-            hideModal('play-card-settings');
+            Modal.hideModal();
             this.reset()
         };
     }
 
     /* when the page is loaded */
     onload() {
-        setPageTitle(currentTest.title);
+        I18N.setPageTitle(currentTest.title);
         playCardPageView.classList.remove('hide');
 
         const request = DATABASE_MANAGER.getPlayContext(currentTest.id, PlayCardPage);
@@ -132,15 +134,6 @@ class PlayCardPage extends Page {
 
             case KeyboardEvent.DOM_VK_RIGHT:
                 this.nextCard();
-                break;
-
-            case KeyboardEvent.DOM_VK_ESCAPE:
-                if (currentModal) {
-                    hideModal(currentModal);
-                } else {
-                    backToMain(true);
-                }
-                event.preventDefault();
                 break;
         }
     }
@@ -422,7 +415,7 @@ class PlayCardPage extends Page {
 
     /* show the settings modal */
     showSettings() {
-        showModal(currentModal = 'play-card-settings');
+        playCardSettingsModal.show();
 
         removeAllChildren(playCardSetShowColumns);
         removeAllChildren(playCardSetRandomColumns);

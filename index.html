@@ -213,7 +213,7 @@
 </footer>
 <div id="view-test-column-modal" class="modal hide">
     <div class="modal-content">
-        <header><span id="modal-view-column-title1"></span><button id="view-column-close-modal" class="modal-close">&times;</button></header>
+        <header><span id="modal-view-column-title1"></span><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <b><x-i18n key="title"></x-i18n></b> <span id="modal-view-column-title2"></span><br>
             <b><x-i18n key="description"></x-i18n></b> <span id="modal-view-column-description"></span><br>
@@ -227,7 +227,7 @@
 </div>
 <div id="view-test-data-modal" class="modal hide">
     <div class="modal-content">
-        <header><x-i18n key="data-number"></x-i18n><span id="view-test-data-id"></span><button class="modal-close" id="view-data-close-modal">&times;</button></header>
+        <header><x-i18n key="data-number"></x-i18n><span id="view-test-data-id"></span><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <div id="view-test-data-content"></div>
         </main>
@@ -236,17 +236,17 @@
 </div>
 <div id="test-delete-confirm-modal" class="modal hide">
     <div class="modal-content red">
-        <header><x-i18n key="delete-test-title"></x-i18n><button is="button-modal" class="modal-close" modal-name="test-delete-confirm" modal-action="hide">&times;</button></header>
+        <header><x-i18n key="delete-test-title"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <p><x-i18n key="delete-test-message"></x-i18n></p>
             <button id="test-delete-confirm-button" class="btn image-button right colored red"><x-i18n key="delete" caps="upper"></x-i18n></button>
-            <button is="button-modal" class="btn image-button right" modal-name="test-delete-confirm" modal-action="hide"><x-i18n key="cancel" caps="upper"></x-i18n></button>
+            <button is="modal-close" class="btn image-button right"><x-i18n key="cancel" caps="upper"></x-i18n></button>
         </main>
     </div>
 </div>
 <div id="edit-test-column-modal" class="modal hide">
     <div class="modal-content">
-        <header><span id="modal-edit-column-title1"></span><button class="modal-close" id="edit-column-close-modal">&times;</button></header>
+        <header><span id="modal-edit-column-title1"></span><button is="modal-close" class="modal-close">&times;</button></header>
         <main class="grid-keys">
             <b><x-i18n key="title"></x-i18n> :</b> <input type="text" id="modal-edit-column-title2">
             <b><x-i18n key="description"></x-i18n> :</b> <textarea id="modal-edit-column-description"></textarea>
@@ -262,7 +262,7 @@
 </div>
 <div id="edit-test-data-modal" class="modal hide">
     <div class="modal-content">
-        <header><x-i18n key="data-number"></x-i18n><span id="edit-test-data-id"></span><button class="modal-close" id="edit-data-close-modal">&times;</button></header>
+        <header><x-i18n key="data-number"></x-i18n><span id="edit-test-data-id"></span><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <div id="edit-test-data-content" class="unique-column"></div>
         </main>
@@ -271,7 +271,7 @@
 </div>
 <div class="modal hide" id="import-test-modal">
     <div class="modal-content">
-        <header><x-i18n key="import-test"></x-i18n><button is="button-modal" class="modal-close" modal-name="import-test" modal-action="hide">&times;</button></header>
+        <header><x-i18n key="import-test"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <form id="import-form" class="unique-column">
                 <input type="file" id="import-test-input" required="" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv">
@@ -298,7 +298,7 @@
 </div>
 <div class="modal hide" id="export-test-modal">
     <div class="modal-content">
-        <header><x-i18n key="export"></x-i18n><button is="button-modal" class="modal-close" modal-name="export-test" modal-action="hide">&times;</button></header>
+        <header><x-i18n key="export"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <form id="export-form" class="unique-column">
                 <div class="grid-keys" id="export-test-parent">
@@ -327,7 +327,7 @@
 </div>
 <div class="modal hide" id="play-card-settings-modal">
     <div class="modal-content">
-        <header><x-i18n key="settings"></x-i18n><button is="button-modal" class="modal-close" modal-name="play-card-settings" modal-action="hide">&times;</button></header>
+        <header><x-i18n key="settings"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <div id="play-card-set-set">
                 <div>
@@ -361,7 +361,7 @@
                     <div id="play-card-set-hide-columns" class="sortable" column-list="columnsHide"></div>
                 </div>
             </div>
-            <button is="button-modal" modal-name="play-card-settings" modal-action="hide" class="btn image-button colored right"><span><x-i18n key="ok" caps="upper"></x-i18n></span></button>
+            <button is="modal-close" class="btn image-button colored right"><span><x-i18n key="ok" caps="upper"></x-i18n></span></button>
             <button class="btn image-button right" id="play-card-set-reset">
                 <img src="/WebDiakoluo/res/img/restart.svg" alt="Restart icon"><span><x-i18n key="reset" caps="upper"></x-i18n></span>
             </button>

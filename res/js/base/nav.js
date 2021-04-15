@@ -10,7 +10,7 @@ if (navOfflineLogo) {
 
 function onNavBarLoadded() {
     navOfflineLogo = document.getElementById('nav-offline');
-    updatePageTitleCallback();
+    I18N.updatePageTitle();
     if (navigator.onLine) {
         ononlineCallback();
     } else {

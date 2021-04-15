@@ -15,17 +15,8 @@ function initNavigation() {
     window.onpopstate = function() {
         loadPage();
     }
-
-    const callback = function() {
-        document.getElementById('loading-page').classList.add('hide');
-        loadPage();
-    }
-
-    if (isTranslationsReady()) { // ensure that translations are ready
-        callback();
-    } else {
-        onTranslationReady = callback;
-    }
+    document.getElementById('loading-page').classList.add('hide');
+    loadPage();
 }
 
 /* load a page / process the ur l*/
@@ -101,6 +92,17 @@ addEventListener("keydown", function(event) {
     currentPage.onkeydown?.(event);
 }, {capture: true});
 
+addEventListener("keydown", function(event) {
+    if (event.keyCode === KeyboardEvent.DOM_VK_ESCAPE) {
+        console.log("PING");
+        if (Modal.currentModal) {
+            Modal.hideModal();
+        } else if (currentPage !== defaultPage) {
+            backToMain(true);
+        }
+    }
+});
+
 addEventListener("click", function(event) {
     currentPage.onclick?.(event);
 }, {capture: true});
@@ -113,4 +115,4 @@ addEventListener("beforeunload", function(event) {
     currentPage.ondelete?.(); // make sure that the state is correctly
 }, {capture: true});
 
-DATABASE_MANAGER.setOnLoaded(initNavigation);
+Promise.all([I18N.initAsyncFunc, DATABASE_MANAGER.initAsyncFunc]).then(initNavigation);
