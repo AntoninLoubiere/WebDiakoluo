@@ -79,6 +79,7 @@ class Utils {
         DATABASE_MANAGER.deleteTest(this.data);
         deleteModal.hide();
         currentTest = null; // TODO cancel button
+        defaultPage.needReload = true;
         backToMain(true);
     }
 

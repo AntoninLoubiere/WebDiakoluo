@@ -19,13 +19,15 @@ class ListPage extends Page {
         document.getElementById('list-test-duplicate-button').onclick = () => UTILS.duplicateTest(this.contextMenu.dataIndex);
         document.getElementById('list-test-export-button').onclick = () => UTILS.exportTest(this.contextMenu.dataIndex);
         document.getElementById('list-test-delete-button').onclick = () => UTILS.deleteTest(this.contextMenu.dataIndex);
+
+        this.needReload = true;
     }
 
     /* load list page */
     onload() {
         I18N.updatePageTitle('title-index.html');
         listPageView.classList.remove('hide');
-        this.reloadList();
+        if (this.needReload) this.reloadList();
     }
 
     onkeydown(event) {
@@ -54,6 +56,7 @@ class ListPage extends Page {
 
     /* reload the test list */
     reloadList() {
+        this.needReload = false;
         removeAllChildren(listPageTestList);
         DATABASE_MANAGER.forEachHeader().onsuccess = event => {
             var cursor = event.target.result;

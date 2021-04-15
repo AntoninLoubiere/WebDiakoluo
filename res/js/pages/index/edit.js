@@ -447,7 +447,7 @@ class EditPage extends Page {
         if (Modal.currentModal === editColumnModal) this.applyColumnModal();
         else if (Modal.currentModal == editDataModal) this.applyDataModal();
 
-        DATABASE_MANAGER.removeAllPlayContext(testId); // TODO: improve only make a reset data flag and save settings
+        // DATABASE_MANAGER.removeAllPlayContext(testId); // TODO: improve only make a reset data flag and save settings
         DATABASE_MANAGER.updateTest(currentTest);
     }
 
@@ -487,6 +487,7 @@ class EditPage extends Page {
 
     saveButton() {
         this.saveTest();
+        defaultPage.needReload = true;
         currentTest.registerModificationDate();
         if (currentTest.edit_id) {
             currentTest.id = currentTest.edit_id;
