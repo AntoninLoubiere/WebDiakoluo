@@ -121,7 +121,7 @@ if('serviceWorker' in navigator) {
 function verifyCookies() {
     /* accept cookies button callback*/
     function cookiesCallback() {
-        Modal.deleteModal();
+        Modal.currentModal.delete();
         localStorage.setItem("lang", I18NClass.detectLang());
         cookiesConsent = true;
     }

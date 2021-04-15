@@ -26,6 +26,9 @@ class Modal {
                         }
                     }
                     var modalObject = new Modal(modal);
+                    if (modal.children[0].classList.contains('no-disimiss')) {
+                        modalObject.noDisimiss = true;
+                    }
                     Modal.showModal(modalObject);
                     resolve(modalObject);
                 } else {

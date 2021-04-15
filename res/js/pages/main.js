@@ -6,7 +6,6 @@ var currentURL = new URL(window.location)
 var currentPage = new Page(null, null);
 var currentPageName = null;
 var currentTest = null;
-var currentModal = null;
 // deprecated, use in class variables instead
 var currentState = {};
 
@@ -38,9 +37,8 @@ function loadPage() {
 
 function setPage(page) {
     currentPage.hide();
-    if (currentModal) {
-        hideModal(currentModal); 
-        currentModal = null;
+    if (Modal.currentModal && !Modal.currentModal.noDisimiss) {
+        Modal.currentPage.hide();
     }
     currentState = {};
     
@@ -96,7 +94,7 @@ addEventListener("keydown", function(event) {
     if (event.keyCode === KeyboardEvent.DOM_VK_ESCAPE) {
         console.log("PING");
         if (Modal.currentModal) {
-            Modal.hideModal();
+            if (!Modal.currentModal.noDisimiss) Modal.hideModal();
         } else if (currentPage !== defaultPage) {
             backToMain(true);
         }
