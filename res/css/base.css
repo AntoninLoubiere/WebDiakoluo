@@ -352,39 +352,6 @@ button.btn:hover, button.btn:focus {
     transform: translateY(-8px);
 }
 
-/* DEPRECATED */
-button.green {
-    color: #fff;
-    background-color: #43a047 !important;
-}
-
-/* DEPRECATED */
-button.green:hover {
-    background-color: #2e7d32 !important;
-}
-
-/* DEPRECATED */
-button.blue {
-    color: #fff;
-    background-color: #039be5 !important;
-}
-
-/* DEPRECATED */
-button.blue:hover {
-    background-color: #0277bd !important;
-}
-
-/* DEPRECATED */
-button.red {
-    color: #fff;
-    background-color: #e53935 !important;
-}
-
-/* DEPRECATED */
-button.red:hover {
-    background-color: #c62828 !important;
-}
-
 button.right {
     float: right;
 }
