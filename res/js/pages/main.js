@@ -10,7 +10,9 @@ var currentTest = null;
 var currentState = {};
 
 /* init navigation */
-function initNavigation() {
+async function initNavigation() {
+    await I18N.initAsyncFunc;
+    await DATABASE_MANAGER.initAsyncFunc;
     window.onpopstate = function() {
         loadPage();
     }
@@ -36,9 +38,11 @@ function loadPage() {
 }
 
 function setPage(page) {
-    currentPage.hide();
-    if (Modal.currentModal && !Modal.currentModal.noDisimiss) {
-        Modal.currentPage.hide();
+    if (currentPage.pageName != null) {
+        currentPage.hide();
+        if (Modal.currentModal && !Modal.currentModal.noDisimiss) {
+            Modal.currentModal.hide();
+        }
     }
     currentState = {};
     
@@ -92,7 +96,6 @@ addEventListener("keydown", function(event) {
 
 addEventListener("keydown", function(event) {
     if (event.keyCode === KeyboardEvent.DOM_VK_ESCAPE) {
-        console.log("PING");
         if (Modal.currentModal) {
             if (!Modal.currentModal.noDisimiss) Modal.hideModal();
         } else if (currentPage !== defaultPage) {
@@ -113,4 +116,4 @@ addEventListener("beforeunload", function(event) {
     currentPage.ondelete?.(); // make sure that the state is correctly
 }, {capture: true});
 
-Promise.all([I18N.initAsyncFunc, DATABASE_MANAGER.initAsyncFunc]).then(initNavigation);
+var initNavigationFunc = initNavigation();

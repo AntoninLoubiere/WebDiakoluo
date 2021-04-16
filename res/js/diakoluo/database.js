@@ -75,22 +75,21 @@ class DatabaseManager {
             // set storage persistent if possible, else, warn the user
             if (navigator.storage && navigator.storage.persist) {
                 navigator.storage.persist().then(function(persistent) {
-                    // TODO: improve and create a new dialog
+                    console.log(persistent);
                     if (!persistent) {
-                        Modal.loadModal('persist-storage-c-warning').then(
-                            modal => modal.onhide = () => Modal.modalShowCheck('modal-persist-c-storage')
-                        );
+                        I18N.initAsyncFunc.then(() => Modal.showOkModal(
+                            'error-storage-p-title', 
+                            'error-storage-p-message', 
+                            {important: true, showAgain: 'modal-persist-p-storage'}
+                        ));
                     }
                 });
             } else {
-                if (localStorage.getItem('modal-persist-c-storage') != "true") {
-                    Modal.loadModal('persist-storage-c-warning').then(
-                        modal => modal.onhide = () => {
-                            Modal.modalShowCheck('modal-persist-c-storage');
-                            modal.delete();
-                        }
-                    );
-                }
+                I18N.initAsyncFunc.then(() => Modal.showOkModal(
+                    'error-storage-c-title', 
+                    'error-storage-c-message', 
+                    {important: true, showAgain: 'modal-persist-c-storage'}
+                ));
             }
         });
     }

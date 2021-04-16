@@ -1,5 +1,3 @@
-const deleteModal = new Modal(document.getElementById('test-delete-confirm-modal'));
-
 const importTestModal = new Modal(document.getElementById('import-test-modal'));
 const importModalInput = document.getElementById('import-test-input');
 const importModalSelect = document.getElementById('import-test-select');
@@ -15,7 +13,6 @@ const exportModalCsvColumnType = document.getElementById('export-csv-column-type
 
 class Utils {
     constructor() {
-        document.getElementById('test-delete-confirm-button').onclick = this.deleteTestConfirm.bind(this);
 
         document.getElementById('import-form').onsubmit = this.importTestCallback.bind(this);
         importModalInput.onchange = this.importFileChange.bind(this);
@@ -23,7 +20,7 @@ class Utils {
 
         document.getElementById('export-form').onsubmit = this.exportTestConfirm.bind(this);
         exportModalSelect.onchange = this.exportWarningCsv.bind(this);
-        exportModal.onhide = deleteModal.onhide = () => this.data = null;
+        exportModal.onhide = () => this.data = null;
     }
     /* redirect to the view page of a test */
     viewTestPage(id) {
@@ -69,18 +66,19 @@ class Utils {
 
     /* delete the test */
     deleteTest(id) {
-        this.data = id || currentTest.id;
-        deleteModal.show();
-        history.pushState({}, 'Modal');
-    }
-
-    /* callback for the delete confirm button */
-    deleteTestConfirm() {
-        DATABASE_MANAGER.deleteTest(this.data);
-        deleteModal.hide();
-        currentTest = null; // TODO cancel button
-        defaultPage.needReload = true;
-        backToMain(true);
+        Modal.showActionModal(
+            'delete-test-title', 
+            'delete-test-message', 
+            {name: 'delete', icon: '/WebDiakoluo/res/img/delete_w.svg'},
+            {important: true})
+        .then(response => {
+            if (response) {
+                DATABASE_MANAGER.deleteTest(id || currentTest.id);
+                currentTest = null; // TODO cancel button
+                defaultPage.needReload = true;
+                backToMain(true);
+            }
+        });      
     }
 
     /* export a test */
