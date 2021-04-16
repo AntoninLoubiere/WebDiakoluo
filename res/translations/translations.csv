@@ -74,6 +74,8 @@ column-string-long,Multi-lines,Multi-lignes
 file-type,Format,Format
 export-warning-csv,This format doesn’t support all the features of the applications.,Ce format ne supporte pas toutes les fonctionnalités de l’application.
 export-csv-column-name,Export the name of the columns,Exporter le nom des colonnes
+error-playable-title,Error: test incompatible,Erreur: test incompatible
+error-playable-message,"This test isn't compatible with this page. Maybe it is missing column or data, edit it to fix that.","Ce test n'est pas compatible avec cette page. Peut-être qu'il lui manque des colonnes ou des données, éditez le pour résoudre le problème."
 export-csv-column-type,Export the type of the columns,Exporter le type des colonnes
 export-all-test,Export all tests,Exporter tous les tests
 export-all-filename,tests.dkl,tests.dkl
