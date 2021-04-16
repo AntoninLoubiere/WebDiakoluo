@@ -744,7 +744,7 @@ textarea.resize-vertical {
     visibility: visible;
     padding: .3em;
     border-width: 2px;
-    max-height: 10em;
+    max-height: 13em;
 
     transition: border-width .1s, padding .5s, max-height .5s, visibility 0s;
 }
