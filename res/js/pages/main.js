@@ -6,26 +6,16 @@ var currentURL = new URL(window.location)
 var currentPage = new Page(null, null);
 var currentPageName = null;
 var currentTest = null;
-var currentModal = null;
-// deprecated, use in class variables instead
-var currentState = {};
 
 /* init navigation */
-function initNavigation() {
+async function initNavigation() {
+    await I18N.initAsyncFunc;
+    await DATABASE_MANAGER.initAsyncFunc;
     window.onpopstate = function() {
         loadPage();
     }
-
-    const callback = function() {
-        document.getElementById('loading-page').classList.add('hide');
-        loadPage();
-    }
-
-    if (isTranslationsReady()) { // ensure that translations are ready
-        callback();
-    } else {
-        onTranslationReady = callback;
-    }
+    document.getElementById('loading-page').classList.add('hide');
+    loadPage();
 }
 
 /* load a page / process the ur l*/
@@ -46,12 +36,12 @@ function loadPage() {
 }
 
 function setPage(page) {
-    currentPage.hide();
-    if (currentModal) {
-        hideModal(currentModal); 
-        currentModal = null;
+    if (currentPage.pageName != null) {
+        currentPage.hide();
+        if (Modal.currentModal && !Modal.currentModal.noDisimiss) {
+            Modal.currentModal.hide();
+        }
     }
-    currentState = {};
     
     currentPage = page;
     if (currentPage.requireTest) {
@@ -74,7 +64,6 @@ function loadPageRequiringTest(update = false) {
             request.onerror = function(event) {
                 backToMain();
             };
-            currentState = {};
         } else {
             if (update) {
                 currentPage.onupdate?.();
@@ -101,6 +90,20 @@ addEventListener("keydown", function(event) {
     currentPage.onkeydown?.(event);
 }, {capture: true});
 
+addEventListener("keydown", function(event) {
+    if (event.keyCode === KeyboardEvent.DOM_VK_ESCAPE) {
+        if (Modal.currentModal) {
+            if (!Modal.currentModal.noDisimiss) Modal.hideModal();
+        } else if (currentPage !== defaultPage) {
+            backToMain(true);
+        }
+    }
+});
+
+addEventListener("click", function(event) {
+    currentPage.onclick?.(event);
+}, {capture: true});
+
 addEventListener("visibilitychange", function(event) {
     currentPage.onvisibilitychange?.(event);
 }, {capture: true});
@@ -109,4 +112,4 @@ addEventListener("beforeunload", function(event) {
     currentPage.ondelete?.(); // make sure that the state is correctly
 }, {capture: true});
 
-DATABASE_MANAGER.setOnLoaded(initNavigation);
+var initNavigationFunc = initNavigation();

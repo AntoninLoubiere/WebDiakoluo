@@ -26,10 +26,11 @@ class EvalScorePage extends Page {
 
     onload() {
         evalScoreView.classList.remove('hide');
+        evalScoreProgress.setProgress(0, true);
     }
 
     setScore(scoreContext) {
-        evalScoreProgress.value = scoreContext.score / scoreContext.max;
+        setTimeout(() => evalScoreProgress.setProgress(scoreContext.score / scoreContext.max), 500);
 
         evalScoreMajor.textContent = this.format20(scoreContext.score, scoreContext.max);
         evalScoreMinor.textContent = this.formatNormal(scoreContext.score, scoreContext.max);

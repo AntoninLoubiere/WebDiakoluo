@@ -34,7 +34,7 @@ class ColumnString extends Column {
             if (data.value)
                 e.textContent = data.value;
             else {
-                e.textContent = getTranslation('empty-string');
+                e.textContent = I18N.getTranslation('empty-string');
                 e.style.fontStyle = "italic";
             }
             return e;
@@ -58,6 +58,7 @@ class ColumnString extends Column {
         } else {
             var i = document.createElement('input');
             i.type = 'text';
+            i.placeholder = this.name;
         }
         return i;
     }
@@ -87,19 +88,19 @@ class ColumnString extends Column {
         div.appendChild(
             VIEW_UTILS.booleanView(
                 this.getSettings(ColumnString.SET_CASE_SENSITIVE), 
-                getTranslation('column-string-case-sensitive')
+                I18N.getTranslation('column-string-case-sensitive')
             )
         );
         div.appendChild(
             VIEW_UTILS.booleanView(
                 this.getSettings(ColumnString.SET_TRIM_SPACES), 
-                getTranslation('column-string-trim-spaces')
+                I18N.getTranslation('column-string-trim-spaces')
             )
         );
         div.appendChild(
             VIEW_UTILS.booleanView(
                 this.getSettings(ColumnString.SET_LONG), 
-                getTranslation('column-string-long')
+                I18N.getTranslation('column-string-long')
             )
         );
 
@@ -113,19 +114,19 @@ class ColumnString extends Column {
 
         div.appendChild(VIEW_UTILS.booleanEdit(
             this.getSettings(ColumnString.SET_CASE_SENSITIVE), 
-            getTranslation('column-string-case-sensitive'),
+            I18N.getTranslation('column-string-case-sensitive'),
             'column-case-sensitive'
         ));
 
         div.appendChild(VIEW_UTILS.booleanEdit(
             this.getSettings(ColumnString.SET_TRIM_SPACES), 
-            getTranslation('column-string-trim-spaces'),
+            I18N.getTranslation('column-string-trim-spaces'),
             'column-trim-spaces'
         ));
 
         div.appendChild(VIEW_UTILS.booleanEdit(
             this.getSettings(ColumnString.SET_LONG), 
-            getTranslation('column-string-long'),
+            I18N.getTranslation('column-string-long'),
             'column-long'
         ));
         return div;

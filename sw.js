@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-w5kbyrMQ";
+ const CACHE_NAME = "WebDiakoluo-aJ69g1jc";
 
 /* get the files of the app */
 function getAppFiles() {
@@ -35,22 +35,30 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/font/Oswald/static/Oswald-Medium.ttf");
     f.push("/WebDiakoluo/res/font/Oswald/static/Oswald-Regular.ttf");
     f.push("/WebDiakoluo/res/font/Oswald/static/Oswald-Light.ttf");
+    f.push("/WebDiakoluo/res/img/github_w.svg");
+    f.push("/WebDiakoluo/res/img/drop_down.svg");
     f.push("/WebDiakoluo/res/img/shuffle_on.svg");
+    f.push("/WebDiakoluo/res/img/info3.svg");
     f.push("/WebDiakoluo/res/img/export.svg");
     f.push("/WebDiakoluo/res/img/wrong.svg");
     f.push("/WebDiakoluo/res/img/view.svg");
+    f.push("/WebDiakoluo/res/img/github.svg");
     f.push("/WebDiakoluo/res/img/export_w.svg");
+    f.push("/WebDiakoluo/res/img/info.svg");
     f.push("/WebDiakoluo/res/img/home.svg");
     f.push("/WebDiakoluo/res/img/save_w.svg");
     f.push("/WebDiakoluo/res/img/right.svg");
     f.push("/WebDiakoluo/res/img/import_w.svg");
     f.push("/WebDiakoluo/res/img/delete.svg");
     f.push("/WebDiakoluo/res/img/grade.svg");
+    f.push("/WebDiakoluo/res/img/checkbox_on.svg");
+    f.push("/WebDiakoluo/res/img/info2.svg");
     f.push("/WebDiakoluo/res/img/open_in_new_w.svg");
     f.push("/WebDiakoluo/res/img/add.svg");
     f.push("/WebDiakoluo/res/img/play.svg");
     f.push("/WebDiakoluo/res/img/nav_prev.svg");
     f.push("/WebDiakoluo/res/img/delete_w.svg");
+    f.push("/WebDiakoluo/res/img/duplicate.svg");
     f.push("/WebDiakoluo/res/img/cancel.svg");
     f.push("/WebDiakoluo/res/img/grade_w.svg");
     f.push("/WebDiakoluo/res/img/nav_next.svg");
@@ -62,6 +70,7 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/offline_w.svg");
     f.push("/WebDiakoluo/res/img/edit.svg");
     f.push("/WebDiakoluo/res/img/play_w.svg");
+    f.push("/WebDiakoluo/res/img/checkbox.svg");
     f.push("/WebDiakoluo/res/img/edit_w.svg");
     f.push("/WebDiakoluo/res/img/nav_last_w.svg");
     f.push("/WebDiakoluo/res/img/open_in_new_b.svg");
@@ -73,8 +82,6 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/include/footer-1.html");
     f.push("/WebDiakoluo/res/include/footer-2.html");
     f.push("/WebDiakoluo/res/include/navbar.html");
-    f.push("/WebDiakoluo/res/modals/persist-storage-c-warning.html");
-    f.push("/WebDiakoluo/res/modals/cookies.html");
     f.push("/WebDiakoluo/res/translations/universal.csv");
     f.push("/WebDiakoluo/res/translations/universal.json");
     f.push("/WebDiakoluo/res/translations/en.json");

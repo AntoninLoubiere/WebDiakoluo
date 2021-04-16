@@ -28,26 +28,27 @@ textarea.column-string-long {
     width: 200px;
 
     border-radius: .5em;
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-accent-1);
 
     margin: 16px 10px;
     padding: .2em .5em;
 
-    box-shadow: 0 3px 4px 0 rgba(12,12,12,.1),0 1px 3px 0 rgba(12,12,12,.1);
+    box-shadow: var(--shadow-card);
 
     cursor: pointer;
 
     transition: all .3s ease-in-out;
 }
 
-.test:hover {
-    box-shadow: 0 7px 14px 0 rgba(12,12,12,.2),0 3px 6px 0 rgba(12,12,12,.2);
+.test:hover, .test:focus {
+    outline: none;
+    box-shadow: var(--shadow-card-hover);
 
     transform: translateY(-8px);
 }
 
-.test:hover .test-title {
-    color: #00796b;
+.test:hover .test-title, .test:focus .test-title {
+    color: var(--color-background-colored);
 }
 
 .test-title {
@@ -57,7 +58,7 @@ textarea.column-string-long {
     padding: 0;
     text-align: center;
 
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--color-accent-1);
 
     overflow: hidden;
     text-overflow: ellipsis;
@@ -107,14 +108,15 @@ textarea.column-string-long {
     padding-right: 1.2em;
 }
 
-.column-close-button {
+.column-delete-button {
     display: none;
     position: absolute;
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    background: #fff;
+    background: var(--color-background);
     border-radius: 1em;
+    outline: none;
 
     cursor: pointer;
     transition: transform .3s ease-out;
@@ -122,11 +124,11 @@ textarea.column-string-long {
     margin: 0 .2em;
 }
 
-.column-close-button:hover {
+.column-delete-button:hover, .column-delete-button:focus  {
     transform: translateY(-50%) scale(1.5);
 }
 
-.test-column-edit:hover .column-close-button {
+.test-column-edit:hover .column-delete-button, .test-column-edit:focus-within .column-delete-button {
     display: inline;
 }
 
@@ -146,6 +148,7 @@ textarea.column-string-long {
 }
 
 .view-button {
+    outline: none;
     cursor: pointer;
     vertical-align: middle;
     transition: transform .3s ease-out;
@@ -153,17 +156,18 @@ textarea.column-string-long {
     margin: 0 .2em;
 }
 
-.view-button:hover {
+.view-button:hover, .view-button:focus {
     transform: scale(1.5);
 }
 
 .edit-button {
+    outline: none;
     cursor: pointer;
     vertical-align: middle;
     transition: transform .3s ease-out;
 }
 
-.edit-button:hover {
+.edit-button:hover, .edit-button:focus {
     transform: scale(1.4);
 }
 
@@ -180,23 +184,19 @@ textarea.column-string-long {
     margin-bottom: .5em;
 }
 
-#eval-inputs > span, #eval-inputs > input, #eval-inputs > select {
-    line-height: 34px;
-}
-
 .right-answer {
-    color: #00c853;
+    color: var(--color-right);
     padding-left: 1.2em;
     background: no-repeat left url("/WebDiakoluo/res/img/right.svg");
 }
 
 .skipped-answer {
-    color: #dd2c00;
+    color: var(--color-skipped);
     font-style: italic;
 }
 
 .wrong-answer {
-    color: #d50000;
+    color: var(--color-wrong);
     text-decoration: line-through;
     padding-left: 1.2em;
     background: no-repeat left url("/WebDiakoluo/res/img/wrong.svg");
@@ -214,6 +214,14 @@ textarea.column-string-long {
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+#eval-score-progress > .progress-bar-inner {
+    transition: width 3s;
+}
+
+#eval-inputs div.text {
+    display: inline;
 }
 
 #eval-score-progress {
@@ -235,7 +243,7 @@ textarea.column-string-long {
 .columns-settings hr {
     width: 50%;
     border: none;
-    border-top: #333 dotted 3px;
+    border-top: var(--color-accent-1-dark) dotted 3px;
 }
 
 #play-card-page {
@@ -256,6 +264,9 @@ textarea.column-string-long {
 #play-card-card {
     flex-grow: 1;
     cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
     font-size: .8em;
 
@@ -332,13 +343,16 @@ textarea.column-string-long {
 }
 
 .play-card-set-col-child {
-    border: solid 1px #dfdfdf;
+    border: solid 1px var(--color-accent-2);
     border-radius: .2em;
     margin-bottom: -1px;
 
     font-size: 1.1em;
     padding: 0 .2em;
 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
     cursor: move;
 
@@ -346,7 +360,7 @@ textarea.column-string-long {
 }
 
 .play-card-set-col-child:hover, .play-card-set-col-child.sortable-ghost {
-    background-color: #e0f2f1;
+    background-color: var(--color-accent-1);
 }
 
 .card-center {

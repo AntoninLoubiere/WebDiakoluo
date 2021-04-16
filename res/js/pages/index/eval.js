@@ -5,8 +5,6 @@ const evalPageInputs = document.getElementById('eval-inputs');
 const evalPageContinueButtonText = document.getElementById('eval-continue-button-text');
 
 const evalProgressBar = document.getElementById('eval-progress');
-const evalProgressIndex = document.getElementById('eval-progress-index');
-const evalProgressMax = document.getElementById('eval-progress-max');
 
 /* A score context that hold the score of the session */
 class ScoreContext {
@@ -89,7 +87,7 @@ class EvalPage extends Page {
         this.initialise();
 
         evalPageView.classList.remove('hide');
-        setPageTitle(currentTest.title);
+        I18N.setPageTitle(currentTest.title);
     }
 
     /* when a key is press */
@@ -104,7 +102,6 @@ class EvalPage extends Page {
         removeAllChildren(evalPageInputs);
 
         evalPageTestTitle.textContent = currentTest.title;
-        evalProgressMax.textContent = this.dataNumberToDo;
         this.evalInputs = [];
         this.randomInputs = 0;
 
@@ -135,10 +132,10 @@ class EvalPage extends Page {
 
                 if (is_random) this.randomInputs++;
                 else if (set_show) {
+                    this.numberColumnsRandomReveal--;
                     show_only++;
                 }
                 else {
-                    this.numberColumnsRandomReveal--;
                     ask_only++;
                 }
             }
@@ -150,7 +147,7 @@ class EvalPage extends Page {
             ask_only ? this.randomInputs : this.randomInputs - 1
         );
 
-        this.update();
+        setTimeout(this.update.bind(this), 10);
     }
 
     /* update the UI */
@@ -165,20 +162,11 @@ class EvalPage extends Page {
                     if (!this.evalInputs[i].is_random || this.columnsAsked[j++]) {
                         this.evalInputs[i].showAnswer(row, score);
                     }
-                }
-                // if (this.columnsAsked[i]) {
-                //     evalPageInputs.replaceChild(
-                //         currentTest.columns[i].updateAnswerTestView(
-                //             row[i],  
-                //             evalPageInputs.children[i * 2 + 1],
-                //             score),
-                //         evalPageInputs.children[i * 2 + 1]
-                //     );
-                // }                
+                }           
             }
             evalPageContinueButtonText.setAttribute('key', 'continue');
-            evalProgressBar.value = (this.currentIndex + 1) / this.dataNumberToDo;
-            evalProgressIndex.textContent = this.currentIndex + 1; // humanify
+            evalProgressBar.setProgress((this.currentIndex + 1) / this.dataNumberToDo);
+            evalProgressBar.setText(this.currentIndex + 1 + '/' + this.dataNumberToDo); // humanify
         } else {
             this.columnsAsked = new Array(currentTest.columns.length).fill(true);
             var i = this.numberColumnsRandomReveal;
@@ -203,22 +191,29 @@ class EvalPage extends Page {
                 } else if (this.evalInputs[i].set_show) {
                     this.evalInputs[i].show(row);
                 }
-                // if (this.columnsAsked[i]) {
-                //     evalPageInputs.replaceChild(currentTest.columns[i].getTestView(row[i]), evalPageInputs.children[i * 2 + 1]);
-                // } else {
-                //     evalPageInputs.replaceChild(currentTest.columns[i].getViewView(row[i]), evalPageInputs.children[i * 2 + 1]);
-                // }
             }
             evalPageContinueButtonText.setAttribute('key', 'valid');
+
             var i = 0;
-            while ((
-                    (this.evalInputs[i].is_random && !this.columnsAsked[j++]) || 
-                    this.evalInputs[i].set_ask) && 
-                ++i < this.evalInputs.length - 1) {}
-            evalPageInputs.children[i * 2 + 1].focus();
+            var j = 0;
+            while (true) {
+                if (this.evalInputs[i].is_random) {
+                    if (this.columnsAsked[j++]) {
+                        break;
+                    }
+                } else if (this.evalInputs[i].set_ask) {
+                    break;
+                }
+                if (++i >= this.evalInputs.length) {
+                    i = 0;
+                    break;
+                }
+            }
+
+            this.evalInputs[i].view.focus();
  
-            evalProgressBar.value = this.currentIndex / this.dataNumberToDo;
-            evalProgressIndex.textContent = this.currentIndex + 1; // humanify
+            evalProgressBar.setProgress(this.currentIndex / this.dataNumberToDo);
+            evalProgressBar.setText(this.currentIndex + 1 + '/' + this.dataNumberToDo); // humanify
         }
     }
 

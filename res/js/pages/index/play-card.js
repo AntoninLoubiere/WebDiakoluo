@@ -1,8 +1,6 @@
 const playCardPageView = document.getElementById('play-card-page');
 
 const playCardProgress = document.getElementById('play-card-progress');
-const playCardProgressIndex = document.getElementById('play-card-progress-index');
-const playCardProgressMax = document.getElementById('play-card-progress-max');
 
 const playCardCard = document.getElementById('play-card-card');
 const playCardRestartTemplate = document.getElementById('play-card-restart-template');
@@ -19,6 +17,8 @@ const playCardSetHideColumns = document.getElementById('play-card-set-hide-colum
 const playCardSetNbColRandom = document.getElementById('play-card-set-nb-rand-col');
 const playCardSetRandomSide = document.getElementById('play-card-set-random-side');
 const playCardSetColumnName = document.getElementById('play-card-set-column-name');
+
+const playCardSettingsModal = new Modal(document.getElementById('play-card-settings-modal'));
 
 const playCardSetReset = document.getElementById('play-card-set-reset');
 
@@ -46,7 +46,7 @@ class PlayCardPage extends Page {
          */
         // this.context;
 
-        window.sortable = new Sortable(playCardSetShowColumns, {
+        new Sortable(playCardSetShowColumns, {
             group: 'play-card-set-columns',
             animation: 200,
             ghostClass: 'sortable-ghost',
@@ -93,14 +93,14 @@ class PlayCardPage extends Page {
         playCardSetRandomSide.onchange = this.onSettingsRandomSideChanged.bind(this);
         playCardSetColumnName.onchange = this.onSettingsColumnNameChanged.bind(this);
         playCardSetReset.onclick = () => {
-            hideModal('play-card-settings');
+            Modal.hideModal();
             this.reset()
         };
     }
 
     /* when the page is loaded */
     onload() {
-        setPageTitle(currentTest.title);
+        I18N.setPageTitle(currentTest.title);
         playCardPageView.classList.remove('hide');
 
         const request = DATABASE_MANAGER.getPlayContext(currentTest.id, PlayCardPage);
@@ -135,15 +135,6 @@ class PlayCardPage extends Page {
             case KeyboardEvent.DOM_VK_RIGHT:
                 this.nextCard();
                 break;
-
-            case KeyboardEvent.DOM_VK_ESCAPE:
-                if (currentModal) {
-                    hideModal(currentModal);
-                } else {
-                    backToMain(true);
-                }
-                event.preventDefault();
-                break;
         }
     }
 
@@ -152,7 +143,7 @@ class PlayCardPage extends Page {
         this.context = {
             testId: currentTest.id,
             shuffleData: true,
-            index: -1,
+            index: 0,
             data: [],
             columnsShow: [],
             columnsAsk: [],
@@ -224,7 +215,10 @@ class PlayCardPage extends Page {
 
     /* initialise the UI from the context */
     initialise() {
-        playCardProgressMax.textContent = currentTest.data.length;
+        if (this.context.index < currentTest.data.length)
+            playCardProgress.setProgress(this.context.index / (currentTest.data.length - 1), true);
+        else
+            playCardProgress.setProgress(1, true);
     }
 
     /* shuffle the data, and if reShuffle is true, make sure that the current index is correctly take in account */
@@ -325,8 +319,14 @@ class PlayCardPage extends Page {
         if (resetSide) this.context.showOtherside = false;
         this.globalNavigation.updateStatus(i <= 0 && this.context.shuffleData ? 1 : 0);
         
-        playCardProgressIndex.textContent = i + 1;
-        playCardProgress.value = i / (currentTest.data.length - 1);
+        if (i < this.context.data.length) {
+            playCardProgress.setText(i + 1 + '/' + currentTest.data.length);
+            playCardProgress.setProgress(i / (currentTest.data.length - 1));
+        } else {
+            i = currentTest.data.length;
+            playCardProgress.setText(i + '/' + i);
+            playCardProgress.setProgress(1);
+        }
         this.updateUI();
     }
 
@@ -368,7 +368,7 @@ class PlayCardPage extends Page {
             // show the restart panel
             this.cardChild = playCardRestartTemplate.content.cloneNode(true).children[0];
             this.cardChild.querySelector('#play-card-home-button').onclick = () => backToMain(true);
-            this.cardChild.querySelector('#play-card-view-button').onclick = () => viewTestPage(currentTest.id);
+            this.cardChild.querySelector('#play-card-view-button').onclick = () => UTILS.viewTestPage(currentTest.id);
             this.cardChild.querySelector('#play-card-restart-button').onclick = this.nextCard.bind(this);
             this.cardChild.querySelector('#play-card-grade-button').onclick = PAGES.view.evalTest;
         }
@@ -378,7 +378,7 @@ class PlayCardPage extends Page {
 
     /* turn the card to see the other side */
     turnCard() {
-        this.context.showOtherside = !this.context.showOtherside;
+        this.context.showOtherside = !this.context?.showOtherside ?? false;
         this.updateUI();
     }
 
@@ -415,7 +415,7 @@ class PlayCardPage extends Page {
 
     /* show the settings modal */
     showSettings() {
-        showModal(currentModal = 'play-card-settings');
+        playCardSettingsModal.show();
 
         removeAllChildren(playCardSetShowColumns);
         removeAllChildren(playCardSetRandomColumns);

@@ -15,9 +15,9 @@
 </head>
 <body class="nav">
 <nav>
-    <a id="nav-logo"><img src="/WebDiakoluo/res/img/favicon.svg"></a>
+    <a id="nav-logo" tabindex="0" aria-label="A link to the main page"><img src="/WebDiakoluo/res/img/favicon.svg" alt="Diakôluô logo"></a>
     <span id="page-title"></span>
-    <span><img id="nav-offline" src="/WebDiakoluo/res/img/offline_w.svg"></img></span>
+    <span><img id="nav-offline" src="/WebDiakoluo/res/img/offline_w.svg" alt="Offline icon"></span>
 </nav>
 <main id="loading-page">
     <h1><x-i18n key="loading"></x-i18n></h1>
@@ -25,16 +25,37 @@
 <main id="list-page" class="hide">
     <h1><x-i18n key="list-test-h"></x-i18n></h1>
     <div id="list-test" class="test-list"></div>
+    <div class="context-menu" id="list-page-context-menu">
+        <div tabindex="0"></div> <!-- will get focus when the context menu is open -->
+        <button id="list-test-play-button">
+            <img src="/WebDiakoluo/res/img/play.svg" alt="Play icon"><x-i18n key="play" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-eval-button">
+            <img src="/WebDiakoluo/res/img/grade.svg" alt="Grade icon"><x-i18n key="eval" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-edit-button">
+            <img src="/WebDiakoluo/res/img/edit.svg" alt="Edit icon"><x-i18n key="edit" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-duplicate-button">
+            <img src="/WebDiakoluo/res/img/duplicate.svg" alt="Duplicate icon"><x-i18n key="duplicate" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-export-button">
+            <img src="/WebDiakoluo/res/img/export.svg" alt="Export icon"><x-i18n key="export" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-delete-button">
+            <img src="/WebDiakoluo/res/img/delete.svg" alt="Delete icon"><x-i18n key="delete" caps="upper"></x-i18n>
+        </button>
+    </div>
     <button class="btn image-button" id="list-add-button">
-        <img src="/WebDiakoluo/res/img/add.svg">
+        <img src="/WebDiakoluo/res/img/add.svg" alt="Add icon">
         <span><x-i18n key="add-test"></x-i18n></span>
     </button>
     <button class="btn image-button" id="list-import-button">
-        <img src="/WebDiakoluo/res/img/import.svg">
+        <img src="/WebDiakoluo/res/img/import.svg" alt="Import icon">
         <span><x-i18n key="import-test"></x-i18n></span>
     </button>
     <button class="btn image-button" id="list-export-all-button">
-        <img src="/WebDiakoluo/res/img/export.svg">
+        <img src="/WebDiakoluo/res/img/export.svg" alt="Export icon">
         <span><x-i18n key="export-all-test"></x-i18n></span>
     </button>
 </main>
@@ -43,23 +64,23 @@
     <div class="card">
         <div class="action-list">
             <button class="btn image-button compact" id="view-play-button">
-                <img src="/WebDiakoluo/res/img/play.svg">
+                <img src="/WebDiakoluo/res/img/play.svg" alt="Play icon">
                 <span><x-i18n key="play" caps="upper"></x-i18n></span>
             </button>
             <button class="btn image-button compact" id="view-eval-button">
-                <img src="/WebDiakoluo/res/img/grade.svg">
+                <img src="/WebDiakoluo/res/img/grade.svg" alt="Grade icon">
                 <span><x-i18n key="eval" caps="upper"></x-i18n></span>
             </button>
             <button class="btn image-button compact" id="view-edit-button">
-                <img src="/WebDiakoluo/res/img/edit.svg">
+                <img src="/WebDiakoluo/res/img/edit.svg" alt="Edit icon">
                 <span><x-i18n key="edit" caps="upper"></x-i18n></span>
             </button>
             <button class="btn image-button compact" id="view-export-button">
-                <img src="/WebDiakoluo/res/img/export.svg">
+                <img src="/WebDiakoluo/res/img/export.svg" alt="Export icon">
                 <span><x-i18n key="export" caps="upper"></x-i18n></span>
             </button>
             <button class="btn image-button compact" id="view-delete-button">
-                <img src="/WebDiakoluo/res/img/delete.svg">
+                <img src="/WebDiakoluo/res/img/delete.svg" alt="Delete icon">
                 <span><x-i18n key="delete" caps="upper"></x-i18n></span>
             </button>
         </div>
@@ -77,7 +98,7 @@
         </div>
     </div>
     <b><x-i18n key="data"></x-i18n> :</b>
-    <div class="table-parent">
+    <div class="table-parent" tabindex="-1">
         <table id="view-test-data" class="table">
             <thead id="view-test-data-header"></thead>
             <tbody id="view-test-data-body"></tbody>
@@ -88,13 +109,13 @@
     <div class="card">
         <div class="double-column">
             <div class="grid-keys" id="edit-panel">
-                <b><x-i18n key="title"></x-i18n> :</b></x-i18n> <input type="text" id="edit-test-title" class="unique-line"></input>
+                <b><x-i18n key="title"></x-i18n> :</b></x-i18n> <input type="text" id="edit-test-title" class="unique-line">
                 <b><x-i18n key="description"></x-i18n> :</b> <textarea id="edit-test-description" class="resize-vertical"></textarea>
             </div>
             <div>
                 <b><x-i18n key="columns"></x-i18n> :</b>
                 <div id="edit-test-columns"></div>
-                <button class="btn image-button" id="edit-add-column-button"><img src="/WebDiakoluo/res/img/add.svg">
+                <button class="btn image-button" id="edit-add-column-button"><img src="/WebDiakoluo/res/img/add.svg" alt="Add icon">
                     <span><x-i18n key="add-column"></x-i18n></span>
                 </button>
             </div>
@@ -108,25 +129,22 @@
         </table>
     </div>
     <div class="bottom-bar">
-        <button class="btn image-button" id="edit-add-data-button"><img src="/WebDiakoluo/res/img/add.svg">
+        <button class="btn image-button" id="edit-add-data-button"><img src="/WebDiakoluo/res/img/add.svg" alt="Add icon">
                     <span><x-i18n key="add-data"></x-i18n></span>
                 </button>
         <button class="btn right image-button colored" id="edit-save-button">
-            <img src="/WebDiakoluo/res/img/save_w.svg"><span><x-i18n key="save" caps="upper"></x-i18n></span>
+            <img src="/WebDiakoluo/res/img/save_w.svg" alt="Save icon"><span><x-i18n key="save" caps="upper"></x-i18n></span>
         </button>
         <button class="btn right image-button" id="edit-cancel-button">
-            <img src="/WebDiakoluo/res/img/cancel.svg"><span><x-i18n key="cancel" caps="upper"></x-i18n></span>
+            <img src="/WebDiakoluo/res/img/cancel.svg" alt="Cancel icon"><span><x-i18n key="cancel" caps="upper"></x-i18n></span>
         </button>
     </div>
 </main>
 <main id="play-card-page" class="hide expand">
     <div id="play-card-header">
-        <div class="progress">
-            <div><span id="play-card-progress-index"></span>/<span id="play-card-progress-max"></span></div>
-            <progress id="play-card-progress" value=".5" max="1"></progress>
-        </div>
-        <button class="icon-button" id="play-card-settings-button"><img src="/WebDiakoluo/res/img/settings.svg"></button>
-        <button class="icon-button" id="play-card-shuffle-button"><img src="/WebDiakoluo/res/img/shuffle.svg" id="play-card-shuffle-button-image"></button>
+        <progress-bar id="play-card-progress"></progress-bar>
+        <button class="icon-button" id="play-card-settings-button"><img src="/WebDiakoluo/res/img/settings.svg" alt="Settings icon"></button>
+        <button class="icon-button" id="play-card-shuffle-button"><img src="/WebDiakoluo/res/img/shuffle.svg" id="play-card-shuffle-button-image" alt="Shuffle icon"></button>
     </div>
     <div class="card" id="play-card-card">
     </div>
@@ -134,15 +152,12 @@
 <main id="eval-page" class="hide">
     <form id="eval-form">
         <h1 id="eval-test-title"></h1>
-        <div class="progress">
-            <div><span id="eval-progress-index"></span>/<span id="eval-progress-max"></span></div>
-            <progress id="eval-progress" value=".5" max="1"></progress>
-        </div>
+        <progress-bar id="eval-progress"></progress-bar>
         <div id="eval-inputs" class="unique-column">
         </div>
         <button id="eval-continue-button" class="btn image-button colored major" type="submit">
             <span><x-i18n key="continue" caps="upper" id="eval-continue-button-text"></x-i18n></span>
-            <img src="/WebDiakoluo/res/img/play_w.svg">
+            <img src="/WebDiakoluo/res/img/play_w.svg" alt="Play icon">
         </button>
     </form>
 </main>
@@ -166,29 +181,29 @@
         </div>
         <button id="eval-set-start-button" class="btn image-button colored major" type="submit">
             <span><x-i18n key="eval" caps="upper"></x-i18n></span>
-            <img src="/WebDiakoluo/res/img/play_w.svg">
+            <img src="/WebDiakoluo/res/img/play_w.svg" alt="Play icon">
         </button>
     </form>
 </main>
 <main id="eval-score-page" class="hide">
     <div id="eval-score-progress-parent">
         <h1 class="no-margin" id="eval-score-major">1/10</h1>
-        <progress value="0" max="1" id="eval-score-progress"></progress>
+        <progress-bar id="eval-score-progress"></progress-bar>
         <h3 class="no-margin" id="eval-score-minor">1/10</h3>
     </div>
     <button class="btn image-button colored right" id="eval-score-restart">
-        <img src="/WebDiakoluo/res/img/restart_w.svg">
+        <img src="/WebDiakoluo/res/img/restart_w.svg" alt="Restart icon">
         <span><x-i18n key="restart" caps="upper"></x-i18n></span>
     </button>
     <button class="btn image-button right" id="eval-score-menu">
-        <img src="/WebDiakoluo/res/img/home.svg">
+        <img src="/WebDiakoluo/res/img/home.svg" alt="Home icon">
         <span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
     </button>
 </main>
 <footer class="double-column">
     <div>
         <x-i18n key="language"></x-i18n>
-        <div class="selector">
+        <div class="selector" tabindex="0">
             <span id="language-selector"></span>
             <div class="selector-dropdown" id="language-selector-childs"></div>
         </div>
@@ -198,7 +213,7 @@
 </footer>
 <div id="view-test-column-modal" class="modal hide">
     <div class="modal-content">
-        <header><span id="modal-view-column-title1"></span><button id="view-column-close-modal" class="modal-close">&times;</button></header>
+        <header><span id="modal-view-column-title1"></span><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <b><x-i18n key="title"></x-i18n></b> <span id="modal-view-column-title2"></span><br>
             <b><x-i18n key="description"></x-i18n></b> <span id="modal-view-column-description"></span><br>
@@ -212,7 +227,7 @@
 </div>
 <div id="view-test-data-modal" class="modal hide">
     <div class="modal-content">
-        <header><x-i18n key="data-number"></x-i18n><span id="view-test-data-id"></span><button class="modal-close" id="view-data-close-modal">&times;</button></header>
+        <header><x-i18n key="data-number"></x-i18n><span id="view-test-data-id"></span><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <div id="view-test-data-content"></div>
         </main>
@@ -221,19 +236,19 @@
 </div>
 <div id="test-delete-confirm-modal" class="modal hide">
     <div class="modal-content red">
-        <header><x-i18n key="delete-test-title"></x-i18n><button is="button-modal" class="modal-close" modal-name="test-delete-confirm" modal-action="hide">&times;</button></header>
+        <header><x-i18n key="delete-test-title"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <p><x-i18n key="delete-test-message"></x-i18n></p>
             <button id="test-delete-confirm-button" class="btn image-button right colored red"><x-i18n key="delete" caps="upper"></x-i18n></button>
-            <button is="button-modal" class="btn image-button right" modal-name="test-delete-confirm" modal-action="hide"><x-i18n key="cancel" caps="upper"></x-i18n></button>
+            <button is="modal-close" class="btn image-button right"><x-i18n key="cancel" caps="upper"></x-i18n></button>
         </main>
     </div>
 </div>
 <div id="edit-test-column-modal" class="modal hide">
     <div class="modal-content">
-        <header><span id="modal-edit-column-title1"></span><button class="modal-close" id="edit-column-close-modal">&times;</button></header>
+        <header><span id="modal-edit-column-title1"></span><button is="modal-close" class="modal-close">&times;</button></header>
         <main class="grid-keys">
-            <b><x-i18n key="title"></x-i18n> :</b> <input type="text" id="modal-edit-column-title2"></input>
+            <b><x-i18n key="title"></x-i18n> :</b> <input type="text" id="modal-edit-column-title2">
             <b><x-i18n key="description"></x-i18n> :</b> <textarea id="modal-edit-column-description"></textarea>
             <div id="modal-edit-column-settings-parent">
                 <b><x-i18n key="settings"></x-i18n> :</b>
@@ -247,7 +262,7 @@
 </div>
 <div id="edit-test-data-modal" class="modal hide">
     <div class="modal-content">
-        <header><x-i18n key="data-number"></x-i18n><span id="edit-test-data-id"></span><button class="modal-close" id="edit-data-close-modal">&times;</button></header>
+        <header><x-i18n key="data-number"></x-i18n><span id="edit-test-data-id"></span><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <div id="edit-test-data-content" class="unique-column"></div>
         </main>
@@ -256,11 +271,11 @@
 </div>
 <div class="modal hide" id="import-test-modal">
     <div class="modal-content">
-        <header><x-i18n key="import-test"></x-i18n><button is="button-modal" class="modal-close" modal-name="import-test" modal-action="hide">&times;</button></header>
+        <header><x-i18n key="import-test"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <form id="import-form" class="unique-column">
                 <input type="file" id="import-test-input" required="" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv">
-                <div class="grid-keys" id="export-test-parent">
+                <div class="grid-keys" id="import-test-parent">
                     <b><x-i18n key="file-type"></x-i18n> : </b>
                     <select id="import-test-select" required="">
                         <option value="dkl" selected="">.dkl</option>
@@ -268,13 +283,13 @@
                     </select>
                 </div>
                 <div id="import-csv" class="hide">
-                    <input type="checkbox" name="" id="import-csv-column-name" checked="">
+                    <input type="checkbox"id="import-csv-column-name" checked="">
                     <label for="import-csv-column-name"><x-i18n key="import-csv-column-name"></x-i18n></label><br>
-                    <input type="checkbox" name="" id="import-csv-column-type" checked="">
+                    <input type="checkbox" id="import-csv-column-type" checked="">
                     <label for="import-csv-column-type"><x-i18n key="import-csv-column-type"></x-i18n></label>
                 </div>
                 <button type="submit" class="btn image-button colored">
-                    <img src="/WebDiakoluo/res/img/import_w.svg">
+                    <img src="/WebDiakoluo/res/img/import_w.svg" alt="Import icon">
                     <span><x-i18n key="import" caps="upper"></x-i18n></span>
                 </button>
             </form>
@@ -283,7 +298,7 @@
 </div>
 <div class="modal hide" id="export-test-modal">
     <div class="modal-content">
-        <header><x-i18n key="export"></x-i18n><button is="button-modal" class="modal-close" modal-name="export-test" modal-action="hide">&times;</button></header>
+        <header><x-i18n key="export"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <form id="export-form" class="unique-column">
                 <div class="grid-keys" id="export-test-parent">
@@ -297,13 +312,13 @@
                     <div>
                         <b><x-i18n key="export-warning-csv"></x-i18n></b>
                     </div>
-                    <input type="checkbox" name="" id="export-csv-column-name" checked="">
+                    <input type="checkbox" id="export-csv-column-name" checked="">
                     <label for="export-csv-column-name"><x-i18n key="export-csv-column-name"></x-i18n></label><br>
-                    <input type="checkbox" name="" id="export-csv-column-type" checked="">
+                    <input type="checkbox" id="export-csv-column-type" checked="">
                     <label for="export-csv-column-type"><x-i18n key="export-csv-column-type"></x-i18n></label>
                 </div>
                 <button type="submit" class="btn image-button colored" id="export-button">
-                    <img src="/WebDiakoluo/res/img/export_w.svg">
+                    <img src="/WebDiakoluo/res/img/export_w.svg" alt="Export icon">
                     <span><x-i18n key="export" caps="upper"></x-i18n></span>
                 </button>
             </form>
@@ -312,7 +327,7 @@
 </div>
 <div class="modal hide" id="play-card-settings-modal">
     <div class="modal-content">
-        <header><x-i18n key="settings"></x-i18n><button is="button-modal" class="modal-close" modal-name="play-card-settings" modal-action="hide">&times;</button></header>
+        <header><x-i18n key="settings"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
         <main>
             <div id="play-card-set-set">
                 <div>
@@ -325,7 +340,7 @@
                 </div>
                 <div>
                     <label for="play-card-set-nb-rand-col"><x-i18n key="number-columns-random"></x-i18n> :</label>
-                    <input id="play-card-set-nb-rand-col" class="small" type="number">
+                    <input id="play-card-set-nb-rand-col" class="small" type="number" required="">
                 </div>
             </div>
             <div id="play-card-set-columns">
@@ -346,43 +361,43 @@
                     <div id="play-card-set-hide-columns" class="sortable" column-list="columnsHide"></div>
                 </div>
             </div>
-            <button is="button-modal" modal-name="play-card-settings" modal-action="hide" class="btn image-button colored right"><span><x-i18n key="ok" caps="upper"></x-i18n></span></button>
+            <button is="modal-close" class="btn image-button colored right"><span><x-i18n key="ok" caps="upper"></x-i18n></span></button>
             <button class="btn image-button right" id="play-card-set-reset">
-                <img src="/WebDiakoluo/res/img/restart.svg"><span><x-i18n key="reset" caps="upper"></x-i18n></span>
+                <img src="/WebDiakoluo/res/img/restart.svg" alt="Restart icon"><span><x-i18n key="reset" caps="upper"></x-i18n></span>
             </button>
         </main>
     </div>
 </div>
 <template id="list-test-child-template">
-    <div class="test">
+    <div class="test" tabindex="0">
         <div class="test-title"></div>
         <div class="test-description"></div>
     </div>
 </template>
 <template id="view-column-child-template">
     <div class="test-column">
-        <img src="/WebDiakoluo/res/img/view.svg" class="view-button"><span class="test-column-text"></span>
+        <img src="/WebDiakoluo/res/img/view.svg" class="view-button" tabindex="0" alt="View icon"><span class="test-column-text"></span>
         <span class="test-column-text"></span>
     </div>
 </template>
 <template id="view-data-child-template">
     <tr class="data clickable">
         <td class="min">
-            <img src="/WebDiakoluo/res/img/view.svg" class="view-button"></td>
+            <img src="/WebDiakoluo/res/img/view.svg" class="view-button" tabindex="0" alt="View icon">
         </td>
     </tr>
 </template>
 <template id="edit-column-child-template">
     <div class="test-column-edit">
-        <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button"><span class="test-column-text"></span>
+        <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button" tabindex="0" alt="Edit icon"><span class="test-column-text"></span>
         <span class="test-column-text"></span>
-        <img class="column-close-button" src="/WebDiakoluo/res/img/delete.svg">
+        <img class="column-delete-button" src="/WebDiakoluo/res/img/delete.svg" tabindex="0" alt="Delete icon">
     </div>
 </template>
 <template id="edit-data-child-template">
     <tr class="data clickable">
         <td class="min edit-min">
-            <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button"><img class="edit-button data-delete-button" src="/WebDiakoluo/res/img/delete.svg">
+            <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button" tabindex="0" alt="Edit icon"><img class="edit-button data-delete-button" src="/WebDiakoluo/res/img/delete.svg" tabindex="0" alt="Delete icon">
         </td>
     </tr>
 </template>
@@ -391,16 +406,16 @@
         <h1 class="card-center"><x-i18n key="play-card-end"></x-i18n></h1>
         <div class="card-center" id="play-card-button-bar">
             <button class="btn image-button" id="play-card-home-button">
-                <img src="/WebDiakoluo/res/img/home.svg"><span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
+                <img src="/WebDiakoluo/res/img/home.svg" alt="Home icon"><span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
             </button>
             <button class="btn image-button" id="play-card-view-button">
-                <img src="/WebDiakoluo/res/img/view.svg"><span><x-i18n key="view-test" caps="upper"></x-i18n></span>
+                <img src="/WebDiakoluo/res/img/view.svg" alt="View icon"><span><x-i18n key="view-test" caps="upper"></x-i18n></span>
             </button>
             <button class="btn image-button" id="play-card-restart-button">
-                <img src="/WebDiakoluo/res/img/restart.svg"><span><x-i18n key="restart" caps="upper"></x-i18n></span>
+                <img src="/WebDiakoluo/res/img/restart.svg" alt="Restart icon"><span><x-i18n key="restart" caps="upper"></x-i18n></span>
             </button>
             <button class="btn image-button colored" id="play-card-grade-button">
-                <img src="/WebDiakoluo/res/img/grade_w.svg"><span><x-i18n key="eval" caps="upper"></x-i18n></span>
+                <img src="/WebDiakoluo/res/img/grade_w.svg" alt="Grade icon"><span><x-i18n key="eval" caps="upper"></x-i18n></span>
             </button>
         </div>
     </div>

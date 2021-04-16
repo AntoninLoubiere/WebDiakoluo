@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 set -e
 
-python tools/services_workers_files.py
-git add sw.js
+python tools/builder.py git-add

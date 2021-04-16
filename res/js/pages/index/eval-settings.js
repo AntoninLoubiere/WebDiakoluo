@@ -36,7 +36,7 @@ class EvalSettingsPage extends Page {
         }
 
         evalSetPageView.classList.remove('hide');
-        setPageTitle(currentTest.title);
+        I18N.setPageTitle(currentTest.title);
     }
 
     /* set the minimum and the maximum of the columns input */

@@ -22,4 +22,24 @@ class VIEW_UTILS {
         div.appendChild(e);
         return div;
     }
+
+    /* create dynamically an image button (right) */
+    static createImageButton(buttonName, buttonColored, buttonIcon, documentCreateOptions) {
+        var but = document.createElement('button', documentCreateOptions);
+        but.classList = 'btn image-button right';
+        if (buttonColored) but.classList.add('colored');
+        
+        if (buttonIcon) {
+           var e = document.createElement('img');
+           e.src = buttonIcon;
+           but.appendChild(e);
+
+           e = document.createElement('span');
+           e.textContent = I18N.getTranslation(buttonName).toUpperCase();
+           but.appendChild(e);
+        } else {
+            but.textContent = I18N.getTranslation(buttonName).toUpperCase(); 
+        }
+        return but;
+    }
 }
