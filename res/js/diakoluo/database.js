@@ -75,7 +75,6 @@ class DatabaseManager {
             // set storage persistent if possible, else, warn the user
             if (navigator.storage && navigator.storage.persist) {
                 navigator.storage.persist().then(function(persistent) {
-                    console.log(persistent);
                     if (!persistent) {
                         I18N.initAsyncFunc.then(() => Modal.showOkModal(
                             'error-storage-p-title', 

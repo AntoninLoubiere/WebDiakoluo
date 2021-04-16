@@ -8,7 +8,8 @@ if (navOfflineLogo) {
     }
 }
 
-function onNavBarLoadded() {
+async function onNavBarLoadded() {
+    await I18N.initAsyncFunc;
     navOfflineLogo = document.getElementById('nav-offline');
     I18N.updatePageTitle();
     if (navigator.onLine) {

@@ -125,6 +125,13 @@ class Utils {
         this.data = null;
     }
 
+    /* export all tests */
+    exportAllTest() {
+        FILE_MANAGER.exportAllTest().then(
+            () => Modal.showOkModal('error-export-all-title', 'error-export-all-message', {important: true})
+        );
+    }
+
     /* duplicate the test */
     duplicateTest(id) {
         if (id && id !== currentTest?.id) {
@@ -166,7 +173,9 @@ class Utils {
                 importModalSelect.value == 'dkl', 
                 importModalCsvColumnName.checked, 
                 importModalCsvColumnType.checked
-            ).then(() => defaultPage.reloadList()).catch(() => console.warn("Error while importing test"));
+            )
+            .then(() => defaultPage.reloadList())
+            .catch(() => Modal.showOkModal('error-import-title', 'error-import-message', {important: true}));
         }
     }
 

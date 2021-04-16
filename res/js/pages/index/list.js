@@ -10,7 +10,7 @@ class ListPage extends Page {
         super(listPageView, "", false);
 
         document.getElementById('list-import-button').onclick = () => UTILS.importTest();
-        document.getElementById('list-export-all-button').onclick = this.exportAllTest.bind(this);
+        document.getElementById('list-export-all-button').onclick = () => UTILS.exportAllTest();
 
         this.contextMenu = new ContextMenu('list-page-context-menu');
         document.getElementById('list-test-play-button').onclick = () => UTILS.playTestPage(this.contextMenu.dataIndex);
@@ -85,11 +85,6 @@ class ListPage extends Page {
                 }
             }
         };
-    }
-
-    /* export all tests */
-    exportAllTest() {
-        FILE_MANAGER.exportAllTest();
     }
 }
 

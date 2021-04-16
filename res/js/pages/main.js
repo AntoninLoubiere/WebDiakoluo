@@ -6,8 +6,6 @@ var currentURL = new URL(window.location)
 var currentPage = new Page(null, null);
 var currentPageName = null;
 var currentTest = null;
-// deprecated, use in class variables instead
-var currentState = {};
 
 /* init navigation */
 async function initNavigation() {
@@ -44,7 +42,6 @@ function setPage(page) {
             Modal.currentModal.hide();
         }
     }
-    currentState = {};
     
     currentPage = page;
     if (currentPage.requireTest) {
@@ -67,7 +64,6 @@ function loadPageRequiringTest(update = false) {
             request.onerror = function(event) {
                 backToMain();
             };
-            currentState = {};
         } else {
             if (update) {
                 currentPage.onupdate?.();

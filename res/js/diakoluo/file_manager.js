@@ -28,18 +28,15 @@ class FILE_MANAGER {
     }
 
     /* export all tests */
-    static exportAllTest() {
-        FILE_MANAGER.getAllTestBlobCsv()
-            .then((t) => {
-                const a = document.createElement('a');  
+    static async exportAllTest() {
+        var t = await FILE_MANAGER.getAllTestBlobCsv()
+        const a = document.createElement('a');  
 
-                a.href= URL.createObjectURL(t);
-                a.download = I18N.getTranslation('export-all-filename');
-                a.click();
+        a.href= URL.createObjectURL(t);
+        a.download = I18N.getTranslation('export-all-filename');
+        a.click();
 
-                URL.revokeObjectURL(t);
-            })
-            .catch((e) => {console.warn("Error", e);/* TODO */})
+        URL.revokeObjectURL(t);
     }
 
     /* import a test */

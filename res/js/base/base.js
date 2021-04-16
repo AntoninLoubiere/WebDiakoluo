@@ -122,14 +122,25 @@ function verifyCookies() {
     /* accept cookies button callback*/
     function cookiesCallback() {
         Modal.currentModal.delete();
-        localStorage.setItem("lang", I18NClass.detectLang());
-        cookiesConsent = true;
     }
 
     cookiesConsent = Boolean(localStorage.getItem("lang"));
 
     if (!cookiesConsent && document.location.pathname != LEGAL_PATH) {
-        Modal.loadModal('cookies', [{id: "cookies-accept", onclick: cookiesCallback}]);
+        Modal.showActionModal(
+            'cookies', 
+            'cookies-message', 
+            {name: 'cookies-accept'}, 
+            {cancelButton: {name: 'more-informations', icon: '/WebDiakoluo/res/img/info.svg'}, noDisimiss: true})
+        .then(response => {
+            if (response) {
+                localStorage.setItem("lang", I18NClass.detectLang());
+                cookiesConsent = true;
+            } else {
+                document.location.href = LEGAL_PATH;
+            }
+        });
+        
     }
 }
 

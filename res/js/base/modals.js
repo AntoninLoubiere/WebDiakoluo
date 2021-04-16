@@ -85,7 +85,7 @@ class Modal {
 
         var container = document.createElement('header');
         container.textContent = I18N.getTranslation(title);
-        container.appendChild(this.createModalClose());
+        if (!options?.noDisimiss) container.appendChild(this.createModalClose());
         modalContent.appendChild(container);
 
         container = document.createElement('main');
@@ -127,6 +127,7 @@ class Modal {
             document.body.appendChild(modal);
 
             var modalObject = new Modal(modal);
+            modalObject.noDisimiss = options?.noDisimiss;
             modalObject.onhide = () => {
                 modalObject.delete();
                 if (showAgainCheckBox && cookiesConsent) 
@@ -162,6 +163,7 @@ class Modal {
             document.body.appendChild(modal);
 
             var modalObject = new Modal(modal);
+            modalObject.noDisimiss = options?.noDisimiss;
             modalObject.onhide = () => {
                 modalObject.delete();
                 if (notResolved) resolve(false);
