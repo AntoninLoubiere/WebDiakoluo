@@ -498,11 +498,19 @@ class EditPage extends Page {
 
     /* callback for the cancel button */
     cancelButton() {
-        var id = currentTest.edit_id;
-        currentTest = null;
-        DATABASE_MANAGER.deleteTest(EDIT_KEY);
-        if (id) UTILS.viewTestPage(id);
-        else backToMain(true);
+        Modal.showActionModal(
+            'warning-lose-changes-title', 
+            'warning-lose-changes-message', 
+            {name: 'quit'}
+        ).then(quit => {
+            if (quit) {
+                var id = currentTest.edit_id;
+                currentTest = null;
+                DATABASE_MANAGER.deleteTest(EDIT_KEY);
+                if (id) UTILS.viewTestPage(id);
+                else backToMain(true);
+            }
+        });
     }
 
     saveButton() {
