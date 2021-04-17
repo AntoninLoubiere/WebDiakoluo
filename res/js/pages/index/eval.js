@@ -146,8 +146,9 @@ class EvalPage extends Page {
             show_only ? 0 : 1,
             ask_only ? this.randomInputs : this.randomInputs - 1
         );
-
-        setTimeout(this.update.bind(this), 10);
+        
+        evalProgressBar.setProgress(0); // reset the progress bar
+        this.update(this);
     }
 
     /* update the UI */

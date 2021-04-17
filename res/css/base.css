@@ -452,6 +452,11 @@ button.major {
     font-weight: 500;
 }
 
+button.red {
+    background-color: var(--color-background-important) !important;
+    color: var(--color-font-important) !important;
+}
+
 textarea.resize-vertical {
     resize: vertical;
     min-height: 3.6em;
@@ -563,7 +568,7 @@ textarea.resize-vertical {
 
 .modal-content.red header {
     background-color: var(--color-background-important);
-    font-color: var(--color-font-important);
+    color: var(--color-font-important);
 
     --color-background-colored: var(--color-background-important);
     --color-font-colored: var(--color-font-important);

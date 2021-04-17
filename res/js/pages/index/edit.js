@@ -473,7 +473,6 @@ class EditPage extends Page {
     /* save the current data in modals */
     applyColumnModal() {
         if (editColumnModal.id >= 0) {
-            console.assert(Modal.currentModal === editColumnModal, "The edit test modal must be column");
             var column = currentTest.columns[editColumnModal.id];
             column.name = editColumnModalTitle2.value;
             column.description = editColumnModalDescription.value;
@@ -486,7 +485,6 @@ class EditPage extends Page {
 
     applyDataModal() {
         if (editDataModal.id >= 0) {
-            console.assert(Modal.currentModal === editDataModal, "The edit test modal must be data");
             var row = currentTest.data[editDataModal.id];
             for (var i = 0; i < currentTest.columns.length; i++) {
                 currentTest.columns[i].setValueFromView(row[i], editDataModalContent.children[i * 2 + 1]);
@@ -519,7 +517,7 @@ class EditPage extends Page {
         if (currentTest.edit_id) {
             currentTest.id = currentTest.edit_id;
             delete currentTest.edit_id;
-            DATABASE_MANAGER.removeAllPlayContext(currentTest.id); // TODO: improve only make a reset data flag and save settings
+            DATABASE_MANAGER.deleteAllPlayContext(currentTest.id); // TODO: improve only make a reset data flag and save settings
             DATABASE_MANAGER.updateTest(currentTest).onsuccess = event => {
                 UTILS.viewTestPage(event.target.result);
             };
@@ -570,7 +568,7 @@ class EditPage extends Page {
         if (editColumnModal.id != id) {
             if (editColumnModal.id >= 0) this.applyColumnModal();
             editColumnModal.id = id;
-            this.columnsModalNav.updateStatus(id <= 0 ? 1 : id >= currentTest.columns.length - 1 ? 2 : 0);
+            this.columnsModalNav.updateStatus(id <= 0,  id >= currentTest.columns.length - 1);
             
             var column = currentTest.columns[id];
             editColumnModalTitle1.textContent = column.name;
@@ -624,6 +622,7 @@ class EditPage extends Page {
     /* close the column modal */
     closeColumnModal() {
         this.applyColumnModal();
+        editColumnModal.id = -1; // to not save it again
         currentURL.searchParams.delete('column');
         history.pushState({}, '', currentURL);
     }
@@ -638,7 +637,7 @@ class EditPage extends Page {
 
             if (editDataModal.id >= 0) this.applyDataModal();
             editDataModal.id = id;
-            this.dataModalNav.updateStatus(id <= 0 ? 1 : id >= currentTest.data.length - 1 ? 2 : 0);
+            this.dataModalNav.updateStatus(id <= 0, id >= currentTest.data.length - 1);
 
             var row = currentTest.data[id];
             editDataModalId.textContent = id + 1;
@@ -698,6 +697,7 @@ class EditPage extends Page {
     /* close the data modal */
     closeDataModal() {
         this.applyDataModal();
+        editDataModal.id = -1 // do not save it again
         currentURL.searchParams.delete('data');
         history.pushState({}, '', currentURL);
     }
