@@ -136,6 +136,7 @@ class I18NClass {
 
             request.onload = () => {
                 this.universal = request.response;
+                console.info("Diakôluô version id :", this.universal['id']);
                 resolve();
             }
 

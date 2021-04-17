@@ -24,12 +24,10 @@ class Utils {
     }
     /* redirect to the view page of a test */
     viewTestPage(id) {
-        if (id) {
-            currentURL.searchParams.set('page', 'view');
-            currentURL.searchParams.set('test', id);
-            window.history.pushState({}, 'View page', currentURL);
-            loadPage();
-        }
+        currentURL.searchParams.set('page', 'view');
+        currentURL.searchParams.set('test', id || currentTest.id);
+        window.history.pushState({}, 'View page', currentURL);
+        loadPage();
     }
 
     /* redirect to add a test */

@@ -45,4 +45,5 @@ def write_translations():
     print("[TRANSLATIONS] Universal wrote.")
 
 if __name__ == '__main__':
-    run()
+    load_translations()
+    write_translations()

@@ -317,7 +317,7 @@ class PlayCardPage extends Page {
     updateCard(i, resetSide = true) {
         this.context.index = i;
         if (resetSide) this.context.showOtherside = false;
-        this.globalNavigation.updateStatus(i <= 0 && this.context.shuffleData ? 1 : 0);
+        this.globalNavigation.updateStatus(i <= 0 && this.context.shuffleData, false);
         
         if (i < this.context.data.length) {
             playCardProgress.setText(i + 1 + '/' + currentTest.data.length);
@@ -368,9 +368,9 @@ class PlayCardPage extends Page {
             // show the restart panel
             this.cardChild = playCardRestartTemplate.content.cloneNode(true).children[0];
             this.cardChild.querySelector('#play-card-home-button').onclick = () => backToMain(true);
-            this.cardChild.querySelector('#play-card-view-button').onclick = () => UTILS.viewTestPage(currentTest.id);
+            this.cardChild.querySelector('#play-card-view-button').onclick = () => UTILS.viewTestPage();
             this.cardChild.querySelector('#play-card-restart-button').onclick = this.nextCard.bind(this);
-            this.cardChild.querySelector('#play-card-grade-button').onclick = PAGES.view.evalTest;
+            this.cardChild.querySelector('#play-card-grade-button').onclick = () => UTILS.evalTestPage();
         }
         
         playCardCard.appendChild(this.cardChild);
