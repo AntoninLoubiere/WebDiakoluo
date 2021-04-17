@@ -17,6 +17,91 @@ class Test {
         return Object.assign(new Test(), test);
     }
 
+    static import(test) {
+        if (Array.isArray(test)) {
+            var tests = [];
+            for (var i = 0; i < test.length; i++) {
+                tests.push(Test.import(test[i]));
+            }
+            return tests;
+        }
+        if (typeof test?.title !== "string" || 
+            typeof test.description !== "string" ||
+            !Array.isArray(test.columns) ||
+            !Array.isArray(test.data)||
+            typeof test.createDate !== "string" ||
+            typeof test.lastModificationDate !== "string") {            
+            
+            return null;
+        }
+
+        test.createDate = new Date(test.createDate);
+        test.lastModificationDate = new Date(test.lastModificationDate);
+
+        var nb_c = test.columns.length;
+        for (var i = 0; i < test.data.length; i++) {
+            if (test.data[i].length != nb_c) {
+                throw new Error("Data length isn't the same as columns");
+            }
+        }
+
+        var columns = [];
+        var c;
+        for (var i = 0; i < test.columns.length; i++) {
+            c = Column.import(test.columns[i]);
+            if (c)
+                columns.push(c);
+            else return null;
+        }
+        test.columns = columns;
+
+        for (var i = 0; i < test.data.length; i++) {
+            for (var j = 0; j < test.columns.length; j++) {
+                if (!test.columns[j].verifyData(test.data[i][j]))
+                    return null;
+            } 
+        }
+        return Object.assign(new Test(), test);   
+    }
+
+    /* import from a csv file */
+    static importCsv(csv, columnName, columnType) {
+        var columns = [];
+        var data = [];
+        if (columnName) {
+            var columnsName = FILE_MANAGER.readLine(csv);
+        }
+
+        if (columnType) {
+            var columnType = FILE_MANAGER.readLine(csv);
+        }
+
+        var line = FILE_MANAGER.readLine(csv);
+        for (var i = 0; i < line.length; i++) {
+            columns.push(new (Column.getColumnClassCsv(columnType?.[i]))
+                (columnName ? columnsName[i] : (I18N.getTranslation('default-column-title') + ' ' + (i + 1))))
+        }
+
+        var row;
+        do {
+            row = [];
+            for (var i = 0; i < columns.length; i++) {
+                row.push(columns[i].getDataFromCsv(line[i]));
+            }
+            data.push(row);
+        } while ((line = FILE_MANAGER.readLine(csv)).length > 0);
+
+        if (columns.length > 0) {
+            var t = new Test(csv.file.name.replace(/\.[^/.]*$/, ''));
+            if (csv.file.lastModified) t.createDate = t.lastModificationDate = new Date(csv.file.lastModified);
+            t.columns = columns;
+            t.data = data;
+            return t;
+        } else {
+            return null;
+        }
+    }
+
     /* construct an object, if first param is null, don't create any fields */
     constructor(title, description = "") {
         if (title != null) {
@@ -36,7 +121,22 @@ class Test {
 
     /* get if the test is playable */
     isPlayable() {
-        return this.columns.length > 1 && this.data.length > 1;
+        return this.data.length > 1 && this.isPlayableColumns();
+    }
+
+    isPlayableColumns() {
+        if (this.columns.length > 1) {
+            var set_ask = false;
+            var set_show = false;
+            var c;
+            for (var i = 0; i < this.columns.length; i++) {
+                c = this.columns[i];
+                if (c.getSettings(Column.SET_CAN_BE_SHOW)) set_show = true;
+                if (c.getSettings(Column.SET_CAN_BE_ASK)) set_ask = true;
+                if (set_ask && set_show) return true;
+            }
+        }
+        return false;
     }
 
     /* set the last modification date to now */
@@ -73,5 +173,51 @@ class Test {
     /* remove a test */
     removeData(index) {
         this.data.splice(index, 1);
+    }
+
+    /* get string */
+    toString() {
+        var id = this.id;
+        delete this.id;
+        var str = JSON.stringify(this);
+        this.id = id;
+        return str;
+    }
+
+    /* get the test as csv file */
+    getCsv(columnName, columnType) {
+        var csv = "";
+        if (columnName) {
+            for (var i = 0; i < this.columns.length; i++) {
+                if (i > 0) csv += FILE_MANAGER.CSV_SEPARATOR;
+                csv += FILE_MANAGER.toCsvCell(this.columns[i].name);
+            }
+            csv += FILE_MANAGER.CSV_LINE_SEPARATOR;
+        }
+
+        if (columnType) {
+            for (var i = 0; i < this.columns.length; i++) {
+                if (i > 0) csv += FILE_MANAGER.CSV_SEPARATOR;
+                csv += FILE_MANAGER.toCsvCell(this.columns[i].constructor.TYPE);
+            }
+            csv += FILE_MANAGER.CSV_LINE_SEPARATOR;
+        }
+
+        for (var i = 0; i < this.data.length; i++) {
+            for (var j = 0; j < this.columns.length; j++) {
+                if (j > 0) csv += FILE_MANAGER.CSV_SEPARATOR;
+                csv += FILE_MANAGER.toCsvCell(this.columns[j].getCsvValue(this.data[i][j]));
+            }
+            csv += FILE_MANAGER.CSV_LINE_SEPARATOR;
+        }
+        return csv;
+    }
+
+    getFilename() {
+        return this.title
+            .replaceAll(' ', '_')
+            .replaceAll('.', '_')
+            .replaceAll('/', '_')
+            .replaceAll('\\', '_') + '.dkl';
     }
 }

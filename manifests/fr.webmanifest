@@ -1,0 +1,117 @@
+{
+  "lang": "fr",
+  "dir": "ltr",
+  "name": "Diakôluô",
+  "short_name": "Diakôluô",
+  "description": "Une application pour aider à apprendre.",
+  "theme_color": "#009688",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/WebDiakoluo/",
+  "start_url": "/WebDiakoluo/",
+  "categories": ["education"],
+  "icons": [
+    {
+      "src": "/WebDiakoluo/res/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg",
+      "purpose": "any"
+    },
+    {
+      "src": "/WebDiakoluo/res/img/manifest/favicon_72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/WebDiakoluo/res/img/manifest/favicon_96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/WebDiakoluo/res/img/manifest/favicon_120.png",
+      "sizes": "120x120",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/WebDiakoluo/res/img/manifest/favicon_128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/WebDiakoluo/res/img/manifest/favicon_144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/WebDiakoluo/res/img/manifest/favicon_152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/WebDiakoluo/res/img/manifest/favicon_180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/WebDiakoluo/res/img/manifest/favicon_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/WebDiakoluo/res/img/manifest/favicon_384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/WebDiakoluo/res/img/manifest/favicon_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts" : [
+    {
+      "name": "Liste de tests",
+      "url": "/WebDiakoluo/",
+      "description": "Liste de tests. La page principale.",
+      "icons" : [
+        {
+          "src": "/WebDiakoluo/res/img/home.svg",
+          "sizes": "any",
+          "type": "image/svg"
+        },
+        {
+          "src": "/WebDiakoluo/res/img/manifest/home_96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Nouveau test",
+      "url": "/WebDiakoluo/index.html?page=edit&test=new",
+      "description": "Créer un nouveau test.",
+      "icons" : [
+        {
+          "src": "/WebDiakoluo/res/img/add.svg",
+          "sizes": "any",
+          "type": "image/svg"
+        },
+        {
+          "src": "/WebDiakoluo/res/img/manifest/add_96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

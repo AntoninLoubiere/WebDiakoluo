@@ -4,52 +4,95 @@ cancel,Cancel,Annuler
 valid,Valid,Valider
 continue,Continue,Continuer
 restart,Restart,Recommencer
+reset,Reset,Réinitialiser
 main-menu,Main menu,Menu principal
 export,Export,Exporter
+import,Import,Importer
 save,Save,Sauvegarder
 delete,Delete,Supprimer
 all,All,Tous
 dont-show-again,Don't show again.,Ne plus afficher
 view,View,Voir
+view-test,View the test,Voir le test
 edit,Edit,Éditer
+duplicate,Duplicate,Dupliquer
+duplicate-suffix," (copy)"," (copie)"
 play,Play,Démarrer
+eval,Be evaluate,S'évaluer
 language,Language: ,Langue: 
 loading,Loading,Chargement
 more-informations,More informations,Plus d'informations
-legal-text,"<p>Data stored by your navigator is for a <b>local use only</b> and necessary for the application. The data stored is <b>never transmit to a third server</b>. Your are the only owner of your data, so, you are responsible of the security of yours data.</p><p>The usage of cookies and similar mechanisms are <b>essential</b> to the application.</p>","<p>Les données stokées par votre navigateur ne sont destiné qu'à un <b>usage local</b> pour les besoins de l'application. Les données stokées ne sont <b>transmis à aucun serveur tiers</b>. Vous êtes le seul déteneur de vos données, ainsi, vous êtes le seul responsable de la sécurité de vos données.</p><p>L'utilisation de cookies et mécanismes similaires sont <b>indispensables</b> pour le bon fonctionnement du site web.</p>"
-about-text,"<h1>DIAKÔLUÔ V<x-i18n key=""version""></x-i18n></h1><h3>WHAT IS DIAKÔLUÔ ?</h3><p>Diakôluô îs an open-source project in order to help memorize. An <a href=""https://github.com/AntoninLoubiere/Diakoluo/releases"" class=""open-new-icon""><b>Android</b></a> version and an <a href=""/WebDiakoluo/index.html""><b>online</b></a> version are available.</p><h3>THE CODE</h3><p>The code is by: <x-i18n key=""authors""></x-i18n> The code is available on <a href=""https://gihub.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon"">GitHub</a> under the <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html"">GNU APGL</a> license.<br>You can report a <b>bug</b> or demand <b>features</b> on <a href=""https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose"" class=""open-new-icon"">GitHub</a>.<br></p>","<h1>DIAKÔLUÔ V<x-i18n key=""version""></x-i18n></h1><h3>QU'EST DIAKÔLUÔ ?</h3><p>Diakôluô est un projet open-source dans le but d'aider à la révision. Une version pour <a href=""https://github.com/AntoninLoubiere/Diakoluo/releases"" class=""open-new-icon""><b>Android</b></a> et une version <a href=""/WebDiakoluo/index.html""><b>en ligne</b></a> sont disponibles.</p><h3>LE CODE</h3><p>Le code a été fait par: <x-i18n key=""authors""></x-i18n> Le code est disponible sur <a href=""https://gihub.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon"">GitHub</a> sous la license <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html"">GNU APGL</a>.<br>Vous pouvez reporter un <b>bug</b> ou proposer une <b>fonctionalité</b> sur <a href=""https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose"" class=""open-new-icon"">GitHub</a>.<br></p>"
+settings,Settings,Paramètres
+erase,Erase,Écraser
+quit,Quit,Quitter
+legal-text,"<p>Data stored by your navigator is for a <b>local use only</b> and necessary for the application. The data stored is <b>never transmit to a third server</b>. Your are the only owner of your data, so, you are responsible of the security of yours data.</p><p>The usage of cookies and similar mechanisms are <b>essential</b> to the application.</p>","<p>Les données stockées par votre navigateur ne sont destiné qu'à un <b>usage local</b> pour les besoins de l'application. Les données stockées ne sont <b>transmis à aucun serveur tiers</b>. Vous êtes le seul détenteur de vos données, ainsi, vous êtes le seul responsable de la sécurité de vos données.</p><p>L'utilisation de cookies et mécanismes similaires sont <b>indispensables</b> pour le bon fonctionnement du site web.</p>"
+about-text,"<h1>DIAKÔLUÔ V<x-i18n key=""version""></x-i18n> (<x-i18n key=""id""></x-i18n>)</h1><h3>WHAT IS DIAKÔLUÔ ?</h3><p>Diakôluô îs an open-source project in order to help memorize.</p><h3>THE CODE</h3><p>The code is by: <x-i18n key=""authors""></x-i18n> The code is available on <a href=""https://github.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon""><img src=""/WebDiakoluo/res/img/github.svg"" class=""github-image"" alt=""Github logo"">GitHub</a> under the <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html"">GNU APGL</a> license.<br>You can report a <b>bug</b> or demand <b>features</b> on <a href=""https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose"" class=""open-new-icon""><img src=""/WebDiakoluo/res/img/github.svg"" class=""github-image"" alt=""Github logo"">GitHub</a>.<br></p>","<h1>DIAKÔLUÔ V<x-i18n key=""version""></x-i18n> (<x-i18n key=""id""></x-i18n>)</h1><h3>QU'EST DIAKÔLUÔ ?</h3><p>Diakôluô est un projet open-source dans le but d'aider à la révision.</p><h3>LE CODE</h3><p>Le code a été fait par: <x-i18n key=""authors""></x-i18n> Le code est disponible sur <a href=""https://github.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon""><img src=""/WebDiakoluo/res/img/github.svg"" class=""github-image"" alt=""Github logo"">GitHub</a> sous la license <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html"">GNU APGL</a>.<br>Vous pouvez reporter un <b>bogue</b> ou proposer une <b>fonctionalité</b> sur <a href=""https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose"" class=""open-new-icon""><img src=""/WebDiakoluo/res/img/github.svg"" class=""github-image"" alt=""Github logo"">GitHub</a>.<br></p>"
 list-test-h,Your tests:,Vos tests :
-title,Title:,Titre :
-description,Description:,Description :
-columns,Columns:,Colonnes : 
-created-date,Created:,Crée :
-modification-date,Modified:,Modifié :
-data,Data:,Données :
+title,Title,Titre
+description,Description,Description
+columns,Columns,Colonnes
+created-date,Created,Crée
+modification-date,Modified,Modifié
+data,Data,Données
 data-number,Data n°,Donnée n°
 edited-test,Current edited test,Test édité actuellement
 add-column,Add a column,Ajouter une colonne
 add-data,Add a data,Ajouter une donnée
 add-test,Add a test,Ajouter un test
+import-test,Import a test,Importer un test
+show-columns,Columns to show,Colonnes à afficher
+random-columns,Random columns,Colonnes aléatoires
+ask-columns,Columns to ask,Colonnes à demander
+hide-columns,Columns to hide,Colonnes à cacher
+number-columns-random,Number of random columns to show (other will be asked), Nombre de colonnes aléatoire à afficher (les autres seront demandées)
+play-card-column-name,Show column name,Afficher le nom des colonnes
+play-card-random-side,Randomly invert side shown,Inverser aléatoirement le coté affiché
+play-card-end,The End. It's finish.,La Fin. C'est terminé
 default-column-title,Column,Colonne
 default-test-title,Test,Test
 default-test-description,A test,Un test
-play-number-data,Number of data to do:,Nombre de donnée a faire :
+eval-number-data,Number of data to do:,Nombre de donnée a faire :
 skipped,(Skipped),(Passé)
 empty-string,(empty),(vide)
-number-columns,Number of column to show:,Nombre de colonne à montrer
+number-columns,Number of column to show,Nombre de colonne à montrer
 cookies,Cookies,Cookies
-cookies-message,"Cookies and similar mechanism sont utilisées are used for parameter storage or used for the storage of user data like number of test, number of victories... Data are <b>stored by your navigatpr</b> and are <b>never transmit, stored and handle</b> by external servers.","Les cookies et processus resemblant sont utilisées à des fins de stockage de paramètres ou de stockage des données d'utilisateur tels que les tests, le nombre de victoires... Ces données sont <b>stockées par votre navigateur</b> et ne sont <b>dans aucun cas transmis, stocker et traiter</b> par des serveurs externes."
-cookies-accept,Accept and continue,Accpeter et continuer
+cookies-message,"Cookies and similar mechanism sont utilisées are used for parameter storage or used for the storage of user data like number of test, number of victories... Data are <b>stored by your navigatpr</b> and are <b>never transmit, stored and handle</b> by external servers.","Les cookies et processus ressemblant sont utilisées à des fins de stockage de paramètres ou de stockage des données d'utilisateur tels que les tests, le nombre de victoires... Ces données sont <b>stockées par votre navigateur</b> et ne sont <b>dans aucun cas transmis, stocker et traiter</b> par des serveurs externes."
+cookies-accept,Accept and continue,Accepter et continuer
 error-storage-c-title,Warning: compatibility,Attention: compatibilité
-error-storage-c-message,"Your navigator isn't compatible with the feature « persistent storage ». Data <u>could</u> be removed by the navigator at any point. So, think to export your data before exiting.",Vôtre navigateur n'est pas compatible avec la fonctionalité « stockage persistent ». Les données <u>peuvent</u> être supprimés par le navigateur. Pensez donc à exporter vos données avant de quitter.
+error-storage-c-message,"Your navigator isn't compatible with the feature « persistent storage ». Data <u>could</u> be removed by the navigator at any point, for example if the system need more space. So, think to export your data before exiting.","Vôtre navigateur n'est pas compatible avec la fonctionnalité « stockage persistent ». Les données <u>peuvent</u> être supprimées par le navigateur, notamment si le système d'exploitation manque de place. Pensez donc à exporter vos données avant de quitter."
+error-storage-p-title,Warning: persistence,Attention: persistance
+error-storage-p-message,"You have disallow persistent storage for this website. Data <u>could</u> be removed by the navigator at any point, for example if the system need more space. So, think to export your data before exiting and consider allowing persistent storage on this website.","Vous avez refusé le stockage persistent sur ce site web. Les données <u>peuvent</u> être supprimées par le navigateur, notamment si le système d'exploitation manque de place. Pensez donc à exporter vos données avant de quitter et à considérer autoriser le stockage persitant sur cette page web."
+error-import-title,Import error,"Érreur d'importation"
+error-import-message,"An error occur while importing this test. Make sure that it is the right file. If the error persist, please report the bug.","Une érreur s'est produite lors de l'importation de ce test. Vérifier que c'est le bon fichier. Si l'érreur persiste, merci de reporter le bogue."
+error-export-all-title,Export error,Érreur d'exportation
+error-export-all-message,"An error occur while exporting tests. If the issue persist, please report it.","Une érreur est survenue lors de l'exportation des tests. Si le problème persiste, merci de le reporter."
+error-playable-title,Error: test incompatible,Erreur: test incompatible
+error-playable-message,"This test isn't compatible with this page. Maybe it is missing column or data, edit it to fix that.","Ce test n'est pas compatible avec cette page. Peut-être qu'il lui manque des colonnes ou des données, éditez le pour résoudre le problème."
+warning-erase-title,Erase,Écraser
+warning-erase-message,"You are already editing a test. Do you want to lose all the changes and edit another test or continue editing the previous test ?","Vous êtes déjà en train d'éditer un test. Voulez perdre tout les changements et en éditer un autre ou continuer d'éditer l'ancien test ?"
+warning-lose-changes-title,Lose changes,Perdre les changements
+warning-lose-changes-message,"Do you want to quit without saving, all the changes will be lose ?","Voulez vous partir sans sauvegarder, tous les changements seront supprimés ?"
 delete-test-title,Delete this test,Supprimer ce test
 delete-test-message,Are you sure to delete this test ? This action is irreversible.,Êtes vous sûr de vouloir supprimer ce test ? Cette action est irréversible.
-footer-diakoluo,"<img src=""/WebDiakoluo/res/img/favicon.svg"" class=""text-icon"">Diakôluô wep application.","<img src=""/WebDiakoluo/res/img/favicon.svg"" class=""text-icon"">Diakôluô application web - v<x-i18n key=""version""></x-i18n>"
+column-can-show,Can be reveal,Peut être révélée
+column-can-ask,Can be asked,Peut être demandée
+column-string-case-sensitive,Case sensitive,Sensible aux majuscules
+column-string-trim-spaces,Remove useless spaces (start and end spaces),Supprimer les espaces inutiles (espaces devant et derrières)
+column-string-long,Multi-lines,Multi-lignes
+file-type,Format,Format
+export-warning-csv,This format doesn’t support all the features of the applications.,Ce format ne supporte pas toutes les fonctionnalités de l’application.
+export-csv-column-name,Export the name of the columns,Exporter le nom des colonnes
+export-csv-column-type,Export the type of the columns,Exporter le type des colonnes
+export-all-test,Export all tests,Exporter tous les tests
+export-all-filename,tests.dkl,tests.dkl
+import-csv-column-name,Import the name of the columns,Importer le nom des colonnes
+import-csv-column-type,Import the type of the columns,Importer le type des colonnes
+footer-diakoluo,"<img src=""/WebDiakoluo/res/img/favicon.svg"" class=""text-icon"" alt=""Diakôluô logo"">Diakôluô web application - <span class=""popup-parent"" id=""version"">v<x-i18n key=""version""></x-i18n><x-i18n key=""id"" class=""popup-child""></span></x-i18n>","<img src=""/WebDiakoluo/res/img/favicon.svg"" class=""text-icon"" alt=""Diakôluô logo"">Diakôluô application web - <span class=""popup-parent"" id=""version"">v<x-i18n key=""version""></x-i18n><x-i18n key=""id"" class=""popup-child""></span></x-i18n>"
 footer-source-code,"<a href=""https://github.com/AntoninLoubiere/diakoluo-webapp"">Source code</a> by <b>Antonin LOUBIERE</b> under license <a href=""https://www.gnu.org/licenses/agpl-3.0.html""><b>GNU APGL</b></a>.","<a class=""open-new-icon"" href=""https://github.com/AntoninLoubiere/diakoluo-webapp"">Code source</a> par <a class=""open-new-icon"" href=""https://github.com/AntoninLoubiere""><b>Antonin LOUBIERE</b></a> sous license <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html""><b>GNU APGL</b></a>."
-footer-hosted,"Hosted by <a href=""https://github.com""><b>GitHub</b></a>","Hébergé par <a class=""open-new-icon"" href=""https://github.com""><b>GitHub</b></a>"
+footer-hosted,"Hosted by <a href=""https://github.com""><img src=""/WebDiakoluo/res/img/github_w.svg"" class=""github-image"" alt=""Github logo""><b>GitHub</b></a>","Hébergé par <a class=""open-new-icon"" href=""https://github.com""><img src=""/WebDiakoluo/res/img/github_w.svg"" class=""github-image"" alt=""Github logo""><b>GitHub</b></a>"
 footer-about,About,À propos
 footer-legal,Legals mentions,Mentions légales
-footer-report-bug,Report a bug,Signaler un bug
+footer-report-bug,Report a bug,Signaler un bogue
 footer-request-feature,Request an improvement,Proposer une amélioration
 title-index.html,Home page,Page principale
 title-about.html,About,À propos
