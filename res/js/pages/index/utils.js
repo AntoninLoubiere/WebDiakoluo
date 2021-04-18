@@ -149,7 +149,7 @@ class Utils {
 
     /* export all tests */
     exportAllTest() {
-        FILE_MANAGER.exportAllTest().then(
+        FILE_MANAGER.exportAllTest().catch(
             () => Modal.showOkModal('error-export-all-title', 'error-export-all-message', {important: true})
         );
     }
