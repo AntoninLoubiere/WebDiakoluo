@@ -562,7 +562,7 @@ class EditPage extends Page {
     /* update the modal from an id */
     updateColumnModal(id) {
         if (Modal.currentModal !== editColumnModal) {
-            if (Modal.currentModal) currentModal.hide();
+            if (Modal.currentModal) Modal.currentModal.hide();
             editColumnModal.show();
         }
         if (editColumnModal.id != id) {

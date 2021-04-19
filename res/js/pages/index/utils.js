@@ -137,7 +137,6 @@ class Utils {
     exportTestConfirm(event) {
         event.preventDefault();
         exportModal.hide();
-        currentModal = null;
 
         if (exportModalSelect.value == 'dkl') {
             FILE_MANAGER.exportTest(this.data);
