@@ -153,18 +153,18 @@ class GlobalNavigation {
      updateStatus(lowerBound, upperBound) {
         if (lowerBound !== this.lowerBound) {
             if (lowerBound) {
-                this.previous.classList.remove('disabled');
-            } else {
                 this.previous.classList.add('disabled');
+            } else {
+                this.previous.classList.remove('disabled');
             }
             this.lowerBound = lowerBound;
         }
 
         if (upperBound !== this.upperBound) {
             if (upperBound) {
-                this.next.classList.remove('disabled');
-            } else {
                 this.next.classList.add('disabled');
+            } else {
+                this.next.classList.remove('disabled');
             }
             this.upperBound = upperBound;
         }
