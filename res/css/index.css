@@ -28,7 +28,7 @@ textarea.column-string-long {
     width: 200px;
 
     border-radius: .5em;
-    border: 1px solid var(--color-accent-1);
+    border: 1px solid var(--color-primary-100);
 
     margin: 16px 10px;
     padding: .2em .5em;
@@ -48,7 +48,7 @@ textarea.column-string-long {
 }
 
 .test:hover .test-title, .test:focus .test-title {
-    color: var(--color-background-colored);
+    color: var(--color-primary-700);
 }
 
 .test-title {
@@ -58,7 +58,7 @@ textarea.column-string-long {
     padding: 0;
     text-align: center;
 
-    border-bottom: 1px solid var(--color-accent-1);
+    border-bottom: 1px solid var(--color-primary-100);
 
     overflow: hidden;
     text-overflow: ellipsis;
@@ -243,7 +243,7 @@ textarea.column-string-long {
 .columns-settings hr {
     width: 50%;
     border: none;
-    border-top: var(--color-accent-1-dark) dotted 3px;
+    border-top: var(--color-primary-900) dotted 3px;
 }
 
 #play-card-page {
@@ -343,7 +343,7 @@ textarea.column-string-long {
 }
 
 .play-card-set-col-child {
-    border: solid 1px var(--color-accent-2);
+    border: solid 1px var(--color-primary-200);
     border-radius: .2em;
     margin-bottom: -1px;
 
@@ -360,7 +360,7 @@ textarea.column-string-long {
 }
 
 .play-card-set-col-child:hover, .play-card-set-col-child.sortable-ghost {
-    background-color: var(--color-accent-1);
+    background-color: var(--color-surface-primary-100);
 }
 
 .card-center {

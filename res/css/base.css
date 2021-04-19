@@ -1,41 +1,54 @@
 @import url("../font/font.css");
 
 :root {
-    --color-background: #fff;
-    --color-font: #000;
-    
-    --color-font-80: #444;
-    --color-font-50: #707070;
+    --color-background: hsl(0, 0%, 100%);
+    --color-on-background: hsl(0, 0%, 0%);
 
-    --color-accent-1: #e0f2f1;
-    --color-accent-2: #b2dfdb;
-    --color-accent-1-dark: #333;
-    
-    --color-border: #ddd;
+    --color-primary-50:  hsl(173, 40%, 95%);
+    --color-primary-100: hsl(173, 45%, 90%);
+    --color-primary-200: hsl(173, 50%, 80%);
+    --color-primary-500: hsl(173, 90%, 40%);
+    --color-primary-700: hsl(173, 95%, 30%);
+    --color-primary-900: hsl(173, 100%, 15%);
 
-    --color-background-colored: #009688;
-    --color-background-colored-medium-dark: #00897b;
-    --color-background-colored-almost-dark: #00695c;
-    --color-background-colored-dark: #004d40;
-    --color-font-colored: #fff;
+    --color-neutral-5: hsl(0, 0%, 95%);
+    --color-neutral-30: hsl(0, 0%, 70%);
+    --color-neutral-50: hsl(0, 0%, 50%);
+    --color-neutral-70: hsl(0, 0%, 30%);
 
-    --color-background-important: #f44336;
-    --color-font-important: #fff;
-    --color-accent-important: #ffebee;
+    --color-on-primary: hsl(0, 0%, 100%);
 
-    --color-shadow: #00000066;
+    --color-surface-primary-50:  hsl(173, 40%, 95%);
+    --color-surface-primary-100: hsl(173, 45%, 90%);
+    --color-surface-primary-200: hsl(173, 50%, 80%);
+    --color-surface-primary-400: hsl(173, 55%, 45%);
+    --color-surface-primary-500: hsl(173, 60%, 40%);
+    --color-surface-primary-600: hsl(173, 65%, 35%);
+    --color-surface-primary-700: hsl(173, 70%, 30%);
+    --color-surface-primary-800: hsl(173, 75%, 22.5%);
+    --color-surface-primary-900: hsl(173, 80%, 15%);
 
-    --color-right: #00c853;
-    --color-skipped: #dd2c00;
-    --color-wrong: #d50000;
+    --color-on-surface-primary: hsl(0, 0%, 100%);
+    --color-surface: hsl(0, 0%, 100%);
+    --color-on-surface: hsl(0, 0%, 0%);
+
+    --color-error: hsl(4, 90%, 58%);
+    --color-on-error: hsl(0, 0%, 100%);
+    --color-error-variant: hsl(4, 90%, 90%);
+
+    --color-shadow: hsla(0, 0%, 0%, 0.4);
+
+    --color-right: hsl(145, 100%, 39%);
+    --color-skipped: hsl(12, 100%, 43%);
+    --color-wrong: hsl(0, 100%, 42%);
 
     --shadow-card: 0 3px 4px 0 rgba(12,12,12,.1),0 1px 3px 0 rgba(12,12,12,.1);
     --shadow-card-hover: 0 7px 14px 0 rgba(12,12,12,.2),0 3px 6px 0 rgba(12,12,12,.2);
 }
 
 ::selection, ::-moz-selection {
-    background: var(--color-background-colored-medium-dark);
-    color: var(--color-font-colored);
+    background: var(--color-primary-700);
+    color: var(--color-on-primary);
 }
 
 html {
@@ -43,7 +56,7 @@ html {
     height: 100%;
 
     background-color: var(--color-background);
-    color: var(--color-font);
+    color: var(--color-on-background);
 }
 
 body {
@@ -78,8 +91,8 @@ x-i18n {
 
 nav {
     position: static;
-    background-color: var(--color-background-colored);
-    color: var(--color-font-colored);
+    background-color: var(--color-surface-primary-700);
+    color: var(--color-on-surface-primary);
 
     box-shadow: 0px 3px 5px 2px var(--color-shadow);
 
@@ -102,12 +115,12 @@ footer {
     top: 100%;
     margin-top: 1em;
     padding: 1em .5em;
-    background-color: var(--color-background-colored-dark);
-    color: var(--color-font-colored);
+    background-color: var(--color-surface-primary-900);
+    color: var(--color-on-surface-primary);
     clear: both;
 
-    --color-background: var(--color-background-colored);
-    --color-font: var(--color-font-colored);
+    --color-background: var(--color-surface-primary-900);
+    --color-on-background: var(--color-on-surface-primary);
 }
 
 footer .open-new-icon {
@@ -123,26 +136,30 @@ footer .open-new-icon {
 }
 
 .table tr {
-    border: 1px solid var(--color-accent-2);
+    border: 1px solid var(--color-surface-primary-200);
 }
 
-.table tr:nth-child(even) {
-    background-color: var(--color-accent-1);
+.table > tbody > tr:nth-child(odd) {
+    background-color: var(--color-surface-primary-50);
 }
 
-.table tr:hover, .table tr:focus-within {
-    background-color: var(--color-accent-2);
+.table > tbody > tr:nth-child(even) {
+    background-color: var(--color-background);
 }
 
-.table thead {
+.table > tbody > tr:hover, .table > tbody > tr:focus-within {
+    background-color: var(--color-surface-primary-100);
+}
+
+.table > thead {
     font-weight: 700;
     font-family: "Oswald", sans-serif;
-    background-color: var(--color-background-colored-medium-dark);
-    color: var(--color-font-colored);
+    background-color: var(--color-surface-primary-700);
+    color: var(--color-on-surface-primary);
 }
 
-.table thead tr:hover, .table thead tr:focus-within {
-    background-color: var(--color-background-colored-dark);
+.table > thead > tr:hover, .table > thead > tr:focus-within {
+    background-color: var(--color-surface-primary-500);
 }
 
 .table td {
@@ -164,7 +181,7 @@ td.min {
 }
 
 body.colored {
-    background-color: var(--color-background-colored);
+    background-color: var(--color-surface-primary-700);
 }
 
 a {
@@ -187,8 +204,8 @@ progress-bar {
     position: relative;
     box-sizing: border-box;
 
-    background-color: var(--color-accent-1);
-    border: 1px solid var(--color-accent-2);
+    background-color: var(--color-surface-primary-50);
+    border: 1px solid var(--color-primary-500);
     height: 1.3em;
     width: 100%;
 }
@@ -196,7 +213,7 @@ progress-bar {
 progress-bar > .progress-bar-inner {
     display: inline-block;
 
-    background-color: var(--color-background-colored);
+    background-color: var(--color-surface-primary-500);
     height: 100%;
     transition: width 1s ease;
 }
@@ -211,8 +228,8 @@ progress-bar > .progress-bar-text {
 }
 
 input, textarea, select {
-    background-color: var(--color-background);
-    color: var(--font-color);
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
     transition: border-color .2s, color .2s, background-color .2s;
 }
 
@@ -225,7 +242,7 @@ input[type='text'], input[type='number'], input[type='checkbox'], textarea, sele
     
     padding: .3em .3em;
     
-    color: var(--color-font-80);
+    color: var(--color-neutral-70);
 }
 
 input.unique-line {
@@ -235,11 +252,11 @@ input.unique-line {
 input[type='text'] {
     border: none;
     border-radius: .5em .5em 0 0;
-    border-bottom: solid 2px var(--color-accent-1);
+    border-bottom: solid 2px var(--color-primary-100);
 }
 
 input[type='number'], textarea, select {
-    border: solid 2px var(--color-accent-1);
+    border: solid 2px var(--color-primary-100);
     border-radius: .25em;
 }
 
@@ -291,15 +308,15 @@ select {
 }
 
 input[type='text']:hover, input[type='number']:hover, textarea:hover, select:focus, select:hover {
-    border-color: var(--color-accent-2);
-    color: var(--color-font);
+    border-color: var(--color-primary-500);
+    color: var(--color-on-background);
 }
 
 input[type='text']:focus, input[type='number']:focus, textarea:focus {
-    background-color: var(--color-accent-1);
-   
-    border-color: var(--color-background-colored);
-    color: var(--color-font);
+    background-color: var(--color-surface-primary-50); 
+
+    border-color: var(--color-primary-700);
+    color: var(--color-on-background);
 }
 
 input[type='checkbox']:hover::after {
@@ -307,16 +324,17 @@ input[type='checkbox']:hover::after {
 }
 
 input:invalid, textarea:invalid, select:invalid {
-    border-color: var(--color-background-important) !important;
+    border-color: var(--color-error) !important;
 }
 
 input[type='text']:invalid:focus, input[type='number']:invalid:focus, textarea:invalid:focus, select:invalid:focus {
-    background-color: var(--color-accent-important);
+    background-color: var(--color-error-variant);
 }
 
 input:disabled, textarea:disabled, select:disabled {
-    color: var(--color-font-50);
-    border-color: var(--color-accent-1);
+    color: var(--color-neutral-50);
+    border-color: var(--color-neutral-30);
+    background-color: var(--color-neutral-5);
 }
 
 input.small {
@@ -347,7 +365,7 @@ button.btn {
     box-sizing: content-box;
 }
 
-button.btn:hover, button.btn:focus {
+button.btn:hover {
     box-shadow: 1px 2.5px 5px 2px var(--color-shadow);
     transform: translateY(-8px);
 }
@@ -374,8 +392,8 @@ button.image-button {
     box-sizing: border-box;
 
     background-color: var(--color-background);
-    color: var(--color-font);
-    border: var(--color-accent-1) 2px solid;
+    color: var(--color-on-background);
+    border: var(--color-primary-100) 2px solid;
 }
 
 button.image-button span {
@@ -393,17 +411,20 @@ button.image-button.compact span {
 }
 
 button.image-button:hover, button.image-button:focus {
-    border-color: var(--color-background-colored-dark);
+    border-color: var(--color-primary-700);
+}
+
+button.image-button:active {
+    border-color: var(--color-primary-900);
 }
 
 button.image-button.colored {
-    background-color: var(--color-background-colored-dark);
-    color: var(--color-font-colored);
-    border: none;
+    background-color: var(--color-surface-primary-700);
+    color: var(--color-on-surface-primary);
 }
 
 button.image-button.colored:hover, button.image-button.colored:focus {
-    background-color: var(--color-background-colored-dark);
+    background-color: var(--color-surface-primary-800);
 }
 
 button.icon-button {
@@ -435,7 +456,7 @@ button.icon-button::after {
     left: 0;
     z-index: -1;
     border-radius: 3em;
-    background-color: var(--color-accent-1);
+    background-color: var(--color-surface-primary-100);
 
     transition: transform .3s cubic-bezier(.6,-0.28,.74,.05);
 
@@ -453,8 +474,8 @@ button.major {
 }
 
 button.red {
-    background-color: var(--color-background-important) !important;
-    color: var(--color-font-important) !important;
+    background-color: var(--color-error) !important;
+    color: var(--color-on-error) !important;
 }
 
 textarea.resize-vertical {
@@ -500,7 +521,7 @@ textarea.resize-vertical {
     box-shadow: var(--shadow-card);
 
     background-color: var(--color-background);
-    color: var(--color-font);
+    color: var(--color-on-background);
 
     transform: translateY(-50%);
 }
@@ -510,8 +531,8 @@ textarea.resize-vertical {
     letter-spacing: .1em;
     padding: .5em 1em;
 
-    background-color: var(--color-background-colored);
-    color: var(--color-font-colored);
+    background-color: var(--color-surface-primary-700);
+    color: var(--color-on-surface-primary);
 }
 
 .main-card main {
@@ -520,7 +541,7 @@ textarea.resize-vertical {
 
 .card {
     border-radius: .5em;
-    border: 1px solid var(--color-accent-1);
+    border: 1px solid var(--color-primary-50);
 
     padding: .5em .7em;
     margin: 1em 0;
@@ -551,7 +572,7 @@ textarea.resize-vertical {
     flex-direction: column;
 
     background-color: var(--color-background);
-    color: var(--color-font);
+    color: var(--color-on-background);
 }
 
 .modal-content header {
@@ -562,16 +583,16 @@ textarea.resize-vertical {
     padding: .5em 1em;
     padding-right: 1.5em; /* if close button */
 
-    background-color: var(--color-background-colored);
-    color: var(--color-font-colored);
+    background-color: var(--color-surface-primary-700);
+    color: var(--color-on-surface-primary);
 }
 
 .modal-content.red header {
-    background-color: var(--color-background-important);
-    color: var(--color-font-important);
+    background-color: var(--color-error);
+    color: var(--color-on-error);
 
-    --color-background-colored: var(--color-background-important);
-    --color-font-colored: var(--color-font-important);
+    --color-surface-primary-700: var(--color-error);
+    --color-on-surface-primary: var(--color-on-error);
 }
 
 .modal-content main {
@@ -584,7 +605,7 @@ textarea.resize-vertical {
 
 .modal-content footer {
     position: static;
-    background-color: var(--color-background-colored);
+    background-color: var(--color-surface-primary-700);
     padding: 0;
     margin: 0;
 }
@@ -619,8 +640,8 @@ textarea.resize-vertical {
 }
 
 .modal-close:hover, .modal-close:focus {
-    color: var(--color-background-colored);
-    background-color: var(--color-font-colored);
+    color: var(--color-surface-primary-700);
+    background-color: var(--color-on-surface-primary);
 }
 
 .selector {
@@ -633,7 +654,7 @@ textarea.resize-vertical {
 
     border-radius: 1em;
     padding: 0.3em 1em;
-    border: solid 1px var(--color-background-colored-dark);
+    border: solid 1px var(--color-surface-primary-800);
 
     cursor: pointer;
 
@@ -641,8 +662,8 @@ textarea.resize-vertical {
 }
 
 .selector:hover, .selector:focus, .selector:focus-within {
-    background-color: var(--color-background-colored-almost-dark);
-    border-color: var(--color-accent-2);
+    background-color: var(--color-surface-primary-800);
+    border-color: var(--color-primary-200);
 }
 
 .selector-dropdown {
@@ -659,8 +680,8 @@ textarea.resize-vertical {
     margin-bottom: .5em;
     border-radius: .2em;
 
-    background-color: var(--color-background-colored-almost-dark);
-    border: solid 0px var(--color-accent-2);
+    background-color: var(--color-surface-primary-800);
+    border: solid 0px var(--color-primary-200);
 
     overflow: hidden;
 
@@ -687,7 +708,7 @@ textarea.resize-vertical {
 }
 
 .selector-dropdown-child:hover, .selector-dropdown-child:focus {
-    background-color: var(--color-background-colored-dark);
+    background-color: var(--color-surface-primary-900);
 }
 
 .sortable {
@@ -711,8 +732,8 @@ textarea.resize-vertical {
     padding: .2em .5em;
     border-radius: 3em;
 
-    background-color: var(--color-background-colored-almost-dark);
-    border: solid 1px var(--color-accent-2);
+    background-color: var(--color-surface-primary-800);
+    border: solid 1px var(--color-primary-200);
 
     opacity: 0;
     transition: opacity .3s .2s ease-out;
@@ -734,8 +755,7 @@ textarea.resize-vertical {
     max-height: 0;
     
     background-color: var(--color-background);
-    color: var(--color-font);
-    border: 0px solid var(--color-accent-2);
+    border: 0px solid var(--color-primary-200);
     border-radius: 0 .5em .5em .5em;
     
     transition: border-width .1s .4s, padding .5s, max-height .5s, visibility 0s .5s;
@@ -771,6 +791,7 @@ textarea.resize-vertical {
     
     border-radius: .3em;
     background-color: var(--color-background);
+    color: var(--color-on-background);
     
     transition: background-color .3s;
 }
@@ -780,15 +801,15 @@ textarea.resize-vertical {
 }
 
 .context-menu > button:hover, .context-menu > button:focus {
-    background-color: var(--color-accent-1);
+    background-color: var(--color-surface-primary-200);
 }
 
 .bottom-bar {
     position: sticky;
     bottom: 0;
     background: var(--color-background);
-    color: var(--color-font);
-    border-top: solid 1px var(--color-accent-2);
+    color: var(--color-on-background);
+    border-top: solid 1px var(--color-primary-200);
     margin-top: 1em;
     padding: 0 .5em;
     min-height: 2.2em;
@@ -809,7 +830,7 @@ textarea.resize-vertical {
 
 
 .double-column > div:first-child {
-    border-bottom: dotted var(--color-font);
+    border-bottom: dotted var(--color-on-background);
 }
 
 .double-column > div {
@@ -885,7 +906,7 @@ textarea.resize-vertical {
     background-size: cover;
     border-radius: 3em;
 
-    border: var(--color-accent-1) 2px solid;
+    border: var(--color-primary-200) 2px solid;
 }
 
 .global-nav-left {
@@ -899,8 +920,12 @@ textarea.resize-vertical {
 }
 
 .global-nav-button:hover, .global-nav-button:focus {
-    border-color: var(--color-background-colored-dark);
+    border-color: var(--color-primary-700);
     transform: translateY(-50%) scale(1.3);
+}
+
+.global-nav-button:active {
+    border-color: var(--color-primary-900);
 }
 
 .global-nav-button.disabled {
@@ -910,7 +935,7 @@ textarea.resize-vertical {
 }
 
 .global-nav-button.disabled:hover, .global-nav-button.disabled:focus {
-    border-color: var(--color-accent-1);
+    border-color: var(--color-primary-50);
 }
 
 .grid-keys {
@@ -1022,7 +1047,7 @@ textarea.resize-vertical {
 
     .double-column > div:first-child {
         border-bottom: unset;
-        border-right: dotted var(--color-font);
+        border-right: dotted var(--color-on-background);
     }
 
     .double-column > div {
