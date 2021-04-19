@@ -36,14 +36,60 @@
     --color-on-error: hsl(0, 0%, 100%);
     --color-error-variant: hsl(4, 90%, 90%);
 
-    --color-shadow: hsla(0, 0%, 0%, 0.4);
+    --color-footer-background: var(--color-surface-primary-900);
 
     --color-right: hsl(145, 100%, 39%);
     --color-skipped: hsl(12, 100%, 43%);
     --color-wrong: hsl(0, 100%, 42%);
 
+    --color-shadow: hsla(0, 0%, 0%, 0.4);
     --shadow-card: 0 3px 4px 0 rgba(12,12,12,.1),0 1px 3px 0 rgba(12,12,12,.1);
     --shadow-card-hover: 0 7px 14px 0 rgba(12,12,12,.2),0 3px 6px 0 rgba(12,12,12,.2);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: hsl(0, 0%, 5%);
+        --color-on-background: hsl(0, 0%, 100%);
+
+        --color-primary-50:  hsl(173, 100%, 5%);
+        --color-primary-100: hsl(173, 95%, 10%);
+        --color-primary-200: hsl(173, 90%, 20%);
+        --color-primary-500: hsl(173, 50%, 60%);
+        --color-primary-700: hsl(173, 45%, 70%);
+        --color-primary-900: hsl(173, 40%, 85%);
+
+        --color-neutral-5: hsl(0, 0%, 5%);
+        --color-neutral-30: hsl(0, 0%, 30%);
+        --color-neutral-50: hsl(0, 0%, 50%);
+        --color-neutral-70: hsl(0, 0%, 70%);
+
+        --color-on-primary: hsl(0, 0%, 100%);
+
+        --color-surface-primary-50:  hsl(173, 26%, 7%);
+        --color-surface-primary-100: hsl(173, 44%, 10%);
+        --color-surface-primary-200: hsl(173, 55%, 12%);
+        --color-surface-primary-400: hsl(173, 58%, 14%);
+        --color-surface-primary-500: hsl(173, 64%, 16%);
+        --color-surface-primary-600: hsl(173, 67%, 19%);
+        --color-surface-primary-700: hsl(173, 70%, 21%);
+        --color-surface-primary-800: hsl(173, 72%, 24%);
+        --color-surface-primary-900: hsl(173, 73%, 26%);
+
+        --color-on-surface-primary: hsl(0, 0%, 100%);
+        --color-surface: hsl(0, 0%, 10%);
+        --color-on-surface: hsl(0, 0%, 100%);
+
+        --color-error: hsl(4, 52%, 61%);
+        --color-on-error: hsl(0, 0%, 100%);
+        --color-error-variant: hsl(4, 52%, 10%);
+
+        --color-footer-background: var(--color-surface-primary-100);
+
+        --color-right: hsl(145, 75%, 39%);
+        --color-skipped: hsl(12, 75%, 43%);
+        --color-wrong: hsl(0, 75%, 42%);
+    }
 }
 
 ::selection, ::-moz-selection {
@@ -115,11 +161,11 @@ footer {
     top: 100%;
     margin-top: 1em;
     padding: 1em .5em;
-    background-color: var(--color-surface-primary-900);
+    background-color: var(--color-footer-background);
     color: var(--color-on-surface-primary);
     clear: both;
 
-    --color-background: var(--color-surface-primary-900);
+    --color-background: var(--color-footer-background);
     --color-on-background: var(--color-on-surface-primary);
 }
 
@@ -476,6 +522,11 @@ button.major {
 button.red {
     background-color: var(--color-error) !important;
     color: var(--color-on-error) !important;
+    border-color: var(--color-error) !important;
+}
+
+button.red:hover {
+    border-color: var(--color-error-variant) !important;
 }
 
 textarea.resize-vertical {
@@ -542,6 +593,11 @@ textarea.resize-vertical {
 .card {
     border-radius: .5em;
     border: 1px solid var(--color-primary-50);
+    
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    --color-background: var(--color-surface);
+    --color-on-background: var(--color-on-surface);
 
     padding: .5em .7em;
     margin: 1em 0;
@@ -571,8 +627,8 @@ textarea.resize-vertical {
     display: flex;
     flex-direction: column;
 
-    background-color: var(--color-background);
-    color: var(--color-on-background);
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
 }
 
 .modal-content header {
@@ -654,7 +710,7 @@ textarea.resize-vertical {
 
     border-radius: 1em;
     padding: 0.3em 1em;
-    border: solid 1px var(--color-surface-primary-800);
+    border: solid 1px var(--color-primary-700);
 
     cursor: pointer;
 
@@ -662,7 +718,7 @@ textarea.resize-vertical {
 }
 
 .selector:hover, .selector:focus, .selector:focus-within {
-    background-color: var(--color-surface-primary-800);
+    background-color: var(--color-surface-primary-700);
     border-color: var(--color-primary-200);
 }
 
@@ -680,7 +736,7 @@ textarea.resize-vertical {
     margin-bottom: .5em;
     border-radius: .2em;
 
-    background-color: var(--color-surface-primary-800);
+    background-color: var(--color-surface-primary-700);
     border: solid 0px var(--color-primary-200);
 
     overflow: hidden;
