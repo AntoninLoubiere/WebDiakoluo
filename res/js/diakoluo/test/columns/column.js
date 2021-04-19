@@ -172,7 +172,7 @@ class Column {
         div.appendChild(
             VIEW_UTILS.booleanView(
                 this.getSettings(Column.SET_CAN_BE_SHOW), 
-                I18N.etTranslation('column-can-show')
+                I18N.getTranslation('column-can-show')
             )
         );
         div.appendChild(
