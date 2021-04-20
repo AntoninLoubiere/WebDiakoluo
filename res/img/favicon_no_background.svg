@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   viewBox="0 0 433 433"
+   id="vector"
+   version="1.1">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8" />
+  <circle
+     style="fill:none;fill-opacity:1;fill-rule:evenodd"
+     id="path12"
+     cx="216.5"
+     cy="216.5"
+     r="216.45654" />
+  <g
+     id="g843"
+     transform="matrix(0.92630505,0,0,0.92630505,15.800902,15.800518)"
+     style="stroke-width:26.98894927;stroke-miterlimit:4;stroke-dasharray:none">
+    <path
+       id="path"
+       d="m 217.27853,317.94432 c 0,0 57.50234,-30.17184 142.74435,-8.02209 5.5882,1.45236 -5.62812,-174.66098 -5.62812,-174.66098 0,0 -8.5395,-32.76214 -67.09992,-37.367105 -31.18509,-2.452211 -70.62853,19.068685 -70.62853,19.068685 l 0.61222,200.98149 0.61223,17.69785 c 0,0 41.62448,-31.10349 158.31443,-4.21734 5.05916,3.3406 -4.49518,-182.98918 -8.1552,-196.1536 -1.21946,-4.38536 -13.65523,-0.01 -13.65523,-0.01"
+       fill="#52c7b8"
+       fill-opacity="0.196078"
+       stroke="#009688"
+       stroke-width="13.3092"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       style="fill:#ffffff;fill-opacity:0.196078;stroke:#ffffff;stroke-opacity:1;stroke-width:26.98894927;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       id="path_1"
+       d="m 216.05409,317.94432 c 0,0 -57.50234,-30.17184 -142.744354,-8.02209 -5.588194,1.45236 5.628123,-174.66098 5.628123,-174.66098 0,0 8.539506,-32.76214 67.099931,-37.367105 31.18508,-2.452211 70.62852,19.068685 70.62852,19.068685 l -0.61222,200.98149 -0.61222,17.69785 c 0,0 -41.62449,-31.10349 -158.314441,-4.21734 -5.059154,3.3406 4.495178,-182.98918 8.155204,-196.1536 1.219455,-4.38536 13.655226,-0.01 13.655226,-0.01"
+       fill="#52c7b8"
+       fill-opacity="0.196078"
+       stroke="#009688"
+       stroke-width="13.3092"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       style="fill:#ffffff;fill-opacity:0.196078;stroke:#ffffff;stroke-opacity:1;stroke-width:26.98894927;stroke-miterlimit:4;stroke-dasharray:none" />
+  </g>
+</svg>
