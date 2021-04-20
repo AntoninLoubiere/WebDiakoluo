@@ -30,6 +30,7 @@
 
     --color-on-surface-primary: hsl(0, 0%, 100%);
     --color-surface: hsl(0, 0%, 100%);
+    --color-surface-elevated: hsl(0, 0%, 100%);
     --color-on-surface: hsl(0, 0%, 0%);
 
     --color-error: hsl(4, 90%, 58%);
@@ -45,6 +46,9 @@
     --color-shadow: hsla(0, 0%, 0%, 0.4);
     --shadow-card: 0 3px 4px 0 rgba(12,12,12,.1),0 1px 3px 0 rgba(12,12,12,.1);
     --shadow-card-hover: 0 7px 14px 0 rgba(12,12,12,.2),0 3px 6px 0 rgba(12,12,12,.2);
+
+    --open-new-icon: url("/WebDiakoluo/res/img/open_in_new_b.svg");
+    --github-icon: url("/WebDiakoluo/res/img/github.svg");
 }
 
 @media (prefers-color-scheme: dark) {
@@ -77,7 +81,8 @@
         --color-surface-primary-900: hsl(173, 73%, 26%);
 
         --color-on-surface-primary: hsl(0, 0%, 100%);
-        --color-surface: hsl(0, 0%, 10%);
+        --color-surface: hsl(0, 0%, 7.5%);
+        --color-surface-elevated: hsl(0, 0%, 10%);
         --color-on-surface: hsl(0, 0%, 100%);
 
         --color-error: hsl(4, 52%, 61%);
@@ -89,13 +94,18 @@
         --color-right: hsl(145, 75%, 39%);
         --color-skipped: hsl(12, 75%, 43%);
         --color-wrong: hsl(0, 75%, 42%);
+
+        --open-new-icon: url("/WebDiakoluo/res/img/open_in_new_w.svg");
+        --github-icon: url("/WebDiakoluo/res/img/github_w.svg");
     }
 }
 
+/*
+Do not work on all surfaces
 ::selection, ::-moz-selection {
-    background: var(--color-primary-700);
-    color: var(--color-on-primary);
-}
+    background: var(--color-surface-primary-700);
+    color: var(--color-on-surface-primary);
+}*/
 
 html {
     width: 100%;
@@ -167,13 +177,8 @@ footer {
 
     --color-background: var(--color-footer-background);
     --color-on-background: var(--color-on-surface-primary);
-}
-
-footer .open-new-icon {
-    background-image: url("/WebDiakoluo/res/img/open_in_new_w.svg");
-    background-repeat: no-repeat;
-    background-position: center right;
-    padding-right: 1em;
+    --open-new-icon: url("/WebDiakoluo/res/img/open_in_new_w.svg");
+    --github-icon: url("/WebDiakoluo/res/img/github_w.svg");
 }
 
 .table {
@@ -411,11 +416,6 @@ button.btn {
     box-sizing: content-box;
 }
 
-button.btn:hover {
-    box-shadow: 1px 2.5px 5px 2px var(--color-shadow);
-    transform: translateY(-8px);
-}
-
 button.right {
     float: right;
 }
@@ -427,19 +427,26 @@ button.left {
 button.image-button {
     width: auto;
     height: 2em;
-
+    
     line-height: 1em;
     font-weight: 300;
     letter-spacing: .1em;
-
+    
     padding: 0 .5em;
     border-radius: 3em;
     
     box-sizing: border-box;
-
+    
     background-color: var(--color-background);
     color: var(--color-on-background);
     border: var(--color-primary-100) 2px solid;
+}
+
+button.btn:hover {
+    box-shadow: 1px 2.5px 5px 2px var(--color-shadow);
+    transform: translateY(-8px);
+
+    background-color: var(--color-surface);
 }
 
 button.image-button span {
@@ -878,12 +885,20 @@ textarea.resize-vertical {
 }
 
 .open-new-icon {
-    background-image: url("/WebDiakoluo/res/img/open_in_new_b.svg");
+    background-image: var(--open-new-icon);
     background-repeat: no-repeat;
     background-position: center right;
-    padding-right: 1em;
+    background-size: 1em;
+    padding-right: 1.1em;
 }
 
+.github-link {
+    background-image: var(--github-icon), var(--open-new-icon);
+    background-position: center left, center right;
+    background-size: 1em;
+
+    padding: 0 1.1em;
+}
 
 .double-column > div:first-child {
     border-bottom: dotted var(--color-on-background);
@@ -1042,12 +1057,6 @@ textarea.resize-vertical {
 
 #version {
     text-decoration: underline dashed;
-}
-
-.github-image {
-    width: 1em;
-    height: 1em;
-    margin: 0 .1em;
 }
 
 @media(min-height: 500px) {

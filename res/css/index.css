@@ -27,6 +27,7 @@ textarea.column-string-long {
 
     width: 200px;
 
+    background-color: var(--color-surface);
     border-radius: .5em;
     border: 1px solid var(--color-primary-100);
 
@@ -43,6 +44,8 @@ textarea.column-string-long {
 .test:hover, .test:focus {
     outline: none;
     box-shadow: var(--shadow-card-hover);
+
+    background-color: var(--color-surface-elevated);
 
     transform: translateY(-8px);
 }
@@ -326,6 +329,10 @@ textarea.column-string-long {
 
 #play-card-set-set div {
     margin: .5em;
+}
+
+#play-card-progress {
+    margin-right: .2em;
 }
 
 .card-column-name {
