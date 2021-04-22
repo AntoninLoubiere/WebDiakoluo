@@ -17,12 +17,13 @@
 <nav>
     <a id="nav-logo" tabindex="0" aria-label="A link to the main page"><img src="/WebDiakoluo/res/img/favicon_no_background.svg" alt="Diakôluô logo"></a>
     <span id="page-title"></span>
-    <span><img id="nav-offline" src="/WebDiakoluo/res/img/offline_w.svg" alt="Offline icon"></span>
+    <img id="nav-offline" src="/WebDiakoluo/res/img/offline_w.svg" alt="Offline icon">
+    <span id="nav-settings" tabindex="0"><img src="/WebDiakoluo/res/img/settings_w.svg" alt="Settings icon"></span>
 </nav>
-<main id="loading-page">
+<main id="loading-page" class="page-container">
     <h1><x-i18n key="loading"></x-i18n></h1>
 </main>
-<main id="list-page" class="hide">
+<main id="list-page" class="hide page-container">
     <h1><x-i18n key="list-test-h"></x-i18n></h1>
     <div id="list-test" class="test-list"></div>
     <div class="context-menu" id="list-page-context-menu">
@@ -59,7 +60,7 @@
         <span><x-i18n key="export-all-test"></x-i18n></span>
     </button>
 </main>
-<main id="view-page" class="hide">
+<main id="view-page" class="hide page-container">
     <h1 id="view-test-title"></h1>
     <div class="card">
         <div class="action-list">
@@ -105,7 +106,7 @@
         </table>
     </div>
 </main>
-<main id="edit-page" class="hide">
+<main id="edit-page" class="hide page-container">
     <div class="card">
         <div class="double-column">
             <div class="grid-keys" id="edit-panel">
@@ -140,7 +141,7 @@
         </button>
     </div>
 </main>
-<main id="play-card-page" class="hide expand">
+<main id="play-card-page" class="hide expand page-container">
     <div id="play-card-header">
         <progress-bar id="play-card-progress"></progress-bar>
         <button class="icon-button" id="play-card-settings-button"><img src="/WebDiakoluo/res/img/settings.svg" alt="Settings icon"></button>
@@ -149,7 +150,7 @@
     <div class="card" id="play-card-card">
     </div>
 </main>
-<main id="eval-page" class="hide">
+<main id="eval-page" class="hide page-container">
     <form id="eval-form">
         <h1 id="eval-test-title"></h1>
         <progress-bar id="eval-progress"></progress-bar>
@@ -161,7 +162,7 @@
         </button>
     </form>
 </main>
-<main id="eval-settings-page" class="hide">
+<main id="eval-settings-page" class="hide page-container">
     <form id="eval-set-form">
         <h1 id="eval-set-test-title"></h1>
         <div id="eval-set-params" class="unique-column">
@@ -185,7 +186,7 @@
         </button>
     </form>
 </main>
-<main id="eval-score-page" class="hide">
+<main id="eval-score-page" class="hide page-container">
     <div id="eval-score-progress-parent">
         <h1 class="no-margin" id="eval-score-major">1/10</h1>
         <progress-bar id="eval-score-progress"></progress-bar>
@@ -200,8 +201,32 @@
         <span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
     </button>
 </main>
-<main id="settings-page" class="hide">
-    
+<main id="settings-page" class="hide expand nav-panel-page">
+    <div id="settings-nav" class="nav-panel">
+        <div class="nav-panel-item" id="settings-nav-general">
+            <img src="/WebDiakoluo/res/img/settings_w.svg" alt="Settings icon">
+            <x-i18n key="settings-general"></x-i18n>
+        </div>
+        <div class="nav-panel-item" id="settings-nav-appearance">
+            <img src="/WebDiakoluo/res/img/appearance_w.svg" alt="Appearance icon">
+            <x-i18n key="settings-appearance"></x-i18n>
+        </div>
+        <div class="nav-panel-item" id="settings-nav-sync">
+            <img src="/WebDiakoluo/res/img/sync_w.svg" alt="Synchronise icon">
+            <x-i18n key="settings-sync"></x-i18n>
+        </div>
+    </div>
+    <div class="page-container">
+        <div id="settings-panel-general" class="hide">
+            <h1>Test</h1>
+        </div>
+        <div id="settings-panel-appearance" class="hide">
+            <h1>Test</h1>
+        </div>
+        <div id="settings-panel-sync" class="hide">
+            <h1>TODO</h1>
+        </div>
+    </div>
 </main>
 <footer class="double-column">
     <div>

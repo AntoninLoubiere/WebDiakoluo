@@ -1,4 +1,5 @@
-var navOfflineLogo = document.getElementById('nav-offline');
+const navOfflineLogo = document.getElementById('nav-offline');
+const navSettings = document.getElementById('nav-settings');
 
 if (navOfflineLogo) {
     if (navigator.onLine) {
@@ -29,3 +30,8 @@ function ononlineCallback() {
 
 window.onoffline = onofflineCallback;
 window.ononline = ononlineCallback;
+
+navSettings.onclick = function() {
+    UTILS.settings();
+    navSettings.blur();
+}

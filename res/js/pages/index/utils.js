@@ -221,6 +221,12 @@ class Utils {
             importModalCsv.classList.remove('hide');
         }
     }
+
+    settings() {
+        currentURL.searchParams.set('page', 'settings');
+        history.pushState({}, 'Settings', currentURL);
+        loadPage();
+    }
 }
 
 const UTILS = new Utils();

@@ -49,6 +49,8 @@
 
     --open-new-icon: url("/WebDiakoluo/res/img/open_in_new_b.svg");
     --github-icon: url("/WebDiakoluo/res/img/github.svg");
+
+    --nav-bar-content-margin: 2.7em;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -101,7 +103,7 @@
 }
 
 /*
-Do not work on all surfaces
+TODO Do not work on all surfaces
 ::selection, ::-moz-selection {
     background: var(--color-surface-primary-700);
     color: var(--color-on-surface-primary);
@@ -120,7 +122,7 @@ body {
     font-family: "Roboto", sans-serif;
     font-size: 1em;
     text-align: justify;
-    height: calc(100% - 2.7em);
+    height: 100%;
 }
 
 h1, h2,  h3, h4, h5, h6 {
@@ -133,12 +135,18 @@ h1.big {
     font-size: 2.5em;
 }
 
-body.nav > main {
+body.nav .page-container {
     padding: 0 1em;
+    padding-top: var(--nav-bar-content-margin);
+}
+
+body.nav .page-container > *:first-child {
+    margin-top: 0;
 }
 
 body.nav > main.expand {
-    height: calc(100% - 1em); /* remove the margin between footer and main*/
+    min-height: 100%;
+    box-sizing: border-box;
 }
 
 x-i18n {
@@ -146,11 +154,16 @@ x-i18n {
 }
 
 nav {
-    position: static;
+    display: grid;
+    position: absolute;
     background-color: var(--color-surface-primary-700);
     color: var(--color-on-surface-primary);
-
     box-shadow: 0px 3px 5px 2px var(--color-shadow);
+
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-rows: 1fr;
+    align-items: center;
+    
 
     font: 700 1em "Oswald", sans-serif;
 
@@ -169,7 +182,6 @@ nav {
 footer {
     position: sticky;
     top: 100%;
-    margin-top: 1em;
     padding: 1em .5em;
     background-color: var(--color-footer-background);
     color: var(--color-on-surface-primary);
@@ -913,6 +925,39 @@ textarea.resize-vertical {
     grid-template-columns: 1fr;
 }
 
+.nav-panel-page {
+   padding-left: clamp(20ch, 20%, 50ch); /* same as .nav-panel width */
+}
+
+.nav-panel-page > .nav-panel {
+    position: fixed;
+    left: 0;
+    height: 100%;
+    width: clamp(20ch, 20%, 50ch);
+    padding-top: var(--nav-bar-content-margin);
+    box-sizing: border-box;
+    overflow: auto;
+
+    background: var(--color-surface-primary-400);
+}
+
+.nav-panel-item {
+    font-size: 1.5em;
+    text-align: left;
+    margin: .1em 0;
+    padding: .3em;
+
+    cursor: pointer;
+}
+
+.nav-panel-item:hover {
+    background-color: var(--color-surface-primary-600);
+}
+
+.nav-panel-item.active {
+    background-color: var(--color-surface-primary-700);
+}
+
 .nav-bar {
     display: flex;
 
@@ -1026,27 +1071,40 @@ textarea.resize-vertical {
 }
 
 #nav-logo {
-    display: inline-block;
+    display: grid;
+    place-items: center;
     height: 2em;
     width: 2em;
 
     cursor: pointer;
-
-    vertical-align: middle;
 }
 
 #nav-logo img {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
     height: 2em;
     width: 2em;
 
-    transition: all .3s;
+    transition: height .3s;
 }
 
-#nav-logo:hover img, #nav-logo:focus img {
-    height: 1.7em;
+#nav-settings {
+    display: grid;
+    place-items: center;
+    height: 2em;
+    width: 2em;
+
+    cursor: pointer;
+}
+
+#nav-settings img {
+    cursor: pointer;
+    height: 2em;
+    width: 2em;
+
+    transition: height .3s;
+}
+
+#nav-logo:hover img, #nav-logo:focus img, #nav-settings:hover img, #nav-settings:focus img {
+    height: 1.5em;
 }
 
 #nav-offline {
@@ -1060,10 +1118,6 @@ textarea.resize-vertical {
 }
 
 @media(min-height: 500px) {
-    body.nav > main {
-        margin-top: 2.7em;
-    }
-
     nav {
         position: fixed;
     }
