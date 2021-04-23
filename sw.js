@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-xnVjgHqM";
+ const CACHE_NAME = "WebDiakoluo-bug2cTBm";
 
 /* get the files of the app */
 function getAppFiles() {
@@ -38,7 +38,6 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/github_w.svg");
     f.push("/WebDiakoluo/res/img/drop_down.svg");
     f.push("/WebDiakoluo/res/img/shuffle_on.svg");
-    f.push("/WebDiakoluo/res/img/info3.svg");
     f.push("/WebDiakoluo/res/img/export.svg");
     f.push("/WebDiakoluo/res/img/wrong.svg");
     f.push("/WebDiakoluo/res/img/sync_w.svg");
@@ -54,7 +53,6 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/delete.svg");
     f.push("/WebDiakoluo/res/img/grade.svg");
     f.push("/WebDiakoluo/res/img/checkbox_on.svg");
-    f.push("/WebDiakoluo/res/img/info2.svg");
     f.push("/WebDiakoluo/res/img/open_in_new_w.svg");
     f.push("/WebDiakoluo/res/img/add.svg");
     f.push("/WebDiakoluo/res/img/play.svg");
@@ -80,6 +78,7 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/open_in_new_b.svg");
     f.push("/WebDiakoluo/res/img/add_w.svg");
     f.push("/WebDiakoluo/res/img/nav_next_w.svg");
+    f.push("/WebDiakoluo/res/img/update.svg");
     f.push("/WebDiakoluo/res/img/nav_prev_w.svg");
     f.push("/WebDiakoluo/res/img/nav_first_w.svg");
     f.push("/WebDiakoluo/res/img/import.svg");
@@ -113,8 +112,10 @@ self.addEventListener('fetch', (e) => {
         caches.match(request).then((r) => {
             return r || fetch(e.request).then((response) => {
                 return caches.open(CACHE_NAME).then((cache) => {
-                    console.info('[Service Worker] Cache new ressource: ' + request.url);
-                    cache.put(request, response.clone());
+                    if (!request.url.startsWith('/WebDiakoluo/api/')) { // do not cache the api folder
+                        console.info('[Service Worker] Cache new ressource: ' + request.url);
+                        cache.put(request, response.clone());
+                    }
                     return response;
                 });
             });

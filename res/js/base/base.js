@@ -114,16 +114,13 @@ function onReturnClick(event) {
 }
 
 if('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/WebDiakoluo/sw.js', {scope: '/WebDiakoluo/'});
+    navigator.serviceWorker.register('/WebDiakoluo/sw.js', {scope: '/WebDiakoluo/'}).then(registration => {
+        window.serviceWorkerRegistration = registration;
+    });
 }
 
 // verify cookies
 function verifyCookies() {
-    /* accept cookies button callback*/
-    function cookiesCallback() {
-        Modal.currentModal.delete();
-    }
-
     cookiesConsent = Boolean(localStorage.getItem("lang"));
 
     if (!cookiesConsent && document.location.pathname != LEGAL_PATH) {

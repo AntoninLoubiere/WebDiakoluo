@@ -8,11 +8,18 @@ const settingsPagePanels = {
         view: document.getElementById('settings-panel-appearance'), 
         button: document.getElementById('settings-nav-appearance')
     },
-    sync: {
-        view: document.getElementById('settings-panel-sync'), 
-        button: document.getElementById('settings-nav-sync')
-    }
+    // sync: {
+    //     view: document.getElementById('settings-panel-sync'), 
+    //     button: document.getElementById('settings-nav-sync')
+    // }
 }
+
+const settingsPageVersion = document.getElementById('settings-version');
+const settingsPageVerifyUpdate = document.getElementById('settings-get-version');
+const settingsPageLastUpdatePanel =  document.getElementById('settings-verify-update-panel');
+const settingsPageLastUpdate =  document.getElementById('settings-last-update');
+const settingsPageUpdate = document.getElementById('settings-update');
+const settingsPageUpdateStatus = document.getElementById('settings-update-status');
 
 /**
  * The settings page
@@ -31,6 +38,10 @@ class SettingsPage extends Page {
             const panelName = keys[i];
             settingsPagePanels[panelName].button.onclick = () => this.onNavButtonClick(panelName);
         }
+
+        I18N.initAsyncFunc.then(() => settingsPageVersion.textContent = I18N.getTranslation('version') + ' (' + I18N.getTranslation('id') + ')');
+        settingsPageVerifyUpdate.onclick = this.verifyUpdate.bind(this);
+        settingsPageUpdate.onclick = this.updateButton.bind(this);
     }
 
     /**
@@ -68,6 +79,48 @@ class SettingsPage extends Page {
         currentURL.searchParams.set('panel', panelName);
         history.pushState({}, '', currentURL);
         this.onupdate();
+    }
+
+    /**
+     * Verify if there is an update and update the UI (callback of settingsVerifyUpdate)
+     */
+    async verifyUpdate() {
+        try {
+            var r = await fetch('/WebDiakoluo/api/last_cache_id.json');
+            r = await r.json();
+            settingsPageLastUpdatePanel.classList.remove('hide');
+            settingsPageLastUpdate.textContent = `${r.version} (${r.id})`
+            if (I18N.getTranslation('id') !== r.id) {
+                settingsPageLastUpdate.classList.add('important-font')
+            } else {
+                settingsPageLastUpdate.classList.remove('important-font')
+            }
+        } catch {
+            settingsPageLastUpdatePanel.classList.remove('hide');
+            settingsPageLastUpdate.textContent = I18N.getTranslation('no-connection');
+            settingsPageLastUpdate.classList.add('important-font')
+        }
+    }
+
+    /**
+     * Update the button
+     */
+    async updateButton() {
+        settingsPageUpdateStatus.classList.remove('important-font');
+        settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-updating');
+        try {
+            if (serviceWorkerRegistration.update) {
+                await serviceWorkerRegistration.update();
+            } else {
+                await serviceWorkerRegistration.unregister();
+            }
+            settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-updated');
+            setTimeout(() => document.location = document.location, 3000);
+        } catch (e) {
+            console.error("[Service Worker] Can't update", e);
+            settingsPageUpdateStatus.classList.add('important-font')
+            settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-cant-update');
+        }
     }
 }
 

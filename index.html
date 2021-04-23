@@ -211,21 +211,37 @@
             <img src="/WebDiakoluo/res/img/appearance_w.svg" alt="Appearance icon">
             <x-i18n key="settings-appearance"></x-i18n>
         </div>
-        <div class="nav-panel-item" id="settings-nav-sync">
+        <!-- <div class="nav-panel-item" id="settings-nav-sync">
             <img src="/WebDiakoluo/res/img/sync_w.svg" alt="Synchronise icon">
             <x-i18n key="settings-sync"></x-i18n>
-        </div>
+        </div> -->
     </div>
     <div class="page-container">
         <div id="settings-panel-general" class="hide">
-            <h1>Test</h1>
+            <h1 class="no-margin"><x-i18n key="settings-version-title"></x-i18n></h1>
+            <p>
+                <x-i18n key="settings-version-message"></x-i18n> :
+                <b><span id="settings-version"></span></b><br>
+            </p>
+            <button class="btn image-button" id="settings-get-version">
+                <img src="/WebDiakoluo/res/img/restart.svg" alt="Sync icon"><span><x-i18n key="verify-update" caps="upper"></x-i18n></span>
+            </button>
+            <div id="settings-verify-update-panel" class="hide">
+                <p>
+                    <x-i18n key="settings-last-update"></x-i18n> : <b><span id="settings-last-update"></span></b>
+                </p>
+                <button class="btn image-button" id="settings-update">
+                    <img src="/WebDiakoluo/res/img/update.svg" alt="Update icon"><span><x-i18n key="update" caps="upper"></x-i18n></span>
+                </button>
+                <p id="settings-update-status"></p>
+            </div>
         </div>
         <div id="settings-panel-appearance" class="hide">
             <h1>Test</h1>
         </div>
-        <div id="settings-panel-sync" class="hide">
+        <!-- TODO <div id="settings-panel-sync" class="hide">
             <h1>TODO</h1>
-        </div>
+        </div> -->
     </div>
 </main>
 <footer class="double-column">

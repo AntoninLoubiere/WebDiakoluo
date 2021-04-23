@@ -24,8 +24,10 @@ self.addEventListener('fetch', (e) => {
         caches.match(request).then((r) => {
             return r || fetch(e.request).then((response) => {
                 return caches.open(CACHE_NAME).then((cache) => {
-                    console.info('[Service Worker] Cache new ressource: ' + request.url);
-                    cache.put(request, response.clone());
+                    if (!request.url.startsWith('/WebDiakoluo/api/')) { // do not cache the api folder
+                        console.info('[Service Worker] Cache new ressource: ' + request.url);
+                        cache.put(request, response.clone());
+                    }
                     return response;
                 });
             });

@@ -1070,6 +1070,10 @@ textarea.resize-vertical {
     background: no-repeat left url("/WebDiakoluo/res/img/wrong.svg");
 }
 
+.important-font {
+    color: var(--color-error);
+}
+
 #nav-logo {
     display: grid;
     place-items: center;

@@ -25,6 +25,9 @@ more-informations,More informations,Plus d'informations
 settings,Settings,Paramètres
 erase,Erase,Écraser
 quit,Quit,Quitter
+update,Update,Mettre à jour
+verify-update,Check updates,Rechercher les mises à jour
+no-connection,No connection.,Pas de connexion.
 legal-text,"<p>Data stored by your navigator is for a <b>local use only</b> and necessary for the application. The data stored is <b>never transmit to a third server</b>. Your are the only owner of your data, so, you are responsible of the security of yours data.</p><p>The usage of cookies and similar mechanisms are <b>essential</b> to the application.</p>","<p>Les données stockées par votre navigateur ne sont destiné qu'à un <b>usage local</b> pour les besoins de l'application. Les données stockées ne sont <b>transmis à aucun serveur tiers</b>. Vous êtes le seul détenteur de vos données, ainsi, vous êtes le seul responsable de la sécurité de vos données.</p><p>L'utilisation de cookies et mécanismes similaires sont <b>indispensables</b> pour le bon fonctionnement du site web.</p>"
 about-text,"<h1>DIAKÔLUÔ V<x-i18n key=""version""></x-i18n> (<x-i18n key=""id""></x-i18n>)</h1><h3>WHAT IS DIAKÔLUÔ ?</h3><p>Diakôluô îs an open-source project in order to help memorize.</p><h3>THE CODE</h3><p>The code is by: <x-i18n key=""authors""></x-i18n> The code is available on <a href=""https://github.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon github-link"">GitHub</a> under the <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html"">GNU APGL</a> license.<br>You can report a <b>bug</b> or demand <b>features</b> on <a href=""https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose"" class=""open-new-icon github-link"">GitHub</a>.<br></p>","<h1>DIAKÔLUÔ V<x-i18n key=""version""></x-i18n> (<x-i18n key=""id""></x-i18n>)</h1><h3>QU'EST DIAKÔLUÔ ?</h3><p>Diakôluô est un projet open-source dans le but d'aider à la révision.</p><h3>LE CODE</h3><p>Le code a été fait par: <x-i18n key=""authors""></x-i18n> Le code est disponible sur <a href=""https://github.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon github-link"">GitHub</a> sous la license <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html"">GNU APGL</a>.<br>Vous pouvez reporter un <b>bogue</b> ou proposer une <b>fonctionalité</b> sur <a href=""https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose"" class=""open-new-icon github-link"">GitHub</a>.<br></p>"
 list-test-h,Your tests:,Vos tests :
@@ -48,6 +51,14 @@ number-columns-random,Number of random columns to show (other will be asked), No
 play-card-column-name,Show column name,Afficher le nom des colonnes
 play-card-random-side,Randomly invert side shown,Inverser aléatoirement le coté affiché
 play-card-end,The End. It's finish.,La Fin. C'est terminé
+settings-general,Application,Application
+settings-appearance,Appearance,Affichage
+settings-version-title,Version,Version
+settings-version-message,Current version,Version actuelle
+settings-last-update,Last version available,Dernière version disponible
+settings-updating,Updating...,Mise à jour en cours...
+settings-updated,"Updated, the page will regresh in a few seconds.","Mise à jour terminé, la page va se reafraîchir dans quelques secondes."
+settings-cant-update,An error occur while updating.,Une erreur est survenue lors de la mise à jour.
 default-column-title,Column,Colonne
 default-test-title,Test,Test
 default-test-description,A test,Un test
