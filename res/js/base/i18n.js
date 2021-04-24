@@ -15,6 +15,8 @@ const DATE_FORMATER = new Intl.DateTimeFormat(navigator.language, {
 const languageSelector = document.getElementById("language-selector");
 const EXCEPT_TITLE_PATH = ['/WebDiakoluo/', '/WebDiakoluo/index.html'];
 
+const pageTitleElement = document.getElementById('page-title');
+
 /*
 Custom element that hold a translation.
 */
@@ -206,25 +208,18 @@ class I18NClass {
             }
             this.setPageTitle(title);
         } else {
-            var t = document.getElementById('page-title');
-            if (!t.textContent)
-                t.textContent = document.title;
+            pageTitleElement.textContent = document.title;
         }
     }
 
     /* set the page title */
     setPageTitle(title) {
-        var pageTitle = document.getElementById('page-title');
         if (title) {
             document.title = title + " - Diakôluô"
-            if (pageTitle) {
-                pageTitle.textContent = title;
-            }
+            pageTitleElement.textContent = title;
         } else {
             document.title = "Diakôluô";
-            if (pageTitle) {
-                pageTitle.textContent = "Diakôluô";
-            }
+            pageTitleElement.textContent = "Diakôluô";
         }
     }
 }

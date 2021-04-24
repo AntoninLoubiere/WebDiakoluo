@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/base.css">
-<link rel="icon" href="/WebDiakoluo/res/img/favicon_no_background.svg" />
+<link rel="icon" href="/WebDiakoluo/res/img/favicon.svg" />
 <script type="text/javascript" src="/WebDiakoluo/res/js/theme.js"></script>
 <script type="text/javascript" src="/WebDiakoluo/res/js/all.min.js" defer=""></script>
 <title>Diakôluô</title>
@@ -243,7 +243,27 @@
             </div>
         </div>
         <div id="settings-panel-appearance" class="hide">
-            <h1>Test</h1>
+            <h1><x-i18n key="settings-theme"></x-i18n></h1>
+            <div class="flex-around">
+                <div>
+                    <input type="radio" id="settings-theme-1" name="theme" value="1">
+                    <label for="settings-theme-1">
+                        <x-i18n key="settings-theme-1"></x-i18n>
+                    </label>
+                </div>
+                <div>
+                    <input type="radio" id="settings-theme-2" name="theme" value="2">
+                    <label for="settings-theme-2">
+                        <x-i18n key="settings-theme-2"></x-i18n>
+                    </label>
+                </div>
+                <div>
+                    <input type="radio" id="settings-theme-3" name="theme" value="3">
+                    <label for="settings-theme-3">
+                        <x-i18n key="settings-theme-3"></x-i18n>
+                    </label>
+                </div>
+            </div>
         </div>
         <!-- TODO <div id="settings-panel-sync" class="hide">
             <h1>TODO</h1>

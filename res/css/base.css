@@ -53,53 +53,51 @@
     --nav-bar-content-margin: 2.7em;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-background: hsl(0, 0%, 5%);
-        --color-on-background: hsl(0, 0%, 100%);
+:root.theme-dark {
+    --color-background: hsl(0, 0%, 5%);
+    --color-on-background: hsl(0, 0%, 100%);
 
-        --color-primary-50:  hsl(173, 100%, 5%);
-        --color-primary-100: hsl(173, 95%, 10%);
-        --color-primary-200: hsl(173, 90%, 20%);
-        --color-primary-500: hsl(173, 50%, 60%);
-        --color-primary-700: hsl(173, 45%, 70%);
-        --color-primary-900: hsl(173, 40%, 85%);
+    --color-primary-50:  hsl(173, 100%, 5%);
+    --color-primary-100: hsl(173, 95%, 10%);
+    --color-primary-200: hsl(173, 90%, 20%);
+    --color-primary-500: hsl(173, 50%, 60%);
+    --color-primary-700: hsl(173, 45%, 70%);
+    --color-primary-900: hsl(173, 40%, 85%);
 
-        --color-neutral-5: hsl(0, 0%, 5%);
-        --color-neutral-30: hsl(0, 0%, 30%);
-        --color-neutral-50: hsl(0, 0%, 50%);
-        --color-neutral-70: hsl(0, 0%, 70%);
+    --color-neutral-5: hsl(0, 0%, 5%);
+    --color-neutral-30: hsl(0, 0%, 30%);
+    --color-neutral-50: hsl(0, 0%, 50%);
+    --color-neutral-70: hsl(0, 0%, 70%);
 
-        --color-on-primary: hsl(0, 0%, 100%);
+    --color-on-primary: hsl(0, 0%, 100%);
 
-        --color-surface-primary-50:  hsl(173, 26%, 7%);
-        --color-surface-primary-100: hsl(173, 44%, 10%);
-        --color-surface-primary-200: hsl(173, 55%, 12%);
-        --color-surface-primary-400: hsl(173, 58%, 14%);
-        --color-surface-primary-500: hsl(173, 64%, 16%);
-        --color-surface-primary-600: hsl(173, 67%, 19%);
-        --color-surface-primary-700: hsl(173, 70%, 21%);
-        --color-surface-primary-800: hsl(173, 72%, 24%);
-        --color-surface-primary-900: hsl(173, 73%, 26%);
+    --color-surface-primary-50:  hsl(173, 26%, 7%);
+    --color-surface-primary-100: hsl(173, 44%, 10%);
+    --color-surface-primary-200: hsl(173, 55%, 12%);
+    --color-surface-primary-400: hsl(173, 58%, 14%);
+    --color-surface-primary-500: hsl(173, 64%, 16%);
+    --color-surface-primary-600: hsl(173, 67%, 19%);
+    --color-surface-primary-700: hsl(173, 70%, 21%);
+    --color-surface-primary-800: hsl(173, 72%, 24%);
+    --color-surface-primary-900: hsl(173, 73%, 26%);
 
-        --color-on-surface-primary: hsl(0, 0%, 100%);
-        --color-surface: hsl(0, 0%, 7.5%);
-        --color-surface-elevated: hsl(0, 0%, 10%);
-        --color-on-surface: hsl(0, 0%, 100%);
+    --color-on-surface-primary: hsl(0, 0%, 100%);
+    --color-surface: hsl(0, 0%, 7.5%);
+    --color-surface-elevated: hsl(0, 0%, 10%);
+    --color-on-surface: hsl(0, 0%, 100%);
 
-        --color-error: hsl(4, 52%, 61%);
-        --color-on-error: hsl(0, 0%, 100%);
-        --color-error-variant: hsl(4, 52%, 10%);
+    --color-error: hsl(4, 52%, 61%);
+    --color-on-error: hsl(0, 0%, 100%);
+    --color-error-variant: hsl(4, 52%, 10%);
 
-        --color-footer-background: var(--color-surface-primary-100);
+    --color-footer-background: var(--color-surface-primary-100);
 
-        --color-right: hsl(145, 75%, 39%);
-        --color-skipped: hsl(12, 75%, 43%);
-        --color-wrong: hsl(0, 75%, 42%);
+    --color-right: hsl(145, 75%, 39%);
+    --color-skipped: hsl(12, 75%, 43%);
+    --color-wrong: hsl(0, 75%, 42%);
 
-        --open-new-icon: url("/WebDiakoluo/res/img/open_in_new_w.svg");
-        --github-icon: url("/WebDiakoluo/res/img/github_w.svg");
-    }
+    --open-new-icon: url("/WebDiakoluo/res/img/open_in_new_w.svg");
+    --github-icon: url("/WebDiakoluo/res/img/github_w.svg");
 }
 
 /*
@@ -580,6 +578,13 @@ textarea.resize-vertical {
 
 .flex-center {
     align-items: center;
+}
+
+.flex-around {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .main-card {
