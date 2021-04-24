@@ -1,5 +1,4 @@
-const navOfflineLogo = document.getElementById('nav-offline');
-const navSettings = document.getElementById('nav-settings');
+var navOfflineLogo = document.getElementById('nav-offline');
 
 if (navOfflineLogo) {
     if (navigator.onLine) {
@@ -18,6 +17,13 @@ async function onNavBarLoadded() {
     } else {
         onofflineCallback();
     }
+
+    const navSettings = document.getElementById('nav-settings');
+
+    navSettings.onclick = function() {
+        UTILS.settings();
+        navSettings.blur();
+    }
 }
 
 function onofflineCallback() {
@@ -30,8 +36,3 @@ function ononlineCallback() {
 
 window.onoffline = onofflineCallback;
 window.ononline = ononlineCallback;
-
-navSettings.onclick = function() {
-    UTILS.settings();
-    navSettings.blur();
-}

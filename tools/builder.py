@@ -1,6 +1,7 @@
 import services_workers_files
 import translations
 import js_minifier
+import include
 import os
 import sys
 import json
@@ -15,12 +16,14 @@ if __name__ == '__main__':
     with open(ID_FILE, 'w') as fiw:
         json.dump({'id': cacheId, 'version': translations.universal['version']}, fiw)
     js_minifier.run()
+    processed_files = include.process_all_files()
     services_workers_files.run(cacheId)
     print("[MAIN] Build finished.")
 
     if len(sys.argv) > 1 and sys.argv[1] == 'git-add':
         os.system('git add sw.js ' + ID_FILE + ' ' + ' '.join(
             list(js_minifier.COMPILE_FILES) + 
-            translations.translations_files)
+            translations.translations_files +
+            processed_files)
         )
         print("[MAIN] Files added to git.")

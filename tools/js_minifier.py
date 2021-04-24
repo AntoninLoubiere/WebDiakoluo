@@ -6,7 +6,6 @@ COMPILE_FILES = {
         'res/js/base/i18n.js',
         'res/js/base/modals.js',
         'res/js/base/base.js',
-        'res/js/base/include.js',
         'res/js/base/view-utils.js',
         'res/js/base/nav.js',
         'res/js/base/navigation-bar.js',
