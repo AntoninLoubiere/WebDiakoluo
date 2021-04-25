@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-sfPGwt14";
+ const CACHE_NAME = "WebDiakoluo-OdYyAGKT";
 
 /* get the files of the app */
 function getAppFiles() {
@@ -37,6 +37,8 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/font/Oswald/static/Oswald-Light.ttf");
     f.push("/WebDiakoluo/res/img/github_w.svg");
     f.push("/WebDiakoluo/res/img/drop_down.svg");
+    f.push("/WebDiakoluo/res/img/radio_on.svg");
+    f.push("/WebDiakoluo/res/img/light_mode.svg");
     f.push("/WebDiakoluo/res/img/shuffle_on.svg");
     f.push("/WebDiakoluo/res/img/export.svg");
     f.push("/WebDiakoluo/res/img/wrong.svg");
@@ -54,12 +56,15 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/grade.svg");
     f.push("/WebDiakoluo/res/img/checkbox_on.svg");
     f.push("/WebDiakoluo/res/img/open_in_new_w.svg");
+    f.push("/WebDiakoluo/res/img/dark_mode.svg");
     f.push("/WebDiakoluo/res/img/add.svg");
+    f.push("/WebDiakoluo/res/img/radio.svg");
     f.push("/WebDiakoluo/res/img/play.svg");
     f.push("/WebDiakoluo/res/img/nav_prev.svg");
     f.push("/WebDiakoluo/res/img/delete_w.svg");
     f.push("/WebDiakoluo/res/img/duplicate.svg");
     f.push("/WebDiakoluo/res/img/settings_w.svg");
+    f.push("/WebDiakoluo/res/img/hdr_auto_black_24dp.svg");
     f.push("/WebDiakoluo/res/img/favicon_no_background.svg");
     f.push("/WebDiakoluo/res/img/cancel.svg");
     f.push("/WebDiakoluo/res/img/grade_w.svg");

@@ -294,7 +294,7 @@ input, textarea, select {
     transition: border-color .2s, color .2s, background-color .2s;
 }
 
-input[type='text'], input[type='number'], input[type='checkbox'], textarea, select {
+input[type='text'], input[type='number'], input[type='checkbox'], input[type='radio'], textarea, select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -322,11 +322,21 @@ input[type='number'], textarea, select {
 }
 
 input[type='checkbox'] {
+    --button-image: url('/WebDiakoluo/res/img/checkbox.svg');
+    --button-image-on: url('/WebDiakoluo/res/img/checkbox_on.svg');
+}
+
+input[type='radio'] {
+    --button-image: url('/WebDiakoluo/res/img/radio.svg');
+    --button-image-on: url('/WebDiakoluo/res/img/radio_on.svg');
+}
+
+input[type='checkbox'], input[type='radio'] {
     position: relative;
     width: 1.5em;
     height: 1.5em;
     
-    background: url('/WebDiakoluo/res/img/checkbox.svg');
+    background: var(--button-image);
     background-position: center;
     background-size: cover;
     
@@ -335,18 +345,18 @@ input[type='checkbox'] {
     vertical-align: middle;
 }
 
-input[type='checkbox'] + label {
+input[type='checkbox'] + label, input[type='radio'] + label, label.checkbox {
     cursor: pointer;
     vertical-align: middle;
 }
 
-input[type='checkbox']:checked {
-    background-image: url('/WebDiakoluo/res/img/checkbox_on.svg');
+input[type='checkbox']:checked, input[type='radio']:checked {
+    background-image: var(--button-image-on);
     background-position: center;
     background-size: cover;
 }
 
-input[type='checkbox']::after {
+input[type='checkbox']::after, input[type='radio']::after {
     content: ' ';
     position: absolute;
     width: 100%;
@@ -380,7 +390,7 @@ input[type='text']:focus, input[type='number']:focus, textarea:focus {
     color: var(--color-on-background);
 }
 
-input[type='checkbox']:hover::after {
+input[type='checkbox']:hover::after, input[type='radio']:hover::after {
     opacity: .3;
 }
 
