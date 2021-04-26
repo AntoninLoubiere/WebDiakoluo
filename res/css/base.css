@@ -944,20 +944,17 @@ textarea.resize-vertical {
     grid-template-columns: 1fr;
 }
 
-.nav-panel-page {
-   padding-left: clamp(20ch, 20%, 50ch); /* same as .nav-panel width */
-}
-
 .nav-panel-page > .nav-panel {
-    position: fixed;
-    left: 0;
-    height: 100%;
-    width: clamp(20ch, 20%, 50ch);
+    width: 100%;
     padding-top: var(--nav-bar-content-margin);
     box-sizing: border-box;
     overflow: auto;
 
     background: var(--color-surface-primary-400);
+}
+
+.nav-panel-page .page-container {
+    padding-top: 0 !important;
 }
 
 .nav-panel-item {
@@ -1198,6 +1195,24 @@ textarea.resize-vertical {
 
     .grid-keys {
         grid-template-columns: auto 1fr;
+    }
+    
+}
+
+@media (min-width: 600px) {
+    .nav-panel-page {
+        padding-left: clamp(20ch, 20%, 50ch); /* same as .nav-panel width */
+     }
+
+    .nav-panel-page > .nav-panel {
+        position: fixed;
+        left: 0;
+        height: 100%;
+        width: clamp(20ch, 20%, 50ch);
+    }
+
+    .nav-panel-page .page-container {
+        padding-top: var(--nav-bar-content-margin) !important;
     }
 }
 
