@@ -209,6 +209,35 @@ textarea.column-string-long {
     margin: 0 .5em;
 }
 
+#settings-theme-light-label {
+    --background-image: url('/WebDiakoluo/res/img/light_mode_grey.svg');
+    --background-image-selected: url('/WebDiakoluo/res/img/light_mode.svg');
+}
+
+#settings-theme-auto-label {
+    --background-image: url('/WebDiakoluo/res/img/auto_mode_grey.svg');
+    --background-image-selected: url('/WebDiakoluo/res/img/auto_mode.svg');
+}
+
+#settings-theme-dark-label {
+    --background-image: url('/WebDiakoluo/res/img/dark_mode_grey.svg');
+    --background-image-selected: url('/WebDiakoluo/res/img/dark_mode.svg');
+}
+
+.settings-theme-label {
+    padding-top: 5.1em;
+    background-image: var(--background-image);
+    background-size: 5em;
+    background-repeat: no-repeat;
+    background-position: center top;
+
+    min-width: 5em;
+}
+
+.settings-theme-label.selected {
+    background-image: var(--background-image-selected);
+}
+
 #eval-test-title {
     margin-bottom: 0;
 }

@@ -7,7 +7,7 @@ document.getElementById('list-add-button').onclick = UTILS.addTestRedirect;
 
 class ListPage extends Page {
     constructor() {
-        super(listPageView, "", false);
+        super(listPageView, '', false);
 
         document.getElementById('list-import-button').onclick = () => UTILS.importTest();
         document.getElementById('list-export-all-button').onclick = () => UTILS.exportAllTest();
@@ -25,7 +25,7 @@ class ListPage extends Page {
 
     /* load list page */
     onload() {
-        I18N.updatePageTitle('title-index.html');
+        I18N.updatePageTitle('title-index');
         listPageView.classList.remove('hide');
         if (this.needReload) this.reloadList();
     }

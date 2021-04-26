@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- INCLUDE START id="head.html" -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/base.css">
+<link rel="icon" href="/WebDiakoluo/res/img/favicon.svg" />
+<script type="text/javascript" src="/WebDiakoluo/res/js/theme.js"></script>
+<script type="text/javascript" src="/WebDiakoluo/res/js/all.min.js" defer=""></script>
+<title>Diakôluô</title>
+<!-- INCLUDE END id="head.html" -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
-    <link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/base.css">
     <link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/index.css">
-    <link rel="icon" href="/WebDiakoluo/res/img/favicon.svg" />
     <script type="text/javascript" src="/WebDiakoluo/res/lib/Sortable.min.js" defer=""></script>
-    <script type="text/javascript" src="/WebDiakoluo/res/js/all.min.js" defer=""></script>
     <script type="text/javascript" src="/WebDiakoluo/res/js/diakoluo.min.js" defer=""></script>
     <script type="text/javascript" src="/WebDiakoluo/res/js/pages/index.min.js" defer=""></script>
     <title>Diakôluô</title>
 </head>
 <body class="nav">
+<!-- INCLUDE START id="navbar.html" -->
 <nav>
     <a id="nav-logo" tabindex="0" aria-label="A link to the main page"><img src="/WebDiakoluo/res/img/favicon_no_background.svg" alt="Diakôluô logo"></a>
     <span id="page-title"></span>
-    <span><img id="nav-offline" src="/WebDiakoluo/res/img/offline_w.svg" alt="Offline icon"></span>
+    <img id="nav-offline" src="/WebDiakoluo/res/img/offline_w.svg" alt="Offline icon">
+    <span id="nav-settings" tabindex="0"><img src="/WebDiakoluo/res/img/settings_w.svg" alt="Settings icon"></span>
 </nav>
-<main id="loading-page">
+<!-- INCLUDE END id="navbar.html" -->
+<main id="loading-page" class="page-container">
     <h1><x-i18n key="loading"></x-i18n></h1>
 </main>
-<main id="list-page" class="hide">
+<main id="list-page" class="hide page-container">
     <h1><x-i18n key="list-test-h"></x-i18n></h1>
     <div id="list-test" class="test-list"></div>
     <div class="context-menu" id="list-page-context-menu">
@@ -59,7 +66,7 @@
         <span><x-i18n key="export-all-test"></x-i18n></span>
     </button>
 </main>
-<main id="view-page" class="hide">
+<main id="view-page" class="hide page-container">
     <h1 id="view-test-title"></h1>
     <div class="card">
         <div class="action-list">
@@ -105,7 +112,7 @@
         </table>
     </div>
 </main>
-<main id="edit-page" class="hide">
+<main id="edit-page" class="hide page-container">
     <div class="card">
         <div class="double-column">
             <div class="grid-keys" id="edit-panel">
@@ -140,7 +147,7 @@
         </button>
     </div>
 </main>
-<main id="play-card-page" class="hide expand">
+<main id="play-card-page" class="hide expand page-container">
     <div id="play-card-header">
         <progress-bar id="play-card-progress"></progress-bar>
         <button class="icon-button" id="play-card-settings-button"><img src="/WebDiakoluo/res/img/settings.svg" alt="Settings icon"></button>
@@ -149,7 +156,7 @@
     <div class="card" id="play-card-card">
     </div>
 </main>
-<main id="eval-page" class="hide">
+<main id="eval-page" class="hide page-container">
     <form id="eval-form">
         <h1 id="eval-test-title"></h1>
         <progress-bar id="eval-progress"></progress-bar>
@@ -161,7 +168,7 @@
         </button>
     </form>
 </main>
-<main id="eval-settings-page" class="hide">
+<main id="eval-settings-page" class="hide page-container">
     <form id="eval-set-form">
         <h1 id="eval-set-test-title"></h1>
         <div id="eval-set-params" class="unique-column">
@@ -185,7 +192,7 @@
         </button>
     </form>
 </main>
-<main id="eval-score-page" class="hide">
+<main id="eval-score-page" class="hide page-container">
     <div id="eval-score-progress-parent">
         <h1 class="no-margin" id="eval-score-major">1/10</h1>
         <progress-bar id="eval-score-progress"></progress-bar>
@@ -200,17 +207,87 @@
         <span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
     </button>
 </main>
+<main id="settings-page" class="hide expand nav-panel-page">
+    <div id="settings-nav" class="nav-panel">
+        <div class="nav-panel-item" id="settings-nav-general">
+            <img src="/WebDiakoluo/res/img/settings_w.svg" alt="Settings icon">
+            <x-i18n key="settings-general"></x-i18n>
+        </div>
+        <div class="nav-panel-item" id="settings-nav-appearance">
+            <img src="/WebDiakoluo/res/img/appearance_w.svg" alt="Appearance icon">
+            <x-i18n key="settings-appearance"></x-i18n>
+        </div>
+        <!-- <div class="nav-panel-item" id="settings-nav-sync">
+            <img src="/WebDiakoluo/res/img/sync_w.svg" alt="Synchronise icon">
+            <x-i18n key="settings-sync"></x-i18n>
+        </div> -->
+    </div>
+    <div class="page-container">
+        <div id="settings-panel-general" class="hide">
+            <h1 class="no-margin"><x-i18n key="settings-version-title"></x-i18n></h1>
+            <p>
+                <x-i18n key="settings-version-message"></x-i18n> :
+                <b><span id="settings-version"></span></b><br>
+            </p>
+            <button class="btn image-button" id="settings-get-version">
+                <img src="/WebDiakoluo/res/img/restart.svg" alt="Sync icon"><span><x-i18n key="verify-update" caps="upper"></x-i18n></span>
+            </button>
+            <div id="settings-verify-update-panel" class="hide">
+                <p>
+                    <x-i18n key="settings-last-update"></x-i18n> : <b><span id="settings-last-update"></span></b>
+                </p>
+                <button class="btn image-button" id="settings-update">
+                    <img src="/WebDiakoluo/res/img/update.svg" alt="Update icon"><span><x-i18n key="update" caps="upper"></x-i18n></span>
+                </button>
+                <p id="settings-update-status"></p>
+            </div>
+        </div>
+        <div id="settings-panel-appearance" class="hide">
+            <h1><x-i18n key="settings-theme"></x-i18n></h1>
+            <div class="flex-around">
+                <label id="settings-theme-light-label" for="settings-theme-light" class="checkbox settings-theme-label">
+                    <input type="radio" id="settings-theme-light" name="theme" value="light">
+                    <x-i18n key="settings-theme-light"></x-i18n>
+                </label>
+                <label id="settings-theme-auto-label" for="settings-theme-auto" class="checkbox settings-theme-label">
+                    <input type="radio" id="settings-theme-auto" name="theme" value="auto">
+                    <x-i18n key="settings-theme-auto"></x-i18n>
+                </label>
+                <label id="settings-theme-dark-label" for="settings-theme-dark" class="checkbox settings-theme-label">
+                    <input type="radio" id="settings-theme-dark" name="theme" value="dark">
+                    <x-i18n key="settings-theme-dark"></x-i18n>
+                </label>
+            </div>
+        </div>
+        <!-- TODO <div id="settings-panel-sync" class="hide">
+            <h1>TODO</h1>
+        </div> -->
+    </div>
+</main>
+<!-- INCLUDE START id="footer.html" -->
 <footer class="double-column">
     <div>
         <x-i18n key="language"></x-i18n>
-        <div class="selector" tabindex="0">
+        <div class="selector">
             <span id="language-selector"></span>
-            <div class="selector-dropdown" id="language-selector-childs"></div>
+            <div class="selector-dropdown" id="language-selector-childs">
+            </div>
         </div>
-        <x-include key="footer-1"></x-include>
+        <div>
+            <a href="/WebDiakoluo/about.html"><x-i18n key="footer-about"></x-i18n></a><br>
+            <a href="/WebDiakoluo/legal.html"><x-i18n key="footer-legal"></x-i18n></a><br>
+            <a href="https://github.com/AntoninLoubiere/WebDiakoluo/issues/new?assignees=&labels=bug&template=bug_report.md&title=" class="open-new-icon"><x-i18n key="footer-report-bug"></x-i18n></a><br>
+            <a href="https://github.com/AntoninLoubiere/WebDiakoluo/issues/new?assignees=&labels=enhancement&template=feature_request.md&title="><x-i18n key="footer-request-feature" class="open-new-icon"></x-i18n></a>
+        </div>        
     </div>
-    <div><x-include key="footer-2"></x-include></div>
+    <div>
+        <x-i18n key="footer-diakoluo"></x-i18n><br>
+        <x-i18n key="footer-source-code"></x-i18n><br>
+        <x-i18n key="footer-hosted"></x-i18n><br>
+        <a href="/WebDiakoluo/about.html"><x-i18n key="more-informations"></x-i18n></a>
+    </div>
 </footer>
+<!-- INCLUDE END id="footer.html" -->
 <div id="view-test-column-modal" class="modal hide">
     <div class="modal-content">
         <header><span id="modal-view-column-title1"></span><button is="modal-close" class="modal-close">&times;</button></header>

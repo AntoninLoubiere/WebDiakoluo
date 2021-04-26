@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-hTHpUQiJ";
+ const CACHE_NAME = "WebDiakoluo-XPbjQgm0";
 
 /* get the files of the app */
 function getAppFiles() {
@@ -37,13 +37,16 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/font/Oswald/static/Oswald-Light.ttf");
     f.push("/WebDiakoluo/res/img/github_w.svg");
     f.push("/WebDiakoluo/res/img/drop_down.svg");
+    f.push("/WebDiakoluo/res/img/radio_on.svg");
+    f.push("/WebDiakoluo/res/img/light_mode.svg");
     f.push("/WebDiakoluo/res/img/shuffle_on.svg");
-    f.push("/WebDiakoluo/res/img/info3.svg");
     f.push("/WebDiakoluo/res/img/export.svg");
     f.push("/WebDiakoluo/res/img/wrong.svg");
+    f.push("/WebDiakoluo/res/img/sync_w.svg");
     f.push("/WebDiakoluo/res/img/view.svg");
     f.push("/WebDiakoluo/res/img/github.svg");
     f.push("/WebDiakoluo/res/img/export_w.svg");
+    f.push("/WebDiakoluo/res/img/appearance_w.svg");
     f.push("/WebDiakoluo/res/img/info.svg");
     f.push("/WebDiakoluo/res/img/home.svg");
     f.push("/WebDiakoluo/res/img/save_w.svg");
@@ -52,23 +55,27 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/delete.svg");
     f.push("/WebDiakoluo/res/img/grade.svg");
     f.push("/WebDiakoluo/res/img/checkbox_on.svg");
-    f.push("/WebDiakoluo/res/img/info2.svg");
     f.push("/WebDiakoluo/res/img/open_in_new_w.svg");
+    f.push("/WebDiakoluo/res/img/dark_mode.svg");
     f.push("/WebDiakoluo/res/img/add.svg");
+    f.push("/WebDiakoluo/res/img/radio.svg");
     f.push("/WebDiakoluo/res/img/play.svg");
     f.push("/WebDiakoluo/res/img/nav_prev.svg");
     f.push("/WebDiakoluo/res/img/delete_w.svg");
     f.push("/WebDiakoluo/res/img/duplicate.svg");
+    f.push("/WebDiakoluo/res/img/settings_w.svg");
     f.push("/WebDiakoluo/res/img/favicon_no_background.svg");
     f.push("/WebDiakoluo/res/img/cancel.svg");
     f.push("/WebDiakoluo/res/img/grade_w.svg");
     f.push("/WebDiakoluo/res/img/nav_next.svg");
     f.push("/WebDiakoluo/res/img/favicon.svg");
     f.push("/WebDiakoluo/res/img/shuffle.svg");
+    f.push("/WebDiakoluo/res/img/auto_mode_grey.svg");
     f.push("/WebDiakoluo/res/img/settings.svg");
     f.push("/WebDiakoluo/res/img/restart_w.svg");
     f.push("/WebDiakoluo/res/img/restart.svg");
     f.push("/WebDiakoluo/res/img/offline_w.svg");
+    f.push("/WebDiakoluo/res/img/auto_mode.svg");
     f.push("/WebDiakoluo/res/img/edit.svg");
     f.push("/WebDiakoluo/res/img/play_w.svg");
     f.push("/WebDiakoluo/res/img/checkbox.svg");
@@ -77,11 +84,14 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/open_in_new_b.svg");
     f.push("/WebDiakoluo/res/img/add_w.svg");
     f.push("/WebDiakoluo/res/img/nav_next_w.svg");
+    f.push("/WebDiakoluo/res/img/update.svg");
+    f.push("/WebDiakoluo/res/img/light_mode_grey.svg");
     f.push("/WebDiakoluo/res/img/nav_prev_w.svg");
     f.push("/WebDiakoluo/res/img/nav_first_w.svg");
     f.push("/WebDiakoluo/res/img/import.svg");
-    f.push("/WebDiakoluo/res/include/footer-1.html");
-    f.push("/WebDiakoluo/res/include/footer-2.html");
+    f.push("/WebDiakoluo/res/img/dark_mode_grey.svg");
+    f.push("/WebDiakoluo/res/include/head.html");
+    f.push("/WebDiakoluo/res/include/footer.html");
     f.push("/WebDiakoluo/res/include/navbar.html");
     f.push("/WebDiakoluo/res/translations/universal.csv");
     f.push("/WebDiakoluo/res/translations/universal.json");
@@ -110,8 +120,10 @@ self.addEventListener('fetch', (e) => {
         caches.match(request).then((r) => {
             return r || fetch(e.request).then((response) => {
                 return caches.open(CACHE_NAME).then((cache) => {
-                    console.info('[Service Worker] Cache new ressource: ' + request.url);
-                    cache.put(request, response.clone());
+                    if (!request.url.startsWith('/WebDiakoluo/api/')) { // do not cache the api folder
+                        console.info('[Service Worker] Cache new ressource: ' + request.url);
+                        cache.put(request, response.clone());
+                    }
                     return response;
                 });
             });

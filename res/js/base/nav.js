@@ -1,22 +1,16 @@
-var navOfflineLogo = document.getElementById('nav-offline');
+const navOfflineLogo = document.getElementById('nav-offline');
+const navSettings = document.getElementById('nav-settings');
 
-if (navOfflineLogo) {
-    if (navigator.onLine) {
-        ononlineCallback();
-    } else {
-        onofflineCallback();
-    }
+if (navigator.onLine) {
+    ononlineCallback();
+} else {
+    onofflineCallback();
 }
 
-async function onNavBarLoadded() {
-    await I18N.initAsyncFunc;
-    navOfflineLogo = document.getElementById('nav-offline');
-    I18N.updatePageTitle();
-    if (navigator.onLine) {
-        ononlineCallback();
-    } else {
-        onofflineCallback();
-    }
+navSettings.onclick = function() {
+    if (typeof UTILS !== "undefined") UTILS.settings();
+    else document.location = '/WebDiakoluo/?page=settings'
+    navSettings.blur();
 }
 
 function onofflineCallback() {

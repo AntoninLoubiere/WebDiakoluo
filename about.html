@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/base.css">
-    <link rel="icon" href="/WebDiakoluo/res/img/favicon_no_background.svg" />
-    <script type="text/javascript" src="/WebDiakoluo/res/js/all.min.js" defer=""></script>
-    <title>Diakôluô</title>
+<!-- INCLUDE START id="head.html" -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="/WebDiakoluo/res/css/base.css">
+<link rel="icon" href="/WebDiakoluo/res/img/favicon.svg" />
+<script type="text/javascript" src="/WebDiakoluo/res/js/theme.js"></script>
+<script type="text/javascript" src="/WebDiakoluo/res/js/all.min.js" defer=""></script>
+<title>Diakôluô</title>
+<!-- INCLUDE END id="head.html" -->
 </head>
 <body class="nav">
+<!-- INCLUDE START id="navbar.html" -->
 <nav>
-    <x-include key="navbar"></x-include>
+    <a id="nav-logo" tabindex="0" aria-label="A link to the main page"><img src="/WebDiakoluo/res/img/favicon_no_background.svg" alt="Diakôluô logo"></a>
+    <span id="page-title"></span>
+    <img id="nav-offline" src="/WebDiakoluo/res/img/offline_w.svg" alt="Offline icon">
+    <span id="nav-settings" tabindex="0"><img src="/WebDiakoluo/res/img/settings_w.svg" alt="Settings icon"></span>
 </nav>
-<main>
+<!-- INCLUDE END id="navbar.html" -->
+<main class="page-container">
     <x-i18n key="about-text"></x-i18n>
 </main>
+<!-- INCLUDE START id="footer.html" -->
 <footer class="double-column">
     <div>
         <x-i18n key="language"></x-i18n>
@@ -23,9 +32,20 @@
             <div class="selector-dropdown" id="language-selector-childs">
             </div>
         </div>
-        <x-include key="footer-1"></x-include>
+        <div>
+            <a href="/WebDiakoluo/about.html"><x-i18n key="footer-about"></x-i18n></a><br>
+            <a href="/WebDiakoluo/legal.html"><x-i18n key="footer-legal"></x-i18n></a><br>
+            <a href="https://github.com/AntoninLoubiere/WebDiakoluo/issues/new?assignees=&labels=bug&template=bug_report.md&title=" class="open-new-icon"><x-i18n key="footer-report-bug"></x-i18n></a><br>
+            <a href="https://github.com/AntoninLoubiere/WebDiakoluo/issues/new?assignees=&labels=enhancement&template=feature_request.md&title="><x-i18n key="footer-request-feature" class="open-new-icon"></x-i18n></a>
+        </div>        
     </div>
-    <div><x-include key="footer-2"></x-include></div>
+    <div>
+        <x-i18n key="footer-diakoluo"></x-i18n><br>
+        <x-i18n key="footer-source-code"></x-i18n><br>
+        <x-i18n key="footer-hosted"></x-i18n><br>
+        <a href="/WebDiakoluo/about.html"><x-i18n key="more-informations"></x-i18n></a>
+    </div>
 </footer>
+<!-- INCLUDE END id="footer.html" -->
 </body>
 </html>

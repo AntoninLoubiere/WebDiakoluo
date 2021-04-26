@@ -11,7 +11,7 @@ ID_SIZE = 8
 SERVICE_WORKER_TEMPLATE = 'res/js/base/service-worker-template.js'
 SERVICE_WORKER = 'sw.js'
 DIRS = ['res/css', 'res/font', 'res/img', 'res/include', 'res/modals', 'res/translations']
-EXCLUDE_DIRS = {'res/img': ['manifest']}
+EXCLUDE_DIRS = {'res/img': ['manifest'], '': ['api']}
 services_files = ['about.html', 'index.html', 'legal.html', 'template.html'] + list(js_minifier.COMPILE_FILES)
 
 

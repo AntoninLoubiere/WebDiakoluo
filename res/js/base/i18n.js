@@ -15,6 +15,8 @@ const DATE_FORMATER = new Intl.DateTimeFormat(navigator.language, {
 const languageSelector = document.getElementById("language-selector");
 const EXCEPT_TITLE_PATH = ['/WebDiakoluo/', '/WebDiakoluo/index.html'];
 
+const pageTitleElement = document.getElementById('page-title');
+
 /*
 Custom element that hold a translation.
 */
@@ -190,43 +192,34 @@ class I18NClass {
     /* update page title */
     updatePageTitle(id = null) {
         console.assert(this.translations != null, "Translations aren't loaded yet");
-        if (EXCEPT_TITLE_PATH.indexOf(document.location.pathname) < 0) {
+        if (id) {
+            this.setPageTitle(this.getTranslation(id));
+        } else if (EXCEPT_TITLE_PATH.indexOf(document.location.pathname) < 0) {
             // get the title from the translations list
             var title;
-            if (id) {
-                title = this.getTranslation(id);
-            } else {
-                let path = document.location.pathname.substring(PATH_OFFSET);
-                title = this.getTranslation('title-' + path, false);
+            let path = document.location.pathname.substring(PATH_OFFSET);
+            title = this.getTranslation('title-' + path, false);
+            if (title == undefined) {
+                title = this.getTranslation('title-' + path + 'index.html', false);
                 if (title == undefined) {
-                    title = this.getTranslation('title-' + path + 'index.html', false);
-                    if (title == undefined) {
-                        title = "";
-                        console.warn('Title for this page not found:', path)
-                    }
+                    title = "";
+                    console.warn('Title for this page not found:', path)
                 }
             }
             this.setPageTitle(title);
         } else {
-            var t = document.getElementById('page-title');
-            if (!t.textContent)
-                t.textContent = document.title;
+            pageTitleElement.textContent = document.title;
         }
     }
 
     /* set the page title */
     setPageTitle(title) {
-        var pageTitle = document.getElementById('page-title');
         if (title) {
             document.title = title + " - Diakôluô"
-            if (pageTitle) {
-                pageTitle.textContent = title;
-            }
+            pageTitleElement.textContent = title;
         } else {
             document.title = "Diakôluô";
-            if (pageTitle) {
-                pageTitle.textContent = "Diakôluô";
-            }
+            pageTitleElement.textContent = "Diakôluô";
         }
     }
 }

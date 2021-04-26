@@ -49,59 +49,59 @@
 
     --open-new-icon: url("/WebDiakoluo/res/img/open_in_new_b.svg");
     --github-icon: url("/WebDiakoluo/res/img/github.svg");
+
+    --nav-bar-content-margin: 2.7em;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-background: hsl(0, 0%, 5%);
-        --color-on-background: hsl(0, 0%, 100%);
+:root.theme-dark {
+    --color-background: hsl(0, 0%, 5%);
+    --color-on-background: hsl(0, 0%, 100%);
 
-        --color-primary-50:  hsl(173, 100%, 5%);
-        --color-primary-100: hsl(173, 95%, 10%);
-        --color-primary-200: hsl(173, 90%, 20%);
-        --color-primary-500: hsl(173, 50%, 60%);
-        --color-primary-700: hsl(173, 45%, 70%);
-        --color-primary-900: hsl(173, 40%, 85%);
+    --color-primary-50:  hsl(173, 100%, 5%);
+    --color-primary-100: hsl(173, 95%, 10%);
+    --color-primary-200: hsl(173, 90%, 20%);
+    --color-primary-500: hsl(173, 50%, 60%);
+    --color-primary-700: hsl(173, 45%, 70%);
+    --color-primary-900: hsl(173, 40%, 85%);
 
-        --color-neutral-5: hsl(0, 0%, 5%);
-        --color-neutral-30: hsl(0, 0%, 30%);
-        --color-neutral-50: hsl(0, 0%, 50%);
-        --color-neutral-70: hsl(0, 0%, 70%);
+    --color-neutral-5: hsl(0, 0%, 5%);
+    --color-neutral-30: hsl(0, 0%, 30%);
+    --color-neutral-50: hsl(0, 0%, 50%);
+    --color-neutral-70: hsl(0, 0%, 70%);
 
-        --color-on-primary: hsl(0, 0%, 100%);
+    --color-on-primary: hsl(0, 0%, 100%);
 
-        --color-surface-primary-50:  hsl(173, 26%, 7%);
-        --color-surface-primary-100: hsl(173, 44%, 10%);
-        --color-surface-primary-200: hsl(173, 55%, 12%);
-        --color-surface-primary-400: hsl(173, 58%, 14%);
-        --color-surface-primary-500: hsl(173, 64%, 16%);
-        --color-surface-primary-600: hsl(173, 67%, 19%);
-        --color-surface-primary-700: hsl(173, 70%, 21%);
-        --color-surface-primary-800: hsl(173, 72%, 24%);
-        --color-surface-primary-900: hsl(173, 73%, 26%);
+    --color-surface-primary-50:  hsl(173, 26%, 7%);
+    --color-surface-primary-100: hsl(173, 44%, 10%);
+    --color-surface-primary-200: hsl(173, 55%, 12%);
+    --color-surface-primary-400: hsl(173, 58%, 14%);
+    --color-surface-primary-500: hsl(173, 64%, 16%);
+    --color-surface-primary-600: hsl(173, 67%, 19%);
+    --color-surface-primary-700: hsl(173, 70%, 21%);
+    --color-surface-primary-800: hsl(173, 72%, 24%);
+    --color-surface-primary-900: hsl(173, 73%, 26%);
 
-        --color-on-surface-primary: hsl(0, 0%, 100%);
-        --color-surface: hsl(0, 0%, 7.5%);
-        --color-surface-elevated: hsl(0, 0%, 10%);
-        --color-on-surface: hsl(0, 0%, 100%);
+    --color-on-surface-primary: hsl(0, 0%, 100%);
+    --color-surface: hsl(0, 0%, 7.5%);
+    --color-surface-elevated: hsl(0, 0%, 10%);
+    --color-on-surface: hsl(0, 0%, 100%);
 
-        --color-error: hsl(4, 52%, 61%);
-        --color-on-error: hsl(0, 0%, 100%);
-        --color-error-variant: hsl(4, 52%, 10%);
+    --color-error: hsl(4, 52%, 61%);
+    --color-on-error: hsl(0, 0%, 100%);
+    --color-error-variant: hsl(4, 52%, 10%);
 
-        --color-footer-background: var(--color-surface-primary-100);
+    --color-footer-background: var(--color-surface-primary-100);
 
-        --color-right: hsl(145, 75%, 39%);
-        --color-skipped: hsl(12, 75%, 43%);
-        --color-wrong: hsl(0, 75%, 42%);
+    --color-right: hsl(145, 75%, 39%);
+    --color-skipped: hsl(12, 75%, 43%);
+    --color-wrong: hsl(0, 75%, 42%);
 
-        --open-new-icon: url("/WebDiakoluo/res/img/open_in_new_w.svg");
-        --github-icon: url("/WebDiakoluo/res/img/github_w.svg");
-    }
+    --open-new-icon: url("/WebDiakoluo/res/img/open_in_new_w.svg");
+    --github-icon: url("/WebDiakoluo/res/img/github_w.svg");
 }
 
 /*
-Do not work on all surfaces
+TODO Do not work on all surfaces
 ::selection, ::-moz-selection {
     background: var(--color-surface-primary-700);
     color: var(--color-on-surface-primary);
@@ -120,7 +120,7 @@ body {
     font-family: "Roboto", sans-serif;
     font-size: 1em;
     text-align: justify;
-    height: calc(100% - 2.7em);
+    height: 100%;
 }
 
 h1, h2,  h3, h4, h5, h6 {
@@ -133,12 +133,18 @@ h1.big {
     font-size: 2.5em;
 }
 
-body.nav > main {
+body.nav .page-container {
     padding: 0 1em;
+    padding-top: var(--nav-bar-content-margin);
+}
+
+body.nav .page-container > *:first-child {
+    margin-top: 0;
 }
 
 body.nav > main.expand {
-    height: calc(100% - 1em); /* remove the margin between footer and main*/
+    min-height: 100%;
+    box-sizing: border-box;
 }
 
 x-i18n {
@@ -146,11 +152,16 @@ x-i18n {
 }
 
 nav {
-    position: static;
+    display: grid;
+    position: absolute;
     background-color: var(--color-surface-primary-700);
     color: var(--color-on-surface-primary);
-
     box-shadow: 0px 3px 5px 2px var(--color-shadow);
+
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-rows: 1fr;
+    align-items: center;
+    
 
     font: 700 1em "Oswald", sans-serif;
 
@@ -169,7 +180,6 @@ nav {
 footer {
     position: sticky;
     top: 100%;
-    margin-top: 1em;
     padding: 1em .5em;
     background-color: var(--color-footer-background);
     color: var(--color-on-surface-primary);
@@ -284,7 +294,7 @@ input, textarea, select {
     transition: border-color .2s, color .2s, background-color .2s;
 }
 
-input[type='text'], input[type='number'], input[type='checkbox'], textarea, select {
+input[type='text'], input[type='number'], input[type='checkbox'], input[type='radio'], textarea, select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -312,11 +322,21 @@ input[type='number'], textarea, select {
 }
 
 input[type='checkbox'] {
+    --button-image: url('/WebDiakoluo/res/img/checkbox.svg');
+    --button-image-on: url('/WebDiakoluo/res/img/checkbox_on.svg');
+}
+
+input[type='radio'] {
+    --button-image: url('/WebDiakoluo/res/img/radio.svg');
+    --button-image-on: url('/WebDiakoluo/res/img/radio_on.svg');
+}
+
+input[type='checkbox'], input[type='radio'] {
     position: relative;
     width: 1.5em;
     height: 1.5em;
     
-    background: url('/WebDiakoluo/res/img/checkbox.svg');
+    background: var(--button-image);
     background-position: center;
     background-size: cover;
     
@@ -325,18 +345,22 @@ input[type='checkbox'] {
     vertical-align: middle;
 }
 
-input[type='checkbox'] + label {
+input[type='checkbox'] + label, input[type='radio'] + label, label.checkbox {
     cursor: pointer;
     vertical-align: middle;
 }
 
-input[type='checkbox']:checked {
-    background-image: url('/WebDiakoluo/res/img/checkbox_on.svg');
+.checkbox > x-i18n {
+    vertical-align: middle;
+}
+
+input[type='checkbox']:checked, input[type='radio']:checked {
+    background-image: var(--button-image-on);
     background-position: center;
     background-size: cover;
 }
 
-input[type='checkbox']::after {
+input[type='checkbox']::after, input[type='radio']::after {
     content: ' ';
     position: absolute;
     width: 100%;
@@ -370,7 +394,7 @@ input[type='text']:focus, input[type='number']:focus, textarea:focus {
     color: var(--color-on-background);
 }
 
-input[type='checkbox']:hover::after {
+input[type='checkbox']:hover::after, input[type='radio']:hover::after {
     opacity: .3;
 }
 
@@ -568,6 +592,13 @@ textarea.resize-vertical {
 
 .flex-center {
     align-items: center;
+}
+
+.flex-around {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .main-card {
@@ -913,6 +944,36 @@ textarea.resize-vertical {
     grid-template-columns: 1fr;
 }
 
+.nav-panel-page > .nav-panel {
+    width: 100%;
+    padding-top: var(--nav-bar-content-margin);
+    box-sizing: border-box;
+    overflow: auto;
+
+    background: var(--color-surface-primary-400);
+}
+
+.nav-panel-page .page-container {
+    padding-top: 0 !important;
+}
+
+.nav-panel-item {
+    font-size: 1.5em;
+    text-align: left;
+    margin: .1em 0;
+    padding: .3em;
+
+    cursor: pointer;
+}
+
+.nav-panel-item:hover {
+    background-color: var(--color-surface-primary-600);
+}
+
+.nav-panel-item.active {
+    background-color: var(--color-surface-primary-700);
+}
+
 .nav-bar {
     display: flex;
 
@@ -1025,28 +1086,45 @@ textarea.resize-vertical {
     background: no-repeat left url("/WebDiakoluo/res/img/wrong.svg");
 }
 
+.important-font {
+    color: var(--color-error);
+}
+
 #nav-logo {
-    display: inline-block;
+    display: grid;
+    place-items: center;
     height: 2em;
     width: 2em;
 
     cursor: pointer;
-
-    vertical-align: middle;
 }
 
 #nav-logo img {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
     height: 2em;
     width: 2em;
 
-    transition: all .3s;
+    transition: height .3s;
 }
 
-#nav-logo:hover img, #nav-logo:focus img {
-    height: 1.7em;
+#nav-settings {
+    display: grid;
+    place-items: center;
+    height: 2em;
+    width: 2em;
+
+    cursor: pointer;
+}
+
+#nav-settings img {
+    cursor: pointer;
+    height: 2em;
+    width: 2em;
+
+    transition: height .3s;
+}
+
+#nav-logo:hover img, #nav-logo:focus img, #nav-settings:hover img, #nav-settings:focus img {
+    height: 1.5em;
 }
 
 #nav-offline {
@@ -1060,10 +1138,6 @@ textarea.resize-vertical {
 }
 
 @media(min-height: 500px) {
-    body.nav > main {
-        margin-top: 2.7em;
-    }
-
     nav {
         position: fixed;
     }
@@ -1121,6 +1195,24 @@ textarea.resize-vertical {
 
     .grid-keys {
         grid-template-columns: auto 1fr;
+    }
+    
+}
+
+@media (min-width: 600px) {
+    .nav-panel-page {
+        padding-left: clamp(20ch, 20%, 50ch); /* same as .nav-panel width */
+     }
+
+    .nav-panel-page > .nav-panel {
+        position: fixed;
+        left: 0;
+        height: 100%;
+        width: clamp(20ch, 20%, 50ch);
+    }
+
+    .nav-panel-page .page-container {
+        padding-top: var(--nav-bar-content-margin) !important;
     }
 }
 
