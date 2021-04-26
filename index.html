@@ -245,24 +245,18 @@
         <div id="settings-panel-appearance" class="hide">
             <h1><x-i18n key="settings-theme"></x-i18n></h1>
             <div class="flex-around">
-                <div>
-                    <label for="settings-theme-light" class="checkbox">
-                        <input type="radio" id="settings-theme-light" name="theme" value="light">
-                        <x-i18n key="settings-theme-light"></x-i18n>
-                    </label>
-                </div>
-                <div>
-                    <label for="settings-theme-auto" class="checkbox">
-                        <input type="radio" id="settings-theme-auto" name="theme" value="auto">
-                        <x-i18n key="settings-theme-auto"></x-i18n>
-                    </label>
-                </div>
-                <div>
-                    <label for="settings-theme-dark" class="checkbox">
-                        <input type="radio" id="settings-theme-dark" name="theme" value="dark">
-                        <x-i18n key="settings-theme-dark"></x-i18n>
-                    </label>
-                </div>
+                <label id="settings-theme-light-label" for="settings-theme-light" class="checkbox settings-theme-label">
+                    <input type="radio" id="settings-theme-light" name="theme" value="light">
+                    <x-i18n key="settings-theme-light"></x-i18n>
+                </label>
+                <label id="settings-theme-auto-label" for="settings-theme-auto" class="checkbox settings-theme-label">
+                    <input type="radio" id="settings-theme-auto" name="theme" value="auto">
+                    <x-i18n key="settings-theme-auto"></x-i18n>
+                </label>
+                <label id="settings-theme-dark-label" for="settings-theme-dark" class="checkbox settings-theme-label">
+                    <input type="radio" id="settings-theme-dark" name="theme" value="dark">
+                    <x-i18n key="settings-theme-dark"></x-i18n>
+                </label>
             </div>
         </div>
         <!-- TODO <div id="settings-panel-sync" class="hide">

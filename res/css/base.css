@@ -350,6 +350,10 @@ input[type='checkbox'] + label, input[type='radio'] + label, label.checkbox {
     vertical-align: middle;
 }
 
+.checkbox > x-i18n {
+    vertical-align: middle;
+}
+
 input[type='checkbox']:checked, input[type='radio']:checked {
     background-image: var(--button-image-on);
     background-position: center;
