@@ -1,14 +1,6 @@
 # Diakôluô Synchronise Protocol - Version 1.0 WIP
 It is the definition of the protocol that is used to synchronise test in multiple browser and to share it to multiple users.
 
-
-# Requirements
-## Server
-The server must allows CORS of the Diakôluô origin (antoninloubiere.github.io), or if the app is hosted by the same server, it will be optional.
-
-## Valid username
-All username that can be use in an URL could be used, so username should not contain « / ». And the « edit » username is reserved and must not be used.
-
 # Definitions
 
 ## i18n string
@@ -30,6 +22,16 @@ The customFieldObject inherit from [FieldObject](#FieldObject).
  - label: the [i18n string](#i18n-string) that represent the label to show to the user
  - type: the type of field: string | integer
 
+# Requirements
+## Server
+The server must allows CORS of the Diakôluô origin (antoninloubiere.github.io), or if the app is hosted by the same server, it will be optional.
+
+## Valid username
+All username that can be use in an URL could be used, so username should not contain « / ». And the « edit » username is reserved and must not be used.
+
+## Valid tests id
+All id are valid, even if they contains a « / » character but they cannot be « new » or start with « new/ ».
+For example, `<random-string>` or `<user>/<random-string>` could be valid ids. A base64 string work.
 
 # API Description
 The description of the API and the different URL to use. The root used in this document: "/", represents the path of the synchronise server, for example if the API is defined at this URL: www.example.com/api/dkl/, "/example/" will mean: www.example.com/api/dkl/example/. The user should be able to set the root of a synchronise server.
@@ -46,10 +48,16 @@ Parameters:
  - password: the password of the user
 
 #### Response:
-If the login is correct: the server should responds with a success status code like [200](#200---OK) or [204](#204---No-content) and should set a session cookies.
-If the response content is "Sign in required" (case insensitive), the client should start the sign in process: see [sign in](#Sign-in)
+If the login is correct: the server should respond with a success status code like [200](#200---OK) or [204](#204---No-content) and should set a session cookies.
+If the response content is "SING IN REQUIRED" (case insensitive), the client should start the sign in process: see [sign in](#Sign-in)
 
-If the login is incorrect: the server should responds with a status code [401](#401---Unauthorized).
+If the login is incorrect: the server should respond with a status code [401](#401---Unauthorized).
+
+#### Request:
+GET `/logout`
+Logout.
+#### Response:
+The server should invalidate the session id and remove it from the client.
 
 ### Sign in
 #### Request
@@ -61,9 +69,9 @@ Parameters (optionals):
  - password: the password of the user if an authentication is required
 
 #### Response
-The server should responds with a JSON object that describe the form to sign in. If the authentication failed, the server may respond with a [401](#401---Unauthorized) error.
+The server should respond with a JSON object that describe the form to sign in. If the authentication failed, the server may respond with a [401](#401---Unauthorized) error.
 
-The JSON object that the server should responds:
+The JSON object that the server should respond:
 - username: the username of the user ([FieldObject](#FieldObject))
 - password: the new password of the user ([FieldObject](#FieldObject))
 - name: the name of the user ([FieldObject](#FieldObject))
@@ -106,7 +114,7 @@ Return a JSON object with informations for the client:
 
 If it is correct, the server should respond with a JSON object that represent the informations of the user, like the [user informations](#User-informations) request. But the field form-correct: true should be added.
 
-If it is incorrect, malformed, it should responds with a JSON objects:
+If it is incorrect, malformed, it should respond with a JSON objects:
  - form-correct: should be set to false
  - errors: an array of JSON objects that indicate all malformed fields:
     - name: the name of the fields that have an error
@@ -152,6 +160,98 @@ DELETE `/user/<user>` to delete a specific user
 
 #### Response
 The server should respond with the corresponding result code.
+
+## Tests API
+There is some [test id restrictions](#Valid-tests-id).
+
+### Get tests
+#### Request
+GET `/test` get the test which the user has access.
+
+#### Response
+The server should respond with a JSON object:
+ - tests: an array of test id that the user owns
+ - user-share: a JSON object that hold tests share with the user, keys are usernames, and value list of test id that are share with him.
+ - group-share: a JSON object that hold tests share with the user, keys are groups id, and value list of test id that are share with him.
+ - link-share: list of tests id share by a li   nk
+
+### Get a test
+#### Request
+
+GET `/test/<id>` get the test at the id.
+
+Parameters:
+ - last-modification: the date of the last modification (unix timestamp)
+#### Response
+The server should respond a diakôluô file like the export button does in the application. Or responds an error respond status. If the test haven't been changed since the last modification date, the server should respond with 304 (Not Modified).
+
+### Get test info
+#### Request
+GET `/test/<id>/info` get informations about the test, like owner, share informations for the current user
+#### Response
+The server should respond with a JSON object
+ - owner: the owner username
+ - share: how the test is [shared](#Share-a-test) for the user view | edit | all
+
+### Edit a test
+#### Request
+POST `/test/<id>` edit the test at the id.
+
+The form must be send using the `multipart/form-data` encode type.
+
+Parameters:
+ - last-modification: the last modification before this, to verify that there isn't a conflict (unix timestamp) 
+ - override: say if the user allow: (boolean, optional, default value: false)
+ - test: the test to set
+
+#### Response
+The server should respond with a result code: [200](#200---OK) or an error. If there is a conflict and the override fields is set to true, the server could respond with "CONFLICTS" (case insensitive) the client should show a warning dialogue.
+
+### Delete a test
+#### Request
+DELETE `/test/<id>` delete the test at the id
+
+#### Response
+The server should respond with the appropriate status code.
+
+### Share a test
+#### Request
+GET `/test/<id>/share` get how a test could be share.
+
+#### Response
+The server should respond with a JSON object:
+ - user-perms: if the user can share it with other internal users, values: none | view | edit | all
+ - groups-perms: if the user can share it with other groups, values : none | view | edit | all
+ - links-perms: if the user can share it with a link, values: none  | view | edit | all
+ - users: an array of rules: rules are JSON objects:
+   - username: the username of the user with perms
+   - perms: the perms of this user
+ - groups: an array of rules: rules are JSON objects:
+   - id: the id of the group
+   - perms: the perms of the group
+ - link: the perms associated with the persons who have the link
+
+None: mean no share, View: only for view purposes, Edit: for view and edit purposes: All: Can view, edit, and manage parameters about the test (like sharing). Only the owner should be able to delete it.
+
+Only persons that have the « all » permissions could access that (including the owner).
+
+## Share a test apply
+#### Request
+POST `test/<id>/share` set a test share options
+
+Parameters:
+ - user: an array of rules: rules are JSON objects:
+   - username: the username of the user
+   - perms: the perms for the user
+ - group: an array of rules: rules are JSON objects:
+   - id: the id of the group
+   - perms: the perms for the group
+ - link: the perms for the people who have the link
+
+ This is not incremental, if you want to add a user, you should also send all the previous perms !
+
+ #### Response
+ The server should respond with the appropriate result code. If it is a success, the server should respond with the [share infos](#Share-a-test).
 
 # Response codes
 When API requests are made the server may responds with some status codes, that the client should handle.
