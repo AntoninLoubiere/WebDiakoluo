@@ -1,2 +1,5 @@
 *.~lock*
 __pycache__/
+syncServer/node_modules/
+syncServer/package-lock.json
+syncServer/db.sqlite3

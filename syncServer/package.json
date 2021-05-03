@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "password-hash": "^1.2.2",
+    "sqlite3": "^5.0.2"
+  },
+  "scripts": {
+    "db_initialise": "node ./scripts/db_initialise.mjs",
+    "custom": "node ./scripts/custom_code.mjs"
+  }
+}
