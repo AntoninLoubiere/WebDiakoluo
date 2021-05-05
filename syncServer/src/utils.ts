@@ -1,3 +1,3 @@
-import { urlencoded } from "body-parser";
+import { json, urlencoded } from "body-parser";
 
-export const BODY_ENCODED = urlencoded({ extended: false });
+export const BODY_JSON = json();

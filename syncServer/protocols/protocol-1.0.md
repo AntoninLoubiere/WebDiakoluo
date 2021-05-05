@@ -26,6 +26,9 @@ The customFieldObject inherit from [FieldObject](#FieldObject).
 ## Server
 The server must allows CORS of the Diakôluô origin (antoninloubiere.github.io), or if the app is hosted by the same server, it will be optional.
 
+## Forms
+Forms must be send with JSON
+
 ## Valid username
 All username that can be use in an URL could be used, so username should not contain « / ». And the « edit » username is reserved and must not be used.
 
@@ -112,14 +115,6 @@ Return a JSON object with informations for the client:
    - label: the label to show ([i18n string](#i18n-string))
    - value: the value to show
 
-If it is correct, the server should respond with a JSON object that represent the informations of the user, like the [user informations](#User-informations) request. But the field form-correct: true should be added.
-
-If it is incorrect, malformed, it should respond with a JSON objects:
- - form-correct: should be set to false
- - errors: an array of JSON objects that indicate all malformed fields:
-    - name: the name of the fields that have an error
-    - reason: the reason of the error ([i18n string](#i18n-string))
-
 ### Edit User
 #### Request
 GET `/user/edit` to edit current user or
@@ -150,7 +145,13 @@ Parameters:
    - value: the value that the user set
 
 #### Response
-The server should respond with the corresponding result code (200, 204, 401, 403...).
+If it is correct, the server should respond with a JSON object that represent the informations of the user, like the [user informations](#User-informations) request. But the field form-correct: true should be added.
+
+If it is incorrect, malformed, it should respond with a JSON objects:
+ - form-correct: should be set to false
+ - errors: an array of JSON objects that indicate all malformed fields:
+    - name: the name of the fields that have an error
+    - reason: the reason of the error ([i18n string](#i18n-string))
 
 ### Delete user
 #### Request
@@ -171,9 +172,13 @@ GET `/test` get the test which the user has access.
 #### Response
 The server should respond with a JSON object:
  - tests: an array of test id that the user owns
- - user-share: a JSON object that hold tests share with the user, keys are usernames, and value list of test id that are share with him.
- - group-share: a JSON object that hold tests share with the user, keys are groups id, and value list of test id that are share with him.
- - link-share: list of tests id share by a li   nk
+ - user-share: a JSON list of objects that hold tests share with the user JSON objects:
+    - usernames: the username
+    - tests: list of test id that are shared with him.
+ - group-share: a JSON list of object that hold tests share with the user: JSON objects:
+    - group: the name of the group
+    - tests: list of test id that are shared with the group
+ - link-share: list of tests id share by a link
 
 ### Get a test
 #### Request
@@ -196,8 +201,6 @@ The server should respond with a JSON object
 ### Edit a test
 #### Request
 POST `/test/<id>` edit the test at the id.
-
-The form must be send using the `multipart/form-data` encode type.
 
 Parameters:
  - last-modification: the last modification before this, to verify that there isn't a conflict (unix timestamp) 

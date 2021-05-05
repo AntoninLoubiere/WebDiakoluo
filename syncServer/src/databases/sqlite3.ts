@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 import { hashPass, verifyPass } from "../password-hasher"
-import { User, Session } from "../types";
+import { User, Session, Group } from "../types";
 
 export declare type SQLCallback = (this: sqlite3.Statement, err: Error | null, row: any) => void 
 
@@ -42,7 +42,8 @@ export class DatabaseManager extends sqlite3.Database {
             )`)
             this.run(`CREATE TABLE "groups" (
                 "group_id"	INTEGER NOT NULL,
-                "name"	varchar(50) NOT NULL UNIQUE,
+                "name"	varchar(32) NOT NULL UNIQUE,
+                "long_name" varchar(50) NOT NULL,
                 PRIMARY KEY("group_id" AUTOINCREMENT)
             )`)
             this.run(`CREATE INDEX "groups_name" ON "groups" (
@@ -139,12 +140,7 @@ export class DatabaseManager extends sqlite3.Database {
      * @return the user object
      */
      async getUser(username: string): Promise<User> {
-        var [error, row] = await this.aGet('SELECT username, name, flags, permissions FROM users WHERE username=?', username);
-        if (error) {
-            return;
-        } else {
-            return row;
-        }
+        return (await this.aGet('SELECT username, name, flags, permissions FROM users WHERE username=?', username))[1];
     }
     
     /**
@@ -173,12 +169,7 @@ export class DatabaseManager extends sqlite3.Database {
      * @return the user object
      */
      async getUserFromId(id: number): Promise<User> {
-        var [error, row] = await this.aGet('SELECT user_id, username, name, flags, permissions FROM users WHERE user_id=?', id);
-        if (error) {
-            return;
-        } else {
-            return row;
-        }
+        return (await this.aGet('SELECT user_id, username, name, flags, permissions FROM users WHERE user_id=?', id))[1];
     }
 
     /**
@@ -187,7 +178,10 @@ export class DatabaseManager extends sqlite3.Database {
      * @return if there is an error
      */
      async addSession(id: string, user_id: number, maxTime: number) {
-        return this.aRun('INSERT INTO sessions("id", "user", "expire_date") VALUES (?,?,?)', [id, user_id, Date.now() + maxTime]);
+        return this.aRun(
+            'INSERT INTO sessions("id", "user", "expire_date") VALUES (?,?,?)', 
+            [id, user_id, Date.now() + maxTime]
+        );
     }
 
     /**
@@ -196,12 +190,7 @@ export class DatabaseManager extends sqlite3.Database {
      * @return the session
      */
      async getSession(id: string): Promise<Session> {
-        var [error, row] = await this.aGet('SELECT id, user, expire_date FROM sessions WHERE id=?', id);
-        if (error) {
-            return;
-        } else {
-            return row;
-        }
+        return (await this.aGet('SELECT id, user, expire_date FROM sessions WHERE id=?', id))[1];
     }
 
     /**
@@ -222,14 +211,58 @@ export class DatabaseManager extends sqlite3.Database {
     }
 
     /**
+     * Get groups of an user
+     * @param user_id the user id of the user 
+     */
+    async getGroups(user_id: number): Promise<Group[]> {
+        return (await this.aAll(`SELECT groups.group_id, groups.name, groups.long_name FROM users_groups_link
+            INNER JOIN groups ON users_groups_link."group"=groups.group_id 
+            WHERE users_groups_link.user=?;
+        `, [user_id]))[1];
+    }
+
+    /**
+     * Get a group from the name
+     * @param name The name of the group
+     */
+    async getGroup(name: string): Promise<Group> {
+        return (await this.aGet('SELECT group_id, name, long_name FROM groups WHERE name=?', [name]))[1];
+    }
+
+    /**
+     * Get users name and username that are in the group.
+     * @param id the id of the groups
+     */
+    async getGroupUsers(id: number): Promise<User[]> {
+        return (await this.aAll(`SELECT users.username, users.name FROM users_groups_link 
+            INNER JOIN users ON users_groups_link.user=users.user_id 
+            WHERE users_groups_link."group"=?`, 
+        [id]))[1];
+    }
+
+    /**
      * Make a SQL query and return the result
      * @param query the query to do
      * @param params params to escape
      * @returns a promise that resolve with an error or null if it is a success and the row.
      */
-    async aGet(query: string, params?: any): Promise<[Error, any]> {
+     async aGet(query: string, params?: any): Promise<[Error, any]> {
         return new Promise(resolve => {
             super.get(query, params, (error, row) => {
+                resolve([error, row]);
+            });
+        });
+    }
+
+    /**
+     * Make a SQL query and return the result
+     * @param query the query to do
+     * @param params params to escape
+     * @returns a promise that resolve with an error or null if it is a success and the row.
+     */
+     async aAll(query: string, params?: any): Promise<[Error, any[]]> {
+        return new Promise(resolve => {
+            super.all(query, params, (error, row) => {
                 resolve([error, row]);
             });
         });

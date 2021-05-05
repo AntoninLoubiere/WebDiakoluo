@@ -11,3 +11,9 @@ export interface Session {
     user: number,
     expire_date: number
 }
+
+export interface Group {
+    group_id: number,
+    name: string,
+    long_name: string,
+}
