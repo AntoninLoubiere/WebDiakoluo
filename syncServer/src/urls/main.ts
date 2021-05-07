@@ -75,6 +75,11 @@ MAINRouter.get('/user/:id', async (req, res) => {
  * Get informations about a specific group
  */
  MAINRouter.get('/group/:id',  async (req, res) => {
+    if (req.params.id === 'none') {
+        res.sendStatus(404);
+        return;
+    }
+    
     var group = await DATABASE.getGroup(req.params.id);
     if (group) {
         var usersPromise = DATABASE.getGroupUsers(group.group_id);

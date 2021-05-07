@@ -82,12 +82,12 @@ export class DatabaseManager extends sqlite3.Database {
             this.run(`CREATE TABLE "shares" (
                 "test"	INTEGER NOT NULL,
                 "user"	INTEGER NOT NULL,
-                "group"	INTEGER,
+                "group"	INTEGER NOT NULL,
                 "perms"	INTEGER NOT NULL,
                 FOREIGN KEY("test") REFERENCES "tests"("test_id") ON DELETE CASCADE,
                 FOREIGN KEY("group") REFERENCES "groups"("group_id") ON DELETE CASCADE,
                 FOREIGN KEY("user") REFERENCES "users"("user_id") ON DELETE CASCADE
-            )`)
+            )`) // group could be 0 (none group)
             this.run(`CREATE UNIQUE INDEX "shares_user" ON "shares" (
                 "user",
                 "test",
@@ -141,6 +141,7 @@ export class DatabaseManager extends sqlite3.Database {
                 "test",
                 "group"
             )`);
+            this.run('INSERT INTO groups(group_id, name, long_name) VALUES (0, "none", "none")');
         });
     }
 
@@ -237,7 +238,7 @@ export class DatabaseManager extends sqlite3.Database {
     async getGroups(user_id: number): Promise<Group[]> {
         return (await this.aAll(`SELECT groups.group_id, groups.name, groups.long_name FROM users_groups_link
             INNER JOIN groups ON users_groups_link."group"=groups.group_id 
-            WHERE users_groups_link.user=?;
+            WHERE users_groups_link.user=?
         `, [user_id]))[1];
     }
 
@@ -269,7 +270,7 @@ export class DatabaseManager extends sqlite3.Database {
     }
 
     /**
-     * Get a test and th owner.
+     * Get a test and the owner.
      * @param id the id of the test
      */
     async getTestWithOwner(id: string): Promise<Test & User> {
@@ -297,7 +298,7 @@ export class DatabaseManager extends sqlite3.Database {
     async getTestUsers(test_id: number): Promise<ShareUserPerms[]> {
         return (await this.aAll(`SELECT shares.perms, users.username, users.name FROM shares 
         INNER JOIN users ON shares.user=users.user_id
-        WHERE shares.test=? AND shares."group" IS NULL`, [test_id]))[1]
+        WHERE shares.test=? AND shares."group"=0`, [test_id]))[1]
     }
 
     /**
@@ -335,10 +336,88 @@ export class DatabaseManager extends sqlite3.Database {
     /**
      * Delete a test.
      * @param id the id of the test to delete
-     * @returns id there is an error
+     * @returns if there is an error
      */
     async deleteTest(id: string) {
         return await this.aRun(`DELETE FROM tests WHERE id=?`, [id]);
+    }
+
+    /**
+     * Set links perms
+     * @param id the test id to modify
+     * @param perms the permissions to set
+     * @returns if there is an error
+     */
+    async setShareLinksPerms(id: string, perms: number) {
+        return await this.aRun(`UPDATE tests SET share_link=? WHERE id=?`, [perms, id]);
+    }
+
+    /**
+     * Set the user perms for a shared test
+     * @param id the id of the test
+     * @param username the username of the user to set
+     * @param perms the perms to set
+     * @returns if there is an error
+     */
+    async setShareUserPerms(test_id: number, username: string, perms: number) {
+        return await this.aRun(`INSERT INTO shares(test, user, "group", perms)
+        SELECT ?, user_id, 0, ? FROM users WHERE username=?
+        ON CONFLICT (test, user, "group") DO UPDATE SET perms=?
+        `, [test_id, perms, username, perms])
+    }
+
+    /**
+     * Set the group perms for a shared test
+     * @param test_id the id of the test
+     * @param owner the id of the owner
+     * @param group_name the name of the group to share
+     * @param perms the perms to set
+     * @returns if there is an error
+     */
+    async setShareGroupPerms(test_id: number, owner: number, group_name: string, perms: number) {
+        var queryA = this.aRun(`INSERT INTO shares(test, user, "group", perms)
+        SELECT ?, user, "group", ? FROM users_groups_link WHERE "group"=(
+            SELECT group_id FROM groups WHERE name=?
+        ) AND user!=?
+        ON CONFLICT (test, user, "group") DO UPDATE SET perms=?;
+        `, [test_id, perms, group_name, owner, perms]);
+        var queryB = this.aRun(`INSERT INTO shares_groups(test, "group", perms) 
+        SELECT ?, group_id, ? FROM groups WHERE name=?
+        ON CONFLICT (test, "group") DO UPDATE SET perms=?`, [test_id, perms, group_name, perms]);
+        var eA = await queryA;
+        var eB = await queryB;
+        return eA || eB;
+    }
+
+    /**
+     * Delete the user perms for a shared test
+     * @param id the id of the test
+     * @param username the username of the user to set
+     * @returns if there is an error
+     */
+     async deleteShareUserPerms(test_id: number, username: string) {
+        return await this.aRun(`DELETE FROM shares WHERE user=(
+            SELECT user_id FROM users WHERE test=? AND "group"=0 AND username=?
+        )`, [test_id, username])
+    }
+
+    /**
+     * Delete the group perms for a shared test
+     * @param test_id the id of the test
+     * @param owner the id of the owner
+     * @param group_name the name of the group to share
+     * @returns if there is an error
+     */
+    async deleteShareGroupPerms(test_id: number, group_name: string) {
+        var queryA = this.aRun(`DELETE FROM shares WHERE test=? AND "group"=(
+            SELECT group_id FROM groups WHERE name=?
+        )`, [test_id, group_name]);
+        var queryB = this.aRun(`DELETE FROM shares_groups WHERE test=? AND "group"=(
+            SELECT group_id FROM groups WHERE name=?
+        )`, [test_id, group_name]);
+        var eA = await queryA;
+        var eB = await queryB;
+        return eA || eB;
     }
 
     /**
@@ -350,6 +429,7 @@ export class DatabaseManager extends sqlite3.Database {
     async aGet(query: string, params?: any): Promise<[Error, any]> {
         return new Promise(resolve => {
             super.get(query, params, (error, row) => {
+                if (error) console.error('[DB]', error.name, error.message, error.stack);
                 resolve([error, row]);
             });
         });
@@ -364,6 +444,7 @@ export class DatabaseManager extends sqlite3.Database {
     async aAll(query: string, params?: any): Promise<[Error, any[]]> {
         return new Promise(resolve => {
             super.all(query, params, (error, row) => {
+                if (error) console.error('[DB]', error.name, error.message, error.stack);
                 resolve([error, row]);
             });
         });
@@ -378,6 +459,7 @@ export class DatabaseManager extends sqlite3.Database {
     async aRun(query: string, params?: any): Promise<Error> {
         return new Promise(resolve => {
             super.get(query, params, error => {
+                if (error) console.error('[DB]', error.name, error.message, error.stack);
                 resolve(error);
             });
         });

@@ -6,7 +6,7 @@ import { Test, User } from "./types";
 
 export const PERMS_VIEW = 1
 export const PERMS_EDIT = 2
-export const PERMS_ALL = 3
+export const PERMS_SHARE = 3
 export const PERMS_OWNER = 4
 
 export type Permission = 0 | 1 | 2 | 3 | 4
@@ -72,7 +72,6 @@ export async function setTest(id: string, modificationDate: number, testData: an
 
 export async function deleteTest(id: string) {
     var err = await DATABASE.deleteTest(id);
-    console.log(err);
     if (!err) {
         try {
             await promises.unlink(getTestFilePath(id));
@@ -120,7 +119,7 @@ export async function getTestPermission(test: Test, user: User): Promise<number>
     if (user) {
         if (user.user_id === test.owner || userHasPerm(user, PERMS_ADMIN)) return PERMS_OWNER;
         var perms = await DATABASE.getTestUserPerms(test.test_id, user.user_id);
-        if (perms[0]?.group == null) {
+        if (!perms[0].group) {
             const currentPerm = perms[0]?.perms ?? 0;
             if (currentPerm > perm)
                 perm = currentPerm;
@@ -148,8 +147,8 @@ export async function getTestPermission(test: Test, user: User): Promise<number>
         case PERMS_EDIT:
             return 'edit';
 
-        case PERMS_ALL:
-            return 'all';
+        case PERMS_SHARE:
+            return 'share';
 
         case PERMS_OWNER:
             return 'owner';
@@ -166,19 +165,22 @@ export async function getTestPermission(test: Test, user: User): Promise<number>
  */
 export function parsePerm(perm: string): number {
     switch (perm) {
+        case 'none':
+            return 0;
+        
         case 'view':
             return PERMS_VIEW;
 
-        case 'write':
+        case 'edit':
             return PERMS_EDIT;
 
-        case 'all':
-            return PERMS_ALL;
+        case 'share':
+            return PERMS_SHARE;
 
         case 'owner':
             return PERMS_OWNER;
 
         default:
-            return 0;
+            return -1;
     }
 }

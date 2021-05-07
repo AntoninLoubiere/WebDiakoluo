@@ -188,7 +188,7 @@ GET `/test/<id>` get the test at the id.
 Parameters:
  - last-modification: the date of the last modification (unix timestamp)
 #### Response
-The server should respond a diakôluô file like the export button does in the application. Or responds an error respond status. If the test haven't been changed since the last modification date, the server should respond with 304 (Not Modified).
+The server should respond a diakôluô file like the export button does in the application. Or responds an error respond status. If the test haven't been changed since the last modification date, the server should respond with 204 (No Content).
 
 ### Get test info
 #### Request
@@ -196,11 +196,13 @@ GET `/test/<id>/info` get informations about the test, like owner, share informa
 #### Response
 The server should respond with a JSON object
  - owner: the owner username
- - share: how the test is [shared](#Share-a-test) for the user view | edit | all | owner
+ - share: how the test is [shared](#Share-a-test) for the user view | edit | share | owner
 
 ### Edit a test
 #### Request
 POST `/test/<id>` edit the test at the id.
+
+POST `/test/new` add a new test and get the id of the new test
 
 Parameters:
  - last-modification: the last modification before this, to verify that there isn't a conflict (unix timestamp) 
@@ -209,7 +211,7 @@ Parameters:
  - test: the test to set
 
 #### Response
-The server should respond with a result code: [200](#200---OK) or an error. If there is a conflict and the override fields is set to true, the server could respond with "CONFLICTS" (case insensitive) the client should show a warning dialogue.
+The server should respond with a result code: [200](#200---OK) or an error. If there is a conflict and the override fields is set to true, the server could respond with "CONFLICTS" (case insensitive) the client should show a warning dialogue. The server should respond the test id..
 
 ### Delete a test
 #### Request
@@ -238,22 +240,17 @@ Only persons that have the « all » permissions could access that (including th
 
 ### Modify share
 #### Request
-POST `test/<id>/share` set a test share options
+POST `test/<id>/share/` add, edit or delete a share
 
 Parameters:
- - user: an array of rules: rules are JSON objects:
-   - username: the username of the user
-   - perms: the perms for the user
- - group: an array of rules: rules are JSON objects:
-   - id: the id of the group
-   - perms: the perms for the group
- - link: the perms for the people who have the link
-
- This is not incremental, if you want to add a user, you should also send all the previous perms !
+ - action: the action to do: 'add' | 'edit' | 'delete'
+ - type: the type of share to do: 'user' | 'group' | 'link' (note that link only accept 'edit' action)
+ - name: the username or the name of the group (useless for link)
+ - perms: the permissions to set (useless for the delete action)
 
  #### Response
- The server should respond with the appropriate result code. If it is a success, the server should respond with the [share infos](#Share-a-test).
-
+ The server should respond with the appropriate result code.
+ 
 # Response codes
 When API requests are made the server may responds with some status codes, that the client should handle.
 

@@ -1,9 +1,9 @@
 import { Request, RequestHandler, Response, Router } from "express";
 import { DATABASE } from "../config";
 import { generateHash } from "../password-hasher";
-import { PERMS_CREATE_TEST as PERMS_CREATE_TEST, userHasFlag, userHasPerm } from "../permissions";
+import { PERMS_CREATE_TEST, userHasFlag, userHasPerm } from "../permissions";
 import { sessionRequired, useSession } from "../sessions";
-import { deleteTest, getTestPermission, haveTestPermission, Permission, PERMS_EDIT, PERMS_OWNER, PERMS_VIEW, respondTest, setTest, stringifyPerm } from "../test-manager";
+import { deleteTest, getTestPermission, haveTestPermission, Permission, PERMS_SHARE, PERMS_EDIT, PERMS_OWNER, PERMS_VIEW, respondTest, setTest, stringifyPerm, parsePerm } from "../test-manager";
 import { Test } from "../types";
 import { BODY_JSON } from "../utils";
 
@@ -55,7 +55,7 @@ TESTRouter.get('/:id', useSession, getTestWithPerms(PERMS_VIEW), async (req, res
     if (Number(req.query.last_modification) || 0 < res.locals.test.last_modification) {
         respondTest(req.params.id, res);
     } else {
-        res.sendStatus(304)
+        res.sendStatus(204)
     }
 });
 
@@ -126,3 +126,55 @@ TESTRouter.get('/:id/share', useSession, getTestWithPerms(PERMS_VIEW), async (re
 
     res.json(data);
 });
+
+TESTRouter.post('/:id/share', useSession, getTestWithPerms(PERMS_SHARE), BODY_JSON, async (req, res) => {
+    const type = req.body.type;
+    const perms = parsePerm(req.body.perms);
+    if (type !== 'user' && type !== 'group' && type !== 'link') {
+        res.sendStatus(400);
+        return;
+    }
+
+    if (type === 'link') {
+        if (perms < 0) {
+            res.sendStatus(400);
+            return;
+        }
+
+        var e = await DATABASE.setShareLinksPerms(req.params.id, perms);
+        res.sendStatus(e ? 500 : 204);
+        return;
+    }
+    
+    const action = perms === 0 ? 'delete' : req.body.action;
+    const name = req.body.name;
+    if ((action !== 'add' && action !== 'edit' && action !== 'delete') || (type === 'group' && name === 'none')) {
+        res.sendStatus(400);
+        return;
+    }
+
+    if (action === 'add' || action === 'edit') {
+        if (perms < 0) {
+            res.sendStatus(400);
+            return;
+        }
+
+        if (type === 'user') {
+            var e = await DATABASE.setShareUserPerms(res.locals.test.test_id, name, perms);
+            res.sendStatus(e ? 500 : 204);
+        } else { // must be 'group'
+            var e = await DATABASE.setShareGroupPerms(res.locals.test.test_id, res.locals.test.owner, name, perms);
+            res.sendStatus(e ? 500 : 204);
+        }
+        return;
+    } else { // action = 'delete'
+        if (type === 'user') {
+            var e = await DATABASE.deleteShareUserPerms(res.locals.test.test_id, name);
+            res.sendStatus(e ? 500 : 204);
+        } else { // must be 'group'
+            var e = await DATABASE.deleteShareGroupPerms(res.locals.test.test_id, name);
+            res.sendStatus(e ? 500 : 204);
+        }
+        return;
+    }
+})
