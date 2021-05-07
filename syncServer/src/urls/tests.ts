@@ -1,7 +1,9 @@
 import { Request, RequestHandler, Response, Router } from "express";
 import { DATABASE } from "../config";
-import { useSession } from "../sessions";
-import { getTestPermission, haveTestPermission, Permission, PERMS_EDIT, PERMS_OWNER, PERMS_VIEW, respondTest, setTest, stringifyPerm } from "../test-manager";
+import { generateHash } from "../password-hasher";
+import { PERMS_CREATE_TEST as PERMS_CREATE_TEST, userHasFlag, userHasPerm } from "../permissions";
+import { sessionRequired, useSession } from "../sessions";
+import { deleteTest, getTestPermission, haveTestPermission, Permission, PERMS_EDIT, PERMS_OWNER, PERMS_VIEW, respondTest, setTest, stringifyPerm } from "../test-manager";
 import { Test } from "../types";
 import { BODY_JSON } from "../utils";
 
@@ -37,6 +39,18 @@ function getTestWithPerms(perms: Permission): RequestHandler {
     return callback;
 }
 
+TESTRouter.post('/new', sessionRequired, BODY_JSON, async (req, res) => {
+    if (userHasPerm(res.locals.user, PERMS_CREATE_TEST)) {
+        var id = generateHash(10);
+        await DATABASE.createNewTest(id, res.locals.user);
+        res.locals.test = await DATABASE.getTest(id);
+        req.params.id = id;
+        await editTestHandler(req, res); // move the request to the handler of test edit.
+    } else {
+        res.sendStatus(403);
+    }
+});
+
 TESTRouter.get('/:id', useSession, getTestWithPerms(PERMS_VIEW), async (req, res) => {
     if (Number(req.query.last_modification) || 0 < res.locals.test.last_modification) {
         respondTest(req.params.id, res);
@@ -45,7 +59,8 @@ TESTRouter.get('/:id', useSession, getTestWithPerms(PERMS_VIEW), async (req, res
     }
 });
 
-TESTRouter.post('/:id', useSession, BODY_JSON, getTestWithPerms(PERMS_EDIT), async (req, res) => {
+TESTRouter.post('/:id', useSession, getTestWithPerms(PERMS_EDIT), BODY_JSON, editTestHandler);
+async function editTestHandler(req, res) {
     const last_modification = Number(req.body["last-modification"]);
     const modified = req.body["modified"];
     const override = req.body.override;
@@ -54,7 +69,7 @@ TESTRouter.post('/:id', useSession, BODY_JSON, getTestWithPerms(PERMS_EDIT), asy
     if (last_modification && modified && testData) {
         if (last_modification >= test.last_modification || override) {
             if (await setTest(req.params.id, modified, testData)) {
-                res.sendStatus(204);
+                res.send(test.id);
             } else {
                 res.sendStatus(500);
             }
@@ -64,6 +79,10 @@ TESTRouter.post('/:id', useSession, BODY_JSON, getTestWithPerms(PERMS_EDIT), asy
     } else {
         res.sendStatus(400);
     }
+}
+
+TESTRouter.delete('/:id', useSession, getTestWithPerms(PERMS_OWNER), BODY_JSON, async (req, res) => {
+    res.sendStatus(await deleteTest(req.params.id) ? 500 : 204);
 });
 
 TESTRouter.get('/:id/info', useSession, async (req, res) => {

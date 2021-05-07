@@ -35,6 +35,8 @@ export async function useSession(request: Request, response: Response, next) {
  * @returns if there is a session
  */
 export async function setupSession(request: Request, response: Response): Promise<boolean> {
+    if (response.locals.authenticated !== undefined) return response.locals.authenticated;
+    
     var session = await DATABASE.getSession(request.cookies.session);
     if (session) {
         if (session.expire_date > Date.now()) {

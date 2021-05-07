@@ -26,9 +26,13 @@ function getTestFilePath(id: string) {
  * @param response the response to set
  */
 export function respondTest(id: string, response: Response) {
-    response.sendFile(getTestFilePath(id), {root: './'}, err => {
+    response.sendFile(getTestFilePath(id), {root: './'}, (err: any) => {
         if (err) {
-            console.error(err);
+            if (err.code === 'ENOENT') {
+                console.error('Get test, test not found', id);
+            } else {
+                console.error(err);
+            }
             if (!response.headersSent) response.sendStatus(404);
         }
     });
@@ -40,7 +44,7 @@ export function respondTest(id: string, response: Response) {
  * @param data the data to write
  * @returns a promise that return the error or null
  */
-async function asyncWriteTest(path: string, data: string): Promise<boolean> {
+async function asyncWriteTest(path: string, data: string): Promise<NodeJS.ErrnoException> {
     try {
         await promises.writeFile(path, data);
         return;
@@ -64,6 +68,20 @@ export async function setTest(id: string, modificationDate: number, testData: an
         await DATABASE.updateTestModificationDate(id, modificationDate);
         return true;
     }
+}
+
+export async function deleteTest(id: string) {
+    var err = await DATABASE.deleteTest(id);
+    console.log(err);
+    if (!err) {
+        try {
+            await promises.unlink(getTestFilePath(id));
+        } catch (e) {
+            console.warn("Can't remove file: ", e.path);
+        }
+        return false;
+    }
+    return true;
 }
 
 /**

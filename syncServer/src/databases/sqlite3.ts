@@ -16,6 +16,7 @@ export class DatabaseManager extends sqlite3.Database {
                 console.error("An error occur while opening the database", error);
             } else {
                 console.info("Connected to the database.");
+                this.run('PRAGMA foreign_keys = ON;');
                 this.cleanupSession();
             }
         });
@@ -317,6 +318,27 @@ export class DatabaseManager extends sqlite3.Database {
      */
     async updateTestModificationDate(id: string, modificationDate: number) {
         return (await this.aRun(`UPDATE tests SET last_modification=? WHERE id=?`, [modificationDate, id]));
+    }
+
+    /**
+     * Create a new test
+     * @param id the id of the test to add
+     * @param user the owner of the test
+     * @returns the object created
+     */
+    async createNewTest(id: string, user: User): Promise<Test> {
+        return (await this.aGet(`INSERT INTO tests (id, owner, share_link, last_modification) VALUES (?,?,0,?)`, 
+            [id, user.user_id, Date.now()]))[1];
+    }
+
+    
+    /**
+     * Delete a test.
+     * @param id the id of the test to delete
+     * @returns id there is an error
+     */
+    async deleteTest(id: string) {
+        return await this.aRun(`DELETE FROM tests WHERE id=?`, [id]);
     }
 
     /**

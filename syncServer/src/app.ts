@@ -9,6 +9,9 @@ var app = express();
 
 app.use(cookieParser());
 app.use(API_URL, router);
+app.use((_, res) => {
+    res.sendStatus(404);
+});
 
 app.disable('x-powered-by');
 
