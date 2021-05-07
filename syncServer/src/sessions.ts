@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { DATABASE, SESSION_MAX_AGE } from "./config"
+import { DATABASE, SECURE_SESSION, SESSION_MAX_AGE } from "./config"
 import { generateHash } from "./password-hasher"
 
 /**
@@ -9,19 +9,46 @@ import { generateHash } from "./password-hasher"
  * @param next: go to the next middleware
  */
 export async function sessionRequired(request: Request, response: Response, next) {
+    if (await setupSession(request, response)) {
+        next();
+    } else {
+        response.sendStatus(401)
+    }
+}
+
+
+/**
+ * The middleware that auth the user if it exist
+ * @param request the request
+ * @param response the response to send
+ * @param next: go to the next middleware
+ */
+export async function useSession(request: Request, response: Response, next) {
+    await setupSession(request, response);
+    next();
+}
+
+/**
+ * Setup the session by setting the response with the user field
+ * @param request the request
+ * @param response the response
+ * @returns if there is a session
+ */
+export async function setupSession(request: Request, response: Response): Promise<boolean> {
     var session = await DATABASE.getSession(request.cookies.session);
     if (session) {
         if (session.expire_date > Date.now()) {
             response.locals.user = await DATABASE.getUserFromId(session.user);
-            next();
-            return;
+            response.locals.authenticated = true;
+            return true;
         } else
             DATABASE.deleteSession(request.cookies.session);
     }
     if (request.cookies.session) {
         response.clearCookie('session');
     }
-    response.sendStatus(401);
+    response.locals.authenticated = false;
+    return false;
 }
 
 /**
@@ -35,7 +62,12 @@ export async function sessionRequired(request: Request, response: Response, next
     DATABASE.cleanupSession();
     var e = DATABASE.addSession(sessionId, userId, SESSION_MAX_AGE);
     if (request.cookies.session) DATABASE.deleteSession(request.cookies.session);
-    if (await e === null) response.cookie('session', sessionId, {sameSite: 'strict', httpOnly: true, maxAge: SESSION_MAX_AGE, secure: true})
+    if (await e === null) response.cookie('session', sessionId, {
+        sameSite: SECURE_SESSION ? 'strict' : 'lax', 
+        httpOnly: true, 
+        maxAge: SESSION_MAX_AGE, 
+        secure: SECURE_SESSION
+    });
 }
 
 /**

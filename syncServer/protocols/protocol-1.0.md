@@ -196,7 +196,7 @@ GET `/test/<id>/info` get informations about the test, like owner, share informa
 #### Response
 The server should respond with a JSON object
  - owner: the owner username
- - share: how the test is [shared](#Share-a-test) for the user view | edit | all
+ - share: how the test is [shared](#Share-a-test) for the user view | edit | all | owner
 
 ### Edit a test
 #### Request
@@ -204,6 +204,7 @@ POST `/test/<id>` edit the test at the id.
 
 Parameters:
  - last-modification: the last modification before this, to verify that there isn't a conflict (unix timestamp) 
+ - modified: the date of modification (to set, unix timestamp)
  - override: say if the user allow: (boolean, optional, default value: false)
  - test: the test to set
 
@@ -223,22 +224,19 @@ GET `/test/<id>/share` get how a test could be share.
 
 #### Response
 The server should respond with a JSON object:
- - user-perms: if the user can share it with other internal users, values: none | view | edit | all
- - groups-perms: if the user can share it with other groups, values : none | view | edit | all
- - links-perms: if the user can share it with a link, values: none  | view | edit | all
+ - link-perms: the permissions of the persons who have access to the link
  - users: an array of rules: rules are JSON objects:
    - username: the username of the user with perms
    - perms: the perms of this user
  - groups: an array of rules: rules are JSON objects:
    - id: the id of the group
    - perms: the perms of the group
- - link: the perms associated with the persons who have the link
 
-None: mean no share, View: only for view purposes, Edit: for view and edit purposes: All: Can view, edit, and manage parameters about the test (like sharing). Only the owner should be able to delete it.
+None: mean no share, View: only for view purposes, Edit: for view and edit purposes: All: Can view, edit, and manage parameters about the test (like sharing). Owner(s) should be able to delete it.
 
 Only persons that have the « all » permissions could access that (including the owner).
 
-## Share a test apply
+### Modify share
 #### Request
 POST `test/<id>/share` set a test share options
 
