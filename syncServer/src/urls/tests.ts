@@ -146,7 +146,7 @@ TESTRouter.post('/:id/share', useSession, getTestWithPerms(PERMS_SHARE), BODY_JS
         return;
     }
     
-    const action = perms === 0 ? 'delete' : req.body.action;
+    const action = perms === 0 && type == 'group' ? 'delete' : req.body.action;
     const name = req.body.name;
     if ((action !== 'add' && action !== 'edit' && action !== 'delete') || (type === 'group' && name === 'none')) {
         res.sendStatus(400);
