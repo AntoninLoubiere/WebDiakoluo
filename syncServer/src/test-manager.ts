@@ -21,6 +21,44 @@ function getTestFilePath(id: string) {
 }
 
 /**
+ * Get the tests of a user
+ * @param user_id the user id
+ * @returns the data
+ */
+export async function getUserTests(user_id: number) {
+    var data = {you: [], users: [], groups: []};
+    
+    const sharesPromise = DATABASE.getTestShares(user_id);
+    const ownerPromise = DATABASE.getTestsOwner(user_id);
+    
+    var shares = await sharesPromise;
+    var groups: number[][] = [];
+    var users: number[] = [];
+    var skippedTest = -1;
+    for (var i = 0; i < shares.length; i++) {
+        const share = shares[i];
+        if (share.test === skippedTest) continue;
+
+        if (share.group === 0) {
+            if (share.perms > 0) {
+                users.push(share.test);
+            } else {
+                skippedTest = share.test;
+            }
+        } else if (share.perms > 0) {
+            groups.push([share.test, share.group]);
+        }
+    }
+
+    const usersTestPromise = DATABASE.getTestsOwnersFromList(users);
+    const groupsTestPromise = groups.length <= 0 ? [] : DATABASE.getTestsGroupsFromList(user_id, groups);
+    data.you = await ownerPromise;
+    data.users = await usersTestPromise;
+    data.groups = await groupsTestPromise;
+    return data;
+}
+
+/**
  * Respond with a test.
  * @param id the id of the test
  * @param response the response to set
@@ -70,6 +108,11 @@ export async function setTest(id: string, modificationDate: number, testData: an
     }
 }
 
+/**
+ * Delete a test.
+ * @param id the id of the test to delete
+ * @returns If there is an error
+ */
 export async function deleteTest(id: string) {
     var err = await DATABASE.deleteTest(id);
     if (!err) {

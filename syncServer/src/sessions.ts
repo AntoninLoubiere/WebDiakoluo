@@ -65,7 +65,7 @@ export async function setupSession(request: Request, response: Response): Promis
     var e = DATABASE.addSession(sessionId, userId, SESSION_MAX_AGE);
     if (request.cookies.session) DATABASE.deleteSession(request.cookies.session);
     if (await e === null) response.cookie('session', sessionId, {
-        sameSite: SECURE_SESSION ? 'strict' : 'lax', 
+        sameSite: 'none', 
         httpOnly: true, 
         maxAge: SESSION_MAX_AGE, 
         secure: SECURE_SESSION

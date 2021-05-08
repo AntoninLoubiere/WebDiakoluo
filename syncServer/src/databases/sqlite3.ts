@@ -1,7 +1,7 @@
 import sqlite3 from "sqlite3";
 import { hashPass, verifyPass } from "../password-hasher"
 import { FLAG_DISABLE, userHasFlag } from "../permissions";
-import { User, Session, Group, Test, SharePerms, ShareUserPerms, ShareGroupPerms } from "../types";
+import { User, Session, Group, Test, SharePerms, ShareUserPerms, ShareGroupPerms, TestHeader, Share } from "../types";
 
 export declare type SQLCallback = (this: sqlite3.Statement, err: Error | null, row: any) => void 
 
@@ -267,6 +267,49 @@ export class DatabaseManager extends sqlite3.Database {
      */
     async getTest(id: string): Promise<Test> {
         return (await this.aGet(`SELECT test_id, id, owner, share_link, last_modification FROM tests WHERE id=?`, [id]))[1];
+    }
+
+    /**
+     * Get all shares to a user
+     * @param user_id the user id
+     * @returns the shares
+     */
+    async getTestShares(user_id: number): Promise<Share[]> {
+        return (await this.aAll(`SELECT test, "group", perms FROM shares WHERE user=?`, [user_id]))[1]
+    }
+
+    /**
+     * Get tests that a user owns.
+     * @param owner_id the owner id
+     * @returns the tests of the user
+     */
+    async getTestsOwner(owner_id: number): Promise<TestHeader[]> {
+        return (await this.aAll(`SELECT id, last_modification FROM tests WHERE owner=?`, [owner_id]))[1];
+    }
+
+    /**
+     * Get the owner of the tests
+     * @param tests_id the tests id
+     * @returns the users and the test they owns
+     */
+    async getTestsOwnersFromList(tests_id: number[]): Promise<(TestHeader & User)[]> {
+        return(await this.aAll(`SELECT tests.id, tests.last_modification, users.username, users.name FROM tests 
+            INNER JOIN users ON tests.owner=users.user_id WHERE tests.test_id in (${tests_id.join(',')})`))[1];
+    }
+
+    /**
+     * The shares of groups
+     * @param users the user id
+     * @param test_groups a list of shares.id, shares.group
+     * @returns the list of shares by groups
+     */
+    async getTestsGroupsFromList(user_id: number, test_groups: number[][]): Promise<(TestHeader & Group)[]> {
+        return(await this.aAll(`SELECT id, last_modification, groups.name, groups.long_name FROM shares 
+        INNER JOIN tests ON shares.test=tests.test_id 
+        INNER JOIN groups ON shares."group"=groups.group_id 
+        WHERE shares.user=? AND 
+        (shares.test, shares."group") in (VALUES ${test_groups.map((e) => '(' + e.join(',') + ')').join(',')})`,
+        [user_id]))[1];
     }
 
     /**

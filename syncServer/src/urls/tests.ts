@@ -3,7 +3,7 @@ import { DATABASE } from "../config";
 import { generateHash } from "../password-hasher";
 import { PERMS_CREATE_TEST, userHasFlag, userHasPerm } from "../permissions";
 import { sessionRequired, useSession } from "../sessions";
-import { deleteTest, getTestPermission, haveTestPermission, Permission, PERMS_SHARE, PERMS_EDIT, PERMS_OWNER, PERMS_VIEW, respondTest, setTest, stringifyPerm, parsePerm } from "../test-manager";
+import { deleteTest, getTestPermission, haveTestPermission, Permission, PERMS_SHARE, PERMS_EDIT, PERMS_OWNER, PERMS_VIEW, respondTest, setTest, stringifyPerm, parsePerm, getUserTests } from "../test-manager";
 import { Test } from "../types";
 import { BODY_JSON } from "../utils";
 
@@ -38,6 +38,10 @@ function getTestWithPerms(perms: Permission): RequestHandler {
     }
     return callback;
 }
+
+TESTRouter.get('/', sessionRequired, async (_, res) => {
+    res.json(await getUserTests(res.locals.user.user_id));
+});
 
 TESTRouter.post('/new', sessionRequired, BODY_JSON, async (req, res) => {
     if (userHasPerm(res.locals.user, PERMS_CREATE_TEST)) {

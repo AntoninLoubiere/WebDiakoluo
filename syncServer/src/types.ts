@@ -26,9 +26,20 @@ export interface Test {
     last_modification: number
 }
 
+export interface TestHeader {
+    test_id: number,
+    last_modification: number
+}
+
+export interface Share {
+    perms: number,
+    group: number,
+    test: number
+}
+
 export interface SharePerms {
     perms: number,
-    group: number | null
+    group: number
 }
 
 export interface ShareUserPerms {
