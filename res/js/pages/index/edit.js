@@ -136,16 +136,21 @@ class EditPage extends Page {
             this.onload();
             return;
         }
-        this.updateModal();
+        this.updateModal(false);
     }
 
     /* verify if the url show any modal */
-    updateModal() {
+    updateModal(addHistory) {
         var p = Number(currentURL.searchParams.get('column'));
         if (p) {
             if (p > currentTest.columns.length) p = currentTest.data.length;
             if (p <= 0) p = 1;
-            this.updateColumnModal(p - 1);
+            if (addHistory) {
+                var url = new URL(currentURL);
+                url.searchParams.delete('column');
+                history.replaceState({}, '', url);
+            }
+            this.updateColumnModal(p - 1, addHistory);
             return;
         }
 
@@ -153,11 +158,14 @@ class EditPage extends Page {
         if (p) {
             if (p > currentTest.data.length) p = currentTest.data.length;
             if (p <= 0) p = 1;
-            this.updateDataModal(p - 1);
+            if (addHistory) {
+                var url = new URL(currentURL);
+                url.searchParams.delete('data');
+                history.replaceState({}, '', url);
+            }
+            this.updateDataModal(p - 1, addHistory);
             return;
         }
-
-        if (Modal.currentModal) hideModal();
     }
 
 
@@ -212,7 +220,6 @@ class EditPage extends Page {
 
     /* load the current test in the UI */
     loadTest() {
-        // TODO
         editPageTitle.value = currentTest.title;
         editPageDescription.value = currentTest.description;
 
@@ -239,7 +246,7 @@ class EditPage extends Page {
         editDataModal.id = -1;
         editColumnModal.id = -1;
         
-        this.updateModal();
+        this.updateModal(true);
     }
 
     /* Add a column in the UI */
@@ -292,9 +299,8 @@ class EditPage extends Page {
 
     /* when a column is clicked */
     columnClickCallback(id) {
-        this.updateColumnModal(id);
         currentURL.searchParams.set('column', id + 1);
-        history.pushState({}, '', currentURL);
+        this.updateColumnModal(id);
     }
 
     /* Add a data in the UI */
@@ -370,9 +376,8 @@ class EditPage extends Page {
 
     /* when a data is clicked */
     dataClickCallback(id) {
-        this.updateDataModal(id);
         currentURL.searchParams.set('data', id + 1);
-        history.pushState({}, '', currentURL);
+        this.updateDataModal(id);
     }
 
     /* when the visibility of the page change */
@@ -560,10 +565,9 @@ class EditPage extends Page {
     }
 
     /* update the modal from an id */
-    updateColumnModal(id) {
+    updateColumnModal(id, addHistory=true) {
         if (Modal.currentModal !== editColumnModal) {
-            if (Modal.currentModal) Modal.currentModal.hide();
-            editColumnModal.show();
+            editColumnModal.show(true, addHistory);
         }
         if (editColumnModal.id != id) {
             if (editColumnModal.id >= 0) this.applyColumnModal();
@@ -623,15 +627,12 @@ class EditPage extends Page {
     closeColumnModal() {
         this.applyColumnModal();
         editColumnModal.id = -1; // to not save it again
-        currentURL.searchParams.delete('column');
-        history.pushState({}, '', currentURL);
     }
 
     /* update the modal of data */
-    updateDataModal(id) {
+    updateDataModal(id, addHistory=true) {
         if (Modal.currentModal != editDataModal) {
-            if (Modal.currentModal) Modal.hideModal();
-            editDataModal.show();
+            editDataModal.show(true, addHistory);
         }
         if (editDataModal.id != id) {
 
@@ -698,8 +699,6 @@ class EditPage extends Page {
     closeDataModal() {
         this.applyDataModal();
         editDataModal.id = -1 // do not save it again
-        currentURL.searchParams.delete('data');
-        history.pushState({}, '', currentURL);
     }
 }
 

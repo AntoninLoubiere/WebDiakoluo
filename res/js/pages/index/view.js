@@ -31,16 +31,17 @@ class ViewPage extends Page {
         document.getElementById('view-export-button').onclick = () => UTILS.exportTest();
         document.getElementById('view-delete-button').onclick = () => UTILS.deleteTest();
 
-        viewColumnModal.onhide = this.closeColumnModal.bind(this);
-        viewDataModal.onhide = this.closeDataModal.bind(this);
-
-        this.columnsModalNav = new NavigationBar(document.getElementById('view-column-nav-bar'), [{className: "nav-edit", onclick: () => UTILS.editTestPage()}]);
+        this.columnsModalNav = new NavigationBar(document.getElementById('view-column-nav-bar'), [
+            {className: "nav-edit", onclick: () => UTILS.editTestPage()}
+        ]);
         this.columnsModalNav.onfirst = this.firstColumn.bind(this); 
         this.columnsModalNav.onprevious = this.previousColumn.bind(this); 
         this.columnsModalNav.onnext = this.nextColumn.bind(this); 
         this.columnsModalNav.onlast = this.lastColumn.bind(this); 
 
-        this.dataModalNav = new NavigationBar(document.getElementById('view-data-nav-bar'), [{className: "nav-edit", onclick: () => UTILS.editTestPage()}]);
+        this.dataModalNav = new NavigationBar(document.getElementById('view-data-nav-bar'), [
+            {className: "nav-edit", onclick: () => UTILS.editTestPage()}
+        ]);
         this.dataModalNav.onfirst = this.firstData.bind(this); 
         this.dataModalNav.onprevious = this.previousData.bind(this); 
         this.dataModalNav.onnext = this.nextData.bind(this); 
@@ -96,16 +97,25 @@ class ViewPage extends Page {
         viewDataModal.id = -1;
         I18N.setPageTitle(currentTest.title);
         viewPageView.classList.remove('hide');
-        this.onupdate();
+        this.updateModals(true);
     }
 
     /* when the page is updated */
     onupdate() {
+        this.updateModals(false);
+    }
+
+    updateModals(addHistory) {
         var p = Number(currentURL.searchParams.get('column'));
         if (p) {
             if (p > currentTest.columns.length) p = currentTest.data.length;
             if (p <= 0) p = 1;
-            this.updateColumnModal(p - 1);
+            if (addHistory) {
+                var url = new URL(currentURL);
+                url.searchParams.delete('column');
+                history.replaceState({}, '', url);
+            }
+            this.updateColumnModal(p - 1, addHistory);
             return;
         }
 
@@ -113,11 +123,14 @@ class ViewPage extends Page {
         if (p) {
             if (p > currentTest.data.length) p = currentTest.data.length;
             if (p <= 0) p = 1;
-            this.updateDataModal(p - 1);
+            if (addHistory) {
+                var url = new URL(currentURL);
+                url.searchParams.delete('data');
+                history.replaceState({}, '', url);
+            }
+            this.updateDataModal(p - 1, addHistory);
             return;
         }
-
-        if (Modal.currentModal) hideModal();
     }
 
     /* when a key is press */
@@ -185,9 +198,9 @@ class ViewPage extends Page {
     }
 
     /* update the column modal */
-    updateColumnModal(id) {
+    updateColumnModal(id, addHistory=true) {
         if (Modal.currentModal !== viewColumnModal) {
-            viewColumnModal.show();
+            viewColumnModal.show(true, addHistory);
         }
         if (viewColumnModal.id != id) {
             viewColumnModal.id = id;
@@ -205,9 +218,9 @@ class ViewPage extends Page {
     }
 
     /* update the data modal */
-    updateDataModal(id) {
+    updateDataModal(id, addHistory=true) {
         if (Modal.currentModal !== viewDataModal) {
-            viewDataModal.show();
+            viewDataModal.show(true, addHistory);
         }
         if (viewDataModal.id != id) {
             viewDataModal.id = id;
@@ -232,9 +245,8 @@ class ViewPage extends Page {
 
     /* when a column is clicked */
     columnClickCallback(id) {
-        this.updateColumnModal(id);
         currentURL.searchParams.set('column', id + 1);
-        history.pushState({}, '', currentURL);
+        this.updateColumnModal(id);
     }
 
     /* go to the next column */
@@ -263,9 +275,8 @@ class ViewPage extends Page {
 
     /* when a data is clicked */
     dataClickCallback(id) {
-        this.updateDataModal(id);
         currentURL.searchParams.set('data', id + 1);
-        history.pushState({}, '', currentURL);
+        this.updateDataModal(id);
     }
 
     /* go to the next data */
@@ -290,18 +301,6 @@ class ViewPage extends Page {
     /* go to the last data */
     lastData() {
         this.updateDataModal(currentTest.data.length - 1);
-    }
-
-    /* close the column modal */
-    closeColumnModal() {
-        currentURL.searchParams.delete('column');
-        history.pushState({}, '', currentURL);
-    }
-
-    /* close the data modal */
-    closeDataModal() {
-        currentURL.searchParams.delete('data');
-        history.pushState({}, '', currentURL);
     }
 }
 
