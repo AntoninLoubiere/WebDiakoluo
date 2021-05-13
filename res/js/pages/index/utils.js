@@ -120,7 +120,6 @@ class Utils {
     /* load export modal */
     loadExportModal() {
         exportModal.show();
-        history.pushState({}, 'Modal');
         this.exportWarningCsv();
     }
 
@@ -178,7 +177,6 @@ class Utils {
     /* import a test */
     importTest() {
         importTestModal.show();
-        history.pushState({}, '');
         this.importFileChange();
         this.importSelectChange();
     }

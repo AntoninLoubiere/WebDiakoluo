@@ -128,7 +128,7 @@ function verifyCookies() {
             'cookies', 
             'cookies-message', 
             {name: 'cookies-accept'}, 
-            {cancelButton: {name: 'more-informations', icon: '/WebDiakoluo/res/img/info.svg'}, noDisimiss: true})
+            {cancelButton: {name: 'more-informations', icon: '/WebDiakoluo/res/img/info.svg'}, noDismiss: true})
         .then(response => {
             if (response) {
                 localStorage.setItem("lang", I18NClass.detectLang());
