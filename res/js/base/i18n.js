@@ -1,8 +1,8 @@
 const LANGUAGES = ['en', 'fr'];
 const LANGUAGES_BUTTONS = {'en': "&#127468;&#127463; English", 'fr': "&#127467;&#127479; Français"};
 const PATH_OFFSET = 13;
-const DEFAULT_LANGUAGE = 'en2';
-const DATE_FORMATER = new Intl.DateTimeFormat(navigator.language, {
+const DEFAULT_LANGUAGE = 'en';
+const DATE_FORMATTER = new Intl.DateTimeFormat(navigator.language, {
     weekday: 'long',
     year: 'numeric',
     month: 'long',

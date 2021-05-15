@@ -53,8 +53,8 @@ class ViewPage extends Page {
             viewPageTitle[i].textContent = currentTest.title;
         }
         viewPageDescription.textContent = currentTest.description;
-        viewPageCreatedDate.textContent = DATE_FORMATER.format(currentTest.createDate);
-        viewPageModificationDate.textContent = DATE_FORMATER.format(currentTest.lastModificationDate);
+        viewPageCreatedDate.textContent = DATE_FORMATTER.format(currentTest.createDate);
+        viewPageModificationDate.textContent = DATE_FORMATTER.format(currentTest.lastModificationDate);
 
         removeAllChildren(viewPageColumnsList);
         removeAllChildren(viewPageDataTableHeader);

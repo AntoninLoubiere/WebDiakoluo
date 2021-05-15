@@ -134,7 +134,7 @@ h1.big {
 }
 
 body.nav .page-container {
-    padding: 0 1em;
+    padding: 1em;
     padding-top: var(--nav-bar-content-margin);
 }
 
