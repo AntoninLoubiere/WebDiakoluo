@@ -1,4 +1,4 @@
-import { promises } from "node:fs";
+import { promises } from "fs";
 import { DATABASE } from "../config";
 import { BASE64_CHARS } from "../password-hasher";
 

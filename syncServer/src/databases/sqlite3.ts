@@ -70,6 +70,7 @@ export class DatabaseManager extends sqlite3.Database {
                 "id"	varchar(32) NOT NULL UNIQUE,
                 "owner"	INTEGER NOT NULL,
                 "share_link"	INTEGER NOT NULL,
+                "last_modification" INTEGER NOT NULL
                 PRIMARY KEY("test_id" AUTOINCREMENT),
                 FOREIGN KEY("owner") REFERENCES "users"("user_id") ON DELETE RESTRICT
             )`)

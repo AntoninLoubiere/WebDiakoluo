@@ -10,8 +10,9 @@
     "sqlite3": "^5.0.2"
   },
   "scripts": {
-    "start": "tsc --incremental && node dist/app.js",
-    "compile": "tsc",
+    "start": "npx tsc --incremental && node dist/app.js",
+    "launch": "node ./dist/app.js",
+    "compile": "npx tsc",
     "db_initialise": "node ./dist/scripts/db_initialise.js",
     "custom": "node ./dist/scripts/custom_code.js"
   },

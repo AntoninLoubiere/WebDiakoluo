@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { writeFile, promises } from "node:fs";
+import { promises } from "fs";
 import { DATABASE } from "./config";
 import { PERMS_ADMIN, userHasPerm } from "./permissions";
 import { Test, User } from "./types";
