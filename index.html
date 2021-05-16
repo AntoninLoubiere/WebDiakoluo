@@ -217,10 +217,10 @@
             <img src="/WebDiakoluo/res/img/appearance_w.svg" alt="Appearance icon">
             <x-i18n key="settings-appearance"></x-i18n>
         </div>
-        <!-- <div class="nav-panel-item" id="settings-nav-sync">
+        <div class="nav-panel-item" id="settings-nav-sync">
             <img src="/WebDiakoluo/res/img/sync_w.svg" alt="Synchronise icon">
             <x-i18n key="settings-sync"></x-i18n>
-        </div> -->
+        </div>
     </div>
     <div class="page-container">
         <div id="settings-panel-general" class="hide">
@@ -259,9 +259,24 @@
                 </label>
             </div>
         </div>
-        <!-- TODO <div id="settings-panel-sync" class="hide">
-            <h1>TODO</h1>
-        </div> -->
+        <div id="settings-panel-sync" class="hide">
+            <h1><x-i18n key="settings-sync-title"></x-i18n></h1>
+            <form action="" class="unique-column" id="settings-sync-form">
+                <div class="grid-keys">
+                    <label for="settings-sync-host">
+                        <x-i18n key="settings-sync-host"></x-i18n> :
+                    </label><input type="text" id="settings-sync-host" pattern="^(?:https?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!$&'\(\)\*\+,;=.]+$">
+                    <label for="settings-sync-username">
+                        <x-i18n key="settings-sync-username"></x-i18n> :
+                    </label><input type="text" id="settings-sync-username">
+                    <label for="settings-sync-password">
+                        <x-i18n key="settings-sync-password"></x-i18n> :
+                    </label><input type="password" id="settings-sync-password">
+                </div>
+                <button type="submit" class="btn image-button colored margin-top" id="settings-sync-submit"><x-i18n key="valid" caps="upper"></x-i18n></button>
+            </form>
+            <p><x-i18n id="settings-sync-status"></x-i18n></p>
+        </div>
     </div>
 </main>
 <!-- INCLUDE START id="footer.html" -->

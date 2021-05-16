@@ -272,6 +272,10 @@ textarea.column-string-long {
     margin-top: .7em;
 }
 
+#settings-sync-submit {
+    margin-top: 1em;
+}
+
 .columns-settings hr {
     width: 50%;
     border: none;

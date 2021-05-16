@@ -174,7 +174,7 @@ export class DatabaseManager extends sqlite3.Database {
      */
     async verifyUserPassword(username: string, password: string): Promise<number> {
         var [error, row] = await this.aGet('SELECT user_id, password, flags FROM users WHERE username=?', username);
-        if (error) {
+        if (!row) {
             verifyPass('test', 'sha256$2ed42951a2f3$1000$6a9ff10c032e89fa37f1978ec78da55e4a1f6a426d33ed74cb424b14d6115014');
             // delay so it take the same time, it is the hash of the password: 'test2'
             return;

@@ -31,14 +31,16 @@ class I18nElement extends HTMLElement {
     /* Update the translation */
     updateI18n() {
         if (I18N.universal == null || I18N.translations == null) return;
-        var tr = I18N.getTranslation(this.getAttribute('key'))
+        const key = this.getAttribute('key');
+        if (!key) return;
+        var tr = I18N.getTranslation(key)
         var caps = this.getAttribute('caps')
         if (caps == 'upper') this.innerHTML = tr.toUpperCase();
         else if (caps == 'lower') this.innerHTML = tr.toLowerCase();
         else this.innerHTML = tr;
     }
 
-    attributeChangedCallback(name, oldValue, newValue) {
+    attributeChangedCallback(name, _oldValue, newValue) {
         if (name == 'key' && newValue != null || name == 'caps') {
             this.updateI18n();
         }

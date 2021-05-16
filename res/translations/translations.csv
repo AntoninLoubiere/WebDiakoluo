@@ -63,6 +63,15 @@ settings-theme,Theme,Thème
 settings-theme-light,Light theme,Thème clair
 settings-theme-auto,Auto theme,Thème automatique
 settings-theme-dark,Dark theme,Thème sombre
+settings-sync,Synchronisation,Synchronisation
+settings-sync-title,Synchronisation server,Serveur de synchronisation
+settings-sync-host,Server URL,URL du serveur
+settings-sync-username,Username,Nom d'utilisateur
+settings-sync-password,Password,Mot de passe
+settings-sync-loading,Connection in progress.,Connexion en cours.
+settings-sync-success,Connected with success.,Connecté avec succés.
+settings-sync-error,An error occur during the connection.,Une erreur est survenue lors de la connexion.
+settings-sync-login-failed,An error occur during the authentification.,Une erreur est survenue lors de l'authentification.
 default-column-title,Column,Colonne
 default-test-title,Test,Test
 default-test-description,A test,Un test

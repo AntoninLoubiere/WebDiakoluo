@@ -1,22 +1,26 @@
 class SyncManager {
-    static UPDATE_DELAY = 10000;
+    static UPDATE_DELAY = 600_000; // 10 minutes
 
     static initialise() {
-        this.syncManager = new SyncManager(JSON.parse(localStorage.getItem('sync-account')));
-        this.lastUpdate = -1;
+        var d = this.deserializeData(localStorage.getItem('sync-account'));
+        if (d) this.syncManager = new SyncManager(d);
+        this.lastUpdate = 0;
         document.addEventListener('visibilitychange', this.onVisibilityChange.bind(this));
         this.onVisibilityChange();
     }
 
-    static setSyncAccount(data) {
-        localStorage.setItem('sync-account', JSON.stringify(data));
-        this.syncManager = new SyncManager(data);
+    static setSyncAccount(syncManager) {
+        this.syncManager = null;
+        this.onVisibilityChange();
+        localStorage.setItem('sync-account', JSON.stringify(syncManager));
+        this.syncManager = syncManager;
+        this.onVisibilityChange();
     }
 
     static onVisibilityChange() {
-        if (document.hidden) {
-            clearInterval(this.updateInterval);
-            this.updateInterval = -1;
+        if (document.hidden || !this.syncManager) {
+            if (this.updateInterval) clearInterval(this.updateInterval);
+            this.updateInterval = 0;
         } else {
             var timeRemaining = this.lastUpdate - Date.now() + this.UPDATE_DELAY
             if (timeRemaining < 0) {
@@ -33,9 +37,18 @@ class SyncManager {
 
     static update() {
         this.lastUpdate = Date.now();
-        this.syncManager.update().catch(error => {
+        this.syncManager?.update().catch(error => {
             console.warn("[SYNC] An error occur while synchronising clients (update)", error);
         });
+    }
+
+    static deserializeData(data) {
+        data = JSON.parse(data);
+        if (data && typeof data.username === "string" && typeof data.password === "string" && data.host) {
+            return data;
+        } else {
+            return null;
+        }
     }
 
     constructor(syncAccount) {
@@ -166,6 +179,11 @@ class SyncManager {
                 const index = testsKey.indexOf(sync.serverTestId);
                 if (index >= 0) {
                     const testHeader = tests[sync.serverTestId];
+                    if (this.isShareModeNotEquals(sync.shareMode, testHeader.shareMode)) {
+                        sync.shareMode = testHeader.shareMode;
+                        DATABASE_MANAGER.updateSync(sync);
+                    }
+
                     if (testHeader.last_modification > sync.lastModification) {
                         this.updateTest(sync, testHeader);
                     }
@@ -187,6 +205,22 @@ class SyncManager {
                 }
             }
         }
+    }
+
+    isShareModeNotEquals(object1, object2) {
+        if (object1.length !== object2.length) return true;
+        for (var i = 0; i < object1.length; i++) {
+            const o1 = object1[i];
+            const o2 = object2[i];
+            if (o1.type === 'link') {
+                if (o2.type !== 'link') return true;
+            } else if (o2.type === 'user') {
+                if (o2.type !== 'user' || o1.username !== o2.username || o1.name !== o2.name) return true;
+            } else if (o2.type === 'group') {
+                if (o2.type !== 'group' || o1.name !== o2.name || o1.long_name !== o2.long_name) return true;
+            }
+        }
+        return false
     }
 
     async updateTest(sync, testHeader) {
