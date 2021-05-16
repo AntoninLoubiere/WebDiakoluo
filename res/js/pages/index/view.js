@@ -1,6 +1,7 @@
 const viewPageView = document.getElementById('view-page');
 
 const viewPageTitle = [document.getElementById('view-test-title'), document.getElementById('view-test-title2')];
+const viewPageTitleSync = document.getElementById('view-test-title-sync');
 const viewPageDescription = document.getElementById('view-test-description');
 const viewPageCreatedDate = document.getElementById('view-test-created-date');
 const viewPageModificationDate = document.getElementById('view-test-modification-date');
@@ -52,6 +53,12 @@ class ViewPage extends Page {
         for (var i = 0; i < viewPageTitle.length; i++) {
             viewPageTitle[i].textContent = currentTest.title;
         }
+        if (currentTest.sync) {
+            viewPageTitleSync.classList.remove('hide');
+        } else {
+            viewPageTitleSync.classList.add('hide');
+        }
+        
         viewPageDescription.textContent = currentTest.description;
         viewPageCreatedDate.textContent = DATE_FORMATTER.format(currentTest.createDate);
         viewPageModificationDate.textContent = DATE_FORMATTER.format(currentTest.lastModificationDate);

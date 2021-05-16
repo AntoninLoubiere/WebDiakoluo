@@ -83,6 +83,22 @@ textarea.column-string-long {
     line-height: 1.2em;
 }
 
+.test-sync {
+    display: inline;
+    fill: var(--color-primary-700);
+}
+
+.test-sync-header {
+    display: inline;
+    fill: var(--color-primary-700);
+}
+
+.test-sync-header > svg {
+    height: 1em;
+    width: 1em;
+    vertical-align: middle;
+}
+
 #test-title {
     overflow: hidden;
     white-space: nowrap;

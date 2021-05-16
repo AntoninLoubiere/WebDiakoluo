@@ -29,8 +29,8 @@
     --color-surface-primary-900: hsl(173, 80%, 15%);
 
     --color-on-surface-primary: hsl(0, 0%, 100%);
-    --color-surface: hsl(0, 0%, 100%);
-    --color-surface-elevated: hsl(0, 0%, 100%);
+    --color-surface: hsl(173, 40%, 99%);
+    --color-surface-elevated: hsl(173, 60%, 97.5%);
     --color-on-surface: hsl(0, 0%, 0%);
 
     --color-error: hsl(4, 90%, 58%);
@@ -384,11 +384,12 @@ select {
 
 input[type='text']:hover, input[type='password']:hover, input[type='number']:hover, textarea:hover, select:focus, select:hover {
     border-color: var(--color-primary-500);
+    background-color: var(--color-surface-primary-50);
     color: var(--color-on-background);
 }
 
 input[type='text']:focus, input[type='password']:focus, input[type='number']:focus, textarea:focus {
-    background-color: var(--color-surface-primary-50); 
+    background-color: var(--color-surface-primary-200); 
 
     border-color: var(--color-primary-700);
     color: var(--color-on-background);

@@ -510,10 +510,37 @@ class EditPage extends Page {
         });
     }
 
+    /**
+     * When the save button is pressed.
+     */
     saveButton() {
         this.saveTest();
-        defaultPage.needReload = true;
         currentTest.registerModificationDate();
+
+        if (currentTest.sync) {
+            SyncManager.syncManager.saveTest(currentTest).then(() => {
+                defaultPage.needReload = true;
+                currentTest = null;
+                DATABASE_MANAGER.deleteTest(EDIT_KEY);
+                if (currentTest.edit_id) {
+                    UTILS.viewTestPage(currentTest.edit_id);
+                } else {
+                    backToMain(true);
+                }
+            }).catch(error => {
+                console.warn(error);
+                Modal.showOkModal('test-sync-edit-error-title', 'test-sync-edit-error-message', {important: true});
+            });
+        } else {
+            this.localSave();
+        }
+    }
+
+    /**
+     * Save locally the test
+     */
+    localSave() {
+        defaultPage.needReload = true;
         if (currentTest.edit_id) {
             currentTest.id = currentTest.edit_id;
             delete currentTest.edit_id;

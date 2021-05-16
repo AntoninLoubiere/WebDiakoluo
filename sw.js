@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-4Q25gVD3";
+ const CACHE_NAME = "WebDiakoluo-3Ci1JEvx";
 
 /* get the files of the app */
 function getAppFiles() {
@@ -90,6 +90,7 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/nav_first_w.svg");
     f.push("/WebDiakoluo/res/img/import.svg");
     f.push("/WebDiakoluo/res/img/dark_mode_grey.svg");
+    f.push("/WebDiakoluo/res/include/sync.svg");
     f.push("/WebDiakoluo/res/include/head.html");
     f.push("/WebDiakoluo/res/include/footer.html");
     f.push("/WebDiakoluo/res/include/navbar.html");

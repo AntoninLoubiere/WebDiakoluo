@@ -190,7 +190,6 @@ class SettingsPage extends Page {
         settingsPageStatusText.setAttribute('key', 'settings-sync-loading');
         settingsPageStatusText.classList.remove('important-font');
         s.authFetch('/test').then((test) => {
-            console.log(test);
             SyncManager.setSyncAccount(s);
             this.onSyncPanel();
             settingsPageStatusText.setAttribute('key', 'settings-sync-success');

@@ -291,11 +291,26 @@ class DatabaseManager {
      * @param {*} syncObject the sync object to add
      * @returns a promise
      */
-    addSync(syncObject) {
+     addSync(syncObject) {
         return new Promise((resolve, reject) => {
             var transaction = this.testDBEditor.transaction(['sharedTests'], "readwrite");
             var sharedTests = transaction.objectStore('sharedTests');
             var request = sharedTests.add(syncObject);
+            request.onsuccess = resolve;
+            request.onerror = reject;
+        });
+    }
+
+    /**
+     * Get a sync test.
+     * @param {number} pk the primary key
+     * @returns a promise
+     */
+     getSync(pk) {
+        return new Promise((resolve, reject) => {
+            var transaction = this.testDBEditor.transaction(['sharedTests'], "readonly");
+            var sharedTests = transaction.objectStore('sharedTests');
+            var request = sharedTests.get(pk);
             request.onsuccess = resolve;
             request.onerror = reject;
         });

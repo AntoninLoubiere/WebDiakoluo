@@ -2,6 +2,7 @@ const listPageView = document.getElementById('list-page');
 const listPageTestList = document.getElementById('list-test');
 
 const testListTemplate = document.getElementById('list-test-child-template');
+const testListSyncTemplate = document.getElementById('list-test-sync');
 
 document.getElementById('list-add-button').onclick = UTILS.addTestRedirect;
 
@@ -66,14 +67,19 @@ class ListPage extends Page {
                 var id = cursor.value.id;
                 var playable = cursor.value.playable;
                 if (id == EDIT_KEY) {
-                    t.querySelector('.test-title').textContent = I18N.getTranslation("edited-test");
+                    t.querySelector('.test-title-span').textContent = I18N.getTranslation("edited-test");
                     t.querySelector('.test-description').textContent = v.title;
                     t.children[0].onclick = function() {
                         UTILS.editTestPage('current');
                     }
                     listPageTestList.insertBefore(t, listPageTestList.firstChild); // insert at first
                 } else {
-                    t.querySelector('.test-title').textContent = v.title;
+                    var titleSpan = t.querySelector('.test-title-span');
+                    if (v.sync) {
+                        var sync = testListSyncTemplate.content.cloneNode(true);
+                        t.querySelector('.test-title').insertBefore(sync, titleSpan);
+                    }
+                    titleSpan.textContent = v.title;
                     t.querySelector('.test-description').textContent = v.description;
                     t.children[0].onclick = function() {
                         UTILS.viewTestPage(id);

@@ -99,7 +99,7 @@ class SyncManager {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: method === 'POST' ? JSON.parse(body) : null,
+                body: method === 'POST' ? JSON.stringify(body) : null,
             }).then(response => {
                 if (response.ok) {
                     resolve(response);
@@ -200,8 +200,12 @@ class SyncManager {
             } else {
                 for (let index = 0; index < testsKey.length; index++) {
                     const key = testsKey[index];
-                    var sync = {testId: -1, lastModification: 0, serverTestId: key, shareMode: tests[key].shareMode};
-                    DATABASE_MANAGER.addSync(sync);
+                    const testHeader = tests[key];
+                    let sync = {testId: -1, lastModification: 0, serverTestId: key, shareMode: testHeader.shareMode};
+                    DATABASE_MANAGER.addSync(sync).then((event) => {
+                        sync.pk = event.target.result;
+                        this.updateTest(sync, testHeader);
+                    });
                 }
             }
         }
@@ -228,6 +232,7 @@ class SyncManager {
         var test = Test.import(testData);
         if (test) {
             sync.lastModification = testHeader.last_modification;
+            test.sync = sync.pk;
             if (sync.testId > 0) {
                 test.id = sync.testId;
                 DATABASE_MANAGER.updateTest(test);
@@ -239,6 +244,35 @@ class SyncManager {
                 }
             }
         }
+    }
+
+    async saveTest(test) {
+        if (test.sync >= 0) {
+            const event = await DATABASE_MANAGER.getSync(test.sync);
+            const sync = event.target.result;
+            await this.authFetch(`/test/${sync.serverTestId}`, 'POST', {
+                "last-modification": sync.lastModification,
+                modified: test.lastModificationDate.getTime(),
+                override: true, // TODO
+                test: test.getSafeTest()
+            });
+            await this.update();
+        } else {
+            await this.authFetch(`/test/new`, 'POST', {
+                "last-modification": 1,
+                modified: test.lastModificationDate.getTime(),
+                override: true, // TODO
+                test: test.getSafeTest()
+            });
+            await this.update();
+        }
+    }
+
+    async deleteTest(test) {
+        const event = await DATABASE_MANAGER.getSync(test.sync);
+        const sync = event.target.result;
+        await this.authFetch(`/test/${sync.serverTestId}`, 'DELETE');
+        await this.update();
     }
 }
 SyncManager.initialise();
