@@ -120,7 +120,6 @@ class Utils {
     /* load export modal */
     loadExportModal() {
         exportModal.show();
-        history.pushState({}, 'Modal');
         this.exportWarningCsv();
     }
 
@@ -136,13 +135,13 @@ class Utils {
     /* confirm the export */
     exportTestConfirm(event) {
         event.preventDefault();
-        exportModal.hide();
-
+        
         if (exportModalSelect.value == 'dkl') {
             FILE_MANAGER.exportTest(this.data);
         } else {
             FILE_MANAGER.exportCsvTest(this.data, exportModalCsvColumnName.checked, exportModalCsvColumnType.checked);
         }
+        exportModal.hide();
         this.data = null;
     }
 
@@ -178,7 +177,6 @@ class Utils {
     /* import a test */
     importTest() {
         importTestModal.show();
-        history.pushState({}, '');
         this.importFileChange();
         this.importSelectChange();
     }

@@ -12,7 +12,11 @@ async function initNavigation() {
     await I18N.initAsyncFunc;
     await DATABASE_MANAGER.initAsyncFunc;
     window.onpopstate = function() {
-        loadPage();
+        if (Modal.currentModal && Modal.currentModal.dismiss) {
+            Modal.currentModal.hide(false);
+        } else {
+            loadPage();
+        }
     }
     document.getElementById('loading-page').classList.add('hide');
     loadPage();
@@ -38,8 +42,8 @@ function loadPage() {
 function setPage(page) {
     if (currentPage.pageName != null) {
         currentPage.hide();
-        if (Modal.currentModal && !Modal.currentModal.noDisimiss) {
-            Modal.currentModal.hide();
+        if (Modal.currentModal && Modal.currentModal.dismiss) {
+            Modal.currentModal.hide(false);
         }
     }
     
@@ -93,7 +97,7 @@ addEventListener("keydown", function(event) {
 addEventListener("keydown", function(event) {
     if (event.keyCode === KeyboardEvent.DOM_VK_ESCAPE) {
         if (Modal.currentModal) {
-            if (!Modal.currentModal.noDisimiss) Modal.hideModal();
+            if (!Modal.currentModal.noDismiss) Modal.hideModal();
         } else if (currentPage !== defaultPage) {
             backToMain(true);
         }
