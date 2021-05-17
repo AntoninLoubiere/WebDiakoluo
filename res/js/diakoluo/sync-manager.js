@@ -132,83 +132,91 @@ class SyncManager {
     }
 
     async update() {
-        var testsData = await this.authFetchJson('/test');
-        var tests = {};
-        var testsKey = [];
-        for (let i = 0; i < testsData.you.length; i++) {
-            const test = testsData.you[i];
-            if (testsKey.indexOf(test.id) < 0) {
-                tests[test.id] = {
-                    last_modification: test.last_modification,
-                    shareMode: [{type: 'owner'}]
-                };
-                testsKey.push(test.id);
-            } else {
-                tests[test.id].shareMode.push({type: 'owner'});
-            }
-        }
-        for (let i = 0; i < testsData.users.length; i++) {
-            const test = testsData.users[i];
-            if (testsKey.indexOf(test.id) < 0) {
-                tests[test.id] = {
-                    last_modification: test.last_modification,
-                    shareMode: [{type: 'user', username: test.username, name: test.name}]
-                };
-                testsKey.push(test.id);
-            } else {
-                tests[test.id].shareMode.push({type: 'user', username: test.username, name: test.name});
-            }
-        }
-        for (let i = 0; i < testsData.groups.length; i++) {
-            const test = testsData.groups[i];
-            if (testsKey.indexOf(test.id) < 0) {
-                tests[test.id] = {
-                    last_modification: test.last_modification,
-                    shareMode: [{type: 'group', name: test.name, long_name: test.long_name}]
-                };
-                testsKey.push(test.id);
-            } else {
-                tests[test.id].shareMode.push({type: 'group', name: test.name, long_name: test.long_name});
-            }
-        }
-
-        DATABASE_MANAGER.forEachSync().onsuccess = async event => {
-            var cursor = event.target.result;
-            if (cursor) {
-                const sync = cursor.value;
-                const index = testsKey.indexOf(sync.serverTestId);
-                if (index >= 0) {
-                    const testHeader = tests[sync.serverTestId];
-                    if (this.isShareModeNotEquals(sync.shareMode, testHeader.shareMode)) {
-                        sync.shareMode = testHeader.shareMode;
-                        DATABASE_MANAGER.updateSync(sync);
-                    }
-
-                    if (testHeader.last_modification > sync.lastModification) {
-                        this.updateTest(sync, testHeader);
-                    }
-                    testsKey.splice(index, 1);
+        return new Promise(async (resolve, reject) => {
+            var testsData = await this.authFetchJson('/test');
+            var tests = {};
+            var testsKey = [];
+            for (let i = 0; i < testsData.you.length; i++) {
+                const test = testsData.you[i];
+                if (testsKey.indexOf(test.id) < 0) {
+                    tests[test.id] = {
+                        last_modification: test.last_modification,
+                        shareMode: [{type: 'owner'}]
+                    };
+                    testsKey.push(test.id);
                 } else {
-                    if (sync.lastModification > 0 && sync.shareMode[0].type !== 'link') {
-                        cursor.delete();
-                        if (sync.testId >= 0) {
-                            DATABASE_MANAGER.deleteTest(sync.testId); // TODO
+                    tests[test.id].shareMode.push({type: 'owner'});
+                }
+            }
+            for (let i = 0; i < testsData.users.length; i++) {
+                const test = testsData.users[i];
+                if (testsKey.indexOf(test.id) < 0) {
+                    tests[test.id] = {
+                        last_modification: test.last_modification,
+                        shareMode: [{type: 'user', username: test.username, name: test.name}]
+                    };
+                    testsKey.push(test.id);
+                } else {
+                    tests[test.id].shareMode.push({type: 'user', username: test.username, name: test.name});
+                }
+            }
+            for (let i = 0; i < testsData.groups.length; i++) {
+                const test = testsData.groups[i];
+                if (testsKey.indexOf(test.id) < 0) {
+                    tests[test.id] = {
+                        last_modification: test.last_modification,
+                        shareMode: [{type: 'group', name: test.name, long_name: test.long_name}]
+                    };
+                    testsKey.push(test.id);
+                } else {
+                    tests[test.id].shareMode.push({type: 'group', name: test.name, long_name: test.long_name});
+                }
+            }
+    
+            var updates = [];
+    
+            var request = DATABASE_MANAGER.forEachSync();
+            request.onsuccess = async event => {
+                var cursor = event.target.result;
+                if (cursor) {
+                    const sync = cursor.value;
+                    const index = testsKey.indexOf(sync.serverTestId);
+                    if (index >= 0) {
+                        const testHeader = tests[sync.serverTestId];
+                        if (this.isShareModeNotEquals(sync.shareMode, testHeader.shareMode)) {
+                            sync.shareMode = testHeader.shareMode;
+                            DATABASE_MANAGER.updateSync(sync);
+                        }
+    
+                        if (testHeader.last_modification > sync.lastModification) {
+                            updates.push(this.updateTest(sync, testHeader));
+                        }
+                        testsKey.splice(index, 1);
+                    } else {
+                        if (sync.lastModification > 0 && sync.shareMode[0].type !== 'link') {
+                            cursor.delete();
+                            if (sync.testId >= 0) {
+                                DATABASE_MANAGER.deleteTest(sync.testId); // TODO
+                            }
                         }
                     }
-                }
-                cursor.continue();
-            } else {
-                for (let index = 0; index < testsKey.length; index++) {
-                    const key = testsKey[index];
-                    const testHeader = tests[key];
-                    let sync = {testId: -1, lastModification: 0, serverTestId: key, shareMode: testHeader.shareMode};
-                    DATABASE_MANAGER.addSync(sync).then((event) => {
-                        sync.pk = event.target.result;
-                        this.updateTest(sync, testHeader);
-                    });
+                    cursor.continue();
+                } else {
+                    for (var index = 0; index < testsKey.length; index++) {
+                        const key = testsKey[index];
+                        const testHeader = tests[key];
+                        let sync = {testId: -1, lastModification: 0, serverTestId: key, shareMode: testHeader.shareMode};
+                        DATABASE_MANAGER.addSync(sync).then((event) => {
+                            sync.pk = event.target.result;
+                            updates.push(this.updateTest(sync, testHeader));
+                        });
+                    }
+    
+                    Promise.all(updates).then(resolve);
                 }
             }
-        }
+            request.onerror = reject;
+        });
     }
 
     isShareModeNotEquals(object1, object2) {
