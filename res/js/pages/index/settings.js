@@ -185,7 +185,10 @@ class SettingsPage extends Page {
             settingsPageSyncHost.focus();
         }
         
-        await SyncManager.syncManager?.authFetch('/logout');
+        try {
+            await SyncManager.syncManager?.authFetch('/logout');
+        } catch {}
+        
         var s = new SyncManager({username: username, password: password, host: host});
         settingsPageStatusText.setAttribute('key', 'settings-sync-loading');
         settingsPageStatusText.classList.remove('important-font');

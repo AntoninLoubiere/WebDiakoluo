@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-!wDr7cHT";
+ const CACHE_NAME = "WebDiakoluo-58chG6az";
 
 /* get the files of the app */
 function getAppFiles() {

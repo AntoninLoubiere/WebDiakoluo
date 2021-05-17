@@ -2,7 +2,7 @@ import re
 import os.path
 import sys
 
-INCLUDE_BEACON_REGEX = re.compile(r"<!-- INCLUDE START id=\"(?P<id>[^\"]*)\" -->(?:.|\n)*<!-- INCLUDE END id=\"(?P=id)\" -->")
+INCLUDE_BEACON_REGEX = re.compile(r"<!-- INCLUDE START id=\"(?P<id>[^\"]*)\" -->(?:.|\n)*?<!-- INCLUDE END id=\"(?P=id)\" -->")
 BEACON = "<!-- INCLUDE START id=\"{id}\" -->\n{content}<!-- INCLUDE END id=\"{id}\" -->"
 INCLUDE_DIR = 'res/include/'
 
