@@ -1,4 +1,5 @@
  const CACHE_NAME = "WebDiakoluo-// ID //";
+ const ORIGIN = "https://antoninloubiere.github.io";
 
 /* get the files of the app */
 function getAppFiles() {
@@ -24,8 +25,9 @@ self.addEventListener('fetch', (e) => {
         caches.match(request).then((r) => {
             return r || fetch(e.request).then((response) => {
                 return caches.open(CACHE_NAME).then((cache) => {
-                    if (!request.url.startsWith('/WebDiakoluo/api/')) { // do not cache the api folder
-                        console.info('[Service Worker] Cache new ressource: ' + request.url);
+                    var url = new URL(request.url);
+                    if (url.origin === ORIGIN && !url.pathname.startsWith('/WebDiakoluo/api/')) { // do not cache the api folder
+                        console.info('[Service Worker] Cache new resource: ' + request.url);
                         cache.put(request, response.clone());
                     }
                     return response;
