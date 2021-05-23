@@ -1,5 +1,7 @@
 class SyncManager {
     static UPDATE_DELAY = 600_000; // 10 minutes
+    static MIN_CACHE = 300_000; // 5 minutes 
+    static RELOAD_MAX_TIME = 5_000; // 5 seconds
 
     static initialise() {
         var d = this.deserializeData(localStorage.getItem('sync-account'));
@@ -127,7 +129,7 @@ class SyncManager {
                     .then(resolve)
                     .catch(() => reject({code: response.code}))
                 }
-            )
+            ).catch(e => reject(e))
         });
     }
 
@@ -282,5 +284,56 @@ class SyncManager {
         await this.authFetch(`/test/${sync.serverTestId}`, 'DELETE');
         await this.update();
     }
+
+    async getTestInfo(test) {
+        const now = Date.now();
+        if (now - test.syncData?.info?.lastRequest < SyncManager.MIN_CACHE && 
+            document.timeline.currentTime > SyncManager.RELOAD_MAX_TIME) {
+                return test.syncData.info;
+        } else {
+            const event = await DATABASE_MANAGER.getSync(test.sync);
+            const sync = event.target.result;
+            try {
+                var data = await this.authFetchJson(`/test/${sync.serverTestId}/info`);
+            } catch {
+                if (test.syncData?.info) {
+                    return test.syncData.info;
+                } else {
+                    throw new Error("Cannot load the informations about the test");
+                }
+            }
+            data.serverTestId = sync.serverTestId;
+            data.lastRequest = now;
+            if (!test.syncData) test.syncData = {};
+            test.syncData.info = data;
+            DATABASE_MANAGER.updateTest(test);
+            return data;
+        }
+    }
+
+    async getTestShare(test) {
+        const now = Date.now();
+        if (now - test.syncData?.share?.lastRequest < SyncManager.MIN_CACHE && 
+            document.timeline.currentTime > SyncManager.RELOAD_MAX_TIME) {
+                return test.syncData.share;
+        } else {
+            const event = await DATABASE_MANAGER.getSync(test.sync);
+            const sync = event.target.result;
+            try {
+                var data = await this.authFetchJson(`/test/${sync.serverTestId}/share`);
+            } catch (e) {
+                if (test.syncData?.share) {
+                    return test.syncData.share;
+                } else {
+                    throw new Error("Cannot load the shares about the test");
+                }
+            }
+            data.lastRequest = now;
+            if (!test.syncData) test.syncData = {};
+            test.syncData.share = data;
+            DATABASE_MANAGER.updateTest(test);
+            return data;
+        }
+    }
 }
-SyncManager.initialise();
+DATABASE_MANAGER.initAsyncFunc.then(SyncManager.initialise.bind(SyncManager));

@@ -72,6 +72,17 @@ settings-sync-loading,Connection in progress.,Connexion en cours.
 settings-sync-success,Connected with success.,Connecté avec succés.
 settings-sync-error,An error occur during the connection.,Une erreur est survenue lors de la connexion.
 settings-sync-login-failed,An error occur during the authentification.,Une erreur est survenue lors de l'authentification.
+sync,Synchronisation,Synchronisation
+sync-id,Id,Identifiant
+sync-perms,Permissions,Permissions
+perm-none,none,aucune
+perm-view,read,lire
+perm-edit,edit,éditer
+perm-share,share,partager
+perm-owner,owner,propriétaire
+sync-owner,Owner,Propriétaire
+sync-error-edit-title,Synchronisation error, Erreur de synchronisation
+sync-error-edit-message,An error occur while trying to synchornise.,Une erreur s'est produite lors de la synchronisation.
 default-column-title,Column,Colonne
 default-test-title,Test,Test
 default-test-description,A test,Un test

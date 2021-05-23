@@ -180,11 +180,14 @@ class Test {
     toString() {
         var id = this.id;
         var sync = this.sync;
+        var syncData = this.syncData;
         delete this.id;
         delete this.sync;
+        delete this.syncData;
         var str = JSON.stringify(this);
         this.id = id;
         this.sync = sync;
+        this.syncData = syncData;
         return str;
     }
 
@@ -195,6 +198,7 @@ class Test {
         var t = Object.assign({}, this);
         delete t.id;
         delete t.sync;
+        delete t.syncData;
         return t;
     }
 

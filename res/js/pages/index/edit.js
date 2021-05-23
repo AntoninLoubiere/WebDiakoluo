@@ -535,7 +535,7 @@ class EditPage extends Page {
                 }
             }).catch(error => {
                 console.warn(error);
-                Modal.showOkModal('test-sync-edit-error-title', 'test-sync-edit-error-message', {important: true});
+                Modal.showOkModal('sync-error-edit-title', 'sync-error-edit-message', {important: true});
             });
         } else {
             this.localSave();

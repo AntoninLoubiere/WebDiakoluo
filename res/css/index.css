@@ -179,6 +179,10 @@ textarea.column-string-long {
     transform: scale(1.5);
 }
 
+#view-sync-content {
+    padding-left: 1em;
+}
+
 .edit-button {
     outline: none;
     cursor: pointer;
