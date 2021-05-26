@@ -133,6 +133,13 @@
         <div class="grid-keys" id="edit-panel">
             <b><x-i18n key="title"></x-i18n> :</b></x-i18n> <input type="text" id="edit-test-title" class="unique-line">
             <b><x-i18n key="description"></x-i18n> :</b> <textarea id="edit-test-description" class="resize-vertical"></textarea>
+            <div id="edit-sync-div">
+                <b><x-i18n key="sync"></x-i18n> :</b>
+                <div id="edit-sync">
+                    <x-i18n key="loading" id="edit-sync-span"></x-i18n>
+                    <img src="/WebDiakoluo/res/img/edit.svg" alt="Edit icon" tabindex="0" class="edit-button" id="edit-sync-button">
+                </div>
+            </div>
         </div>
         <div>
             <b><x-i18n key="columns"></x-i18n> :</b>
@@ -319,89 +326,105 @@
 </footer>
 <!-- INCLUDE END id="footer.html" -->
 <div id="view-test-column-modal" class="modal hide">
-<div class="modal-content">
-    <header><span id="modal-view-column-title1"></span><button is="modal-close" class="modal-close">&times;</button></header>
-    <main>
-        <b><x-i18n key="title"></x-i18n></b> <span id="modal-view-column-title2"></span><br>
-        <b><x-i18n key="description"></x-i18n></b> <span id="modal-view-column-description"></span><br>
-        <b><x-i18n key="settings"></x-i18n>:</b>
-        <div id="modal-view-column-settings" class="columns-settings">
-            <div></div><!-- required because of child replace-->
-        </div>
-    </main>
-    <footer id="view-column-nav-bar"></footer>
-</div>
-</div>
-<div id="view-test-data-modal" class="modal hide">
-<div class="modal-content">
-    <header><x-i18n key="data-number"></x-i18n><span id="view-test-data-id"></span><button is="modal-close" class="modal-close">&times;</button></header>
-    <main>
-        <div id="view-test-data-content"></div>
-    </main>
-    <footer id="view-data-nav-bar"></footer>
-</div>
-</div>
-<div id="test-delete-confirm-modal" class="modal hide">
-<div class="modal-content red">
-    <header><x-i18n key="delete-test-title"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
-    <main>
-        <p><x-i18n key="delete-test-message"></x-i18n></p>
-        <button id="test-delete-confirm-button" class="btn image-button right colored red"><x-i18n key="delete" caps="upper"></x-i18n></button>
-        <button is="modal-close" class="btn image-button right"><x-i18n key="cancel" caps="upper"></x-i18n></button>
-    </main>
-</div>
-</div>
-<div id="edit-test-column-modal" class="modal hide">
-<div class="modal-content">
-    <header><span id="modal-edit-column-title1"></span><button is="modal-close" class="modal-close">&times;</button></header>
-    <main class="grid-keys">
-        <b><x-i18n key="title"></x-i18n> :</b> <input type="text" id="modal-edit-column-title2">
-        <b><x-i18n key="description"></x-i18n> :</b> <textarea id="modal-edit-column-description"></textarea>
-        <div id="modal-edit-column-settings-parent">
-            <b><x-i18n key="settings"></x-i18n> :</b>
-            <div class="columns-settings" id="modal-edit-column-settings">
+    <div class="modal-content">
+        <header><span id="modal-view-column-title1"></span><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <b><x-i18n key="title"></x-i18n></b> <span id="modal-view-column-title2"></span><br>
+            <b><x-i18n key="description"></x-i18n></b> <span id="modal-view-column-description"></span><br>
+            <b><x-i18n key="settings"></x-i18n>:</b>
+            <div id="modal-view-column-settings" class="columns-settings">
                 <div></div><!-- required because of child replace-->
             </div>
-        </div>
-    </main>
-    <footer id="edit-column-nav-bar"></footer>
+        </main>
+        <footer id="view-column-nav-bar"></footer>
+    </div>
+</div>
+<div id="view-test-data-modal" class="modal hide">
+    <div class="modal-content">
+        <header><x-i18n key="data-number"></x-i18n><span id="view-test-data-id"></span><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <div id="view-test-data-content"></div>
+        </main>
+        <footer id="view-data-nav-bar"></footer>
+    </div>
+</div>
+<div id="test-delete-confirm-modal" class="modal hide">
+    <div class="modal-content red">
+        <header><x-i18n key="delete-test-title"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <p><x-i18n key="delete-test-message"></x-i18n></p>
+            <button id="test-delete-confirm-button" class="btn image-button right colored red"><x-i18n key="delete" caps="upper"></x-i18n></button>
+            <button is="modal-close" class="btn image-button right"><x-i18n key="cancel" caps="upper"></x-i18n></button>
+        </main>
+    </div>
+</div>
+<div id="edit-test-column-modal" class="modal hide">
+    <div class="modal-content">
+        <header><span id="modal-edit-column-title1"></span><button is="modal-close" class="modal-close">&times;</button></header>
+        <main class="grid-keys">
+            <b><x-i18n key="title"></x-i18n> :</b> <input type="text" id="modal-edit-column-title2">
+            <b><x-i18n key="description"></x-i18n> :</b> <textarea id="modal-edit-column-description"></textarea>
+            <div id="modal-edit-column-settings-parent">
+                <b><x-i18n key="settings"></x-i18n> :</b>
+                <div class="columns-settings" id="modal-edit-column-settings">
+                    <div></div><!-- required because of child replace-->
+                </div>
+            </div>
+        </main>
+        <footer id="edit-column-nav-bar"></footer>
 </div>
 </div>
 <div id="edit-test-data-modal" class="modal hide">
-<div class="modal-content">
-    <header><x-i18n key="data-number"></x-i18n><span id="edit-test-data-id"></span><button is="modal-close" class="modal-close">&times;</button></header>
-    <main>
-        <div id="edit-test-data-content" class="unique-column"></div>
-    </main>
-    <footer id="edit-data-nav-bar"></footer>
+    <div class="modal-content">
+        <header><x-i18n key="data-number"></x-i18n><span id="edit-test-data-id"></span><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <div id="edit-test-data-content" class="unique-column"></div>
+        </main>
+        <footer id="edit-data-nav-bar"></footer>
+    </div>
 </div>
+<div id="edit-sync-modal" class="modal hide">
+    <div class="modal-content">
+        <header><x-i18n key="sync"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <input type="radio" name="sync-edit" id="sync-edit-no-sync"><label for="sync-edit-no-sync"><x-i18n key="sync-edit-no-sync"></x-i18n></label><br>
+            <input type="radio" name="sync-edit" id="sync-edit-add-sync"><label for="sync-edit-add-sync"><x-i18n key="sync-edit-add-sync"></x-i18n></label><br>
+            <input type="radio" name="sync-edit" id="sync-edit-sync"><label for="sync-edit-sync"><x-i18n key="sync-edit-sync"></x-i18n></label><br>
+            <div class="grid-keys" id="sync-edit-sync-div">
+                <div><x-i18n key="sync-id"></x-i18n> :</div><input type="text" id="sync-edit-sync-id" required>
+            </div>
+            <button is="modal-close" type="submit" class="btn image-button colored right">
+                <span><x-i18n key="valid" caps="upper"></x-i18n></span>
+            </button>
+        </main>
+    </div>
 </div>
 <div class="modal hide" id="import-test-modal">
-<div class="modal-content">
-    <header><x-i18n key="import-test"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
-    <main>
-        <form id="import-form" class="unique-column">
-            <input type="file" id="import-test-input" required="" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv">
-            <div class="grid-keys" id="import-test-parent">
-                <b><x-i18n key="file-type"></x-i18n> : </b>
-                <select id="import-test-select" required="">
-                    <option value="dkl" selected="">.dkl</option>
-                    <option value="csv">.csv</option>
-                </select>
-            </div>
-            <div id="import-csv" class="hide">
-                <input type="checkbox"id="import-csv-column-name" checked="">
-                <label for="import-csv-column-name"><x-i18n key="import-csv-column-name"></x-i18n></label><br>
-                <input type="checkbox" id="import-csv-column-type" checked="">
-                <label for="import-csv-column-type"><x-i18n key="import-csv-column-type"></x-i18n></label>
-            </div>
-            <button type="submit" class="btn image-button colored">
-                <img src="/WebDiakoluo/res/img/import_w.svg" alt="Import icon">
-                <span><x-i18n key="import" caps="upper"></x-i18n></span>
-            </button>
-        </form>
-    </main>
-</div>
+    <div class="modal-content">
+        <header><x-i18n key="import-test"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <form id="import-form" class="unique-column">
+                <input type="file" id="import-test-input" required="" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv">
+                <div class="grid-keys" id="import-test-parent">
+                    <b><x-i18n key="file-type"></x-i18n> : </b>
+                    <select id="import-test-select" required="">
+                        <option value="dkl" selected="">.dkl</option>
+                        <option value="csv">.csv</option>
+                    </select>
+                </div>
+                <div id="import-csv" class="hide">
+                    <input type="checkbox"id="import-csv-column-name" checked="">
+                    <label for="import-csv-column-name"><x-i18n key="import-csv-column-name"></x-i18n></label><br>
+                    <input type="checkbox" id="import-csv-column-type" checked="">
+                    <label for="import-csv-column-type"><x-i18n key="import-csv-column-type"></x-i18n></label>
+                </div>
+                <button type="submit" class="btn image-button colored">
+                    <img src="/WebDiakoluo/res/img/import_w.svg" alt="Import icon">
+                    <span><x-i18n key="import" caps="upper"></x-i18n></span>
+                </button>
+            </form>
+        </main>
+    </div>
 </div>
 <div class="modal hide" id="export-test-modal">
 <div class="modal-content">
@@ -490,7 +513,7 @@
 </template>
 <template id="view-column-child-template">
     <div class="test-column">
-        <img src="/WebDiakoluo/res/img/view.svg" class="view-button" tabindex="0" alt="View icon"><span class="test-column-text"></span>
+        <img src="/WebDiakoluo/res/img/view.svg" class="view-button" tabindex="0" alt="View icon">
         <span class="test-column-text"></span>
     </div>
 </template>
@@ -503,7 +526,7 @@
 </template>
 <template id="edit-column-child-template">
     <div class="test-column-edit">
-        <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button" tabindex="0" alt="Edit icon"><span class="test-column-text"></span>
+        <img src="/WebDiakoluo/res/img/edit.svg" class="edit-button" tabindex="0" alt="Edit icon">
         <span class="test-column-text"></span>
         <img class="column-delete-button" src="/WebDiakoluo/res/img/delete.svg" tabindex="0" alt="Delete icon">
     </div>

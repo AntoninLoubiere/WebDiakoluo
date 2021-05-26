@@ -209,6 +209,10 @@ Parameters:
  - modified: the date of modification (to set, unix timestamp)
  - override: say if the user allow: (boolean, optional, default value: false)
  - test: the test to set
+If it is the new page,
+ - id: optional, the id that the user want, if authorized
+ - renameFrom: if the share is rename, the test id renamed
+
 
 #### Response
 The server should respond with a result code: [200](#200---OK) or an error. If there is a conflict and the override fields is set to true, the server could respond with "CONFLICTS" (case insensitive) the client should show a warning dialogue. The server should respond the test id..

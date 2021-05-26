@@ -127,6 +127,14 @@ export async function deleteTest(id: string) {
 }
 
 /**
+ * Delete a test file.
+ * @param id the id of the file to delete
+ */
+export async function unlinkFile(id: string) {
+    await promises.unlink(getTestFilePath(id));
+}
+
+/**
  * Get if a user have specific permission about a test
  * @param permission the permission to have
  * @param test the test object

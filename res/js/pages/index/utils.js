@@ -87,15 +87,20 @@ class Utils {
     }
 
     /* delete the test */
-    deleteTest(id) {
+    async deleteTest(id) {
+        const header = await DATABASE_MANAGER.getHeader(id || currentTest.id);
         Modal.showActionModal(
             'delete-test-title', 
             'delete-test-message', 
             {name: 'delete', icon: '/WebDiakoluo/res/img/delete_w.svg'},
             {important: true})
-        .then(response => {
+        .then(async response => {
             if (response) {
-                DATABASE_MANAGER.deleteTest(id || currentTest.id);
+                if (header.sync) {
+                    await SyncManager.syncManager.deleteTest(header);
+                } else {
+                    DATABASE_MANAGER.deleteTest(id || currentTest.id);
+                }
                 currentTest = null; // TODO cancel button
                 defaultPage.needReload = true;
                 backToMain(true);
@@ -166,11 +171,12 @@ class Utils {
 
     /* do the duplication of test, see #duplicateTest */
     doDuplicateTest(test) {
-        this.data = test.title;
-        test.title = test.title + I18N.getTranslation('duplicate-suffix');
-        DATABASE_MANAGER.addNewTest(test).onsuccess = () => {
+        var newTest = Object.assign(new Test(), test);
+        delete newTest.sync;
+        delete newTest.syncData;
+        newTest.title = newTest.title + I18N.getTranslation('duplicate-suffix');
+        DATABASE_MANAGER.addNewTest(newTest).onsuccess = () => {
             defaultPage.reloadList();
-            test.title = this.data;
         }
     }
 

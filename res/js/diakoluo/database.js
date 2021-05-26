@@ -216,6 +216,28 @@ class DatabaseManager {
         });
     }
 
+    /**
+     * Get the header of a test.
+     * @param {number} id the id of the test
+     * @returns A promise that return the header of a test
+     */
+    getHeader(id) {
+        return new Promise((resolve, reject) => {
+            var transaction = this.testDBEditor.transaction(['header'], "readonly");
+            var tests = transaction.objectStore(['header']);
+            var r = tests.get(id);
+            r.onsuccess = event => {
+                if (r.result) {
+                    resolve(r.result);
+                } else {
+                    reject(event);
+                }
+            }
+
+            r.onerror = reject;
+        });
+    }
+
     /* get a full test data*/
     getFullTest(id) {
         var transaction = this.testDBEditor.transaction(['tests'], "readonly");

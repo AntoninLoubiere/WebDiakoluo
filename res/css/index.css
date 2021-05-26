@@ -188,6 +188,9 @@ textarea.column-string-long {
     cursor: pointer;
     vertical-align: middle;
     transition: transform .3s ease-out;
+
+    width: 1.25em;
+    height: 1.25em;
 }
 
 .edit-button:hover, .edit-button:focus {
@@ -201,6 +204,14 @@ textarea.column-string-long {
 
 #edit-panel {
     grid-template-rows: auto 1fr;
+}
+
+#edit-sync {
+    margin-top: .2em;
+}
+
+#sync-edit-sync-div {
+    margin: .5em 0;
 }
 
 #eval-set-params, #eval-inputs {

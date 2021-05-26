@@ -271,6 +271,15 @@ export class DatabaseManager extends sqlite3.Database {
     }
 
     /**
+     * Change a test id.
+     * @param idFrom the id of the test to change
+     * @param idTo the id to set
+     */
+    async setTestId(idFrom: string, idTo: string) {
+        return (await this.aRun(`UPDATE tests SET id=? WHERE id=?`, [idTo, idFrom]));
+    }
+
+    /**
      * Get all shares to a user
      * @param user_id the user id
      * @returns the shares

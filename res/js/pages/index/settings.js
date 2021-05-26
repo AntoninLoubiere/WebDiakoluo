@@ -241,7 +241,7 @@ class SettingsPage extends Page {
                 await serviceWorkerRegistration.unregister();
             }
             settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-updated');
-            setTimeout(() => document.location = document.location, 3000);
+            setTimeout(() => document.location.reload(), 3000);
         } catch (e) {
             console.error("[Service Worker] Can't update", e);
             settingsPageUpdateStatus.classList.add('important-font')

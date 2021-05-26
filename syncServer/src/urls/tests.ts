@@ -3,7 +3,7 @@ import { DATABASE } from "../config";
 import { generateHash } from "../password-hasher";
 import { PERMS_CREATE_TEST, userHasFlag, userHasPerm } from "../permissions";
 import { sessionRequired, useSession } from "../sessions";
-import { deleteTest, getTestPermission, haveTestPermission, Permission, PERMS_SHARE, PERMS_EDIT, PERMS_OWNER, PERMS_VIEW, respondTest, setTest, stringifyPerm, parsePerm, getUserTests } from "../test-manager";
+import { deleteTest, getTestPermission, haveTestPermission, Permission, PERMS_SHARE, PERMS_EDIT, PERMS_OWNER, PERMS_VIEW, respondTest, setTest, stringifyPerm, parsePerm, getUserTests, unlinkFile } from "../test-manager";
 import { Test } from "../types";
 import { BODY_JSON } from "../utils";
 
@@ -44,16 +44,50 @@ TESTRouter.get('/', sessionRequired, async (_, res) => {
 });
 
 TESTRouter.post('/new', sessionRequired, BODY_JSON, async (req, res) => {
-    if (userHasPerm(res.locals.user, PERMS_CREATE_TEST)) {
-        var id = generateHash(10);
-        await DATABASE.createNewTest(id, res.locals.user);
-        res.locals.test = await DATABASE.getTest(id);
-        req.params.id = id;
-        await editTestHandler(req, res); // move the request to the handler of test edit.
-    } else {
-        res.sendStatus(403);
-    }
-});
+        if (userHasPerm(res.locals.user, PERMS_CREATE_TEST)) {
+            var newId = !req.body.id || req.body.id === 'new';
+
+            if (req.body.renameFrom) var renameFromRequest = DATABASE.getTest(req.body.renameFrom);
+            
+            while (true) {
+                var id = newId ? generateHash(10) : req.body.id;
+                const testRequest = DATABASE.getTest(id);
+                if (await testRequest) { // a test already exist with this id
+                    if (!newId) {
+                        res.sendStatus(403);
+                        return;
+                    }
+                } else {
+                    break;
+                }
+            }
+
+            if (req.body.renameFrom) {
+                var renameTest = await renameFromRequest;
+                if (await haveTestPermission(PERMS_OWNER, renameTest, res.locals.user)) {
+                    try {
+                        await unlinkFile(req.body.renameFrom);
+                    } catch (e) {
+                        console.warn('Cannot unlink file.');
+                        res.sendStatus(500);
+                        return;
+                    }
+                    await DATABASE.setTestId(req.body.renameFrom, id);
+                } else {
+                    res.sendStatus(403);
+                    return;
+                }
+            } else {
+                await DATABASE.createNewTest(id, res.locals.user);
+            }
+
+            res.locals.test = await DATABASE.getTest(id);
+            req.params.id = id;
+            await editTestHandler(req, res); // move the request to the handler of test edit.
+        } else {
+            res.sendStatus(403);
+        }
+    });
 
 TESTRouter.get('/:id', useSession, getTestWithPerms(PERMS_VIEW), async (req, res) => {
     if (Number(req.query.last_modification) || 0 < res.locals.test.last_modification) {

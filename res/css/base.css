@@ -35,7 +35,7 @@
 
     --color-error: hsl(4, 90%, 58%);
     --color-on-error: hsl(0, 0%, 100%);
-    --color-error-variant: hsl(4, 90%, 90%);
+    --color-error-variant: hsl(4, 90%, 80%);
 
     --color-footer-background: var(--color-surface-primary-900);
 
@@ -88,7 +88,7 @@
 
     --color-error: hsl(4, 52%, 61%);
     --color-on-error: hsl(0, 0%, 100%);
-    --color-error-variant: hsl(4, 52%, 10%);
+    --color-error-variant: hsl(4, 52%, 20%);
 
     --color-footer-background: var(--color-surface-primary-100);
 
@@ -467,6 +467,11 @@ button.image-button {
     border: var(--color-primary-100) 2px solid;
 }
 
+button.image-button > img {
+    width: 1.5em;
+    height: 1.5em;
+}
+
 button.btn:hover {
     box-shadow: 1px 2.5px 5px 2px var(--color-shadow);
     transform: translateY(-8px);
@@ -506,9 +511,8 @@ button.image-button.colored:hover, button.image-button.colored:focus {
 }
 
 button.icon-button {
-    width: 24px;
-    height: 24px;
-
+    width: 1.5em;
+    height: 1.5em;
     margin: 0 .2em;
 
     position: relative;
@@ -523,6 +527,8 @@ button.icon-button {
 
 button.icon-button > img {
     vertical-align: baseline;
+    width: 1.5em;
+    height: 1.5em;
 }
 
 button.icon-button::after {
@@ -1146,7 +1152,7 @@ textarea.resize-vertical {
 
 @media (min-width: 800px) {
     body {
-        font-size: 1.2em;
+        font-size: 1.1em;
     }
 
     button.image-button.compact {

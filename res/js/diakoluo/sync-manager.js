@@ -256,26 +256,27 @@ class SyncManager {
         }
     }
 
-    async saveTest(test) {
-        if (test.sync >= 0) {
-            const event = await DATABASE_MANAGER.getSync(test.sync);
-            const sync = event.target.result;
-            await this.authFetch(`/test/${sync.serverTestId}`, 'POST', {
-                "last-modification": sync.lastModification,
-                modified: test.lastModificationDate.getTime(),
-                override: true, // TODO
-                test: test.getSafeTest()
-            });
-            await this.update();
-        } else {
-            await this.authFetch(`/test/new`, 'POST', {
+    async addTest(test, id, renameFrom) {
+        await this.authFetch(`/test/new`, 'POST', {
                 "last-modification": 1,
                 modified: test.lastModificationDate.getTime(),
                 override: true, // TODO
-                test: test.getSafeTest()
+                test: test.getSafeTest(),
+                id: id,
+                renameFrom: renameFrom
             });
-            await this.update();
-        }
+        await this.update();
+    }
+
+    async modifyTest(sync, test) {
+        await this.authFetch(`/test/${sync.serverTestId}`, 'POST', {
+            "last-modification": sync.lastModification,
+            modified: test.lastModificationDate.getTime(),
+            override: true, // TODO
+            test: test.getSafeTest()
+
+        });
+        await this.update();
     }
 
     async deleteTest(test) {

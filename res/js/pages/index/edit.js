@@ -11,7 +11,15 @@ const editColumnModalTitle1 = document.getElementById('modal-edit-column-title1'
 const editColumnModalTitle2 = document.getElementById('modal-edit-column-title2');
 editColumnModalTitle2.onkeyup = () => {editColumnModalTitle1.textContent = editColumnModalTitle2.value};
 const editColumnModalDescription = document.getElementById('modal-edit-column-description');
-const editColumnModalSettings = document.getElementById('modal-edit-column-settings')
+const editColumnModalSettings = document.getElementById('modal-edit-column-settings');
+const editSyncSpan = document.getElementById('edit-sync-span');
+const editSyncButton = document.getElementById('edit-sync-button');
+
+const editSyncNoSync = document.getElementById('sync-edit-no-sync');
+const editSyncAddSync = document.getElementById('sync-edit-add-sync');
+const editSyncSync = document.getElementById('sync-edit-sync');
+const editSyncSyncId = document.getElementById('sync-edit-sync-id');
+const editSyncSyncDiv = document.getElementById('sync-edit-sync-div');
 
 const editDataModalContent = document.getElementById('edit-test-data-content');
 const editDataModalId = document.getElementById('edit-test-data-id');
@@ -21,6 +29,7 @@ const editDataTemplate = document.getElementById('edit-data-child-template');
 
 const editColumnModal = new Modal(document.getElementById('edit-test-column-modal'));
 const editDataModal = new Modal(document.getElementById('edit-test-data-modal'));
+const editSyncModal = new Modal(document.getElementById('edit-sync-modal'));
 
 class EditPage extends Page {
     constructor() {
@@ -52,6 +61,10 @@ class EditPage extends Page {
 
         editColumnModal.onhide = this.closeColumnModal.bind(this);
         editDataModal.onhide = this.closeDataModal.bind(this);
+        editSyncModal.onhide = this.applySyncModal.bind(this);
+
+        editSyncButton.onclick = editSyncModal.show.bind(editSyncModal);
+        editSyncNoSync.onclick = editSyncAddSync.onclick = editSyncSync.onclick = this.updateEditSyncDiv.bind(this);
     }
 
     /* When the page is loaded */
@@ -196,16 +209,19 @@ class EditPage extends Page {
         if (currentTest?.id !== EDIT_KEY || await this.showEraseWarning()) {
             currentTest = new Test(I18N.getTranslation("default-test-title"), I18N.getTranslation("default-test-description"));
             currentTest.id = EDIT_KEY;
+            if (SyncManager.syncManager) currentTest.editSync = "new";
             this.loadTest();
         }
     }
 
     async showEraseWarning(id) {
+        if (this.lockErase) return;
         if (id != null && !await DATABASE_MANAGER.testExist(id)) {
             backToMain(false);
             return false;
         }
         this.loadTest();
+        this.lockErase = true;
         var r = await Modal.showActionModal(
             'warning-erase-title', 
             'warning-erase-message',
@@ -215,6 +231,7 @@ class EditPage extends Page {
             currentURL.searchParams.set('test', 'current');
             history.replaceState({}, '', currentURL);
         }
+        this.lockErase = false;
         return r;
     }
 
@@ -222,6 +239,25 @@ class EditPage extends Page {
     loadTest() {
         editPageTitle.value = currentTest.title;
         editPageDescription.value = currentTest.description;
+
+        editSyncSyncId.value = "";
+        if (currentTest.editSync) {
+            this.updateEditSync(currentTest.editSync);
+            if (currentTest.sync) {
+                DATABASE_MANAGER.getSync(currentTest.sync).then(e => {
+                    editSyncSyncId.value = e.target.result.serverTestId;
+                });
+            }
+        } else if (currentTest.sync) {
+            editSyncNoSync.checked = editSyncAddSync.checked = editSyncAddSync.checked = false;
+
+            DATABASE_MANAGER.getSync(currentTest.sync).then(e => {
+                this.updateEditSync(currentTest.editSync = e.target.result.serverTestId);
+            });
+        } else {
+            this.updateEditSync(currentTest.editSync = "");
+        }
+        this.updateEditSyncLabel();
 
         removeAllChildren(editPageColumnsList);
         removeAllChildren(editPageDataTableHeader);
@@ -247,6 +283,45 @@ class EditPage extends Page {
         editColumnModal.id = -1;
         
         this.updateModal(true);
+    }
+
+    /**
+     * Update the label of the synchronisation.
+     */
+    updateEditSyncLabel() {
+        editSyncSpan.textContent = currentTest.editSync ?? currentTest.sync ? 
+                I18N.getTranslation('sync-synchronise') : I18N.getTranslation('sync-no-sync');
+    }
+
+    /**
+     * Update the edit sync modal.
+     * @param {string} editSync the id set.
+     */
+    updateEditSync(editSync) {
+        if (editSync) {
+            if (editSync === 'new') {
+                editSyncAddSync.checked = true;
+                editSyncSyncDiv.classList.add('hide');
+            } else {
+                editSyncSync.checked = true;
+                editSyncSyncId.value = editSync;
+                editSyncSyncDiv.classList.remove('hide');
+            }
+        } else {
+            editSyncNoSync.checked = true;
+            editSyncSyncDiv.classList.add('hide');
+        }
+    }
+
+    /**
+     * Update the edit sync div in the modal.
+     */
+    updateEditSyncDiv() {
+        if (editSyncSync.checked) {
+            editSyncSyncDiv.classList.remove('hide');
+        } else {
+            editSyncSyncDiv.classList.add('hide');
+        }
     }
 
     /* Add a column in the UI */
@@ -470,7 +545,8 @@ class EditPage extends Page {
         currentTest.description = editPageDescription.value;
 
         if (Modal.currentModal === editColumnModal) this.applyColumnModal();
-        else if (Modal.currentModal == editDataModal) this.applyDataModal();
+        else if (Modal.currentModal === editDataModal) this.applyDataModal();
+        else if (Modal.currentModal === editSyncModal) this.applySyncModal();
 
         DATABASE_MANAGER.updateTest(currentTest);
     }
@@ -498,6 +574,20 @@ class EditPage extends Page {
         }
     }
 
+    /**
+     * Apply the synchronisation modal and save state in the test.
+     */
+    applySyncModal() {
+        if (editSyncNoSync.checked) {
+            currentTest.editSync = "";
+        } else if (editSyncAddSync.checked) {
+            currentTest.editSync = "new";
+        } else if (editSyncSync.checked) {
+            currentTest.editSync = !editSyncSyncId.value || editSyncSyncId.value === "new" ? "_new" : editSyncSyncId.value;
+        }
+        this.updateEditSyncLabel();
+    }
+
     /* callback for the cancel button */
     cancelButton() {
         Modal.showActionModal(
@@ -518,12 +608,11 @@ class EditPage extends Page {
     /**
      * When the save button is pressed.
      */
-    saveButton() {
+    async saveButton() {
         this.saveTest();
         currentTest.registerModificationDate();
-
-        if (currentTest.sync) {
-            SyncManager.syncManager.saveTest(currentTest).then(() => {
+        if (currentTest.editSync ?? currentTest.sync) {
+            await this.syncSave().then(() => {
                 defaultPage.needReload = true;
                 DATABASE_MANAGER.deleteTest(EDIT_KEY);
                 const editId = currentTest.edit_id;
@@ -538,8 +627,36 @@ class EditPage extends Page {
                 Modal.showOkModal('sync-error-edit-title', 'sync-error-edit-message', {important: true});
             });
         } else {
-            this.localSave();
+            if (currentTest.sync) {
+                // delete the synchronisation
+                // TODO warning
+                SyncManager.syncManager.deleteTest(currentTest).then(() => {
+                    delete currentTest.sync;
+                    this.localSave();
+                }); // TODO error modal
+            } else {
+                this.localSave();
+            }
         }
+    }
+
+    async syncSave() {
+        if (currentTest.sync >= 0) {
+            const event = await DATABASE_MANAGER.getSync(currentTest.sync);
+            const sync = event.target.result;
+            if (sync.serverTestId === currentTest.editSync) {
+                delete currentTest.editSync;
+                await SyncManager.syncManager.modifyTest(sync, currentTest);
+            } else {
+                var id = !currentTest.editSync || currentTest.editSync === "new" ? undefined : currentTest.editSync;
+                delete currentTest.editSync;
+                await SyncManager.syncManager.addTest(currentTest, id, sync.serverTestId);
+            }
+        } else {
+            var id = !currentTest.editSync || currentTest.editSync === "new" ? undefined : currentTest.editSync;
+            delete currentTest.editSync;
+            await SyncManager.syncManager.addTest(currentTest, id);
+        } 
     }
 
     /**
@@ -547,6 +664,7 @@ class EditPage extends Page {
      */
     localSave() {
         defaultPage.needReload = true;
+        delete currentTest.editSync;
         if (currentTest.edit_id) {
             currentTest.id = currentTest.edit_id;
             delete currentTest.edit_id;
