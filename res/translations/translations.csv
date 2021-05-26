@@ -56,7 +56,9 @@ settings-appearance,Appearance,Affichage
 settings-version-title,Version,Version
 settings-version-message,Current version,Version actuelle
 settings-last-update,Last version available,Dernière version disponible
-settings-updating,Updating...,Mise à jour en cours...
+settings-downloading,Downloading...,Téléchargement en cours...
+settings-installing,Installing...,Installation en cours...
+settings-no-update,No update to do.,Aucune mise à jour à faire.
 settings-updated,"Updated, the page will regresh in a few seconds.","Mise à jour terminé, la page va se reafraîchir dans quelques secondes."
 settings-cant-update,An error occur while updating.,Une erreur est survenue lors de la mise à jour.
 settings-theme,Theme,Thème
@@ -81,8 +83,13 @@ perm-edit,edit,éditer
 perm-share,share,partager
 perm-owner,owner,propriétaire
 sync-owner,Owner,Propriétaire
+sync-synchronise,Synchronised,Synchronisé
+sync-no-sync,Not synchronised,Non synchronisé
+sync-edit-no-sync,Don't synchronise,Ne pas synchroniser
+sync-edit-add-sync,Create a new synchronisation,Créer une nouvelle synchronisation
+sync-edit-sync,Synchronise with,Synchroniser avec
 sync-error-edit-title,Synchronisation error, Erreur de synchronisation
-sync-error-edit-message,An error occur while trying to synchornise.,Une erreur s'est produite lors de la synchronisation.
+sync-error-edit-message,An error occur while trying to synchronise.,Une erreur s'est produite lors de la synchronisation.
 default-column-title,Column,Colonne
 default-test-title,Test,Test
 default-test-description,A test,Un test

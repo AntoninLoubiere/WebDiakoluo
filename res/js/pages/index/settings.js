@@ -233,20 +233,73 @@ class SettingsPage extends Page {
      */
     async updateButton() {
         settingsPageUpdateStatus.classList.remove('important-font');
-        settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-updating');
+        settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-downloading');
         try {
-            if (serviceWorkerRegistration.update) {
-                await serviceWorkerRegistration.update();
+            var swRegistration = await navigator.serviceWorker.getRegistration();
+            if (swRegistration.update) {
+                await swRegistration.update();
+                console.log(swRegistration);
+                if (swRegistration.installing) {
+                    this.updateOnInstalling(swRegistration.installing);
+                } else if (swRegistration.waiting) {
+                    this.updateOnWaiting(swRegistration.waiting);
+                } else {
+                    settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-no-update');
+                }
             } else {
-                await serviceWorkerRegistration.unregister();
+                await swRegistration.unregister();
+                updateOnUpdated();
             }
-            settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-updated');
-            setTimeout(() => document.location.reload(), 3000);
         } catch (e) {
-            console.error("[Service Worker] Can't update", e);
-            settingsPageUpdateStatus.classList.add('important-font')
-            settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-cant-update');
+            this.updateFailed(e);
         }
+    }
+
+    /**
+     * When a worker is installing during the update.
+     * @param {ServiceWorker} worker the service worker that is installing
+     */
+    updateOnInstalling(worker) {
+        settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-installing');
+        worker.onstatechange = e => {
+            const state = e.target.state;
+            if (state === 'activating' || state === 'installed') {
+                this.updateOnWaiting(worker);
+                worker.onstatechange = null;
+            } else if (state === 'activated') {
+                this.updateOnActivated();
+            } else if (state === 'redundant') {
+                this.updateFailed(worker);
+            }
+        }
+    }
+
+    /**
+     * When a worker is waiting during the update.
+     * @param {ServiceWorker} worker the service worker that is waiting
+     */
+    updateOnWaiting(worker) {
+        worker.postMessage({action: 'skipWaiting'});
+        this.updateOnActivated();
+    }
+
+    /**
+     * When a worker is activated during the update.
+     * @param {ServiceWorker} worker the service worker that is activated
+     */
+    updateOnActivated() {
+        settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-updated');
+        setTimeout(() => document.location.reload(), 3000);
+    }
+
+    /**
+     * When an update failed.
+     * @param {*} e the error to print
+     */
+    updateFailed(e) {
+        console.error("[Service Worker] Can't update", e);
+        settingsPageUpdateStatus.classList.add('important-font')
+        settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-cant-update');
     }
 }
 

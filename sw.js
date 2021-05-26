@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-09kvUU0J";
+ const CACHE_NAME = "WebDiakoluo-Cyjz1UNy";
  const ORIGIN = "https://antoninloubiere.github.io";
 
 /* get the files of the app */
@@ -146,3 +146,9 @@ self.addEventListener('activate', (e) => {
         })
     );
 });
+
+self.addEventListener('message', function(event) {
+    if (event.data.action === 'skipWaiting') {
+        self.skipWaiting();
+    }
+}); 
