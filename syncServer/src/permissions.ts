@@ -2,6 +2,7 @@ import { User } from "./types";
 
 export const PERMS_ADMIN = 1; // 1 << 1
 export const PERMS_CREATE_TEST = 2; // 1 << 2;
+export const PERMS_CUSTOM_ID = 4; // 1 << 3
 
 export const FLAG_DISABLE = 1; // 1 << 1;
 

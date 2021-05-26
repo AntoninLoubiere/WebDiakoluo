@@ -391,7 +391,8 @@
             <input type="radio" name="sync-edit" id="sync-edit-add-sync"><label for="sync-edit-add-sync"><x-i18n key="sync-edit-add-sync"></x-i18n></label><br>
             <input type="radio" name="sync-edit" id="sync-edit-sync"><label for="sync-edit-sync"><x-i18n key="sync-edit-sync"></x-i18n></label><br>
             <div class="grid-keys" id="sync-edit-sync-div">
-                <div><x-i18n key="sync-id"></x-i18n> :</div><input type="text" id="sync-edit-sync-id" required>
+                <div><x-i18n key="sync-id"></x-i18n> :</div>
+                <input type="text" id="sync-edit-sync-id" required pattern="[a-zA-Z1-9_\-]+" maxlength="32">
             </div>
             <button is="modal-close" type="submit" class="btn image-button colored right">
                 <span><x-i18n key="valid" caps="upper"></x-i18n></span>

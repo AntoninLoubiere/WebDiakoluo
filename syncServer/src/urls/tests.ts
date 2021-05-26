@@ -1,11 +1,14 @@
 import { Request, RequestHandler, Response, Router } from "express";
 import { DATABASE } from "../config";
 import { generateHash } from "../password-hasher";
-import { PERMS_CREATE_TEST, userHasFlag, userHasPerm } from "../permissions";
+import { PERMS_CREATE_TEST, PERMS_CUSTOM_ID, userHasFlag, userHasPerm } from "../permissions";
 import { sessionRequired, useSession } from "../sessions";
 import { deleteTest, getTestPermission, haveTestPermission, Permission, PERMS_SHARE, PERMS_EDIT, PERMS_OWNER, PERMS_VIEW, respondTest, setTest, stringifyPerm, parsePerm, getUserTests, unlinkFile } from "../test-manager";
 import { Test } from "../types";
 import { BODY_JSON } from "../utils";
+
+const ID_CHARS_REGEX = new RegExp('[^a-zA-Z1-9_\-]', 'g');
+const DIACRITICAL_REGEX = new RegExp('[\u0300-\u036f]', 'g');
 
 const TESTRouter = Router();
 export default TESTRouter;
@@ -45,12 +48,13 @@ TESTRouter.get('/', sessionRequired, async (_, res) => {
 
 TESTRouter.post('/new', sessionRequired, BODY_JSON, async (req, res) => {
         if (userHasPerm(res.locals.user, PERMS_CREATE_TEST)) {
-            var newId = !req.body.id || req.body.id === 'new';
+            var newId = !req.body.id || req.body.id === 'new' || !userHasPerm(res.locals.user, PERMS_CUSTOM_ID);
 
             if (req.body.renameFrom) var renameFromRequest = DATABASE.getTest(req.body.renameFrom);
             
             while (true) {
-                var id = newId ? generateHash(10) : req.body.id;
+                var id = newId ? generateHash(10) : 
+                    req.body.id.substring(0, 32).normalize("NFD").replace(DIACRITICAL_REGEX, "").replace(ID_CHARS_REGEX, '-');
                 const testRequest = DATABASE.getTest(id);
                 if (await testRequest) { // a test already exist with this id
                     if (!newId) {
