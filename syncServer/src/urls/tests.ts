@@ -182,6 +182,11 @@ TESTRouter.post('/:id/share', useSession, getTestWithPerms(PERMS_SHARE), BODY_JS
             res.sendStatus(400);
             return;
         }
+        if ((perms >= PERMS_SHARE || res.locals.test.share_link >= PERMS_SHARE) 
+                && !await haveTestPermission(PERMS_OWNER, res.locals.test, res.locals.user)) {
+            res.sendStatus(403);
+            return;
+        }
 
         var e = await DATABASE.setShareLinksPerms(req.params.id, perms);
         res.sendStatus(e ? 500 : 204);
@@ -194,28 +199,37 @@ TESTRouter.post('/:id/share', useSession, getTestWithPerms(PERMS_SHARE), BODY_JS
         res.sendStatus(400);
         return;
     }
+    if (name === res.locals.user.username) {
+        res.sendStatus(403);
+        return;
+    }
+    const isOwner = await haveTestPermission(PERMS_OWNER, res.locals.test, res.locals.user);
 
     if (action === 'add' || action === 'edit') {
         if (perms < 0) {
             res.sendStatus(400);
             return;
         }
+        if (perms === PERMS_OWNER && !isOwner) {
+            res.sendStatus(403);
+            return;
+        }
 
         if (type === 'user') {
-            var e = await DATABASE.setShareUserPerms(res.locals.test.test_id, name, perms);
-            res.sendStatus(e ? 500 : 204);
+            var e = await DATABASE.setShareUserPerms(res.locals.test.test_id, name, perms, isOwner);
+            res.sendStatus(e[0] ? 500 : e[1] ? 204 : 404);
         } else { // must be 'group'
-            var e = await DATABASE.setShareGroupPerms(res.locals.test.test_id, res.locals.test.owner, name, perms);
-            res.sendStatus(e ? 500 : 204);
+            var e = await DATABASE.setShareGroupPerms(res.locals.test.test_id, res.locals.test.owner, name, perms, isOwner);
+            res.sendStatus(e[0] ? 500 : e[1] ? 204 : 404);
         }
         return;
     } else { // action = 'delete'
         if (type === 'user') {
-            var e = await DATABASE.deleteShareUserPerms(res.locals.test.test_id, name);
-            res.sendStatus(e ? 500 : 204);
+            var e = await DATABASE.deleteShareUserPerms(res.locals.test.test_id, name, isOwner);
+            res.sendStatus(e[0] ? 500 : e[1] ? 204 : 404);
         } else { // must be 'group'
-            var e = await DATABASE.deleteShareGroupPerms(res.locals.test.test_id, name);
-            res.sendStatus(e ? 500 : 204);
+            var e = await DATABASE.deleteShareGroupPerms(res.locals.test.test_id, name, isOwner);
+            res.sendStatus(e[0] ? 500 : e[1] ? 204 : 404);
         }
         return;
     }

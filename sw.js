@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-Cyjz1UNy";
+ const CACHE_NAME = "WebDiakoluo-dI!46S7D";
  const ORIGIN = "https://antoninloubiere.github.io";
 
 /* get the files of the app */
@@ -46,6 +46,7 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/sync_w.svg");
     f.push("/WebDiakoluo/res/img/view.svg");
     f.push("/WebDiakoluo/res/img/github.svg");
+    f.push("/WebDiakoluo/res/img/group.svg");
     f.push("/WebDiakoluo/res/img/export_w.svg");
     f.push("/WebDiakoluo/res/img/appearance_w.svg");
     f.push("/WebDiakoluo/res/img/info.svg");
@@ -57,6 +58,7 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/grade.svg");
     f.push("/WebDiakoluo/res/img/checkbox_on.svg");
     f.push("/WebDiakoluo/res/img/open_in_new_w.svg");
+    f.push("/WebDiakoluo/res/img/user.svg");
     f.push("/WebDiakoluo/res/img/dark_mode.svg");
     f.push("/WebDiakoluo/res/img/add.svg");
     f.push("/WebDiakoluo/res/img/radio.svg");
@@ -66,6 +68,7 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/duplicate.svg");
     f.push("/WebDiakoluo/res/img/settings_w.svg");
     f.push("/WebDiakoluo/res/img/favicon_no_background.svg");
+    f.push("/WebDiakoluo/res/img/drop_down_grey.svg");
     f.push("/WebDiakoluo/res/img/cancel.svg");
     f.push("/WebDiakoluo/res/img/grade_w.svg");
     f.push("/WebDiakoluo/res/img/nav_next.svg");

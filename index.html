@@ -109,7 +109,9 @@
                     <div id="view-sync-content">
                         <x-i18n key="sync-id"></x-i18n> : <span id="view-sync-test-id"></span><br>
                         <x-i18n key="sync-perms"></x-i18n> : <span id="view-sync-test-perms"></span><br>
-                        <x-i18n key="sync-owner"></x-i18n> : <span id="view-sync-test-owner"></span>
+                        <x-i18n key="sync-owner"></x-i18n> : <span id="view-sync-test-owner"></span><br>
+                        <x-i18n key="sync-share"></x-i18n>
+                        <img src="/WebDiakoluo/res/img/view.svg" alt="Share icon" class="view-button" id="sync-share-button">
                     </div>
                 </div>
             </div>
@@ -348,6 +350,38 @@
         <footer id="view-data-nav-bar"></footer>
     </div>
 </div>
+<div id="sync-share-modal" class="modal hide">
+    <div class="modal-content">
+        <header><x-i18n key="sync-share"></x-i18n><button is="modal-close" class="modal-close">&times;</button>
+        </header>
+        <main>
+            <div id="sync-share-link-div">
+                <label for="sync-share-link"><x-i18n key="sync-share-link"></x-i18n> :</label><select id="sync-share-link" class="perms-select"></select>
+            </div>
+            <div id="sync-share-shares-parent">
+                <div id="sync-share-shares"></div>
+            </div>
+            <form id="sync-share-add-form">
+                <div id="sync-share-add-name-parent">
+                    <label for="sync-share-add-name"><x-i18n key="sync-share-name"></x-i18n></label>
+                    <input type="text" id="sync-share-add-name">
+                </div>
+                <div>
+                    <label for="sync-share-add-type"><x-i18n key="sync-share-type"></x-i18n></label>
+                    <select type="text" id="sync-share-add-type" class="type-select"></select>
+                </div>
+                <div>
+                    <label for="sync-share-add-perms"><x-i18n key="sync-share-perms"></x-i18n></label>
+                    <select type="text" id="sync-share-add-perms" class="perms-select"></select>
+                </div>
+                <button type="submit" class="image-button btn compact">
+                    <img src="/WebDiakoluo/res/img/add.svg" alt="Add icon">
+                    <span><x-i18n key="sync-share-add-perm" caps="upper"></x-i18n></span>
+                </button>
+            </form>
+        </main>
+    </div>
+</div>
 <div id="test-delete-confirm-modal" class="modal hide">
     <div class="modal-content red">
         <header><x-i18n key="delete-test-title"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
@@ -524,6 +558,14 @@
             <img src="/WebDiakoluo/res/img/view.svg" class="view-button" tabindex="0" alt="View icon">
         </td>
     </tr>
+</template>
+<template id="sync-share-perms-rule">
+    <div>
+        <img class="share-type" alt="Share type">
+        <span class="share-name"></span>
+        <select class="sync-share-perms-select perms-select"></select>
+        <img src="/WebDiakoluo/res/img/cancel.svg" class="view-button share-delete-button" tabindex="0" alt="Delete user">
+    </div>
 </template>
 <template id="edit-column-child-template">
     <div class="test-column-edit">

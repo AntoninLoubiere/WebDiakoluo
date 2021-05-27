@@ -380,6 +380,7 @@ select {
     background-position: right;
     background-size: contain;
     background-repeat: no-repeat;
+    padding-right: 1.5em;
 }
 
 input[type='text']:hover, input[type='password']:hover, input[type='number']:hover, textarea:hover, select:focus, select:hover {
@@ -411,6 +412,10 @@ input:disabled, textarea:disabled, select:disabled {
     color: var(--color-neutral-50);
     border-color: var(--color-neutral-30);
     background-color: var(--color-neutral-5);
+}
+
+select:disabled {
+    background-image: url('/WebDiakoluo/res/img/drop_down_grey.svg');
 }
 
 input.small {
@@ -1081,6 +1086,7 @@ textarea.resize-vertical {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: .2em;
+    align-items: center;
 }
 
 .boolean-true {

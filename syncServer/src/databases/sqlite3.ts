@@ -155,7 +155,7 @@ export class DatabaseManager extends sqlite3.Database {
      */
     async addUser(username: string, password: string, name: string) {
         return this.aRun('INSERT INTO users("username","password","name") VALUES (?,?,?)', 
-            [username, hashPass(password), name]);
+            [username, hashPass(password), name])[0];
     }
 
     /**
@@ -203,7 +203,7 @@ export class DatabaseManager extends sqlite3.Database {
         return this.aRun(
             'INSERT INTO sessions("id", "user", "expire_date") VALUES (?,?,?)', 
             [id, user_id, Date.now() + maxTime]
-        );
+        )[0];
     }
 
     /**
@@ -221,7 +221,7 @@ export class DatabaseManager extends sqlite3.Database {
      * @return if there is an error
      */
     async deleteSession(id: string) {
-        return this.aRun('DELETE FROM sessions WHERE id=? OR expire_date<?', [id, Date.now()]);
+        return this.aRun('DELETE FROM sessions WHERE id=? OR expire_date<?', [id, Date.now()])[0];
     }
 
     /**
@@ -229,7 +229,7 @@ export class DatabaseManager extends sqlite3.Database {
      * @return if there is an error
      */
     async cleanupSession() {
-        return this.aRun('DELETE FROM sessions WHERE expire_date<?', Date.now());
+        return this.aRun('DELETE FROM sessions WHERE expire_date<?', Date.now())[0];
     }
 
     /**
@@ -276,7 +276,7 @@ export class DatabaseManager extends sqlite3.Database {
      * @param idTo the id to set
      */
     async setTestId(idFrom: string, idTo: string) {
-        return (await this.aRun(`UPDATE tests SET id=? WHERE id=?`, [idTo, idFrom]));
+        return (await this.aRun(`UPDATE tests SET id=? WHERE id=?`, [idTo, idFrom]))[0];
     }
 
     /**
@@ -371,7 +371,7 @@ export class DatabaseManager extends sqlite3.Database {
      * @param modificationDate the date of modification
      */
     async updateTestModificationDate(id: string, modificationDate: number) {
-        return (await this.aRun(`UPDATE tests SET last_modification=? WHERE id=?`, [modificationDate, id]));
+        return (await this.aRun(`UPDATE tests SET last_modification=? WHERE id=?`, [modificationDate, id]))[0];
     }
 
     /**
@@ -392,7 +392,7 @@ export class DatabaseManager extends sqlite3.Database {
      * @returns if there is an error
      */
     async deleteTest(id: string) {
-        return await this.aRun(`DELETE FROM tests WHERE id=?`, [id]);
+        return await this.aRun(`DELETE FROM tests WHERE id=?`, [id])[0];
     }
 
     /**
@@ -402,7 +402,7 @@ export class DatabaseManager extends sqlite3.Database {
      * @returns if there is an error
      */
     async setShareLinksPerms(id: string, perms: number) {
-        return await this.aRun(`UPDATE tests SET share_link=? WHERE id=?`, [perms, id]);
+        return await this.aRun(`UPDATE tests SET share_link=? WHERE id=?`, [perms, id])[0];
     }
 
     /**
@@ -412,11 +412,18 @@ export class DatabaseManager extends sqlite3.Database {
      * @param perms the perms to set
      * @returns if there is an error
      */
-    async setShareUserPerms(test_id: number, username: string, perms: number) {
-        return await this.aRun(`INSERT INTO shares(test, user, "group", perms)
-        SELECT ?, user_id, 0, ? FROM users WHERE username=?
-        ON CONFLICT (test, user, "group") DO UPDATE SET perms=?
-        `, [test_id, perms, username, perms])
+    async setShareUserPerms(test_id: number, username: string, perms: number, isOwner: boolean) {
+        if (isOwner) {
+            return await this.aRun(`INSERT INTO shares(test, user, "group", perms)
+            SELECT ?, user_id, 0, ? FROM users WHERE username=?
+            ON CONFLICT (test, user, "group") DO UPDATE SET perms=?
+            `, [test_id, perms, username, perms]);
+        } else {
+            return await this.aRun(`INSERT INTO shares(test, user, "group", perms)
+            SELECT ?, user_id, 0, ? FROM users WHERE username=?
+            ON CONFLICT (test, user, "group") DO UPDATE SET perms=? WHERE perms<4
+            `, [test_id, perms, username, perms]);
+        }
     }
 
     /**
@@ -427,19 +434,30 @@ export class DatabaseManager extends sqlite3.Database {
      * @param perms the perms to set
      * @returns if there is an error
      */
-    async setShareGroupPerms(test_id: number, owner: number, group_name: string, perms: number) {
-        var queryA = this.aRun(`INSERT INTO shares(test, user, "group", perms)
-        SELECT ?, user, "group", ? FROM users_groups_link WHERE "group"=(
-            SELECT group_id FROM groups WHERE name=?
-        ) AND user!=?
-        ON CONFLICT (test, user, "group") DO UPDATE SET perms=?;
-        `, [test_id, perms, group_name, owner, perms]);
-        var queryB = this.aRun(`INSERT INTO shares_groups(test, "group", perms) 
-        SELECT ?, group_id, ? FROM groups WHERE name=?
-        ON CONFLICT (test, "group") DO UPDATE SET perms=?`, [test_id, perms, group_name, perms]);
-        var eA = await queryA;
-        var eB = await queryB;
-        return eA || eB;
+    async setShareGroupPerms(test_id: number, owner: number, group_name: string, perms: number, isOwner: boolean) {
+        if (isOwner) {
+            var queryA = this.aRun(`INSERT INTO shares(test, user, "group", perms)
+            SELECT ?, user, "group", ? FROM users_groups_link WHERE "group"=(
+                SELECT group_id FROM groups WHERE name=?
+            ) AND user!=?
+            ON CONFLICT (test, user, "group") DO UPDATE SET perms=?
+            `, [test_id, perms, group_name, owner, perms]);
+            var queryB = this.aRun(`INSERT INTO shares_groups(test, "group", perms) 
+            SELECT ?, group_id, ? FROM groups WHERE name=?
+            ON CONFLICT (test, "group") DO UPDATE SET perms=?`, [test_id, perms, group_name, perms]);
+        } else {
+            var queryA = this.aRun(`INSERT INTO shares(test, user, "group", perms)
+            SELECT ?, user, "group", ? FROM users_groups_link WHERE "group"=(
+                SELECT group_id FROM groups WHERE name=?
+            ) AND user!=?
+            ON CONFLICT (test, user, "group") DO UPDATE SET perms=? WHERE perms<4
+            `, [test_id, perms, group_name, owner, perms]);
+            var queryB = this.aRun(`INSERT INTO shares_groups(test, "group", perms) 
+            SELECT ?, group_id, ? FROM groups WHERE name=?
+            ON CONFLICT (test, "group") DO UPDATE SET perms=? WHERE perms<4`, [test_id, perms, group_name, perms]);
+        }
+        await queryA;
+        return await queryB;
     }
 
     /**
@@ -448,10 +466,16 @@ export class DatabaseManager extends sqlite3.Database {
      * @param username the username of the user to set
      * @returns if there is an error
      */
-     async deleteShareUserPerms(test_id: number, username: string) {
-        return await this.aRun(`DELETE FROM shares WHERE user=(
-            SELECT user_id FROM users WHERE test=? AND "group"=0 AND username=?
-        )`, [test_id, username])
+     async deleteShareUserPerms(test_id: number, username: string, isOwner: boolean) {
+        if (isOwner) {
+            return await this.aRun(`DELETE FROM shares WHERE user=(
+                SELECT user_id FROM users WHERE test=? AND "group"=0 AND username=?
+            )`, [test_id, username]);
+        } else {
+            return await this.aRun(`DELETE FROM shares WHERE user=(
+                SELECT user_id FROM users WHERE test=? AND "group"=0 AND username=?
+            ) AND perms<4`, [test_id, username]);
+        }
     }
 
     /**
@@ -461,16 +485,24 @@ export class DatabaseManager extends sqlite3.Database {
      * @param group_name the name of the group to share
      * @returns if there is an error
      */
-    async deleteShareGroupPerms(test_id: number, group_name: string) {
-        var queryA = this.aRun(`DELETE FROM shares WHERE test=? AND "group"=(
-            SELECT group_id FROM groups WHERE name=?
-        )`, [test_id, group_name]);
-        var queryB = this.aRun(`DELETE FROM shares_groups WHERE test=? AND "group"=(
-            SELECT group_id FROM groups WHERE name=?
-        )`, [test_id, group_name]);
-        var eA = await queryA;
-        var eB = await queryB;
-        return eA || eB;
+    async deleteShareGroupPerms(test_id: number, group_name: string, isOwner: boolean) {
+        if (isOwner) {
+            var queryA = this.aRun(`DELETE FROM shares WHERE test=? AND "group"=(
+                SELECT group_id FROM groups WHERE name=?
+            )`, [test_id, group_name]);
+            var queryB = this.aRun(`DELETE FROM shares_groups WHERE test=? AND "group"=(
+                SELECT group_id FROM groups WHERE name=?
+            )`, [test_id, group_name]);
+        } else {
+            var queryA = this.aRun(`DELETE FROM shares WHERE test=? AND "group"=(
+                SELECT group_id FROM groups WHERE name=?
+            ) AND perms<4`, [test_id, group_name]);
+            var queryB = this.aRun(`DELETE FROM shares_groups WHERE test=? AND "group"=(
+                SELECT group_id FROM groups WHERE name=?
+            ) AND perms<4`, [test_id, group_name]);
+        }
+        await queryA;
+        return await queryB;
     }
 
     /**
@@ -509,11 +541,11 @@ export class DatabaseManager extends sqlite3.Database {
      * @param params params to escape
      * @returns a promise that resolve with an error object or null if it is a success.
      */
-    async aRun(query: string, params?: any): Promise<Error> {
+    async aRun(query: string, params?: any): Promise<[Error, number]> {
         return new Promise(resolve => {
-            super.get(query, params, error => {
+            super.run(query, params, function (error) {
                 if (error) console.error('[DB]', error.name, error.message, error.stack);
-                resolve(error);
+                resolve([error, this?.changes]);
             });
         });
     }

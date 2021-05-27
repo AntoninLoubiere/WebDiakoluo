@@ -19,6 +19,16 @@ const viewSyncDiv = document.getElementById('view-sync');
 const viewSyncId = document.getElementById('view-sync-test-id');
 const viewSyncPerms = document.getElementById('view-sync-test-perms');
 const viewSyncOwner = document.getElementById('view-sync-test-owner');
+const viewSyncShareButton = document.getElementById('sync-share-button');
+const viewSyncShareModal = new Modal(document.getElementById('sync-share-modal'));
+const viewSyncShareLink = document.getElementById('sync-share-link');
+const viewSyncShareShares = document.getElementById('sync-share-shares');
+const viewSyncShareAddName = document.getElementById('sync-share-add-name');
+const viewSyncShareAddType = document.getElementById('sync-share-add-type');
+const viewSyncShareAddPerms = document.getElementById('sync-share-add-perms');
+const viewSyncShareAddForm = document.getElementById('sync-share-add-form');
+const viewSyncSharePermsTemplate = document.getElementById('sync-share-perms-rule');
+const viewSyncSharePermsTemplateSelect = viewSyncSharePermsTemplate.content.querySelector('.sync-share-perms-select');
 
 const viewDataModal = new Modal(document.getElementById('view-test-data-modal'));
 const viewDataModalContent = document.getElementById('view-test-data-content');
@@ -51,7 +61,34 @@ class ViewPage extends Page {
         this.dataModalNav.onfirst = this.firstData.bind(this); 
         this.dataModalNav.onprevious = this.previousData.bind(this); 
         this.dataModalNav.onnext = this.nextData.bind(this); 
-        this.dataModalNav.onlast = this.lastData.bind(this); 
+        this.dataModalNav.onlast = this.lastData.bind(this);
+
+        viewSyncShareButton.onclick = this.showShareModal.bind(this);
+        viewSyncShareLink.onchange = this.onChangeLinkPerms.bind(this);
+        viewSyncShareAddForm.onsubmit = this.onAddPerm.bind(this);
+
+        I18N.initAsyncFunc.then(() => {
+            for (const perm of SyncManager.PERMS) {
+                var e = document.createElement('option');
+                e.text = I18N.getTranslation('perm-' + perm);
+                e.value = perm;
+                viewSyncShareLink.options.add(e);
+                viewSyncSharePermsTemplateSelect.options.add(e.cloneNode(true));
+                viewSyncShareAddPerms.options.add(e.cloneNode(true));
+            }
+
+            e = document.createElement('option');
+            e.text = I18N.getTranslation('user');
+            e.value = 'user';
+            viewSyncShareAddType.options.add(e);
+
+            e = document.createElement('option');
+            e.text = I18N.getTranslation('group');
+            e.value = 'group';
+            viewSyncShareAddType.options.add(e);
+
+            viewSyncShareAddType
+        });
     }
 
     /* when the page is loaded */
@@ -70,6 +107,8 @@ class ViewPage extends Page {
             SyncManager.syncManager.getTestInfo(currentTest).then(data => {
                 viewSyncId.textContent = data.serverTestId;
                 viewSyncPerms.textContent = I18N.getTranslation('perm-' + data.share);
+                viewSyncShareButton.src = data.share === 'share' || data.share === 'owner' ? 
+                    '/WebDiakoluo/res/img/edit.svg' : '/WebDiakoluo/res/img/view.svg';
                 viewSyncOwner.textContent =`${data.owner.name} (${data.owner.username})`
             });
         } else {
@@ -325,6 +364,122 @@ class ViewPage extends Page {
     /* go to the last data */
     lastData() {
         this.updateDataModal(currentTest.data.length - 1);
+    }
+
+    showShareModal() {
+        viewSyncShareModal.show();
+        viewSyncShareShares.textContent = I18N.getTranslation('loading');
+        this.loadShareModalUI();
+    }
+
+    loadShareModalUI(forceReload) {
+        SyncManager.syncManager.getTestShare(currentTest, forceReload).then(data => {
+            viewSyncShareLink.value = data["links-perms"];
+            viewSyncShareShares.textContent = "";
+
+            for (var i = 0; i < data.users.length; i++) {
+                const e = viewSyncSharePermsTemplate.content.cloneNode(true);
+                let user = {
+                    data: data.users[i],
+                    row: e.children[0],
+                    select: e.querySelector('.sync-share-perms-select')
+                }
+                e.querySelector('.share-type').src = '/WebDiakoluo/res/img/user.svg';
+                e.querySelector('.share-name').textContent = `${user.data.name} (${user.data.username})`;
+                e.querySelector('.share-delete-button').onclick = () => {
+                    this.deleteUserPerms(user);
+                }
+                user.select.value = user.data.perms;
+                user.select.onchange = () => {
+                    this.onChangeUserPerms(user);
+                }
+                viewSyncShareShares.appendChild(e);
+            }
+
+            for (var i = 0; i < data.groups.length; i++) {
+                const e = viewSyncSharePermsTemplate.content.cloneNode(true);
+                let group = {
+                    data: data.groups[i],
+                    row: e.children[0],
+                    select: e.querySelector('.sync-share-perms-select')
+                }
+                e.querySelector('.share-type').src = '/WebDiakoluo/res/img/group.svg';
+                e.querySelector('.share-name').textContent = `${group.data.long_name} (${group.data.name})`;
+                e.querySelector('.share-delete-button').onclick = () => {
+                    this.deleteGroupPerms(group);
+                }
+                group.select.onchange = () => {
+                    this.onChangeGroupPerms(group);
+                }
+                group.select.value = group.data.perms;
+                viewSyncShareShares.appendChild(e);
+            }
+        });
+    }
+
+    onChangeLinkPerms() {
+        viewSyncShareLink.disabled = true;
+        SyncManager.syncManager.setTestShare(currentTest, 'link', viewSyncShareLink.value).catch(() => {
+            viewSyncShareLink.value = currentTest.syncData.share["links-perms"];
+        }).finally(() => {
+            viewSyncShareLink.disabled = false;
+        })
+    }
+
+    onChangeUserPerms(user) {
+        user.select.disabled = true;
+        SyncManager.syncManager.setTestShare(currentTest, 'user', user.select.value, user.data.username, 'edit').catch(() => {
+            user.select.value = user.data.perms;
+        }).finally(() => {
+            user.select.disabled = false;
+        });
+    }
+
+    deleteUserPerms(user) {
+        user.row.classList.add('hide');
+        SyncManager.syncManager.setTestShare(currentTest, 'user', 0, user.data.username, 'delete')
+        .then((e) => {
+            user.row.remove();
+        }).catch((e) => {
+            user.row.classList.remove('hide');
+        });
+    }
+
+    onChangeGroupPerms(group) {
+        group.select.disabled = true;
+        SyncManager.syncManager.setTestShare(currentTest, 'group', group.select.value, group.data.name, 'edit').catch(() => {
+            group.select.value = group.data.perms;
+        }).finally(() => {
+            group.select.disabled = false;
+        });
+    }
+
+    deleteGroupPerms(group) {
+        group.row.classList.add('hide');
+        SyncManager.syncManager.setTestShare(currentTest, 'group', 0, group.data.name, 'delete')
+        .then(() => {
+            group.row.remove();
+        }).catch(() => {
+            group.row.classList.remove('hide');
+        });
+    }
+
+    onAddPerm(e) {
+        e.preventDefault();
+        viewSyncShareAddName.disabled = true;
+        viewSyncShareAddType.disabled = true;
+        viewSyncShareAddPerms.disabled = true;
+
+        SyncManager.syncManager.setTestShare(currentTest, 
+            viewSyncShareAddType.value, viewSyncShareAddPerms.value, viewSyncShareAddName.value, 'add')
+        .then(() => {
+            viewSyncShareAddName.value = "";
+            this.loadShareModalUI(true);
+        }).finally(() => {
+            viewSyncShareAddName.disabled = false;
+            viewSyncShareAddType.disabled = false;
+            viewSyncShareAddPerms.disabled = false;
+        });
     }
 }
 

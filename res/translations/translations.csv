@@ -28,6 +28,8 @@ quit,Quit,Quitter
 update,Update,Mettre à jour
 verify-update,Check updates,Rechercher les mises à jour
 no-connection,No connection.,Pas de connexion.
+user,user,utilisateur
+group,group,groupe
 legal-text,"<p>Data stored by your navigator is for a <b>local use only</b> and necessary for the application. The data stored is <b>never transmit to a third server</b>. Your are the only owner of your data, so, you are responsible of the security of yours data.</p><p>The usage of cookies and similar mechanisms are <b>essential</b> to the application.</p>","<p>Les données stockées par votre navigateur ne sont destiné qu'à un <b>usage local</b> pour les besoins de l'application. Les données stockées ne sont <b>transmis à aucun serveur tiers</b>. Vous êtes le seul détenteur de vos données, ainsi, vous êtes le seul responsable de la sécurité de vos données.</p><p>L'utilisation de cookies et mécanismes similaires sont <b>indispensables</b> pour le bon fonctionnement du site web.</p>"
 about-text,"<h1>DIAKÔLUÔ V<x-i18n key=""version""></x-i18n> (<x-i18n key=""id""></x-i18n>)</h1><h3>WHAT IS DIAKÔLUÔ ?</h3><p>Diakôluô îs an open-source project in order to help memorize.</p><h3>THE CODE</h3><p>The code is by: <x-i18n key=""authors""></x-i18n> The code is available on <a href=""https://github.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon github-link"">GitHub</a> under the <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html"">GNU APGL</a> license.<br>You can report a <b>bug</b> or demand <b>features</b> on <a href=""https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose"" class=""open-new-icon github-link"">GitHub</a>.<br></p>","<h1>DIAKÔLUÔ V<x-i18n key=""version""></x-i18n> (<x-i18n key=""id""></x-i18n>)</h1><h3>QU'EST DIAKÔLUÔ ?</h3><p>Diakôluô est un projet open-source dans le but d'aider à la révision.</p><h3>LE CODE</h3><p>Le code a été fait par: <x-i18n key=""authors""></x-i18n> Le code est disponible sur <a href=""https://github.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon github-link"">GitHub</a> sous la license <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html"">GNU APGL</a>.<br>Vous pouvez reporter un <b>bogue</b> ou proposer une <b>fonctionalité</b> sur <a href=""https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose"" class=""open-new-icon github-link"">GitHub</a>.<br></p>"
 list-test-h,Your tests:,Vos tests :
@@ -77,10 +79,10 @@ settings-sync-login-failed,An error occur during the authentification.,Une erreu
 sync,Synchronisation,Synchronisation
 sync-id,Id,Identifiant
 sync-perms,Permissions,Permissions
-perm-none,none,aucune
-perm-view,read,lire
-perm-edit,edit,éditer
-perm-share,share,partager
+perm-none,restricted,restreint
+perm-view,reader,lecteur
+perm-edit,editor,éditeur
+perm-share,sharer,partageur
 perm-owner,owner,propriétaire
 sync-owner,Owner,Propriétaire
 sync-synchronise,Synchronised,Synchronisé
@@ -88,6 +90,12 @@ sync-no-sync,Not synchronised,Non synchronisé
 sync-edit-no-sync,Don't synchronise,Ne pas synchroniser
 sync-edit-add-sync,Create a new synchronisation,Créer une nouvelle synchronisation
 sync-edit-sync,Synchronise with,Synchroniser avec
+sync-share,Share,Partage
+sync-share-link,Permissions of people who have the link,Permissions des personnes possédant le lien
+sync-share-name,Name,Nom
+sync-share-perms,Permissions,Permissions
+sync-share-type,Type,Type
+sync-share-add-perm,Add permissions,Ajouter permissions
 sync-error-edit-title,Synchronisation error, Erreur de synchronisation
 sync-error-edit-message,An error occur while trying to synchronise.,Une erreur s'est produite lors de la synchronisation.
 default-column-title,Column,Colonne

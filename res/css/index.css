@@ -183,6 +183,83 @@ textarea.column-string-long {
     padding-left: 1em;
 }
 
+.perms-select {
+    width: auto;
+}
+
+.type-select {
+    width: auto; 
+}
+
+#sync-share-modal main {
+    display: grid;
+}
+
+#sync-share-link-div {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding-bottom: .5em;
+    border-bottom: var(--color-primary-200) solid 2px;
+    gap: .5em;
+    align-items: center;
+    text-align: left;
+}
+
+#sync-share-link {
+    justify-self: right;
+}
+
+#sync-share-add-name-parent {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+    flex-grow: 1;
+}
+
+#sync-share-add-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5em;
+    
+    padding-top: .5em;
+    
+    border-top: var(--color-primary-200) solid 2px;
+}
+
+#sync-share-add-form > button {
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+#sync-share-add-name {
+    flex-grow: 1;
+    width: 10em;
+}
+
+#sync-share-shares-parent {
+    overflow-y: scroll;
+    text-align: left;
+}
+
+#sync-share-shares {
+    display: grid;
+    padding: 1em .2em;
+    gap: .2em;
+    grid-template-rows: max-content;
+}
+
+#sync-share-shares > div {
+    display: flex;
+    gap: .2em;
+    align-items: center;
+}
+
+#sync-share-shares > div > .share-name {
+    flex-grow: 1;
+}
+
 .edit-button {
     outline: none;
     cursor: pointer;
