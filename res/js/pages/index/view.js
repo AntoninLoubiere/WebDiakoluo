@@ -433,6 +433,7 @@ class ViewPage extends Page {
         }).finally(() => {
             user.select.disabled = false;
         });
+        currentTest.syncData.share.requestTime = 0; // reset cache
     }
 
     deleteUserPerms(user) {
@@ -443,6 +444,7 @@ class ViewPage extends Page {
         }).catch((e) => {
             user.row.classList.remove('hide');
         });
+        currentTest.syncData.share.requestTime = 0; // reset cache
     }
 
     onChangeGroupPerms(group) {
@@ -452,6 +454,7 @@ class ViewPage extends Page {
         }).finally(() => {
             group.select.disabled = false;
         });
+        currentTest.syncData.share.requestTime = 0; // reset cache
     }
 
     deleteGroupPerms(group) {
@@ -462,6 +465,7 @@ class ViewPage extends Page {
         }).catch(() => {
             group.row.classList.remove('hide');
         });
+        currentTest.syncData.share.requestTime = 0; // reset cache
     }
 
     onAddPerm(e) {
