@@ -93,6 +93,11 @@ class ViewPage extends Page {
 
     /* when the page is loaded */
     onload() {
+        this.loadUI();
+        this.updateModals(true);
+    }
+
+    loadUI() {
         for (var i = 0; i < viewPageTitle.length; i++) {
             viewPageTitle[i].textContent = currentTest.title;
         }
@@ -160,7 +165,11 @@ class ViewPage extends Page {
         viewDataModal.id = -1;
         I18N.setPageTitle(currentTest.title);
         viewPageView.classList.remove('hide');
-        this.updateModals(true);
+    }
+
+    ontestreload() {
+        this.loadUI();
+        this.onupdate();
     }
 
     /* when the page is updated */

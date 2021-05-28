@@ -192,7 +192,7 @@ class SettingsPage extends Page {
         var s = new SyncManager({username: username, password: password, host: host});
         settingsPageStatusText.setAttribute('key', 'settings-sync-loading');
         settingsPageStatusText.classList.remove('important-font');
-        s.authFetch('/test').then((test) => {
+        s.authFetch('/test').then(() => {
             SyncManager.setSyncAccount(s);
             this.onSyncPanel();
             settingsPageStatusText.setAttribute('key', 'settings-sync-success');
@@ -238,7 +238,6 @@ class SettingsPage extends Page {
             var swRegistration = await navigator.serviceWorker.getRegistration();
             if (swRegistration.update) {
                 await swRegistration.update();
-                console.log(swRegistration);
                 if (swRegistration.installing) {
                     this.updateOnInstalling(swRegistration.installing);
                 } else if (swRegistration.waiting) {

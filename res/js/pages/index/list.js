@@ -55,6 +55,14 @@ class ListPage extends Page {
         }
     }
 
+    reload() {
+        if (currentPage === this) {
+            this.reloadList();
+        } else {
+            this.needReload = true;
+        }
+    }
+
     /* reload the test list */
     reloadList() {
         this.needReload = false;

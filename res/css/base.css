@@ -294,7 +294,7 @@ input, textarea, select {
     transition: border-color .2s, color .2s, background-color .2s;
 }
 
-input[type='text'], input[type='password'], input[type='number'], input[type='checkbox'], input[type='radio'], textarea, select {
+input[type='text'], input[type='password'], input[type='url'], input[type='number'], input[type='checkbox'], input[type='radio'], textarea, select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -310,7 +310,7 @@ input.unique-line {
     max-height: 1em;
 }
 
-input[type='text'], input[type='password'] {
+input[type='text'], input[type='password'], input[type='url'] {
     border: none;
     border-radius: .5em .5em 0 0;
     border-bottom: solid 2px var(--color-primary-100);
@@ -383,7 +383,7 @@ select {
     padding-right: 1.5em;
 }
 
-input[type='text']:hover, input[type='password']:hover, input[type='number']:hover, textarea:hover, select:focus, select:hover {
+input[type='text']:hover, input[type='password']:hover, input[type='url']:hover, input[type='number']:hover, textarea:hover, select:focus, select:hover {
     border-color: var(--color-primary-500);
     background-color: var(--color-surface-primary-50);
     color: var(--color-on-background);
@@ -404,7 +404,7 @@ input:invalid, textarea:invalid, select:invalid {
     border-color: var(--color-error) !important;
 }
 
-input[type='text']:invalid:focus, input[type='password']:invalid:focus, input[type='number']:invalid:focus, textarea:invalid:focus, select:invalid:focus {
+input[type='text']:invalid:focus, input[type='password']:invalid:focus, input[type='url']:invalid:focus, input[type='number']:invalid:focus, textarea:invalid:focus, select:invalid:focus {
     background-color: var(--color-error-variant);
 }
 

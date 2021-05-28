@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-fyXrQRjV";
+ const CACHE_NAME = "WebDiakoluo-jqXU934T";
  const ORIGIN = "https://antoninloubiere.github.io";
 
 /* get the files of the app */
