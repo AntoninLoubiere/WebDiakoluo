@@ -24,6 +24,7 @@ const viewSyncShareModal = new Modal(document.getElementById('sync-share-modal')
 const viewSyncShareLink = document.getElementById('sync-share-link');
 const viewSyncShareShares = document.getElementById('sync-share-shares');
 const viewSyncShareAddName = document.getElementById('sync-share-add-name');
+const viewSyncShareAddNameDataList = document.getElementById('sync-share-add-name-datalist');
 const viewSyncShareAddType = document.getElementById('sync-share-add-type');
 const viewSyncShareAddPerms = document.getElementById('sync-share-add-perms');
 const viewSyncShareAddForm = document.getElementById('sync-share-add-form');
@@ -66,6 +67,7 @@ class ViewPage extends Page {
         viewSyncShareButton.onclick = this.showShareModal.bind(this);
         viewSyncShareLink.onchange = this.onChangeLinkPerms.bind(this);
         viewSyncShareAddForm.onsubmit = this.onAddPerm.bind(this);
+        viewSyncShareAddName.oninput = this.onChangeAddName.bind(this);
 
         I18N.initAsyncFunc.then(() => {
             for (const perm of SyncManager.PERMS) {
@@ -86,8 +88,6 @@ class ViewPage extends Page {
             e.text = I18N.getTranslation('group');
             e.value = 'group';
             viewSyncShareAddType.options.add(e);
-
-            viewSyncShareAddType
         });
     }
 
@@ -381,7 +381,7 @@ class ViewPage extends Page {
         this.loadShareModalUI();
     }
 
-    loadShareModalUI(forceReload) {
+    async loadShareModalUI(forceReload) {
         SyncManager.syncManager.getTestShare(currentTest, forceReload).then(data => {
             viewSyncShareLink.value = data["links-perms"];
             viewSyncShareShares.textContent = "";
@@ -424,6 +424,33 @@ class ViewPage extends Page {
                 viewSyncShareShares.appendChild(e);
             }
         });
+
+        if (viewSyncShareAddNameDataList.childElementCount <= 0) {
+            const usersPromise = SyncManager.syncManager.getUsers();
+            const groupsPromise = SyncManager.syncManager.getGroups();
+            const groupText = I18N.getTranslation('group');
+            const users = await usersPromise;
+            const usernames = Object.keys(users);
+            for (var i = 0; i < usernames.length; i++) {
+                const e = document.createElement('option');
+                const username = usernames[i];
+                const name = users[username];
+                e.value = username;
+                e.textContent = `${name} - ${username}`;
+                viewSyncShareAddNameDataList.appendChild(e);
+            }
+
+            const groups = await groupsPromise;
+            const groupsName = Object.keys(groups);
+            for (var i = 0; i < groupsName.length; i++) {
+                const e = document.createElement('option');
+                const name = groupsName[i];
+                const long_name = groups[name];
+                e.value = name;
+                e.textContent = `${long_name} - ${name} (${groupText})`;
+                viewSyncShareAddNameDataList.appendChild(e);
+            }
+        }
     }
 
     onChangeLinkPerms() {
@@ -475,6 +502,14 @@ class ViewPage extends Page {
             group.row.classList.remove('hide');
         });
         currentTest.syncData.share.requestTime = 0; // reset cache
+    }
+
+    onChangeAddName() {
+        if (SyncManager.syncManager.users?.[viewSyncShareAddName.value]) {
+            viewSyncShareAddType.value = 'user';
+        } else if (SyncManager.syncManager.groups?.[viewSyncShareAddName.value]) {
+            viewSyncShareAddType.value = 'group';
+        }
     }
 
     onAddPerm(e) {

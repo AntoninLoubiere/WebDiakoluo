@@ -163,8 +163,16 @@ export class DatabaseManager extends sqlite3.Database {
      * @param {string} username the username of the user to get
      * @return the user object
      */
-    async getUser(username: string): Promise<User> {
+     async getUser(username: string): Promise<User> {
         return (await this.aGet('SELECT username, name, flags, permissions FROM users WHERE username=?', username))[1];
+    }
+
+    /**
+     * Get the users
+     * @return the user list
+     */
+     async getUsers(): Promise<User[]> {
+        return (await this.aAll('SELECT username, name FROM users'))[1];
     }
     
     /**
@@ -236,11 +244,19 @@ export class DatabaseManager extends sqlite3.Database {
      * Get groups of an user
      * @param user_id the user id of the user 
      */
-    async getGroups(user_id: number): Promise<Group[]> {
+     async getGroups(user_id: number): Promise<Group[]> {
         return (await this.aAll(`SELECT groups.group_id, groups.name, groups.long_name FROM users_groups_link
             INNER JOIN groups ON users_groups_link."group"=groups.group_id 
             WHERE users_groups_link.user=?
         `, [user_id]))[1];
+    }
+
+    /**
+     * Get all groups
+     * @param user_id the user id of the user 
+     */
+     async getAllGroups(): Promise<Group[]> {
+        return (await this.aAll(`SELECT name, long_name FROM groups WHERE group_id!=0`))[1];
     }
 
     /**

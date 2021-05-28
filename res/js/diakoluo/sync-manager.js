@@ -382,5 +382,33 @@ class SyncManager {
             type: type
         });
     }
+
+    async getUsers() {
+        if (this.users) {
+            return this.users;
+        } else {
+            const r = (await this.authFetchJson(`/users`)).users;
+            this.users = {};
+
+            for (var i = 0; i < r.length; i++) {
+                this.users[r[i].username] = r[i].name;
+            }
+            return this.users;
+        }
+    }
+
+    async getGroups() {
+        if (this.groups) {
+            return this.groups;
+        } else {
+            const r = (await this.authFetchJson(`/groups`)).groups;
+            this.groups = {};
+
+            for (var i = 0; i < r.length; i++) {
+                this.groups[r[i].name] = r[i].long_name;
+            }
+            return this.groups;
+        }
+    }
 }
 DATABASE_MANAGER.initAsyncFunc.then(SyncManager.initialise.bind(SyncManager));

@@ -41,8 +41,15 @@ MAINRouter.get('/logout', async (req, res) => {
 /**
  * Get informations about the current user
  */
-MAINRouter.get('/user', sessionRequired, (_, res) => {
+ MAINRouter.get('/user', sessionRequired, (_, res) => {
     res.json({'username': res.locals.user.username, 'name': res.locals.user.name})
+});
+
+/**
+ * Get the list of users
+ */
+ MAINRouter.get('/users', sessionRequired, async (_, res) => {
+    res.json({'users': await DATABASE.getUsers()})
 });
 
 /**
@@ -69,6 +76,13 @@ MAINRouter.get('/user/:id', async (req, res) => {
     }
     
     res.json(data);
+});
+
+/**
+ * Get the list of users
+ */
+ MAINRouter.get('/groups', sessionRequired, async (_, res) => {
+    res.json({'groups': await DATABASE.getAllGroups()})
 });
 
 /**
