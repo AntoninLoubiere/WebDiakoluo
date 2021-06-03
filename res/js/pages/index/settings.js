@@ -196,8 +196,8 @@ class SettingsPage extends Page {
             SyncManager.setSyncAccount(s);
             this.onSyncPanel();
             settingsPageStatusText.setAttribute('key', 'settings-sync-success');
-        })
-        .catch((error) => {
+        }).catch((error) => {
+            console.error(error);
             if (error.error) {
                 settingsPageStatusText.setAttribute('key', 'settings-sync-error');
             } else {

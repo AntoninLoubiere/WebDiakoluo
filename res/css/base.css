@@ -158,7 +158,7 @@ nav {
     color: var(--color-on-surface-primary);
     box-shadow: 0px 3px 5px 2px var(--color-shadow);
 
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto 1fr auto auto auto;
     grid-template-rows: 1fr;
     align-items: center;
     
@@ -1140,10 +1140,45 @@ textarea.resize-vertical {
     height: 1.5em;
 }
 
-#nav-offline {
+#nav-offline, #nav-sync {
     width: 2em;
-    float: right;
+    height: 2em;
     margin-right: .5em;
+}
+
+#nav-sync {
+    background-image: url('/WebDiakoluo/res/img/sync_w.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: transform .3s ease-in-out;
+    cursor: pointer;
+}
+
+#nav-sync:hover {
+    transform: scale(.8);
+}
+
+#nav-sync.nav-no-sync {
+    background-image: url('/WebDiakoluo/res/img/sync_disabled_w.svg')
+}
+
+#nav-sync.nav-sync-error {
+    background-image: url('/WebDiakoluo/res/img/sync_problem_w.svg')
+}
+
+#nav-sync.nav-syncing {
+    animation: syncing 2s infinite linear;
+}
+
+@keyframes syncing {
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
 }
 
 #version {

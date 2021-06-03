@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-Qi5wMI09";
+ const CACHE_NAME = "WebDiakoluo-100YC?sq";
  const ORIGIN = "https://antoninloubiere.github.io";
 
 /* get the files of the app */
@@ -67,6 +67,7 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/delete_w.svg");
     f.push("/WebDiakoluo/res/img/duplicate.svg");
     f.push("/WebDiakoluo/res/img/settings_w.svg");
+    f.push("/WebDiakoluo/res/img/sync_problem_w.svg");
     f.push("/WebDiakoluo/res/img/favicon_no_background.svg");
     f.push("/WebDiakoluo/res/img/drop_down_grey.svg");
     f.push("/WebDiakoluo/res/img/cancel.svg");
@@ -92,6 +93,7 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/light_mode_grey.svg");
     f.push("/WebDiakoluo/res/img/nav_prev_w.svg");
     f.push("/WebDiakoluo/res/img/nav_first_w.svg");
+    f.push("/WebDiakoluo/res/img/sync_disabled_w.svg");
     f.push("/WebDiakoluo/res/img/import.svg");
     f.push("/WebDiakoluo/res/img/dark_mode_grey.svg");
     f.push("/WebDiakoluo/res/include/sync.svg");

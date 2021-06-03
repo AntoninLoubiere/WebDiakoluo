@@ -1,7 +1,10 @@
+const syncManagerSyncIcon = document.getElementById('nav-sync');
+
 class SyncManager {
     static UPDATE_DELAY = 600_000; // 10 minutes
     static MIN_CACHE = 300_000; // 5 minutes 
     static RELOAD_MAX_TIME = 5_000; // 5 seconds
+    static MIN_SYNC_TIME = 4_100; // 4 seconds
 
     static PERMS = ['none', 'view', 'edit', 'share', 'owner'];
 
@@ -10,10 +13,20 @@ class SyncManager {
         this.testChangedEvent = new Event('testchange');
         this.testChanged = false;
 
+        this.syncError = false;
+
         var d = this.deserializeData(localStorage.getItem('sync-account'));
-        if (d) this.syncManager = new SyncManager(d);
+        if (d) {
+            syncManagerSyncIcon.classList.remove('hide');
+            this.syncManager = new SyncManager(d);
+        } else {
+            syncManagerSyncIcon.classList.add('hide');
+        }
         this.lastUpdate = 0;
         document.addEventListener('visibilitychange', this.onVisibilityChange.bind(this));
+        window.addEventListener('online', this.onOnlineChange.bind(this));
+        window.addEventListener('offline', this.onOnlineChange.bind(this));
+        syncManagerSyncIcon.onclick = this.update.bind(this);
         this.onVisibilityChange();
     }
 
@@ -22,11 +35,16 @@ class SyncManager {
         this.onVisibilityChange();
         localStorage.setItem('sync-account', JSON.stringify(syncManager));
         this.syncManager = syncManager;
+        if (syncManager) {
+            syncManagerSyncIcon.classList.remove('hide');
+        } else {
+            syncManagerSyncIcon.classList.add('hide');
+        }
         this.onVisibilityChange();
     }
 
     static onVisibilityChange() {
-        if (document.hidden || !this.syncManager) {
+        if ((document.hidden && navigator.onLine) || !this.syncManager) {
             if (this.updateInterval) clearInterval(this.updateInterval);
             this.updateInterval = 0;
         } else {
@@ -43,8 +61,30 @@ class SyncManager {
         }
     }
 
+    static onOnlineChange() {
+        this.onVisibilityChange();
+        
+        if (navigator.onLine) {
+            syncManagerSyncIcon.classList.remove('nav-no-sync');
+        } else {
+            syncManagerSyncIcon.classList.add('nav-no-sync');
+        }
+    }
+
+    static setSyncError(error) {
+        if (error !== this.syncError) {
+            this.syncError = error;
+            if (error) {
+                syncManagerSyncIcon.classList.add('nav-sync-error');
+            } else {
+                syncManagerSyncIcon.classList.remove('nav-sync-error');
+            }
+        }
+    } 
+
     static update() {
         this.lastUpdate = Date.now();
+        syncManagerSyncIcon.classList.add('nav-syncing');
         this.syncManager?.update().then(() => {
             if (this.testChanged) {
                 this.testChanged = false;
@@ -52,6 +92,13 @@ class SyncManager {
             }
         }).catch(error => {
             console.warn("[SYNC] An error occur while synchronising clients (update)", error);
+        }).finally(() => {
+            var remaining = this.lastUpdate + this.MIN_SYNC_TIME - Date.now();
+            if (remaining > 0) {
+                setTimeout(() => syncManagerSyncIcon.classList.remove('nav-syncing'), remaining);
+            } else {
+                syncManagerSyncIcon.classList.remove('nav-syncing');
+            }
         });
     }
 
@@ -126,7 +173,7 @@ class SyncManager {
                 } else {
                     reject({code: response.status});
                 }
-            }).catch(error => {
+            }).catch(() => {
                 reject({authenticated: false, error: true});
             });
         });
@@ -146,7 +193,13 @@ class SyncManager {
 
     async update() {
         return new Promise(async (resolve, reject) => {
-            var testsData = await this.authFetchJson('/test');
+            try {
+                var testsData = await this.authFetchJson('/test');
+            } catch (e) {
+                SyncManager.setSyncError(true);
+                reject(e);
+                return;
+            }
             var tests = {};
             var testsKey = [];
             for (let i = 0; i < testsData.you.length; i++) {
@@ -228,7 +281,9 @@ class SyncManager {
                         }));
                     }
                     await Promise.all(add);
-                    Promise.all(updates).then(resolve);
+                    await Promise.all(updates);
+                    resolve();
+                    SyncManager.setSyncError(false);
                 }
             }
             request.onerror = reject;

@@ -25,7 +25,7 @@ async function initNavigation() {
 
     SyncManager.eventTarget.addEventListener('testupdate', event => {
         const id = event.detail.testId;
-        if (id === currentTest.id) {
+        if (id === currentTest?.id) {
             DATABASE_MANAGER.getFullTest(id).onsuccess = test => {
                 currentTest = test;
                 currentPage.ontestreload?.();
