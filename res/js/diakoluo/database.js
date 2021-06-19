@@ -372,11 +372,18 @@ class DatabaseManager {
      * @returns the cursor opened
      */
     forEachSync(authAccount) {
-        return this.testDBEditor
-            .transaction(['sharedTests'], 'readwrite')
-            .objectStore('sharedTests')
-            .index('authAccount')
-            .openCursor(IDBKeyRange.only(authAccount));
+        if (authAccount == undefined) {
+            return this.testDBEditor
+                .transaction(['sharedTests'], 'readwrite')
+                .objectStore('sharedTests')
+                .openCursor();
+        } else {
+            return this.testDBEditor
+                .transaction(['sharedTests'], 'readwrite')
+                .objectStore('sharedTests')
+                .index('authAccount')
+                .openCursor(IDBKeyRange.only(authAccount));
+        }
     }
 }
 

@@ -145,6 +145,22 @@ class SyncManager {
             return result;
         } else {
             if (data && typeof data.username === "string" && typeof data.password === "string" && data.host) {
+                DATABASE_MANAGER.forEachSync().onsuccess = event => {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        const sync = cursor.value;
+                        if (sync.authAccount == undefined) {
+                            cursor.delete();
+                            if (sync.testId >= 0) {
+                                DATABASE_MANAGER.deleteTest(sync.testId); // TODO
+                            }
+                        }
+                        cursor.continue();
+                    } else {
+                        this.eventTarget.dispatchEvent(this.testChangedEvent);
+                        this.setSyncAccount([{host: data.host, credentials: {username: data.username, password: data.password}}]);
+                    }
+                }
                 return [{host: data.host, credentials: {username: data.username, password: data.password}}];
             } else {
                 return [];
