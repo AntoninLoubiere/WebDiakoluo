@@ -97,7 +97,13 @@ class Utils {
         .then(async response => {
             if (response) {
                 if (header.sync) {
-                    await SyncManager.syncManager.deleteTest(header);
+                    try {
+                        var s = await SyncManager.getSyncFromTest(header)
+                    } catch (e) {
+                        console.error("Error while deleting test", e);
+                    }
+                    if (s) await s.deleteTest();
+                    else DATABASE_MANAGER.deleteTest(id || currentTest.id);
                 } else {
                     DATABASE_MANAGER.deleteTest(id || currentTest.id);
                 }

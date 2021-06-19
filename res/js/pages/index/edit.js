@@ -209,7 +209,7 @@ class EditPage extends Page {
         if (currentTest?.id !== EDIT_KEY || await this.showEraseWarning()) {
             currentTest = new Test(I18N.getTranslation("default-test-title"), I18N.getTranslation("default-test-description"));
             currentTest.id = EDIT_KEY;
-            if (SyncManager.syncManager) currentTest.editSync = "new";
+            if (SyncManager.fetchManager.length > 0) currentTest.editSync = "new";
             this.loadTest();
         }
     }
@@ -244,17 +244,21 @@ class EditPage extends Page {
         if (currentTest.editSync) {
             this.updateEditSync(currentTest.editSync);
             if (currentTest.sync) {
-                DATABASE_MANAGER.getSync(currentTest.sync).then(e => {
-                    editSyncSyncId.value = e.target.result.serverTestId;
+                SyncManager.getSyncFromTest(currentTest).then(s => {
+                    this.sync = s;
+                    editSyncSyncId.value = s.sync.serverTestId;
                 });
+            } else {
+                delete this.sync;
             }
         } else if (currentTest.sync) {
             editSyncNoSync.checked = editSyncAddSync.checked = editSyncAddSync.checked = false;
-
-            DATABASE_MANAGER.getSync(currentTest.sync).then(e => {
-                this.updateEditSync(currentTest.editSync = e.target.result.serverTestId);
+            SyncManager.getSyncFromTest(currentTest).then(s => {
+                this.sync = s;
+                this.updateEditSync(currentTest.editSync = s.sync.serverTestId);
             });
         } else {
+            delete this.sync;
             this.updateEditSync(currentTest.editSync = "");
         }
         this.updateEditSyncLabel();
@@ -630,7 +634,7 @@ class EditPage extends Page {
             if (currentTest.sync) {
                 // delete the synchronisation
                 // TODO warning
-                SyncManager.syncManager.deleteTest(currentTest).then(() => {
+                this.sync.deleteTest(currentTest).then(() => {
                     delete currentTest.sync;
                     this.localSave();
                 }); // TODO error modal
@@ -646,17 +650,17 @@ class EditPage extends Page {
             const sync = event.target.result;
             if (sync.serverTestId === currentTest.editSync) {
                 delete currentTest.editSync;
-                await SyncManager.syncManager.modifyTest(sync, currentTest);
+                await this.sync.modifyTest( currentTest);
             } else {
                 var id = !currentTest.editSync || currentTest.editSync === "new" ? undefined : currentTest.editSync;
                 delete currentTest.editSync;
-                await SyncManager.syncManager.addTest(currentTest, id, sync.serverTestId);
+                await SyncManager.fetchManager[0].addTest(currentTest, id, sync.serverTestId); // TODO: allow to change fetch manager and have multiple fetch manager
             }
         } else {
             var id = !currentTest.editSync || currentTest.editSync === "new" ? undefined : currentTest.editSync;
             delete currentTest.editSync;
-            await SyncManager.syncManager.addTest(currentTest, id);
-        } 
+            await SyncManager.fetchManager[0].addTest(currentTest, id); // TODO: same as over
+        }
     }
 
     /**

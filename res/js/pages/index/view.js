@@ -109,7 +109,11 @@ class ViewPage extends Page {
             viewSyncPerms.textContent = loading;
             viewSyncOwner.textContent = loading;
 
-            SyncManager.syncManager.getTestInfo(currentTest).then(data => {
+    
+            SyncManager.getSyncFromTest(currentTest).then(sync => {
+                this.sync = sync;
+                return sync.getTestInfo();
+            }).then(data => {
                 viewSyncId.textContent = data.serverTestId;
                 viewSyncPerms.textContent = I18N.getTranslation('perm-' + data.share);
                 viewSyncShareButton.src = data.share === 'share' || data.share === 'owner' ? 
@@ -119,6 +123,7 @@ class ViewPage extends Page {
         } else {
             viewPageTitleSync.classList.add('hide');
             viewSyncDiv.classList.add('hide');
+            delete this.sync
         }
         
         viewPageDescription.textContent = currentTest.description;
@@ -382,7 +387,7 @@ class ViewPage extends Page {
     }
 
     async loadShareModalUI(forceReload) {
-        SyncManager.syncManager.getTestShare(currentTest, forceReload).then(data => {
+        this.sync.getTestShare(forceReload).then(data => {
             viewSyncShareLink.value = data["links-perms"];
             viewSyncShareShares.textContent = "";
 
@@ -426,8 +431,8 @@ class ViewPage extends Page {
         });
 
         if (viewSyncShareAddNameDataList.childElementCount <= 0) {
-            const usersPromise = SyncManager.syncManager.getUsers();
-            const groupsPromise = SyncManager.syncManager.getGroups();
+            const usersPromise = this.sync.syncManager.getUsers();
+            const groupsPromise = this.sync.syncManager.getGroups();
             const groupText = I18N.getTranslation('group');
             const users = await usersPromise;
             const usernames = Object.keys(users);
@@ -455,8 +460,8 @@ class ViewPage extends Page {
 
     onChangeLinkPerms() {
         viewSyncShareLink.disabled = true;
-        SyncManager.syncManager.setTestShare(currentTest, 'link', viewSyncShareLink.value).catch(() => {
-            viewSyncShareLink.value = currentTest.syncData.share["links-perms"];
+        this.sync.setTestShare('link', viewSyncShareLink.value).catch(() => {
+            viewSyncShareLink.value = this.sync.sync.share["links-perms"];
         }).finally(() => {
             viewSyncShareLink.disabled = false;
         })
@@ -464,50 +469,50 @@ class ViewPage extends Page {
 
     onChangeUserPerms(user) {
         user.select.disabled = true;
-        SyncManager.syncManager.setTestShare(currentTest, 'user', user.select.value, user.data.username, 'edit').catch(() => {
+        this.sync.setTestShare('user', user.select.value, user.data.username, 'edit').catch(() => {
             user.select.value = user.data.perms;
         }).finally(() => {
             user.select.disabled = false;
         });
-        currentTest.syncData.share.requestTime = 0; // reset cache
+        this.sync.sync.share.requestTime = 0; // reset cache
     }
 
     deleteUserPerms(user) {
         user.row.classList.add('hide');
-        SyncManager.syncManager.setTestShare(currentTest, 'user', 0, user.data.username, 'delete')
+        this.sync.setTestShare('user', 0, user.data.username, 'delete')
         .then((e) => {
             user.row.remove();
         }).catch((e) => {
             user.row.classList.remove('hide');
         });
-        currentTest.syncData.share.requestTime = 0; // reset cache
+        this.sync.sync.share.requestTime = 0; // reset cache
     }
 
     onChangeGroupPerms(group) {
         group.select.disabled = true;
-        SyncManager.syncManager.setTestShare(currentTest, 'group', group.select.value, group.data.name, 'edit').catch(() => {
+        this.sync.setTestShare('group', group.select.value, group.data.name, 'edit').catch(() => {
             group.select.value = group.data.perms;
         }).finally(() => {
             group.select.disabled = false;
         });
-        currentTest.syncData.share.requestTime = 0; // reset cache
+        this.sync.sync.share.requestTime = 0; // reset cache
     }
 
     deleteGroupPerms(group) {
         group.row.classList.add('hide');
-        SyncManager.syncManager.setTestShare(currentTest, 'group', 0, group.data.name, 'delete')
+        this.sync.setTestShare('group', 0, group.data.name, 'delete')
         .then(() => {
             group.row.remove();
         }).catch(() => {
             group.row.classList.remove('hide');
         });
-        currentTest.syncData.share.requestTime = 0; // reset cache
+        this.sync.sync.share.requestTime = 0; // reset cache
     }
 
     onChangeAddName() {
-        if (SyncManager.syncManager.users?.[viewSyncShareAddName.value]) {
+        if (this.sync.syncManager.users?.[viewSyncShareAddName.value]) {
             viewSyncShareAddType.value = 'user';
-        } else if (SyncManager.syncManager.groups?.[viewSyncShareAddName.value]) {
+        } else if (this.sync.syncManager.groups?.[viewSyncShareAddName.value]) {
             viewSyncShareAddType.value = 'group';
         }
     }
@@ -518,8 +523,7 @@ class ViewPage extends Page {
         viewSyncShareAddType.disabled = true;
         viewSyncShareAddPerms.disabled = true;
 
-        SyncManager.syncManager.setTestShare(currentTest, 
-            viewSyncShareAddType.value, viewSyncShareAddPerms.value, viewSyncShareAddName.value, 'add')
+        this.sync.setTestShare(viewSyncShareAddType.value, viewSyncShareAddPerms.value, viewSyncShareAddName.value, 'add')
         .then(() => {
             viewSyncShareAddName.value = "";
             this.loadShareModalUI(true);

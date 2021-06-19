@@ -154,9 +154,16 @@ class SettingsPage extends Page {
      * When the sync panel is loaded.
      */
     onSyncPanel() {
-        settingsPageSyncHost.value = SyncManager.syncManager ? SyncManager.syncManager.host + '/' : "";
-        settingsPageSyncUsername.value = SyncManager.syncManager?.username || "";
-        settingsPageSyncPassword.value = SyncManager.syncManager?.password || "";
+        if (SyncManager.fetchManager.length > 0) {
+            var fetchManager = SyncManager.fetchManager[0];
+            settingsPageSyncHost.value =  fetchManager.host + '/';
+            settingsPageSyncUsername.value = fetchManager.credentials?.username || "";
+            settingsPageSyncPassword.value = fetchManager.credentials?.password || "";
+        } else {
+            settingsPageSyncHost.value = "";
+            settingsPageSyncUsername.value = "";
+            settingsPageSyncPassword.value = "";
+        }
         settingsPageStatusText.setAttribute("key", "");
         settingsPageStatusText.textContent = "";
     }
@@ -171,6 +178,13 @@ class SettingsPage extends Page {
         var username = settingsPageSyncUsername.value;
         var password = settingsPageSyncPassword.value;
 
+        if (!host) {
+            SyncManager.setSyncAccount([]);
+            this.onSyncPanel();
+            settingsPageStatusText.setAttribute('key', 'settings-sync-deleted');
+            return;
+        }
+
         if (!host.startsWith('http')) {
             host = "http://" + host;
         }
@@ -183,17 +197,19 @@ class SettingsPage extends Page {
             }
         } catch {
             settingsPageSyncHost.focus();
+            return;
         }
         
         try {
-            await SyncManager.syncManager?.authFetch('/logout');
+            await SyncManager.fetchManager[0]?.authFetch('/logout');
         } catch {}
-        
-        var s = new SyncManager({username: username, password: password, host: host});
+
+        var s = new SyncFetchManager(host, {username: username, password: password});
         settingsPageStatusText.setAttribute('key', 'settings-sync-loading');
-        settingsPageStatusText.classList.remove('important-font');
+        settingsPageStatusText.classList.removde('important-font');
         s.authFetch('/test').then(() => {
-            SyncManager.setSyncAccount(s);
+            SyncManager.setSyncAccount([s]);
+            SyncManager.update();
             this.onSyncPanel();
             settingsPageStatusText.setAttribute('key', 'settings-sync-success');
         }).catch((error) => {
@@ -204,7 +220,7 @@ class SettingsPage extends Page {
                 settingsPageStatusText.setAttribute('key', 'settings-sync-login-failed');
             }
             settingsPageStatusText.classList.add('important-font');
-        });
+        });        
     }
 
     /**

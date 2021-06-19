@@ -25,7 +25,7 @@ class DatabaseManager {
                 this.testDBEditor = event.target.result;
                 this.testDBEditor.onerror = this.onTestDBError;
 
-                // get the last obhect key
+                // get the last object key
                 this.testDBEditor.transaction(['header']).objectStore('header').openCursor(null, "prev").onsuccess = event => {
                     var cursor = event.target.result;
                     if (cursor) {
@@ -371,8 +371,12 @@ class DatabaseManager {
      * For each share
      * @returns the cursor opened
      */
-    forEachSync() {
-        return this.testDBEditor.transaction(['sharedTests'], 'readwrite').objectStore('sharedTests').openCursor();
+    forEachSync(authAccount) {
+        return this.testDBEditor
+            .transaction(['sharedTests'], 'readwrite')
+            .objectStore('sharedTests')
+            .index('authAccount')
+            .openCursor(IDBKeyRange.only(authAccount));
     }
 }
 

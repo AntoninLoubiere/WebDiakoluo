@@ -1159,12 +1159,12 @@ textarea.resize-vertical {
     transform: scale(.8);
 }
 
-#nav-sync.nav-no-sync {
-    background-image: url('/WebDiakoluo/res/img/sync_disabled_w.svg')
-}
-
 #nav-sync.nav-sync-error {
     background-image: url('/WebDiakoluo/res/img/sync_problem_w.svg')
+}
+
+#nav-sync.nav-no-sync {
+    background-image: url('/WebDiakoluo/res/img/sync_disabled_w.svg')
 }
 
 #nav-sync.nav-syncing {
