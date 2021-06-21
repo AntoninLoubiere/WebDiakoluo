@@ -193,7 +193,7 @@ class SettingsPage extends Page {
             if (url.protocol !== "http:" && url.protocol !== "https:") throw TypeError();
             host = url.toString();
             if (host.endsWith('/')) {
-                host = host.substring(0, host.length - 1)
+                host = host.substring(0, host.length - 1);
             }
         } catch {
             settingsPageSyncHost.focus();

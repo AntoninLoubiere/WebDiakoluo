@@ -26,6 +26,7 @@ COMPILE_FILES = {
         'res/js/pages/main.js',
         'res/js/pages/index/callbacks.js',
         'res/js/pages/index/utils.js',
+        'res/js/pages/index/api.js',
         'res/js/pages/index/settings.js',
         'res/js/pages/index/list.js',
         'res/js/pages/index/view.js',

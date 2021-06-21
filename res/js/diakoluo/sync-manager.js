@@ -6,6 +6,8 @@ class SyncManager {
     static RELOAD_MAX_TIME = 5_000; // 5 seconds
     static MIN_SYNC_TIME = 4_100; // 4 seconds
 
+    static LINK = "link";
+
     static PERMS = ['none', 'view', 'edit', 'share', 'owner'];
 
     static initialise() {
@@ -17,12 +19,23 @@ class SyncManager {
 
         var accounts = this.deserializeData(localStorage.getItem('sync-account'));
         if (accounts.length > 0) {
+            this.isSynced = true;
             syncManagerSyncIcon.classList.remove('hide');
             this.updateSyncAccount(accounts);
             this.update();
         } else {
+            this.isSynced = false;
             this.fetchManager = []
             syncManagerSyncIcon.classList.add('hide');
+
+            DATABASE_MANAGER.forEachSync(this.LINK).onsuccess = event => {
+                if (event.target.result) {
+                    this.isSynced = true;
+                    syncManagerSyncIcon.classList.remove('hide');
+                    this.update();
+                    this.onVisibilityChange();
+                }
+            }
         }
         this.lastUpdate = 0;
         document.addEventListener('visibilitychange', this.onVisibilityChange.bind(this));
@@ -70,7 +83,7 @@ class SyncManager {
     }
 
     static onVisibilityChange() {
-        if ((document.hidden && navigator.onLine) || !this.syncManager) {
+        if ((document.hidden && navigator.onLine) || !this.isSynced) {
             if (this.updateInterval) clearInterval(this.updateInterval);
             this.updateInterval = 0;
         } else {
@@ -98,36 +111,61 @@ class SyncManager {
     }
 
     static setSyncError(error) {
-        if (error !== this.syncError) {
-            this.syncError = error;
-            if (error) {
-                syncManagerSyncIcon.classList.add('nav-sync-error');
-            } else {
-                syncManagerSyncIcon.classList.remove('nav-sync-error');
-            }
+        this.syncError = error;
+    }
+
+    static applySyncError() {
+        if (this.syncError) {
+            syncManagerSyncIcon.classList.add('nav-sync-error');
+        } else {
+            syncManagerSyncIcon.classList.remove('nav-sync-error');
         }
-    } 
+    }
 
     static async update() {
+        this.setSyncError(false);
         this.lastUpdate = Date.now();
         syncManagerSyncIcon.classList.add('nav-syncing');
-        
+
+        var updates = [];
+
         for (var i = 0; i < this.fetchManager.length; i++) {
             var m = this.fetchManager[i];
-            await m.update().then(() => {
-                if (this.testChanged) {
-                    this.testChanged = false;
-                    this.eventTarget.dispatchEvent(this.testChangedEvent);   
-                }
-            }).catch(error => {
+            updates.push(m.update().then().catch(error => {
                 console.warn("[SYNC] An error occur while synchronising clients (update)", error);
-            });
+            }));
         }
+
+        var r = DATABASE_MANAGER.forEachSync(this.LINK);
+        r.onsuccess = event => {
+            const cursor = event.target.result;
+            if (cursor) {
+                var sync = cursor.value;
+                updates.push(this.getSyncFromSync(sync).updateTest());
+                cursor.continue();
+            } else {
+                Promise.all(updates).then(this.endUpdate.bind(this));
+            }
+        }
+        r.onerror = () => {
+            this.setSyncError(true);
+            Promise.all(updates).then(this.endUpdate.bind(this));
+        }
+    }
+
+    static endUpdate() {
         var remaining = this.lastUpdate + this.MIN_SYNC_TIME - Date.now();
         if (remaining > 0) {
             setTimeout(() => syncManagerSyncIcon.classList.remove('nav-syncing'), remaining);
         } else {
             syncManagerSyncIcon.classList.remove('nav-syncing');
+        }
+
+        this.applySyncError();
+
+        if (this.testChanged) {
+            this.testChanged = false;
+            this.eventTarget.dispatchEvent(this.testChangedEvent);
         }
     }
 
@@ -181,14 +219,14 @@ class SyncManager {
                 if (o2.type !== 'group' || o1.name !== o2.name || o1.long_name !== o2.long_name) return true;
             }
         }
-        return false
+        return false;
     }
 
     static async getSyncFromTest(test) {
         const event = await DATABASE_MANAGER.getSync(test.sync);
         const sync = event.target.result;
         if (!sync) return null;
-        if (sync.authAccount) {
+        if (sync.authAccount && sync.authAccount !== this.LINK) {
             return new Sync(sync, SyncManager.fetchManager[sync.authAccount]);
         } else if (sync.host) {
             return new Sync(sync, new SyncFetchManager(sync.host, sync.credentials, null));
@@ -200,6 +238,9 @@ class SyncManager {
     }
 
     static getSyncFromSync(sync, fetchManager) {
+        if (!fetchManager) {
+            fetchManager = new SyncFetchManager(sync.host, sync.credentials);
+        }
         return new Sync(sync, fetchManager);
     }
 }
@@ -406,7 +447,6 @@ class SyncFetchManager {
                     await Promise.all(add);
                     await Promise.all(updates);
                     resolve();
-                    SyncManager.setSyncError(false);
                 }
             }
             request.onerror = reject;
@@ -433,11 +473,15 @@ class Sync {
     }
 
     updateTest(testHeader) {
-        return new Promise(async resolve => {
-            var testData = await this.syncManager.authFetchJson(`/test/${this.sync.serverTestId}?last_modification=${this.sync.lastModification}`);
+        return new Promise(async (resolve, reject) => {
+            try {
+                var testData = await this.syncManager.authFetchJson(`/test/${this.sync.serverTestId}?last_modification=${this.sync.lastModification ?? 0}`);
+            } catch(e) {
+                reject(e);
+            }
             var test = Test.import(testData);
             if (test) {
-                this.sync.lastModification = testHeader.last_modification;
+                this.sync.lastModification = testHeader?.last_modification || test.lastModificationDate.getTime();
                 test.sync = this.sync.pk;
                 if (this.sync.testId > 0) {
                     test.id = this.sync.testId;
@@ -457,7 +501,11 @@ class Sync {
                     var r = DATABASE_MANAGER.addNewTest(test);
                     r.onsuccess = async event => {
                         this.sync.testId = event.target.result;
-                        await DATABASE_MANAGER.updateSync(this.sync);
+                        try {
+                            await DATABASE_MANAGER.updateSync(this.sync);
+                        } catch(e) {
+                            reject(e);
+                        }
                         SyncManager.eventTarget.dispatchEvent(
                             new CustomEvent('testupdate', {detail: {testId: test.id}})
                         );
@@ -484,8 +532,21 @@ class Sync {
     }
 
     async deleteTest() {
-        await this.syncManager.authFetch(`/test/${this.sync.serverTestId}`, 'DELETE');
-        await this.syncManager.update();
+        if (this.sync.authAccount === SyncManager.LINK) {
+            // TODO
+            DATABASE_MANAGER.deleteTest(this.sync.testId);
+            await DATABASE_MANAGER.deleteSync(this.sync.pk);
+            return;
+        }
+        try {
+            await this.syncManager.authFetch(`/test/${this.sync.serverTestId}`, 'DELETE');
+            await this.syncManager.update();
+        } catch {
+            // TODO
+            const p1 = DATABASE_MANAGER.deleteSync(this.sync.pk);
+            await DATABASE_MANAGER.deleteTest(this.sync.testId);
+            await p1;
+        }
     }
 
     async getTestInfo() {
