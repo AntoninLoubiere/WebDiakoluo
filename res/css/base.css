@@ -845,10 +845,13 @@ textarea.resize-vertical {
 
     opacity: 0;
     transition: opacity .3s .2s ease-out;
+
+    z-index: -20;
 }
 
 .popup-hover:hover > .popup-child, .popup-hover:focus > .popup-child, .popup-show > .popup-child {
     opacity: 1;
+    z-index: 20;
 }
 
 .context-menu {
