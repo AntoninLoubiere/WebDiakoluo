@@ -1156,7 +1156,6 @@ textarea.resize-vertical {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    transition: transform .3s ease-in-out;
     cursor: pointer;
 }
 
@@ -1174,6 +1173,7 @@ textarea.resize-vertical {
 
 #nav-sync.nav-syncing {
     animation: syncing 2s infinite linear;
+    transition: transform .3s ease-in-out;
 }
 
 @keyframes syncing {
