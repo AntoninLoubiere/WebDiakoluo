@@ -197,7 +197,7 @@ textarea.column-string-long {
 
 #sync-share-link-div {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
     padding-bottom: .5em;
     border-bottom: var(--color-primary-200) solid 2px;
     gap: .5em;
@@ -207,6 +207,12 @@ textarea.column-string-long {
 
 #sync-share-link {
     justify-self: right;
+}
+
+#sync-share-link-popup > .popup-child {
+    transform: translate(-115%);
+    min-width: 6em;
+    text-align: center;
 }
 
 #sync-share-add-name-parent {

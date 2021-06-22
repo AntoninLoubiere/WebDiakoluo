@@ -679,6 +679,8 @@ textarea.resize-vertical {
 
     background-color: var(--color-surface);
     color: var(--color-on-surface);
+    --color-background: var(--color-surface);
+    --color-on-background: var(--color-on-surface);
 }
 
 .modal-content header {
@@ -836,7 +838,7 @@ textarea.resize-vertical {
     transform: translate(-50%, -110%);
 
     padding: .2em .5em;
-    border-radius: 3em;
+    border-radius: 1em;
 
     background-color: var(--color-surface-primary-800);
     border: solid 1px var(--color-primary-200);
@@ -845,7 +847,7 @@ textarea.resize-vertical {
     transition: opacity .3s .2s ease-out;
 }
 
-.popup-parent:hover > .popup-child, .popup-parent:focus > .popup-child {
+.popup-hover:hover > .popup-child, .popup-hover:focus > .popup-child, .popup-show > .popup-child {
     opacity: 1;
 }
 

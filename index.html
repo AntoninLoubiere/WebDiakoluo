@@ -357,7 +357,12 @@
         </header>
         <main>
             <div id="sync-share-link-div">
-                <label for="sync-share-link"><x-i18n key="sync-share-link"></x-i18n> :</label><select id="sync-share-link" class="perms-select"></select>
+                <label for="sync-share-link"><x-i18n key="sync-share-link"></x-i18n> :</label>
+                <select id="sync-share-link" class="perms-select"></select>
+                <div class="popup-parent" id="sync-share-link-popup">
+                    <button class="icon-button" id="sync-share-link-share"><img src="/WebDiakoluo/res/img/share.svg" alt="Share icon"></button>
+                    <x-i18n class="popup-child popup-reverse" key="link-copied"></x-i18n>
+                </div>
             </div>
             <div id="sync-share-shares-parent">
                 <div id="sync-share-shares"></div>

@@ -22,6 +22,8 @@ const viewSyncOwner = document.getElementById('view-sync-test-owner');
 const viewSyncShareButton = document.getElementById('sync-share-button');
 const viewSyncShareModal = new Modal(document.getElementById('sync-share-modal'));
 const viewSyncShareLink = document.getElementById('sync-share-link');
+const viewSyncShareLinkShare = document.getElementById('sync-share-link-share');
+const viewSyncShareLinkPopup = document.getElementById('sync-share-link-popup');
 const viewSyncShareShares = document.getElementById('sync-share-shares');
 const viewSyncShareAddName = document.getElementById('sync-share-add-name');
 const viewSyncShareAddNameDataList = document.getElementById('sync-share-add-name-datalist');
@@ -68,6 +70,7 @@ class ViewPage extends Page {
         viewSyncShareLink.onchange = this.onChangeLinkPerms.bind(this);
         viewSyncShareAddForm.onsubmit = this.onAddPerm.bind(this);
         viewSyncShareAddName.oninput = this.onChangeAddName.bind(this);
+        viewSyncShareLinkShare.onclick = this.copyShareLink.bind(this);
 
         I18N.initAsyncFunc.then(() => {
             for (const perm of SyncManager.PERMS) {
@@ -532,6 +535,24 @@ class ViewPage extends Page {
             viewSyncShareAddType.disabled = false;
             viewSyncShareAddPerms.disabled = false;
         });
+    }
+
+    copyShareLink() {
+        var url = new URL(currentURL);
+        url.search = "";
+        url.searchParams.set('page', 'api');
+        url.searchParams.set('action', 'import-url');
+        url.searchParams.set('host', this.sync.syncManager.host);
+        url.searchParams.set('id', this.sync.sync.serverTestId);
+        url = url.toString();
+
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(url);
+            viewSyncShareLinkPopup.classList.add('popup-show');
+            setTimeout(() => viewSyncShareLinkPopup.classList.remove('popup-show'), 3_000);
+        } else {
+            alert(I18N.getTranslation('link') + ': ' + url)
+        }
     }
 }
 
