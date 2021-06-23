@@ -443,22 +443,38 @@
 </div>
 <div class="modal hide" id="import-test-modal">
     <div class="modal-content">
-        <header><x-i18n key="import-test"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
+        <header class="header-tabbed">
+            <x-i18n key="import-test"></x-i18n><button is="modal-close" class="modal-close">&times;</button>
+            <div class="header-tabbar">
+                <div id="import-tab-file" class="header-tab header-tab-active" tabindex="0">
+                    <x-i18n key="import-tab-file"></x-i18n>
+                </div>
+                <div id="import-tab-sync" class="header-tab" tabindex="0">
+                    <x-i18n key="import-tab-sync"></x-i18n>
+                </div>
+            </div>
+        </header>
         <main>
             <form id="import-form" class="unique-column">
-                <input type="file" id="import-test-input" required="" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv">
-                <div class="grid-keys" id="import-test-parent">
-                    <b><x-i18n key="file-type"></x-i18n> : </b>
-                    <select id="import-test-select" required="">
-                        <option value="dkl" selected="">.dkl</option>
-                        <option value="csv">.csv</option>
-                    </select>
+                <div id="import-file" class="unique-column">
+                    <input type="file" id="import-test-input" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv" required>
+                    <div class="grid-keys" id="import-test-parent">
+                        <b><x-i18n key="file-type"></x-i18n> : </b>
+                        <select id="import-test-select" required>
+                            <option value="dkl" selected="">.dkl</option>
+                            <option value="csv">.csv</option>
+                        </select>
+                    </div>
+                    <div id="import-csv" class="hide unique-column">
+                        <input type="checkbox"id="import-csv-column-name" checked="">
+                        <label for="import-csv-column-name"><x-i18n key="import-csv-column-name"></x-i18n></label><br>
+                        <input type="checkbox" id="import-csv-column-type" checked="">
+                        <label for="import-csv-column-type"><x-i18n key="import-csv-column-type"></x-i18n></label>
+                    </div>
                 </div>
-                <div id="import-csv" class="hide">
-                    <input type="checkbox"id="import-csv-column-name" checked="">
-                    <label for="import-csv-column-name"><x-i18n key="import-csv-column-name"></x-i18n></label><br>
-                    <input type="checkbox" id="import-csv-column-type" checked="">
-                    <label for="import-csv-column-type"><x-i18n key="import-csv-column-type"></x-i18n></label>
+                <div id="import-sync" class="hide grid-keys">
+                    <b><x-i18n key="import-url"></x-i18n> :</b>
+                    <input type="url" id="import-url-input">
                 </div>
                 <button type="submit" class="btn image-button colored">
                     <img src="/WebDiakoluo/res/img/import_w.svg" alt="Import icon">

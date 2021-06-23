@@ -378,7 +378,8 @@ textarea.column-string-long {
     grid-column: 1/1;
 }
 
-#import-form {
+#import-file, #import-sync, #import-form {
+    display: grid;
     grid-gap: .5em;
 }
 

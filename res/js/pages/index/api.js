@@ -45,7 +45,6 @@ class API_PAGE extends Page {
             };
             const syncObject = SyncManager.getSyncFromSync(sync);
             await syncObject.updateTest();
-            await DATABASE_MANAGER.addSync(sync);
             SyncManager.isSynced = true;
             SyncManager.onVisibilityChange();
 
