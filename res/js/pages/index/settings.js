@@ -206,7 +206,7 @@ class SettingsPage extends Page {
 
         var s = new SyncFetchManager(host, {username: username, password: password});
         settingsPageStatusText.setAttribute('key', 'settings-sync-loading');
-        settingsPageStatusText.classList.removde('important-font');
+        settingsPageStatusText.classList.remove('important-font');
         s.authFetch('/test').then(() => {
             SyncManager.setSyncAccount([s]);
             SyncManager.update();

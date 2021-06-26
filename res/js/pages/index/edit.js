@@ -553,6 +553,7 @@ class EditPage extends Page {
         else if (Modal.currentModal === editSyncModal) this.applySyncModal();
 
         DATABASE_MANAGER.updateTest(currentTest);
+        defaultPage.reload();
     }
 
     /* save the current data in modals */
@@ -594,15 +595,17 @@ class EditPage extends Page {
 
     /* callback for the cancel button */
     cancelButton() {
+        if (Modal.currentModal) Modal.currentModal.hide(false);
         Modal.showActionModal(
             'warning-lose-changes-title', 
-            'warning-lose-changes-message', 
+            'warning-lose-changes-message',
             {name: 'quit'}
         ).then(quit => {
             if (quit) {
                 var id = currentTest.edit_id;
                 currentTest = null;
                 DATABASE_MANAGER.deleteTest(EDIT_KEY);
+                defaultPage.reload();
                 if (id) UTILS.viewTestPage(id);
                 else backToMain(true);
             }
@@ -614,6 +617,7 @@ class EditPage extends Page {
      */
     async saveButton() {
         this.saveTest();
+        if (Modal.currentModal) Modal.currentModal.hide(false);
         currentTest.registerModificationDate();
         if (currentTest.editSync ?? currentTest.sync) {
             await this.syncSave().then(() => {
