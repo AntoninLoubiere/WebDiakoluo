@@ -1,0 +1,24 @@
+<main id="eval-settings-page" class="hide page-container">
+    <form id="eval-set-form">
+        <h1 id="eval-set-test-title"></h1>
+        <div id="eval-set-params" class="unique-column">
+            <b><x-i18n key="eval-number-data"></x-i18n></b>
+            <select id="eval-set-number-data">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="1-4">1/4</option>
+                <option value="1-3">1/3</option>
+                <option value="1-2">1/2</option>
+                <option value="1-1">100%</option>
+            </select>
+            <label for="eval-set-number-column"><b><x-i18n key="number-columns"></x-i18n></b></label>
+            <div class="flex flex-center">
+                <input type="number" name="columns" id="eval-set-number-column" class="small" min="1" value="1" required="" />/<span id="eval-set-number-column-max"></span>
+            </div>
+        </div>
+        <button id="eval-set-start-button" class="btn image-button colored major" type="submit">
+            <span><x-i18n key="eval" caps="upper"></x-i18n></span>
+            <img src="/WebDiakoluo/res/img/play_w.svg" alt="Play icon">
+        </button>
+    </form>
+</main>

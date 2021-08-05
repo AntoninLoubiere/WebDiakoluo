@@ -1,0 +1,71 @@
+<main id="play-card-page" class="hide expand page-container">
+    <div id="play-card-header">
+        <progress-bar id="play-card-progress"></progress-bar>
+        <button class="icon-button" id="play-card-settings-button"><img src="/WebDiakoluo/res/img/settings.svg" alt="Settings icon"></button>
+        <button class="icon-button" id="play-card-shuffle-button"><img src="/WebDiakoluo/res/img/shuffle.svg" id="play-card-shuffle-button-image" alt="Shuffle icon"></button>
+    </div>
+    <div class="card" id="play-card-card">
+    </div>
+</main>
+<div class="modal hide" id="play-card-settings-modal">
+    <div class="modal-content">
+        <header><x-i18n key="settings"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <div id="play-card-set-set">
+                <div>
+                    <input id="play-card-set-column-name" type="checkbox">
+                    <label for="play-card-set-column-name"><x-i18n key="play-card-column-name"></x-i18n></label>
+                </div>
+                <div>
+                    <input id="play-card-set-random-side" type="checkbox">
+                    <label for="play-card-set-random-side"><x-i18n key="play-card-random-side"></x-i18n></label>
+                </div>
+                <div>
+                    <label for="play-card-set-nb-rand-col"><x-i18n key="number-columns-random"></x-i18n> :</label>
+                    <input id="play-card-set-nb-rand-col" class="small" type="number" required="">
+                </div>
+            </div>
+            <div id="play-card-set-columns">
+                <div>
+                    <h3><x-i18n key="show-columns"></x-i18n></h3>
+                    <div id="play-card-set-show-columns" class="sortable" column-list="columnsShow"></div>
+                </div>
+                <div>
+                    <h3><x-i18n key="random-columns"></x-i18n></h3>
+                    <div id="play-card-set-random-columns" class="sortable" column-list="columnsRandom"></div>
+                </div>
+                <div>
+                    <h3><x-i18n key="ask-columns"></x-i18n></h3>
+                    <div id="play-card-set-ask-columns" class="sortable" column-list="columnsAsk"></div>
+                </div>
+                <div>
+                    <h3><x-i18n key="hide-columns"></x-i18n></h3>
+                    <div id="play-card-set-hide-columns" class="sortable" column-list="columnsHide"></div>
+                </div>
+            </div>
+            <button is="modal-close" class="btn image-button colored right"><span><x-i18n key="ok" caps="upper"></x-i18n></span></button>
+            <button class="btn image-button right" id="play-card-set-reset">
+                <img src="/WebDiakoluo/res/img/restart.svg" alt="Restart icon"><span><x-i18n key="reset" caps="upper"></x-i18n></span>
+            </button>
+        </main>
+    </div>
+</div>
+<template id="play-card-restart-template">
+    <div>
+        <h1 class="card-center"><x-i18n key="play-card-end"></x-i18n></h1>
+        <div class="card-center" id="play-card-button-bar">
+            <button class="btn image-button" id="play-card-home-button">
+                <img src="/WebDiakoluo/res/img/home.svg" alt="Home icon"><span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button" id="play-card-view-button">
+                <img src="/WebDiakoluo/res/img/view.svg" alt="View icon"><span><x-i18n key="view-test" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button" id="play-card-restart-button">
+                <img src="/WebDiakoluo/res/img/restart.svg" alt="Restart icon"><span><x-i18n key="restart" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button colored" id="play-card-grade-button">
+                <img src="/WebDiakoluo/res/img/grade_w.svg" alt="Grade icon"><span><x-i18n key="eval" caps="upper"></x-i18n></span>
+            </button>
+        </div>
+    </div>
+</template>
