@@ -209,7 +209,7 @@ export class DatabaseManager extends sqlite3.Database {
      */
     async addSession(id: string, user_id: number, maxTime: number) {
         return this.aRun(
-            'INSERT INTO sessions("id", "user", "expire_date") VALUES (?,?,?)', 
+            'INSERT INTO sessions("id", "user", "expire_date") VALUES (?,?,?)',
             [id, user_id, Date.now() + maxTime]
         )[0];
     }
@@ -273,7 +273,7 @@ export class DatabaseManager extends sqlite3.Database {
      */
     async getGroupUsers(id: number): Promise<User[]> {
         return (await this.aAll(`SELECT users.username, users.name FROM users_groups_link 
-            INNER JOIN users ON users_groups_link.user=users.user_id 
+            INNER JOIN users ON users_groups_link.user=users.user_id
             WHERE users_groups_link."group"=?`, 
         [id]))[1];
     }
@@ -450,14 +450,14 @@ export class DatabaseManager extends sqlite3.Database {
      * @param perms the perms to set
      * @returns if there is an error
      */
-    async setShareGroupPerms(test_id: number, owner: number, group_name: string, perms: number, isOwner: boolean) {
+    async setShareGroupPerms(test_id: number, group_name: string, perms: number, isOwner: boolean) {
         if (isOwner) {
             var queryA = this.aRun(`INSERT INTO shares(test, user, "group", perms)
             SELECT ?, user, "group", ? FROM users_groups_link WHERE "group"=(
                 SELECT group_id FROM groups WHERE name=?
-            ) AND user!=?
+            )
             ON CONFLICT (test, user, "group") DO UPDATE SET perms=?
-            `, [test_id, perms, group_name, owner, perms]);
+            `, [test_id, perms, group_name, perms]);
             var queryB = this.aRun(`INSERT INTO shares_groups(test, "group", perms) 
             SELECT ?, group_id, ? FROM groups WHERE name=?
             ON CONFLICT (test, "group") DO UPDATE SET perms=?`, [test_id, perms, group_name, perms]);
@@ -465,9 +465,9 @@ export class DatabaseManager extends sqlite3.Database {
             var queryA = this.aRun(`INSERT INTO shares(test, user, "group", perms)
             SELECT ?, user, "group", ? FROM users_groups_link WHERE "group"=(
                 SELECT group_id FROM groups WHERE name=?
-            ) AND user!=?
+            )
             ON CONFLICT (test, user, "group") DO UPDATE SET perms=? WHERE perms<4
-            `, [test_id, perms, group_name, owner, perms]);
+            `, [test_id, perms, group_name, perms]);
             var queryB = this.aRun(`INSERT INTO shares_groups(test, "group", perms) 
             SELECT ?, group_id, ? FROM groups WHERE name=?
             ON CONFLICT (test, "group") DO UPDATE SET perms=? WHERE perms<4`, [test_id, perms, group_name, perms]);

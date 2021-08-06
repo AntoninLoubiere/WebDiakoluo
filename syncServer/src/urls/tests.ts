@@ -219,7 +219,7 @@ TESTRouter.post('/:id/share', useSession, getTestWithPerms(PERMS_SHARE), BODY_JS
             var e = await DATABASE.setShareUserPerms(res.locals.test.test_id, name, perms, isOwner);
             res.sendStatus(e[0] ? 500 : e[1] ? 204 : 404);
         } else { // must be 'group'
-            var e = await DATABASE.setShareGroupPerms(res.locals.test.test_id, res.locals.test.owner, name, perms, isOwner);
+            var e = await DATABASE.setShareGroupPerms(res.locals.test.test_id, name, perms, isOwner);
             res.sendStatus(e[0] ? 500 : e[1] ? 204 : 404);
         }
         return;

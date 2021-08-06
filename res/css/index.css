@@ -14,12 +14,51 @@ textarea.column-string-long {
     cursor: wait;
 }
 
+#list-page-sections {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-page-section-local {
+    order: 0;
+}
+
+.list-page-section-owner {
+    order: 1;
+}
+
+.list-page-section-user {
+    order: 2;
+}
+
+.list-page-section-group {
+    order: 3;
+}
+
+.list-page-section-link {
+    order: 4;
+}
+
+.list-page-section-title {
+    margin: 0;
+}
+
+.list-page-button-bar {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.list-page-button-bar > button {
+    flex-basis: 20%;
+}
+
 .test-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: stretch;
-
 }
 
 .test {

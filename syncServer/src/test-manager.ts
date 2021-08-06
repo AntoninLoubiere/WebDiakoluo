@@ -30,7 +30,7 @@ export async function getUserTests(user_id: number) {
     
     const sharesPromise = DATABASE.getTestShares(user_id);
     const ownerPromise = DATABASE.getTestsOwner(user_id);
-    
+
     var shares = await sharesPromise;
     var groups: number[][] = [];
     var users: number[] = [];
