@@ -191,9 +191,11 @@ class EditPage extends Page {
 
     /* create a new edit test from a test already existing */
     async initialiseTest(id) {
+        console.log(currentTest.id)
         if (currentTest?.id !== EDIT_KEY || await this.showEraseWarning(id)) { // alert the user if we erase a currently edit test
             var request = DATABASE_MANAGER.getFullTest(id);
             request.onsuccess = test => {
+                console.log("ERASE");
                 currentTest = test;
                 currentTest.edit_id = id;
                 currentTest.id = EDIT_KEY;
@@ -225,7 +227,8 @@ class EditPage extends Page {
         var r = await Modal.showActionModal(
             'warning-erase-title', 
             'warning-erase-message',
-            {name: 'erase'}
+            {name: 'erase'},
+            {noBack: true}
         );
         if (!r) {
             currentURL.searchParams.set('test', 'current');

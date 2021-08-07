@@ -142,7 +142,7 @@ class Modal {
 
             document.body.appendChild(modal);
 
-            var modalObject = new Modal(modal, !options?.noDismiss);
+            var modalObject = new Modal(modal, !(options.noBack || options?.noDismiss));
             modalObject.onhide = () => {
                 modalObject.delete();
                 if (notResolved) resolve(false);
@@ -153,9 +153,9 @@ class Modal {
 
     /* MODALS CLASSES */
 
-    constructor(modal, dismiss=true) {
+    constructor(modal, do_back=true) {
         this.modal = modal;
-        this.dismiss = dismiss;
+        this.dismiss = do_back;
     }
 
     /* show the modal */
