@@ -209,6 +209,7 @@ class Test {
         var t = Object.assign({}, this);
         delete t.id;
         delete t.sync;
+        delete t.lastUsed;
         delete t.syncData;
         return t;
     }
