@@ -456,6 +456,7 @@ button.left {
 
 button.image-button {
     width: auto;
+    min-width: max-content;
     height: 2em;
     
     line-height: 1em;

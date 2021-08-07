@@ -78,6 +78,8 @@ function loadPageRequiringTest(update = false) {
             var request = DATABASE_MANAGER.getFullTest(testId);
             request.onsuccess = function(test) {
                 currentTest = test;
+                currentTest.registerLastUsed();
+                DATABASE_MANAGER.updateTest(currentTest);
                 currentPage.onload?.();
             };
             request.onerror = function(event) {

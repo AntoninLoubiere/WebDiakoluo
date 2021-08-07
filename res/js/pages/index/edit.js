@@ -237,6 +237,7 @@ class EditPage extends Page {
 
     /* load the current test in the UI */
     loadTest() {
+        currentTest.registerLastUsed();
         editPageTitle.value = currentTest.title;
         editPageDescription.value = currentTest.description;
 

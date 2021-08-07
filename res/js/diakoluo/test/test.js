@@ -117,7 +117,14 @@ class Test {
 
     /* get the header of the test*/
     getHeader() {
-        return {title: this.title, description: this.description, playable: this.isPlayable(), id: this.id, sync: this.sync};
+        return {
+            title: this.title,
+            description: this.description,
+            playable: this.isPlayable(),
+            id: this.id,
+            sync: this.sync,
+            lastUsed: this.lastUsed
+        };
     }
 
     /* get if the test is playable */
@@ -138,6 +145,10 @@ class Test {
             }
         }
         return false;
+    }
+
+    registerLastUsed() {
+        this.lastUsed = Date.now();
     }
 
     /* set the last modification date to now */
