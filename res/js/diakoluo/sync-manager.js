@@ -89,10 +89,12 @@ class SyncManager {
         } else {
             var timeRemaining = this.lastUpdate - Date.now() + this.UPDATE_DELAY
             if (timeRemaining < 0) {
+                if (this.updateInterval) clearInterval(this.updateInterval);
                 this.updateInterval = setInterval(this.update.bind(this), this.UPDATE_DELAY);
                 this.update();
             } else {
                 this.updateInterval = setTimeout(() => {
+                    if (this.updateInterval) clearInterval(this.updateInterval);
                     this.updateInterval = setInterval(this.update.bind(this), this.UPDATE_DELAY);
                     this.update();
                 }, timeRemaining);
