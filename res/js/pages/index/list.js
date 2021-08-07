@@ -11,7 +11,7 @@ class ListPage extends Page {
     constructor() {
         super(listPageView, '', false);
 
-        this.localTestList = this.createNewSection('list-test-locals', 'local', true);
+        this.localTestList = this.createNewSection('local');
         this.testLists = {};
 
         document.getElementById('list-import-button').onclick = () => UTILS.importTest();
@@ -38,14 +38,18 @@ class ListPage extends Page {
     }
 
     /* create a new test list section */
-    createNewSection(title, type, titleIsId) {
+    createNewSection(type, title, titleIsId) {
         const sec = testListSectionTemplate.content.cloneNode(true);
-        if (titleIsId) {
-            let e = document.createElement('x-i18n');
-            e.setAttribute('key', title);
-            sec.querySelector('.list-page-section-title').appendChild(e);
+        if (type) {
+            if (titleIsId) {
+                let e = document.createElement('x-i18n');
+                e.setAttribute('key', title);
+                sec.querySelector('.list-page-section-title').appendChild(e);
+            } else {
+                sec.querySelector('.list-page-section-title').textContent = title;
+            }
         } else {
-            sec.querySelector('.list-page-section-title').textContent = title;
+            sec.querySelector('.list-page-section-title').hidden = true;
         }
         if (type) {
             sec.firstElementChild.classList.add('list-page-section-' + type);
@@ -146,11 +150,17 @@ class ListPage extends Page {
                 }
             } else {
                 Promise.all(promises).then(() => {
+                    if (!this.localTestList.childElementCount) {
+                        let header = document.createElement('h3');
+                        let i18n = document.createElement('x-i18n');
+                        i18n.setAttribute('key', 'list-test-empty-section');
+                        header.append(i18n);
+                        this.localTestList.appendChild(header);
+                    }
                     let keys = Object.keys(this.testLists);
                     for (let k of keys) {
                         let list = this.testLists[k];
                         if (!list.childElementCount) {
-                            console.log(list, list.parentElement);
                             list.parentElement.remove();
                             delete this.testLists[k];
                         }
@@ -179,14 +189,14 @@ class ListPage extends Page {
             if (this.testLists.owner) {
                 return this.testLists.owner;
             }
-            let sec = this.createNewSection('list-test-sync-owner-section', 'owner', true);
+            let sec = this.createNewSection('owner');
             this.testLists.owner = sec;
             return sec;
         } else if (shareMode.type == "link") {
             if (this.testLists.link) {
                 return this.testLists.link;
             }
-            let sec = this.createNewSection('list-test-sync-link-section', 'link', true);
+            let sec = this.createNewSection('link');
             this.testLists.link = sec;
             return sec;
         } else if (shareMode.type == "user") {
@@ -194,8 +204,8 @@ class ListPage extends Page {
                 return this.testLists[shareMode.username];
             }
             let sec = this.createNewSection(
-                `${I18N.getTranslation('list-test-sync-user-section')} ${shareMode.name} (${shareMode.username})`,
-                'user'
+                'user',
+                `${shareMode.name} (${shareMode.username})`,
             );
             this.testLists[shareMode.username] = sec;
             return sec;
@@ -204,8 +214,8 @@ class ListPage extends Page {
                 return this.testLists[shareMode.name];
             }
             let sec = this.createNewSection(
-                `${I18N.getTranslation('list-test-sync-group-section')} ${shareMode.long_name} (${shareMode.name})`,
-                'group'
+                'group',
+                `${shareMode.long_name} (${shareMode.name})`
             );
             this.testLists[shareMode.name] = sec;
             return sec;

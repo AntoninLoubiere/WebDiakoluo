@@ -35,6 +35,12 @@
         </button>
     </div>
     <div id="list-page-sections">
+        <h1 id="list-page-section-header-local"><x-i18n key="list-test-locals"></x-i18n></h1>
+        <h1 id="list-page-section-header-sync"><x-i18n key="list-test-sync"></x-i18n></h1>
+        <h2 id="list-page-section-header-sync-owner"><x-i18n key="list-test-sync"></x-i18n></h2>
+        <h2 id="list-page-section-header-sync-user"><x-i18n key="list-test-sync-user"></x-i18n></h2>
+        <h2 id="list-page-section-header-sync-group"><x-i18n key="list-test-sync-group"></x-i18n></h2>
+        <h2 id="list-page-section-header-sync-link"><x-i18n key="list-test-sync-link"></x-i18n></h2>
     </div>
 </main>
 <template id="list-test-child-template">
@@ -52,7 +58,7 @@
 </template>
 <template id="list-page-section-template">
     <div>
-        <h1 class="list-page-section-title"></h1>
+        <h3 class="list-page-section-title"></h3>
         <div class="test-list"></div>
     </div>
 </template>

@@ -19,22 +19,28 @@ textarea.column-string-long {
     flex-direction: column;
 }
 
+#list-page-section-header-local,
 .list-page-section-local {
     order: 0;
 }
 
+#list-page-section-header-sync,
+#list-page-section-header-sync-owner,
 .list-page-section-owner {
     order: 1;
 }
 
+#list-page-section-header-sync-user,
 .list-page-section-user {
     order: 2;
 }
 
+#list-page-section-header-sync-group,
 .list-page-section-group {
     order: 3;
 }
 
+#list-page-section-header-sync-link,
 .list-page-section-link {
     order: 4;
 }
