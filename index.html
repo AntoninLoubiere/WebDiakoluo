@@ -52,179 +52,117 @@
         </button>
     </form>
 </main>
-<main id="eval-score-page" class="hide page-container">
-    <div id="eval-score-progress-parent">
-        <h1 class="no-margin" id="eval-score-major">1/10</h1>
-        <progress-bar id="eval-score-progress"></progress-bar>
-        <h3 class="no-margin" id="eval-score-minor">1/10</h3>
-    </div>
-    <button class="btn image-button colored right" id="eval-score-restart">
-        <img src="/WebDiakoluo/res/img/restart_w.svg" alt="Restart icon">
-        <span><x-i18n key="restart" caps="upper"></x-i18n></span>
-    </button>
-    <button class="btn image-button right" id="eval-score-menu">
-        <img src="/WebDiakoluo/res/img/home.svg" alt="Home icon">
-        <span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
-    </button>
-</main>
-<main id="loading-page" class="page-container">
-    <h1><x-i18n key="loading"></x-i18n></h1>
-</main>
-<div id="test-delete-confirm-modal" class="modal hide">
-    <div class="modal-content red">
-        <header><x-i18n key="delete-test-title"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
-        <main>
-            <p><x-i18n key="delete-test-message"></x-i18n></p>
-            <button id="test-delete-confirm-button" class="btn image-button right colored red"><x-i18n key="delete" caps="upper"></x-i18n></button>
-            <button is="modal-close" class="btn image-button right"><x-i18n key="cancel" caps="upper"></x-i18n></button>
-        </main>
-    </div>
-</div>
-<div class="modal hide" id="import-test-modal">
+<div id="sync-share-modal" class="modal hide">
     <div class="modal-content">
-        <header class="header-tabbed">
-            <x-i18n key="import-test"></x-i18n><button is="modal-close" class="modal-close">&times;</button>
-            <div class="header-tabbar">
-                <div id="import-tab-file" class="header-tab header-tab-active" tabindex="0">
-                    <x-i18n key="import-tab-file"></x-i18n>
-                </div>
-                <div id="import-tab-sync" class="header-tab" tabindex="0">
-                    <x-i18n key="import-tab-sync"></x-i18n>
-                </div>
-            </div>
+        <header><x-i18n key="sync-share"></x-i18n><button is="modal-close" class="modal-close">&times;</button>
         </header>
         <main>
-            <form id="import-form" class="unique-column">
-                <div id="import-file" class="unique-column">
-                    <input type="file" id="import-test-input" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv" required>
-                    <div class="grid-keys" id="import-test-parent">
-                        <b><x-i18n key="file-type"></x-i18n> : </b>
-                        <select id="import-test-select" required>
-                            <option value="dkl" selected="">.dkl</option>
-                            <option value="csv">.csv</option>
-                        </select>
-                    </div>
-                    <div id="import-csv" class="hide unique-column">
-                        <input type="checkbox"id="import-csv-column-name" checked="">
-                        <label for="import-csv-column-name"><x-i18n key="import-csv-column-name"></x-i18n></label><br>
-                        <input type="checkbox" id="import-csv-column-type" checked="">
-                        <label for="import-csv-column-type"><x-i18n key="import-csv-column-type"></x-i18n></label>
-                    </div>
+            <div id="sync-share-link-div">
+                <label for="sync-share-link"><x-i18n key="sync-share-link"></x-i18n> :</label>
+                <select id="sync-share-link" class="perms-select"></select>
+                <div class="popup-parent" id="sync-share-link-popup">
+                    <button class="icon-button" id="sync-share-link-share"><img src="/WebDiakoluo/res/img/share.svg" alt="Share icon"></button>
+                    <x-i18n class="popup-child popup-reverse" key="link-copied"></x-i18n>
                 </div>
-                <div id="import-sync" class="hide grid-keys">
-                    <b><x-i18n key="import-url"></x-i18n> :</b>
-                    <input type="url" id="import-url-input">
+            </div>
+            <div id="sync-share-shares-parent">
+                <div id="sync-share-shares"></div>
+            </div>
+            <form id="sync-share-add-form">
+                <div id="sync-share-add-name-parent">
+                    <label for="sync-share-add-name"><x-i18n key="sync-share-name"></x-i18n></label>
+                    <input type="text" id="sync-share-add-name" list="sync-share-add-name-datalist">
+                    <datalist id="sync-share-add-name-datalist"></datalist>
                 </div>
-                <button type="submit" class="btn image-button colored">
-                    <img src="/WebDiakoluo/res/img/import_w.svg" alt="Import icon">
-                    <span><x-i18n key="import" caps="upper"></x-i18n></span>
+                <div>
+                    <label for="sync-share-add-type"><x-i18n key="sync-share-type"></x-i18n></label>
+                    <select type="text" id="sync-share-add-type" class="type-select"></select>
+                </div>
+                <div>
+                    <label for="sync-share-add-perms"><x-i18n key="sync-share-perms"></x-i18n></label>
+                    <select type="text" id="sync-share-add-perms" class="perms-select"></select>
+                </div>
+                <button type="submit" class="image-button btn compact">
+                    <img src="/WebDiakoluo/res/img/add.svg" alt="Add icon">
+                    <span><x-i18n key="sync-share-add-perm" caps="upper"></x-i18n></span>
                 </button>
             </form>
         </main>
     </div>
 </div>
-<div class="modal hide" id="export-test-modal">
-    <div class="modal-content">
-        <header><x-i18n key="export"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
-        <main>
-            <form id="export-form" class="unique-column">
-                <div class="grid-keys" id="export-test-parent">
-                    <b><x-i18n key="file-type"></x-i18n> : </b>
-                    <select id="export-test-select" required="">
-                        <option value="dkl" selected="">.dkl</option>
-                        <option value="csv">.csv</option>
-                    </select>
-                </div>
-                <div id="export-csv" class="hide">
-                    <div>
-                        <b><x-i18n key="export-warning-csv"></x-i18n></b>
-                    </div>
-                    <input type="checkbox" id="export-csv-column-name" checked="">
-                    <label for="export-csv-column-name"><x-i18n key="export-csv-column-name"></x-i18n></label><br>
-                    <input type="checkbox" id="export-csv-column-type" checked="">
-                    <label for="export-csv-column-type"><x-i18n key="export-csv-column-type"></x-i18n></label>
-                </div>
-                <button type="submit" class="btn image-button colored" id="export-button">
-                    <img src="/WebDiakoluo/res/img/export_w.svg" alt="Export icon">
-                    <span><x-i18n key="export" caps="upper"></x-i18n></span>
-                </button>
-            </form>
-        </main>
+<template id="sync-share-perms-rule">
+    <div>
+        <img class="share-type" alt="Share type">
+        <span class="share-name"></span>
+        <select class="sync-share-perms-select perms-select"></select>
+        <img src="/WebDiakoluo/res/img/cancel.svg" class="view-button share-delete-button" tabindex="0" alt="Delete user">
     </div>
-</div>
-<main id="settings-page" class="hide expand nav-panel-page">
-    <div id="settings-nav" class="nav-panel">
-        <div class="nav-panel-item" id="settings-nav-general">
-            <img src="/WebDiakoluo/res/img/settings_w.svg" alt="Settings icon">
-            <x-i18n key="settings-general"></x-i18n>
-        </div>
-        <div class="nav-panel-item" id="settings-nav-appearance">
-            <img src="/WebDiakoluo/res/img/appearance_w.svg" alt="Appearance icon">
-            <x-i18n key="settings-appearance"></x-i18n>
-        </div>
-        <div class="nav-panel-item" id="settings-nav-sync">
-            <img src="/WebDiakoluo/res/img/sync_w.svg" alt="Synchronise icon">
-            <x-i18n key="settings-sync"></x-i18n>
-        </div>
+</template>
+<main id="list-page" class="hide page-container">
+    <div class="context-menu" id="list-page-context-menu">
+        <div tabindex="0"></div> <!-- will get focus when the context menu is open -->
+        <button id="list-test-play-button">
+            <img src="/WebDiakoluo/res/img/play.svg" alt="Play icon"><x-i18n key="play" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-eval-button">
+            <img src="/WebDiakoluo/res/img/grade.svg" alt="Grade icon"><x-i18n key="eval" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-edit-button">
+            <img src="/WebDiakoluo/res/img/edit.svg" alt="Edit icon"><x-i18n key="edit" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-duplicate-button">
+            <img src="/WebDiakoluo/res/img/duplicate.svg" alt="Duplicate icon"><x-i18n key="duplicate" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-export-button">
+            <img src="/WebDiakoluo/res/img/export.svg" alt="Export icon"><x-i18n key="export" caps="upper"></x-i18n>
+        </button>
+        <button id="list-test-delete-button">
+            <img src="/WebDiakoluo/res/img/delete.svg" alt="Delete icon"><x-i18n key="delete" caps="upper"></x-i18n>
+        </button>
     </div>
-    <div class="page-container">
-        <div id="settings-panel-general" class="hide">
-            <h1 class="no-margin"><x-i18n key="settings-version-title"></x-i18n></h1>
-            <p>
-                <x-i18n key="settings-version-message"></x-i18n> :
-                <b><span id="settings-version"></span></b><br>
-            </p>
-            <button class="btn image-button" id="settings-get-version">
-                <img src="/WebDiakoluo/res/img/restart.svg" alt="Sync icon"><span><x-i18n key="verify-update" caps="upper"></x-i18n></span>
-            </button>
-            <div id="settings-verify-update-panel" class="hide">
-                <p>
-                    <x-i18n key="settings-last-update"></x-i18n> : <b><span id="settings-last-update"></span></b>
-                </p>
-                <button class="btn image-button" id="settings-update">
-                    <img src="/WebDiakoluo/res/img/update.svg" alt="Update icon"><span><x-i18n key="update" caps="upper"></x-i18n></span>
-                </button>
-                <p id="settings-update-status"></p>
-            </div>
-        </div>
-        <div id="settings-panel-appearance" class="hide">
-            <h1><x-i18n key="settings-theme"></x-i18n></h1>
-            <div class="flex-around">
-                <label id="settings-theme-light-label" for="settings-theme-light" class="checkbox settings-theme-label">
-                    <input type="radio" id="settings-theme-light" name="theme" value="light">
-                    <x-i18n key="settings-theme-light"></x-i18n>
-                </label>
-                <label id="settings-theme-auto-label" for="settings-theme-auto" class="checkbox settings-theme-label">
-                    <input type="radio" id="settings-theme-auto" name="theme" value="auto">
-                    <x-i18n key="settings-theme-auto"></x-i18n>
-                </label>
-                <label id="settings-theme-dark-label" for="settings-theme-dark" class="checkbox settings-theme-label">
-                    <input type="radio" id="settings-theme-dark" name="theme" value="dark">
-                    <x-i18n key="settings-theme-dark"></x-i18n>
-                </label>
-            </div>
-        </div>
-        <div id="settings-panel-sync" class="hide">
-            <h1><x-i18n key="settings-sync-title"></x-i18n></h1>
-            <form action="" class="unique-column" id="settings-sync-form">
-                <div class="grid-keys">
-                    <label for="settings-sync-host">
-                        <x-i18n key="settings-sync-host"></x-i18n> :
-                    </label><input type="url" id="settings-sync-host">
-                    <label for="settings-sync-username">
-                        <x-i18n key="settings-sync-username"></x-i18n> :
-                    </label><input type="text" id="settings-sync-username">
-                    <label for="settings-sync-password">
-                        <x-i18n key="settings-sync-password"></x-i18n> :
-                    </label><input type="password" id="settings-sync-password">
-                </div>
-                <button type="submit" class="btn image-button colored margin-top" id="settings-sync-submit"><x-i18n key="valid" caps="upper"></x-i18n></button>
-            </form>
-            <p><x-i18n id="settings-sync-status"></x-i18n></p>
-        </div>
+    <div class="list-page-button-bar">
+        <button class="btn image-button" id="list-add-button">
+            <img src="/WebDiakoluo/res/img/add.svg" alt="Add icon">
+            <span><x-i18n key="add-test" caps="upper"></x-i18n></span>
+        </button>
+        <button class="btn image-button" id="list-import-button">
+            <img src="/WebDiakoluo/res/img/import.svg" alt="Import icon">
+            <span><x-i18n key="import-test" caps="upper"></x-i18n></span>
+        </button>
+        <button class="btn image-button" id="list-export-all-button">
+            <img src="/WebDiakoluo/res/img/export.svg" alt="Export icon">
+            <span><x-i18n key="export-all-test" caps="upper"></x-i18n></span>
+        </button>
+    </div>
+    <div id="list-page-sections">
+        <h1 id="list-page-section-header-recent"><x-i18n key="list-test-recent"></x-i18n></h1>
+        <h1 id="list-page-section-header-local"><x-i18n key="list-test-local"></x-i18n></h1>
+        <h1 id="list-page-section-header-sync"><x-i18n key="list-test-sync"></x-i18n></h1>
+        <h2 id="list-page-section-header-sync-owner"><x-i18n key="list-test-sync-owner"></x-i18n></h2>
+        <h2 id="list-page-section-header-sync-user"><x-i18n key="list-test-sync-user"></x-i18n></h2>
+        <h2 id="list-page-section-header-sync-group"><x-i18n key="list-test-sync-group"></x-i18n></h2>
+        <h2 id="list-page-section-header-sync-link"><x-i18n key="list-test-sync-link"></x-i18n></h2>
     </div>
 </main>
-<main id="edit-page" class="hide page-container">
+<template id="list-test-child-template">
+    <div class="test" tabindex="0">
+        <div class="test-title"><span class="test-title-span"></span></div>
+        <div class="test-description"></div>
+    </div>
+</template>
+<template id="list-test-sync">
+    <div class="test-sync">
+<!-- INCLUDE START id="sync.svg" -->
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+<!-- INCLUDE END id="sync.svg" -->
+    </div>
+</template>
+<template id="list-page-section-template">
+    <div>
+        <h3 class="list-page-section-title"></h3>
+        <div class="test-list"></div>
+    </div>
+</template><main id="edit-page" class="hide page-container">
     <div class="card">
         <div class="double-column">
             <div class="grid-keys" id="edit-panel">
@@ -322,200 +260,7 @@
         </td>
     </tr>
 </template>
-<main id="eval-page" class="hide page-container">
-    <form id="eval-form">
-        <h1 id="eval-test-title"></h1>
-        <progress-bar id="eval-progress"></progress-bar>
-        <div id="eval-inputs" class="unique-column">
-        </div>
-        <button id="eval-continue-button" class="btn image-button colored major" type="submit">
-            <span><x-i18n key="continue" caps="upper" id="eval-continue-button-text"></x-i18n></span>
-            <img src="/WebDiakoluo/res/img/play_w.svg" alt="Play icon">
-        </button>
-    </form>
-</main>
-<main id="play-card-page" class="hide expand page-container">
-    <div id="play-card-header">
-        <progress-bar id="play-card-progress"></progress-bar>
-        <button class="icon-button" id="play-card-settings-button"><img src="/WebDiakoluo/res/img/settings.svg" alt="Settings icon"></button>
-        <button class="icon-button" id="play-card-shuffle-button"><img src="/WebDiakoluo/res/img/shuffle.svg" id="play-card-shuffle-button-image" alt="Shuffle icon"></button>
-    </div>
-    <div class="card" id="play-card-card">
-    </div>
-</main>
-<div class="modal hide" id="play-card-settings-modal">
-    <div class="modal-content">
-        <header><x-i18n key="settings"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
-        <main>
-            <div id="play-card-set-set">
-                <div>
-                    <input id="play-card-set-column-name" type="checkbox">
-                    <label for="play-card-set-column-name"><x-i18n key="play-card-column-name"></x-i18n></label>
-                </div>
-                <div>
-                    <input id="play-card-set-random-side" type="checkbox">
-                    <label for="play-card-set-random-side"><x-i18n key="play-card-random-side"></x-i18n></label>
-                </div>
-                <div>
-                    <label for="play-card-set-nb-rand-col"><x-i18n key="number-columns-random"></x-i18n> :</label>
-                    <input id="play-card-set-nb-rand-col" class="small" type="number" required="">
-                </div>
-            </div>
-            <div id="play-card-set-columns">
-                <div>
-                    <h3><x-i18n key="show-columns"></x-i18n></h3>
-                    <div id="play-card-set-show-columns" class="sortable" column-list="columnsShow"></div>
-                </div>
-                <div>
-                    <h3><x-i18n key="random-columns"></x-i18n></h3>
-                    <div id="play-card-set-random-columns" class="sortable" column-list="columnsRandom"></div>
-                </div>
-                <div>
-                    <h3><x-i18n key="ask-columns"></x-i18n></h3>
-                    <div id="play-card-set-ask-columns" class="sortable" column-list="columnsAsk"></div>
-                </div>
-                <div>
-                    <h3><x-i18n key="hide-columns"></x-i18n></h3>
-                    <div id="play-card-set-hide-columns" class="sortable" column-list="columnsHide"></div>
-                </div>
-            </div>
-            <button is="modal-close" class="btn image-button colored right"><span><x-i18n key="ok" caps="upper"></x-i18n></span></button>
-            <button class="btn image-button right" id="play-card-set-reset">
-                <img src="/WebDiakoluo/res/img/restart.svg" alt="Restart icon"><span><x-i18n key="reset" caps="upper"></x-i18n></span>
-            </button>
-        </main>
-    </div>
-</div>
-<template id="play-card-restart-template">
-    <div>
-        <h1 class="card-center"><x-i18n key="play-card-end"></x-i18n></h1>
-        <div class="card-center" id="play-card-button-bar">
-            <button class="btn image-button" id="play-card-home-button">
-                <img src="/WebDiakoluo/res/img/home.svg" alt="Home icon"><span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
-            </button>
-            <button class="btn image-button" id="play-card-view-button">
-                <img src="/WebDiakoluo/res/img/view.svg" alt="View icon"><span><x-i18n key="view-test" caps="upper"></x-i18n></span>
-            </button>
-            <button class="btn image-button" id="play-card-restart-button">
-                <img src="/WebDiakoluo/res/img/restart.svg" alt="Restart icon"><span><x-i18n key="restart" caps="upper"></x-i18n></span>
-            </button>
-            <button class="btn image-button colored" id="play-card-grade-button">
-                <img src="/WebDiakoluo/res/img/grade_w.svg" alt="Grade icon"><span><x-i18n key="eval" caps="upper"></x-i18n></span>
-            </button>
-        </div>
-    </div>
-</template>
-<div id="sync-share-modal" class="modal hide">
-    <div class="modal-content">
-        <header><x-i18n key="sync-share"></x-i18n><button is="modal-close" class="modal-close">&times;</button>
-        </header>
-        <main>
-            <div id="sync-share-link-div">
-                <label for="sync-share-link"><x-i18n key="sync-share-link"></x-i18n> :</label>
-                <select id="sync-share-link" class="perms-select"></select>
-                <div class="popup-parent" id="sync-share-link-popup">
-                    <button class="icon-button" id="sync-share-link-share"><img src="/WebDiakoluo/res/img/share.svg" alt="Share icon"></button>
-                    <x-i18n class="popup-child popup-reverse" key="link-copied"></x-i18n>
-                </div>
-            </div>
-            <div id="sync-share-shares-parent">
-                <div id="sync-share-shares"></div>
-            </div>
-            <form id="sync-share-add-form">
-                <div id="sync-share-add-name-parent">
-                    <label for="sync-share-add-name"><x-i18n key="sync-share-name"></x-i18n></label>
-                    <input type="text" id="sync-share-add-name" list="sync-share-add-name-datalist">
-                    <datalist id="sync-share-add-name-datalist"></datalist>
-                </div>
-                <div>
-                    <label for="sync-share-add-type"><x-i18n key="sync-share-type"></x-i18n></label>
-                    <select type="text" id="sync-share-add-type" class="type-select"></select>
-                </div>
-                <div>
-                    <label for="sync-share-add-perms"><x-i18n key="sync-share-perms"></x-i18n></label>
-                    <select type="text" id="sync-share-add-perms" class="perms-select"></select>
-                </div>
-                <button type="submit" class="image-button btn compact">
-                    <img src="/WebDiakoluo/res/img/add.svg" alt="Add icon">
-                    <span><x-i18n key="sync-share-add-perm" caps="upper"></x-i18n></span>
-                </button>
-            </form>
-        </main>
-    </div>
-</div>
-<template id="sync-share-perms-rule">
-    <div>
-        <img class="share-type" alt="Share type">
-        <span class="share-name"></span>
-        <select class="sync-share-perms-select perms-select"></select>
-        <img src="/WebDiakoluo/res/img/cancel.svg" class="view-button share-delete-button" tabindex="0" alt="Delete user">
-    </div>
-</template>
-<main id="list-page" class="hide page-container">
-    <div class="context-menu" id="list-page-context-menu">
-        <div tabindex="0"></div> <!-- will get focus when the context menu is open -->
-        <button id="list-test-play-button">
-            <img src="/WebDiakoluo/res/img/play.svg" alt="Play icon"><x-i18n key="play" caps="upper"></x-i18n>
-        </button>
-        <button id="list-test-eval-button">
-            <img src="/WebDiakoluo/res/img/grade.svg" alt="Grade icon"><x-i18n key="eval" caps="upper"></x-i18n>
-        </button>
-        <button id="list-test-edit-button">
-            <img src="/WebDiakoluo/res/img/edit.svg" alt="Edit icon"><x-i18n key="edit" caps="upper"></x-i18n>
-        </button>
-        <button id="list-test-duplicate-button">
-            <img src="/WebDiakoluo/res/img/duplicate.svg" alt="Duplicate icon"><x-i18n key="duplicate" caps="upper"></x-i18n>
-        </button>
-        <button id="list-test-export-button">
-            <img src="/WebDiakoluo/res/img/export.svg" alt="Export icon"><x-i18n key="export" caps="upper"></x-i18n>
-        </button>
-        <button id="list-test-delete-button">
-            <img src="/WebDiakoluo/res/img/delete.svg" alt="Delete icon"><x-i18n key="delete" caps="upper"></x-i18n>
-        </button>
-    </div>
-    <div class="list-page-button-bar">
-        <button class="btn image-button" id="list-add-button">
-            <img src="/WebDiakoluo/res/img/add.svg" alt="Add icon">
-            <span><x-i18n key="add-test" caps="upper"></x-i18n></span>
-        </button>
-        <button class="btn image-button" id="list-import-button">
-            <img src="/WebDiakoluo/res/img/import.svg" alt="Import icon">
-            <span><x-i18n key="import-test" caps="upper"></x-i18n></span>
-        </button>
-        <button class="btn image-button" id="list-export-all-button">
-            <img src="/WebDiakoluo/res/img/export.svg" alt="Export icon">
-            <span><x-i18n key="export-all-test" caps="upper"></x-i18n></span>
-        </button>
-    </div>
-    <div id="list-page-sections">
-        <h1 id="list-page-section-header-recent"><x-i18n key="list-test-recent"></x-i18n></h1>
-        <h1 id="list-page-section-header-local"><x-i18n key="list-test-local"></x-i18n></h1>
-        <h1 id="list-page-section-header-sync"><x-i18n key="list-test-sync"></x-i18n></h1>
-        <h2 id="list-page-section-header-sync-owner"><x-i18n key="list-test-sync"></x-i18n></h2>
-        <h2 id="list-page-section-header-sync-user"><x-i18n key="list-test-sync-user"></x-i18n></h2>
-        <h2 id="list-page-section-header-sync-group"><x-i18n key="list-test-sync-group"></x-i18n></h2>
-        <h2 id="list-page-section-header-sync-link"><x-i18n key="list-test-sync-link"></x-i18n></h2>
-    </div>
-</main>
-<template id="list-test-child-template">
-    <div class="test" tabindex="0">
-        <div class="test-title"><span class="test-title-span"></span></div>
-        <div class="test-description"></div>
-    </div>
-</template>
-<template id="list-test-sync">
-    <div class="test-sync">
-<!-- INCLUDE START id="sync.svg" -->
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
-<!-- INCLUDE END id="sync.svg" -->
-    </div>
-</template>
-<template id="list-page-section-template">
-    <div>
-        <h3 class="list-page-section-title"></h3>
-        <div class="test-list"></div>
-    </div>
-</template><main id="view-page" class="hide page-container">
+<main id="view-page" class="hide page-container">
     <h1>
         <div id="view-test-title-sync" class="test-sync-header">
 <!-- INCLUDE START id="sync.svg" -->
@@ -613,7 +358,262 @@
             <img src="/WebDiakoluo/res/img/view.svg" class="view-button" tabindex="0" alt="View icon">
         </td>
     </tr>
-</template><!-- PAGES END -->
+</template><div id="test-delete-confirm-modal" class="modal hide">
+    <div class="modal-content red">
+        <header><x-i18n key="delete-test-title"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <p><x-i18n key="delete-test-message"></x-i18n></p>
+            <button id="test-delete-confirm-button" class="btn image-button right colored red"><x-i18n key="delete" caps="upper"></x-i18n></button>
+            <button is="modal-close" class="btn image-button right"><x-i18n key="cancel" caps="upper"></x-i18n></button>
+        </main>
+    </div>
+</div>
+<div class="modal hide" id="import-test-modal">
+    <div class="modal-content">
+        <header class="header-tabbed">
+            <x-i18n key="import-test"></x-i18n><button is="modal-close" class="modal-close">&times;</button>
+            <div class="header-tabbar">
+                <div id="import-tab-file" class="header-tab header-tab-active" tabindex="0">
+                    <x-i18n key="import-tab-file"></x-i18n>
+                </div>
+                <div id="import-tab-sync" class="header-tab" tabindex="0">
+                    <x-i18n key="import-tab-sync"></x-i18n>
+                </div>
+            </div>
+        </header>
+        <main>
+            <form id="import-form" class="unique-column">
+                <div id="import-file" class="unique-column">
+                    <input type="file" id="import-test-input" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv" required>
+                    <div class="grid-keys" id="import-test-parent">
+                        <b><x-i18n key="file-type"></x-i18n> : </b>
+                        <select id="import-test-select" required>
+                            <option value="dkl" selected="">.dkl</option>
+                            <option value="csv">.csv</option>
+                        </select>
+                    </div>
+                    <div id="import-csv" class="hide unique-column">
+                        <input type="checkbox"id="import-csv-column-name" checked="">
+                        <label for="import-csv-column-name"><x-i18n key="import-csv-column-name"></x-i18n></label><br>
+                        <input type="checkbox" id="import-csv-column-type" checked="">
+                        <label for="import-csv-column-type"><x-i18n key="import-csv-column-type"></x-i18n></label>
+                    </div>
+                </div>
+                <div id="import-sync" class="hide grid-keys">
+                    <b><x-i18n key="import-url"></x-i18n> :</b>
+                    <input type="url" id="import-url-input">
+                </div>
+                <button type="submit" class="btn image-button colored">
+                    <img src="/WebDiakoluo/res/img/import_w.svg" alt="Import icon">
+                    <span><x-i18n key="import" caps="upper"></x-i18n></span>
+                </button>
+            </form>
+        </main>
+    </div>
+</div>
+<div class="modal hide" id="export-test-modal">
+    <div class="modal-content">
+        <header><x-i18n key="export"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <form id="export-form" class="unique-column">
+                <div class="grid-keys" id="export-test-parent">
+                    <b><x-i18n key="file-type"></x-i18n> : </b>
+                    <select id="export-test-select" required="">
+                        <option value="dkl" selected="">.dkl</option>
+                        <option value="csv">.csv</option>
+                    </select>
+                </div>
+                <div id="export-csv" class="hide">
+                    <div>
+                        <b><x-i18n key="export-warning-csv"></x-i18n></b>
+                    </div>
+                    <input type="checkbox" id="export-csv-column-name" checked="">
+                    <label for="export-csv-column-name"><x-i18n key="export-csv-column-name"></x-i18n></label><br>
+                    <input type="checkbox" id="export-csv-column-type" checked="">
+                    <label for="export-csv-column-type"><x-i18n key="export-csv-column-type"></x-i18n></label>
+                </div>
+                <button type="submit" class="btn image-button colored" id="export-button">
+                    <img src="/WebDiakoluo/res/img/export_w.svg" alt="Export icon">
+                    <span><x-i18n key="export" caps="upper"></x-i18n></span>
+                </button>
+            </form>
+        </main>
+    </div>
+</div>
+<main id="play-card-page" class="hide expand page-container">
+    <div id="play-card-header">
+        <progress-bar id="play-card-progress"></progress-bar>
+        <button class="icon-button" id="play-card-settings-button"><img src="/WebDiakoluo/res/img/settings.svg" alt="Settings icon"></button>
+        <button class="icon-button" id="play-card-shuffle-button"><img src="/WebDiakoluo/res/img/shuffle.svg" id="play-card-shuffle-button-image" alt="Shuffle icon"></button>
+    </div>
+    <div class="card" id="play-card-card">
+    </div>
+</main>
+<div class="modal hide" id="play-card-settings-modal">
+    <div class="modal-content">
+        <header><x-i18n key="settings"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <div id="play-card-set-set">
+                <div>
+                    <input id="play-card-set-column-name" type="checkbox">
+                    <label for="play-card-set-column-name"><x-i18n key="play-card-column-name"></x-i18n></label>
+                </div>
+                <div>
+                    <input id="play-card-set-random-side" type="checkbox">
+                    <label for="play-card-set-random-side"><x-i18n key="play-card-random-side"></x-i18n></label>
+                </div>
+                <div>
+                    <label for="play-card-set-nb-rand-col"><x-i18n key="number-columns-random"></x-i18n> :</label>
+                    <input id="play-card-set-nb-rand-col" class="small" type="number" required="">
+                </div>
+            </div>
+            <div id="play-card-set-columns">
+                <div>
+                    <h3><x-i18n key="show-columns"></x-i18n></h3>
+                    <div id="play-card-set-show-columns" class="sortable" column-list="columnsShow"></div>
+                </div>
+                <div>
+                    <h3><x-i18n key="random-columns"></x-i18n></h3>
+                    <div id="play-card-set-random-columns" class="sortable" column-list="columnsRandom"></div>
+                </div>
+                <div>
+                    <h3><x-i18n key="ask-columns"></x-i18n></h3>
+                    <div id="play-card-set-ask-columns" class="sortable" column-list="columnsAsk"></div>
+                </div>
+                <div>
+                    <h3><x-i18n key="hide-columns"></x-i18n></h3>
+                    <div id="play-card-set-hide-columns" class="sortable" column-list="columnsHide"></div>
+                </div>
+            </div>
+            <button is="modal-close" class="btn image-button colored right"><span><x-i18n key="ok" caps="upper"></x-i18n></span></button>
+            <button class="btn image-button right" id="play-card-set-reset">
+                <img src="/WebDiakoluo/res/img/restart.svg" alt="Restart icon"><span><x-i18n key="reset" caps="upper"></x-i18n></span>
+            </button>
+        </main>
+    </div>
+</div>
+<template id="play-card-restart-template">
+    <div>
+        <h1 class="card-center"><x-i18n key="play-card-end"></x-i18n></h1>
+        <div class="card-center" id="play-card-button-bar">
+            <button class="btn image-button" id="play-card-home-button">
+                <img src="/WebDiakoluo/res/img/home.svg" alt="Home icon"><span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button" id="play-card-view-button">
+                <img src="/WebDiakoluo/res/img/view.svg" alt="View icon"><span><x-i18n key="view-test" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button" id="play-card-restart-button">
+                <img src="/WebDiakoluo/res/img/restart.svg" alt="Restart icon"><span><x-i18n key="restart" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button colored" id="play-card-grade-button">
+                <img src="/WebDiakoluo/res/img/grade_w.svg" alt="Grade icon"><span><x-i18n key="eval" caps="upper"></x-i18n></span>
+            </button>
+        </div>
+    </div>
+</template>
+<main id="loading-page" class="page-container">
+    <h1><x-i18n key="loading"></x-i18n></h1>
+</main>
+<main id="eval-score-page" class="hide page-container">
+    <div id="eval-score-progress-parent">
+        <h1 class="no-margin" id="eval-score-major">1/10</h1>
+        <progress-bar id="eval-score-progress"></progress-bar>
+        <h3 class="no-margin" id="eval-score-minor">1/10</h3>
+    </div>
+    <button class="btn image-button colored right" id="eval-score-restart">
+        <img src="/WebDiakoluo/res/img/restart_w.svg" alt="Restart icon">
+        <span><x-i18n key="restart" caps="upper"></x-i18n></span>
+    </button>
+    <button class="btn image-button right" id="eval-score-menu">
+        <img src="/WebDiakoluo/res/img/home.svg" alt="Home icon">
+        <span><x-i18n key="main-menu" caps="upper"></x-i18n></span>
+    </button>
+</main>
+<main id="eval-page" class="hide page-container">
+    <form id="eval-form">
+        <h1 id="eval-test-title"></h1>
+        <progress-bar id="eval-progress"></progress-bar>
+        <div id="eval-inputs" class="unique-column">
+        </div>
+        <button id="eval-continue-button" class="btn image-button colored major" type="submit">
+            <span><x-i18n key="continue" caps="upper" id="eval-continue-button-text"></x-i18n></span>
+            <img src="/WebDiakoluo/res/img/play_w.svg" alt="Play icon">
+        </button>
+    </form>
+</main>
+<main id="settings-page" class="hide expand nav-panel-page">
+    <div id="settings-nav" class="nav-panel">
+        <div class="nav-panel-item" id="settings-nav-general">
+            <img src="/WebDiakoluo/res/img/settings_w.svg" alt="Settings icon">
+            <x-i18n key="settings-general"></x-i18n>
+        </div>
+        <div class="nav-panel-item" id="settings-nav-appearance">
+            <img src="/WebDiakoluo/res/img/appearance_w.svg" alt="Appearance icon">
+            <x-i18n key="settings-appearance"></x-i18n>
+        </div>
+        <div class="nav-panel-item" id="settings-nav-sync">
+            <img src="/WebDiakoluo/res/img/sync_w.svg" alt="Synchronise icon">
+            <x-i18n key="settings-sync"></x-i18n>
+        </div>
+    </div>
+    <div class="page-container">
+        <div id="settings-panel-general" class="hide">
+            <h1 class="no-margin"><x-i18n key="settings-version-title"></x-i18n></h1>
+            <p>
+                <x-i18n key="settings-version-message"></x-i18n> :
+                <b><span id="settings-version"></span></b><br>
+            </p>
+            <button class="btn image-button" id="settings-get-version">
+                <img src="/WebDiakoluo/res/img/restart.svg" alt="Sync icon"><span><x-i18n key="verify-update" caps="upper"></x-i18n></span>
+            </button>
+            <div id="settings-verify-update-panel" class="hide">
+                <p>
+                    <x-i18n key="settings-last-update"></x-i18n> : <b><span id="settings-last-update"></span></b>
+                </p>
+                <button class="btn image-button" id="settings-update">
+                    <img src="/WebDiakoluo/res/img/update.svg" alt="Update icon"><span><x-i18n key="update" caps="upper"></x-i18n></span>
+                </button>
+                <p id="settings-update-status"></p>
+            </div>
+        </div>
+        <div id="settings-panel-appearance" class="hide">
+            <h1><x-i18n key="settings-theme"></x-i18n></h1>
+            <div class="flex-around">
+                <label id="settings-theme-light-label" for="settings-theme-light" class="checkbox settings-theme-label">
+                    <input type="radio" id="settings-theme-light" name="theme" value="light">
+                    <x-i18n key="settings-theme-light"></x-i18n>
+                </label>
+                <label id="settings-theme-auto-label" for="settings-theme-auto" class="checkbox settings-theme-label">
+                    <input type="radio" id="settings-theme-auto" name="theme" value="auto">
+                    <x-i18n key="settings-theme-auto"></x-i18n>
+                </label>
+                <label id="settings-theme-dark-label" for="settings-theme-dark" class="checkbox settings-theme-label">
+                    <input type="radio" id="settings-theme-dark" name="theme" value="dark">
+                    <x-i18n key="settings-theme-dark"></x-i18n>
+                </label>
+            </div>
+        </div>
+        <div id="settings-panel-sync" class="hide">
+            <h1><x-i18n key="settings-sync-title"></x-i18n></h1>
+            <form action="" class="unique-column" id="settings-sync-form">
+                <div class="grid-keys">
+                    <label for="settings-sync-host">
+                        <x-i18n key="settings-sync-host"></x-i18n> :
+                    </label><input type="url" id="settings-sync-host">
+                    <label for="settings-sync-username">
+                        <x-i18n key="settings-sync-username"></x-i18n> :
+                    </label><input type="text" id="settings-sync-username">
+                    <label for="settings-sync-password">
+                        <x-i18n key="settings-sync-password"></x-i18n> :
+                    </label><input type="password" id="settings-sync-password">
+                </div>
+                <button type="submit" class="btn image-button colored margin-top" id="settings-sync-submit"><x-i18n key="valid" caps="upper"></x-i18n></button>
+            </form>
+            <p><x-i18n id="settings-sync-status"></x-i18n></p>
+        </div>
+    </div>
+</main>
+<!-- PAGES END -->
 <!-- INCLUDE START id="footer.html" -->
 <footer class="double-column">
     <div>

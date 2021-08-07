@@ -39,7 +39,6 @@ list-test-local,Your local tests:,Vos tests locaux :
 list-test-empty-section,No test available,Aucun test disponible
 list-test-sync,Your synchronised tests:,Vos tests synchronisés :
 list-test-sync-owner,Created by you:,Créés par vous :
-list-test-sync-owner-section,Your tests:,Vos tests :
 list-test-sync-user,Shared by the user:,Partagés par l'utilisateur :
 list-test-sync-group,Shared to the group:,Partagés sur le groupe :
 list-test-sync-link,Shared by link:,Partagés par lien :
