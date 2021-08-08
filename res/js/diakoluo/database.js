@@ -1,5 +1,5 @@
 const EDIT_KEY = "edit";
-const DATABASE_VERSION = 2;
+const DATABASE_VERSION = 3;
 
 /* the manager of the database */
 class DatabaseManager {
@@ -25,7 +25,7 @@ class DatabaseManager {
                 this.testDBEditor = event.target.result;
                 this.testDBEditor.onerror = this.onTestDBError;
 
-                // get the last obhect key
+                // get the last object key
                 this.testDBEditor.transaction(['header']).objectStore('header').openCursor(null, "prev").onsuccess = event => {
                     var cursor = event.target.result;
                     if (cursor) {
@@ -63,10 +63,24 @@ class DatabaseManager {
                         tests.createIndex("description", "title", { unique: false });
 
                     case 1:
-                        var playContexts = this.testDBEditor.createObjectStore("playContexts", { autoIncrement: true, keyPath: "pk"});
+                        var playContexts = this.testDBEditor.createObjectStore("playContexts", 
+                        { 
+                            autoIncrement: true, 
+                            keyPath: "pk"
+                        });
                         playContexts.createIndex("testId", "testId");
                         playContexts.createIndex("gameId", "gameId");
-                        playContexts.createIndex("testContext", ["testId", "gameId"], { unique: true })
+                        playContexts.createIndex("testContext", ["testId", "gameId"], { unique: true });
+
+                    case 2:
+                        var sharedTests = this.testDBEditor.createObjectStore(
+                            "sharedTests", 
+                            { autoIncrement: true, keyPath: "pk" }
+                        );
+                        sharedTests.createIndex("authAccount", "authAccount");
+                        sharedTests.createIndex("testId", "testId");
+                        sharedTests.createIndex("serverTestId", "serverTestId");
+                        sharedTests.createIndex("lastModification", "lastModification");
 
                 }
                 console.info("Database initialised or upgraded from version", event.oldVersion, "to", DATABASE_VERSION);
@@ -101,10 +115,6 @@ class DatabaseManager {
 
     /* add a new test */
     addNewTest(test) {
-        if (this.freeIndex == null) {
-            console.error("DB not initialised !");
-            return;
-        }
         test.id = this.freeIndex;
         this.freeIndex++;
         var transaction = this.testDBEditor.transaction(['header', 'tests'], "readwrite");
@@ -117,11 +127,6 @@ class DatabaseManager {
 
     /* add a play context */
     addPlayContext(context, pageConstructor) {
-        if (this.freeIndex == null) {
-            console.error("DB not initialised !");
-            return;
-        }
-
         context.gameId = pageConstructor.DB_GAME_ID;
 
         this.testDBEditor
@@ -135,10 +140,6 @@ class DatabaseManager {
 
     /* update a test */
     updateTest(test) {
-        if (this.freeIndex == null) {
-            console.error("DB not initialised !");
-            return;
-        }
         var transaction = this.testDBEditor.transaction(['header', 'tests'], "readwrite");
         var header = transaction.objectStore('header');
         var tests = transaction.objectStore('tests');
@@ -149,25 +150,15 @@ class DatabaseManager {
 
     /* update the play context */
     updatePlayContext(context) {
-        if (this.freeIndex == null) {
-            console.error("DB not initialised !");
-            return;
-        }
-
         var playContexts = this.testDBEditor.transaction(['playContexts'], 'readwrite').objectStore('playContexts');
         return playContexts.put(context);
     }
 
     /* delete a test */
     deleteTest(id) {
-        if (this.freeIndex == null) {
-            console.error("DB not initialised !");
-            return;
-        }
-        var transaction = this.testDBEditor.transaction(['header', 'tests', 'playContexts'], "readwrite");
+        var transaction = this.testDBEditor.transaction(['header', 'tests'], "readwrite");
         var header = transaction.objectStore('header');
         var tests = transaction.objectStore('tests');
-        var playContextsIndex = transaction.objectStore('playContexts').index('testId');
 
         this.deleteAllPlayContext(id);
 
@@ -192,15 +183,10 @@ class DatabaseManager {
     /* get if a test exist */
     testExist(id) {
         return new Promise((resolve, reject) => {
-            if (this.freeIndex == null) {
-                console.error("DB not initialised !");
-                return;
-            }
-
             var transaction = this.testDBEditor.transaction(['header'], "readonly");
             var tests = transaction.objectStore(['header']);
             var r = tests.get(id);
-            r.onsuccess = event => {
+            r.onsuccess = () => {
                 if (r.result) {
                     resolve(true);
                 } else {
@@ -215,11 +201,6 @@ class DatabaseManager {
     /* get if a test is playable */
     getPlayable(id) {
         return new Promise((resolve, reject) => {
-            if (this.freeIndex == null) {
-                console.error("DB not initialised !");
-                return;
-            }
-
             var transaction = this.testDBEditor.transaction(['header'], "readonly");
             var tests = transaction.objectStore(['header']);
             var r = tests.get(id);
@@ -235,12 +216,30 @@ class DatabaseManager {
         });
     }
 
+    /**
+     * Get the header of a test.
+     * @param {number} id the id of the test
+     * @returns A promise that return the header of a test
+     */
+    getHeader(id) {
+        return new Promise((resolve, reject) => {
+            var transaction = this.testDBEditor.transaction(['header'], "readonly");
+            var tests = transaction.objectStore(['header']);
+            var r = tests.get(id);
+            r.onsuccess = event => {
+                if (r.result) {
+                    resolve(r.result);
+                } else {
+                    reject(event);
+                }
+            }
+
+            r.onerror = reject;
+        });
+    }
+
     /* get a full test data*/
     getFullTest(id) {
-        if (this.freeIndex == null) {
-            console.error("DB not initialised !");
-            return;
-        }
         var transaction = this.testDBEditor.transaction(['tests'], "readonly");
         var tests = transaction.objectStore(['tests']);
         var r = tests.get(id);
@@ -281,21 +280,13 @@ class DatabaseManager {
             );
     }
 
-    /* get the cursor to get all childs */
+    /* get the cursor to get all children */
     forEachHeader() {
-        if (this.freeIndex == null) {
-            console.error("DB not initialised !");
-            return;
-        }
         return this.testDBEditor.transaction(['header']).objectStore('header').openCursor();
     }
 
-    /* get the cursor to get all childs (except edit) */
+    /* get the cursor to get all children (except edit) */
     forEach(callback) {
-        if (this.freeIndex == null) {
-            console.error("DB not initialised !");
-            return;
-        }
         this.testDBEditor.transaction(['tests']).objectStore('tests').openCursor().onsuccess = event => {
             var cursor = event.target.result;
             if (cursor) {
@@ -315,6 +306,84 @@ class DatabaseManager {
                 callback();
             }
         };
+    }
+
+    /**
+     * Add a sync test.
+     * @param {*} syncObject the sync object to add
+     * @returns a promise
+     */
+     addSync(syncObject) {
+        return new Promise((resolve, reject) => {
+            var transaction = this.testDBEditor.transaction(['sharedTests'], "readwrite");
+            var sharedTests = transaction.objectStore('sharedTests');
+            var request = sharedTests.add(syncObject);
+            request.onsuccess = resolve;
+            request.onerror = reject;
+        });
+    }
+
+    /**
+     * Get a sync test.
+     * @param {number} pk the primary key
+     * @returns a promise
+     */
+     getSync(pk) {
+        return new Promise((resolve, reject) => {
+            var transaction = this.testDBEditor.transaction(['sharedTests'], "readonly");
+            var sharedTests = transaction.objectStore('sharedTests');
+            var request = sharedTests.get(pk);
+            request.onsuccess = resolve;
+            request.onerror = reject;
+        });
+    }
+
+    /**
+     * Update a sync test.
+     * @param {*} syncObject the sync object to update
+     * @returns a promise
+     */
+     updateSync(syncObject) {
+        return new Promise((resolve, reject) => {
+            var transaction = this.testDBEditor.transaction(['sharedTests'], "readwrite");
+            var sharedTests = transaction.objectStore('sharedTests');
+            var request = sharedTests.put(syncObject);
+            request.onsuccess = resolve;
+            request.onerror = reject;
+        });
+    }
+
+    /**
+     * Delete a synchronise test.
+     * @param {number} pk the primary key of the object to delete
+     */
+    deleteSync(pk) {
+        return new Promise((resolve, reject) => {
+            var transaction = this.testDBEditor.transaction(['sharedTests'], "readwrite");
+            var sharedTests = transaction.objectStore('sharedTests');
+            var request = sharedTests.delete(pk);
+            request.onsuccess = resolve;
+            request.onerror = reject;
+        });
+    }
+
+    /**
+     * For each share
+     * @returns the cursor opened
+     */
+    forEachSync(authAccount) {
+        if (authAccount == undefined) {
+            return this.testDBEditor
+                .transaction(['sharedTests'], 'readwrite')
+                .objectStore('sharedTests')
+                .openCursor();
+        } else {
+            return this.testDBEditor
+                .transaction(['sharedTests'], 'readwrite')
+                .objectStore('sharedTests')
+                .index('authAccount')
+                .openCursor(IDBKeyRange.only(authAccount));
+        }
     }
 }
 

@@ -1,4 +1,5 @@
- const CACHE_NAME = "WebDiakoluo-pDhlVtLH";
+ const CACHE_NAME = "WebDiakoluo-nswj?Qjg";
+ const ORIGIN = "https://antoninloubiere.github.io";
 
 /* get the files of the app */
 function getAppFiles() {
@@ -45,10 +46,12 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/sync_w.svg");
     f.push("/WebDiakoluo/res/img/view.svg");
     f.push("/WebDiakoluo/res/img/github.svg");
+    f.push("/WebDiakoluo/res/img/group.svg");
     f.push("/WebDiakoluo/res/img/export_w.svg");
     f.push("/WebDiakoluo/res/img/appearance_w.svg");
     f.push("/WebDiakoluo/res/img/info.svg");
     f.push("/WebDiakoluo/res/img/home.svg");
+    f.push("/WebDiakoluo/res/img/share.svg");
     f.push("/WebDiakoluo/res/img/save_w.svg");
     f.push("/WebDiakoluo/res/img/right.svg");
     f.push("/WebDiakoluo/res/img/import_w.svg");
@@ -56,6 +59,7 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/grade.svg");
     f.push("/WebDiakoluo/res/img/checkbox_on.svg");
     f.push("/WebDiakoluo/res/img/open_in_new_w.svg");
+    f.push("/WebDiakoluo/res/img/user.svg");
     f.push("/WebDiakoluo/res/img/dark_mode.svg");
     f.push("/WebDiakoluo/res/img/add.svg");
     f.push("/WebDiakoluo/res/img/radio.svg");
@@ -64,7 +68,9 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/delete_w.svg");
     f.push("/WebDiakoluo/res/img/duplicate.svg");
     f.push("/WebDiakoluo/res/img/settings_w.svg");
+    f.push("/WebDiakoluo/res/img/sync_problem_w.svg");
     f.push("/WebDiakoluo/res/img/favicon_no_background.svg");
+    f.push("/WebDiakoluo/res/img/drop_down_grey.svg");
     f.push("/WebDiakoluo/res/img/cancel.svg");
     f.push("/WebDiakoluo/res/img/grade_w.svg");
     f.push("/WebDiakoluo/res/img/nav_next.svg");
@@ -88,8 +94,10 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/light_mode_grey.svg");
     f.push("/WebDiakoluo/res/img/nav_prev_w.svg");
     f.push("/WebDiakoluo/res/img/nav_first_w.svg");
+    f.push("/WebDiakoluo/res/img/sync_disabled_w.svg");
     f.push("/WebDiakoluo/res/img/import.svg");
     f.push("/WebDiakoluo/res/img/dark_mode_grey.svg");
+    f.push("/WebDiakoluo/res/include/sync.svg");
     f.push("/WebDiakoluo/res/include/head.html");
     f.push("/WebDiakoluo/res/include/footer.html");
     f.push("/WebDiakoluo/res/include/navbar.html");
@@ -120,8 +128,9 @@ self.addEventListener('fetch', (e) => {
         caches.match(request).then((r) => {
             return r || fetch(e.request).then((response) => {
                 return caches.open(CACHE_NAME).then((cache) => {
-                    if (!request.url.startsWith('/WebDiakoluo/api/')) { // do not cache the api folder
-                        console.info('[Service Worker] Cache new ressource: ' + request.url);
+                    var url = new URL(request.url);
+                    if (url.origin === ORIGIN && !url.pathname.startsWith('/WebDiakoluo/api/')) { // do not cache the api folder
+                        console.info('[Service Worker] Cache new resource: ' + request.url);
                         cache.put(request, response.clone());
                     }
                     return response;
@@ -143,3 +152,9 @@ self.addEventListener('activate', (e) => {
         })
     );
 });
+
+self.addEventListener('message', function(event) {
+    if (event.data.action === 'skipWaiting') {
+        self.skipWaiting();
+    }
+}); 

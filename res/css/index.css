@@ -14,12 +14,62 @@ textarea.column-string-long {
     cursor: wait;
 }
 
+#list-page-sections {
+    display: flex;
+    flex-direction: column;
+}
+
+#list-page-section-header-recent,
+.list-page-section-recent {
+    order: 0;
+}
+
+#list-page-section-header-local,
+.list-page-section-local {
+    order: 1;
+}
+
+#list-page-section-header-sync,
+#list-page-section-header-sync-owner,
+.list-page-section-owner {
+    order: 2;
+}
+
+#list-page-section-header-sync-user,
+.list-page-section-user {
+    order: 3;
+}
+
+#list-page-section-header-sync-group,
+.list-page-section-group {
+    order: 4;
+}
+
+#list-page-section-header-sync-link,
+.list-page-section-link {
+    order: 5;
+}
+
+.list-page-section-title {
+    margin: 0;
+}
+
+.list-page-button-bar {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.list-page-button-bar > button {
+    flex-basis: 20%;
+}
+
 .test-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: stretch;
-
 }
 
 .test {
@@ -81,6 +131,22 @@ textarea.column-string-long {
     min-height: 2.4em;
     max-height: 3.6em;
     line-height: 1.2em;
+}
+
+.test-sync {
+    display: inline;
+    fill: var(--color-primary-700);
+}
+
+.test-sync-header {
+    display: inline;
+    fill: var(--color-primary-700);
+}
+
+.test-sync-header > svg {
+    height: 1em;
+    width: 1em;
+    vertical-align: middle;
 }
 
 #test-title {
@@ -163,11 +229,101 @@ textarea.column-string-long {
     transform: scale(1.5);
 }
 
+#view-sync-content {
+    padding-left: 1em;
+}
+
+.perms-select {
+    width: auto;
+}
+
+.type-select {
+    width: auto; 
+}
+
+#sync-share-modal main {
+    display: grid;
+}
+
+#sync-share-link-div {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    padding-bottom: .5em;
+    border-bottom: var(--color-primary-200) solid 2px;
+    gap: .5em;
+    align-items: center;
+    text-align: left;
+}
+
+#sync-share-link {
+    justify-self: right;
+}
+
+#sync-share-link-popup > .popup-child {
+    transform: translate(-115%);
+    min-width: 6em;
+    text-align: center;
+}
+
+#sync-share-add-name-parent {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+    flex-grow: 1;
+}
+
+#sync-share-add-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5em;
+    
+    padding-top: .5em;
+    
+    border-top: var(--color-primary-200) solid 2px;
+}
+
+#sync-share-add-form > button {
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+#sync-share-add-name {
+    flex-grow: 1;
+    width: 10em;
+}
+
+#sync-share-shares-parent {
+    overflow-y: scroll;
+    text-align: left;
+}
+
+#sync-share-shares {
+    display: grid;
+    padding: 1em .2em;
+    gap: .2em;
+    grid-template-rows: max-content;
+}
+
+#sync-share-shares > div {
+    display: flex;
+    gap: .2em;
+    align-items: center;
+}
+
+#sync-share-shares > div > .share-name {
+    flex-grow: 1;
+}
+
 .edit-button {
     outline: none;
     cursor: pointer;
     vertical-align: middle;
     transition: transform .3s ease-out;
+
+    width: 1.25em;
+    height: 1.25em;
 }
 
 .edit-button:hover, .edit-button:focus {
@@ -181,6 +337,14 @@ textarea.column-string-long {
 
 #edit-panel {
     grid-template-rows: auto 1fr;
+}
+
+#edit-sync {
+    margin-top: .2em;
+}
+
+#sync-edit-sync-div {
+    margin: .5em 0;
 }
 
 #eval-set-params, #eval-inputs {
@@ -264,12 +428,17 @@ textarea.column-string-long {
     grid-column: 1/1;
 }
 
-#import-form {
+#import-file, #import-sync, #import-form {
+    display: grid;
     grid-gap: .5em;
 }
 
 #export-button {
     margin-top: .7em;
+}
+
+#settings-sync-submit {
+    margin-top: 1em;
 }
 
 .columns-settings hr {

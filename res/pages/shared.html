@@ -1,0 +1,82 @@
+<div id="test-delete-confirm-modal" class="modal hide">
+    <div class="modal-content red">
+        <header><x-i18n key="delete-test-title"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <p><x-i18n key="delete-test-message"></x-i18n></p>
+            <button id="test-delete-confirm-button" class="btn image-button right colored red"><x-i18n key="delete" caps="upper"></x-i18n></button>
+            <button is="modal-close" class="btn image-button right"><x-i18n key="cancel" caps="upper"></x-i18n></button>
+        </main>
+    </div>
+</div>
+<div class="modal hide" id="import-test-modal">
+    <div class="modal-content">
+        <header class="header-tabbed">
+            <x-i18n key="import-test"></x-i18n><button is="modal-close" class="modal-close">&times;</button>
+            <div class="header-tabbar">
+                <div id="import-tab-file" class="header-tab header-tab-active" tabindex="0">
+                    <x-i18n key="import-tab-file"></x-i18n>
+                </div>
+                <div id="import-tab-sync" class="header-tab" tabindex="0">
+                    <x-i18n key="import-tab-sync"></x-i18n>
+                </div>
+            </div>
+        </header>
+        <main>
+            <form id="import-form" class="unique-column">
+                <div id="import-file" class="unique-column">
+                    <input type="file" id="import-test-input" multiple="" accept=".dkl,text/plain,application/json,.csv,text/csv" required>
+                    <div class="grid-keys" id="import-test-parent">
+                        <b><x-i18n key="file-type"></x-i18n> : </b>
+                        <select id="import-test-select" required>
+                            <option value="dkl" selected="">.dkl</option>
+                            <option value="csv">.csv</option>
+                        </select>
+                    </div>
+                    <div id="import-csv" class="hide unique-column">
+                        <input type="checkbox"id="import-csv-column-name" checked="">
+                        <label for="import-csv-column-name"><x-i18n key="import-csv-column-name"></x-i18n></label><br>
+                        <input type="checkbox" id="import-csv-column-type" checked="">
+                        <label for="import-csv-column-type"><x-i18n key="import-csv-column-type"></x-i18n></label>
+                    </div>
+                </div>
+                <div id="import-sync" class="hide grid-keys">
+                    <b><x-i18n key="import-url"></x-i18n> :</b>
+                    <input type="url" id="import-url-input">
+                </div>
+                <button type="submit" class="btn image-button colored">
+                    <img src="/WebDiakoluo/res/img/import_w.svg" alt="Import icon">
+                    <span><x-i18n key="import" caps="upper"></x-i18n></span>
+                </button>
+            </form>
+        </main>
+    </div>
+</div>
+<div class="modal hide" id="export-test-modal">
+    <div class="modal-content">
+        <header><x-i18n key="export"></x-i18n><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <form id="export-form" class="unique-column">
+                <div class="grid-keys" id="export-test-parent">
+                    <b><x-i18n key="file-type"></x-i18n> : </b>
+                    <select id="export-test-select" required="">
+                        <option value="dkl" selected="">.dkl</option>
+                        <option value="csv">.csv</option>
+                    </select>
+                </div>
+                <div id="export-csv" class="hide">
+                    <div>
+                        <b><x-i18n key="export-warning-csv"></x-i18n></b>
+                    </div>
+                    <input type="checkbox" id="export-csv-column-name" checked="">
+                    <label for="export-csv-column-name"><x-i18n key="export-csv-column-name"></x-i18n></label><br>
+                    <input type="checkbox" id="export-csv-column-type" checked="">
+                    <label for="export-csv-column-type"><x-i18n key="export-csv-column-type"></x-i18n></label>
+                </div>
+                <button type="submit" class="btn image-button colored" id="export-button">
+                    <img src="/WebDiakoluo/res/img/export_w.svg" alt="Export icon">
+                    <span><x-i18n key="export" caps="upper"></x-i18n></span>
+                </button>
+            </form>
+        </main>
+    </div>
+</div>

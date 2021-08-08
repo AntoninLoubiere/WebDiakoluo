@@ -142,7 +142,7 @@ class Modal {
 
             document.body.appendChild(modal);
 
-            var modalObject = new Modal(modal, !options?.noDismiss);
+            var modalObject = new Modal(modal, !(options.noBack || options?.noDismiss));
             modalObject.onhide = () => {
                 modalObject.delete();
                 if (notResolved) resolve(false);
@@ -153,9 +153,9 @@ class Modal {
 
     /* MODALS CLASSES */
 
-    constructor(modal, dismiss=true) {
+    constructor(modal, do_back=true) {
         this.modal = modal;
-        this.dismiss = dismiss;
+        this.dismiss = do_back;
     }
 
     /* show the modal */
@@ -181,7 +181,7 @@ class Modal {
         document.body.classList.remove("hide-scroll");
         Modal.currentModal = null;
         this.onhide?.();
-        if (back) history.back();
+        if (back && this.dismiss) history.back();
 
         var modal = Modal.modalQueue.shift();
         if (modal) modal.show();

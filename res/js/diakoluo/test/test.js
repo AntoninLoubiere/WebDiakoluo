@@ -37,6 +37,7 @@ class Test {
 
         test.createDate = new Date(test.createDate);
         test.lastModificationDate = new Date(test.lastModificationDate);
+        if (test.sync) delete test.sync;
 
         var nb_c = test.columns.length;
         for (var i = 0; i < test.data.length; i++) {
@@ -116,7 +117,14 @@ class Test {
 
     /* get the header of the test*/
     getHeader() {
-        return {title: this.title, description: this.description, playable: this.isPlayable(), id: this.id};
+        return {
+            title: this.title,
+            description: this.description,
+            playable: this.isPlayable(),
+            id: this.id,
+            sync: this.sync,
+            lastUsed: this.lastUsed
+        };
     }
 
     /* get if the test is playable */
@@ -137,6 +145,10 @@ class Test {
             }
         }
         return false;
+    }
+
+    registerLastUsed() {
+        this.lastUsed = Date.now();
     }
 
     /* set the last modification date to now */
@@ -178,10 +190,28 @@ class Test {
     /* get string */
     toString() {
         var id = this.id;
+        var sync = this.sync;
+        var syncData = this.syncData;
         delete this.id;
+        delete this.sync;
+        delete this.syncData;
         var str = JSON.stringify(this);
         this.id = id;
+        this.sync = sync;
+        this.syncData = syncData;
         return str;
+    }
+
+    /**
+     * Get a test safe to transfer (without id and sync)
+     */
+    getSafeTest() {
+        var t = Object.assign({}, this);
+        delete t.id;
+        delete t.sync;
+        delete t.lastUsed;
+        delete t.syncData;
+        return t;
     }
 
     /* get the test as csv file */

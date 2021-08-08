@@ -115,7 +115,10 @@ function onReturnClick(event) {
 
 if('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/WebDiakoluo/sw.js', {scope: '/WebDiakoluo/'}).then(registration => {
-        window.serviceWorkerRegistration = registration;
+        if (registration.waiting) {
+            registration.waiting.postMessage({action: 'skipWaiting'});
+            document.location.reload();
+        }
     });
 }
 

@@ -1,4 +1,4 @@
-const MAIN_URL = "/WebDiakoluo/index.html"
+const MAIN_URL = "/WebDiakoluo/"
 
 var PAGES = {};
 
@@ -18,11 +18,26 @@ async function initNavigation() {
             loadPage();
         }
     }
+
+    SyncManager.eventTarget.addEventListener('testchange', () => {
+        defaultPage.reload();
+    })
+
+    SyncManager.eventTarget.addEventListener('testupdate', event => {
+        const id = event.detail.testId;
+        if (id === currentTest?.id) {
+            DATABASE_MANAGER.getFullTest(id).onsuccess = test => {
+                currentTest = test;
+                currentPage.ontestreload?.();
+            }
+        }
+    })
+
     document.getElementById('loading-page').classList.add('hide');
     loadPage();
 }
 
-/* load a page / process the ur l*/
+/* load a page / process the url*/
 function loadPage() {
     currentURL = new URL(window.location);
     var page = currentURL.searchParams.get('page') || "";
@@ -63,6 +78,8 @@ function loadPageRequiringTest(update = false) {
             var request = DATABASE_MANAGER.getFullTest(testId);
             request.onsuccess = function(test) {
                 currentTest = test;
+                currentTest.registerLastUsed();
+                DATABASE_MANAGER.updateTest(currentTest);
                 currentPage.onload?.();
             };
             request.onerror = function(event) {
@@ -95,11 +112,9 @@ addEventListener("keydown", function(event) {
 }, {capture: true});
 
 addEventListener("keydown", function(event) {
-    if (event.keyCode === KeyboardEvent.DOM_VK_ESCAPE) {
+    if (event.key === 'Escape') {
         if (Modal.currentModal) {
             if (!Modal.currentModal.noDismiss) Modal.hideModal();
-        } else if (currentPage !== defaultPage) {
-            backToMain(true);
         }
     }
 });

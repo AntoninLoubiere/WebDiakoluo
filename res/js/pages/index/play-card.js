@@ -293,9 +293,9 @@ class PlayCardPage extends Page {
 
         for (var i = 0; i < this.context.columnsRandom.length; i++) {
             if (columnsRandomShow.indexOf(i) === -1)
-                columnsAsk.push(i);
+                columnsAsk.push(this.context.columnsRandom[i]);
             else {
-                columnsRandomShowSorted.push(i);
+                columnsRandomShowSorted.push(this.context.columnsRandom[i]);
             }
         }
 

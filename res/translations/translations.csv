@@ -21,6 +21,8 @@ play,Play,Démarrer
 eval,Be evaluate,S'évaluer
 language,Language: ,Langue: 
 loading,Loading,Chargement
+link,Link,Lien
+link-copied,Link copied,Lien copié
 more-informations,More informations,Plus d'informations
 settings,Settings,Paramètres
 erase,Erase,Écraser
@@ -28,9 +30,18 @@ quit,Quit,Quitter
 update,Update,Mettre à jour
 verify-update,Check updates,Rechercher les mises à jour
 no-connection,No connection.,Pas de connexion.
+user,user,utilisateur
+group,group,groupe
 legal-text,"<p>Data stored by your navigator is for a <b>local use only</b> and necessary for the application. The data stored is <b>never transmit to a third server</b>. Your are the only owner of your data, so, you are responsible of the security of yours data.</p><p>The usage of cookies and similar mechanisms are <b>essential</b> to the application.</p>","<p>Les données stockées par votre navigateur ne sont destiné qu'à un <b>usage local</b> pour les besoins de l'application. Les données stockées ne sont <b>transmis à aucun serveur tiers</b>. Vous êtes le seul détenteur de vos données, ainsi, vous êtes le seul responsable de la sécurité de vos données.</p><p>L'utilisation de cookies et mécanismes similaires sont <b>indispensables</b> pour le bon fonctionnement du site web.</p>"
 about-text,"<h1>DIAKÔLUÔ V<x-i18n key=""version""></x-i18n> (<x-i18n key=""id""></x-i18n>)</h1><h3>WHAT IS DIAKÔLUÔ ?</h3><p>Diakôluô îs an open-source project in order to help memorize.</p><h3>THE CODE</h3><p>The code is by: <x-i18n key=""authors""></x-i18n> The code is available on <a href=""https://github.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon github-link"">GitHub</a> under the <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html"">GNU APGL</a> license.<br>You can report a <b>bug</b> or demand <b>features</b> on <a href=""https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose"" class=""open-new-icon github-link"">GitHub</a>.<br></p>","<h1>DIAKÔLUÔ V<x-i18n key=""version""></x-i18n> (<x-i18n key=""id""></x-i18n>)</h1><h3>QU'EST DIAKÔLUÔ ?</h3><p>Diakôluô est un projet open-source dans le but d'aider à la révision.</p><h3>LE CODE</h3><p>Le code a été fait par: <x-i18n key=""authors""></x-i18n> Le code est disponible sur <a href=""https://github.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon github-link"">GitHub</a> sous la license <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html"">GNU APGL</a>.<br>Vous pouvez reporter un <b>bogue</b> ou proposer une <b>fonctionalité</b> sur <a href=""https://github.com/AntoninLoubiere/WebDiakoluo/issues/new/choose"" class=""open-new-icon github-link"">GitHub</a>.<br></p>"
-list-test-h,Your tests:,Vos tests :
+list-test-recent,Recent tests:,Tests récents :
+list-test-local,Your local tests:,Vos tests locaux :
+list-test-empty-section,No test available,Aucun test disponible
+list-test-sync,Your synchronised tests:,Vos tests synchronisés :
+list-test-sync-owner,Created by you:,Créés par vous :
+list-test-sync-user,Shared by the user:,Partagés par l'utilisateur :
+list-test-sync-group,Shared to the group:,Partagés sur le groupe :
+list-test-sync-link,Shared by link:,Partagés par lien :
 title,Title,Titre
 description,Description,Description
 columns,Columns,Colonnes
@@ -56,13 +67,47 @@ settings-appearance,Appearance,Affichage
 settings-version-title,Version,Version
 settings-version-message,Current version,Version actuelle
 settings-last-update,Last version available,Dernière version disponible
-settings-updating,Updating...,Mise à jour en cours...
+settings-downloading,Downloading...,Téléchargement en cours...
+settings-installing,Installing...,Installation en cours...
+settings-no-update,No update to do.,Aucune mise à jour à faire.
 settings-updated,"Updated, the page will regresh in a few seconds.","Mise à jour terminé, la page va se reafraîchir dans quelques secondes."
 settings-cant-update,An error occur while updating.,Une erreur est survenue lors de la mise à jour.
 settings-theme,Theme,Thème
 settings-theme-light,Light theme,Thème clair
 settings-theme-auto,Auto theme,Thème automatique
 settings-theme-dark,Dark theme,Thème sombre
+settings-sync,Synchronisation,Synchronisation
+settings-sync-title,Synchronisation server,Serveur de synchronisation
+settings-sync-host,Server URL,URL du serveur
+settings-sync-username,Username,Nom d'utilisateur
+settings-sync-password,Password,Mot de passe
+settings-sync-loading,Connection in progress.,Connexion en cours.
+settings-sync-success,Connected with success.,Connecté avec succés.
+settings-sync-error,An error occur during the connection.,Une erreur est survenue lors de la connexion.
+settings-sync-login-failed,An error occur during the authentification.,Une erreur est survenue lors de l'authentification.
+sync,Synchronisation,Synchronisation
+sync-id,Id,Identifiant
+sync-perms,Permissions,Permissions
+perm-none,restricted,restreint
+perm-view,reader,lecteur
+perm-edit,editor,éditeur
+perm-share,sharer,partageur
+perm-owner,owner,propriétaire
+sync-owner,Owner,Propriétaire
+sync-synchronise,Synchronised,Synchronisé
+sync-no-sync,Not synchronised,Non synchronisé
+sync-edit-no-sync,Don't synchronise,Ne pas synchroniser
+sync-edit-add-sync,Create a new synchronisation,Créer une nouvelle synchronisation
+sync-edit-sync,Synchronise with,Synchroniser avec
+sync-share,Share,Partage
+sync-share-link,Permissions of people who have the link,Permissions des personnes possédant le lien
+sync-share-name,Name,Nom
+sync-share-perms,Permissions,Permissions
+sync-share-type,Type,Type
+sync-share-add-perm,Add permissions,Ajouter permissions
+sync-error-edit-title,Synchronisation error, Erreur de synchronisation
+sync-error-edit-message,An error occur while trying to synchronise.,Une erreur s'est produite lors de la synchronisation.
+sync-deleted,Synchronisation deleted,Synchronisation supprimée
 default-column-title,Column,Colonne
 default-test-title,Test,Test
 default-test-description,A test,Un test
@@ -102,8 +147,11 @@ export-all-test,Export all tests,Exporter tous les tests
 export-all-filename,tests.dkl,tests.dkl
 import-csv-column-name,Import the name of the columns,Importer le nom des colonnes
 import-csv-column-type,Import the type of the columns,Importer le type des colonnes
-footer-diakoluo,"<img src=""/WebDiakoluo/res/img/favicon_no_background.svg"" class=""text-icon"" alt=""Diakôluô logo"">Diakôluô web application - <span class=""popup-parent"" id=""version"">v<x-i18n key=""version""></x-i18n><x-i18n key=""id"" class=""popup-child""></span></x-i18n>","<img src=""/WebDiakoluo/res/img/favicon_no_background.svg"" class=""text-icon"" alt=""Diakôluô logo"">Diakôluô application web - <span class=""popup-parent"" id=""version"">v<x-i18n key=""version""></x-i18n><x-i18n key=""id"" class=""popup-child""></span></x-i18n>"
-footer-source-code,"<a href=""https://github.com/AntoninLoubiere/diakoluo-webapp"" class=""open-new-icon"">Source code</a> by <a class=""open-new-icon"" href=""https://github.com/AntoninLoubiere""><b>Antonin LOUBIERE</b></a> under license <a href=""https://www.gnu.org/licenses/agpl-3.0.html"" class=""open-new-icon""><b>GNU APGL</b></a>.","<a class=""open-new-icon"" href=""https://github.com/AntoninLoubiere/diakoluo-webapp"">Code source</a> par <a class=""open-new-icon"" href=""https://github.com/AntoninLoubiere""><b>Antonin LOUBIERE</b></a> sous license <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html""><b>GNU APGL</b></a>."
+import-url,Url,Url
+import-tab-file,File,Fichier
+import-tab-sync,Synchronised,Synchornisé
+footer-diakoluo,"<img src=""/WebDiakoluo/res/img/favicon_no_background.svg"" class=""text-icon"" alt=""Diakôluô logo"">Diakôluô web application - <span class=""popup-parent popup-hover"" id=""version"">v<x-i18n key=""version""></x-i18n><x-i18n key=""id"" class=""popup-child""></span></x-i18n>","<img src=""/WebDiakoluo/res/img/favicon_no_background.svg"" class=""text-icon"" alt=""Diakôluô logo"">Diakôluô application web - <span class=""popup-parent popup-hover"" id=""version"">v<x-i18n key=""version""></x-i18n><x-i18n key=""id"" class=""popup-child""></span></x-i18n>"
+footer-source-code,"<a href=""https://github.com/AntoninLoubiere/WebDiakoluo"" class=""open-new-icon"">Source code</a> by <a class=""open-new-icon"" href=""https://github.com/AntoninLoubiere""><b>Antonin LOUBIERE</b></a> under license <a href=""https://www.gnu.org/licenses/agpl-3.0.html"" class=""open-new-icon""><b>GNU APGL</b></a>.","<a class=""open-new-icon"" href=""https://github.com/AntoninLoubiere/WebDiakoluo"">Code source</a> par <a class=""open-new-icon"" href=""https://github.com/AntoninLoubiere""><b>Antonin LOUBIERE</b></a> sous license <a class=""open-new-icon"" href=""https://www.gnu.org/licenses/agpl-3.0.html""><b>GNU APGL</b></a>."
 footer-hosted,"Hosted by <a href=""https://github.com"" class=""open-new-icon github-link""><b>GitHub</b></a>","Hébergé par <a class=""open-new-icon github-link"" href=""https://github.com""><b>GitHub</b></a>"
 footer-about,About,À propos
 footer-legal,Legals mentions,Mentions légales

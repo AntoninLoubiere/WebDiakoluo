@@ -8,10 +8,10 @@ const settingsPagePanels = {
         view: document.getElementById('settings-panel-appearance'), 
         button: document.getElementById('settings-nav-appearance')
     },
-    // sync: {
-    //     view: document.getElementById('settings-panel-sync'), 
-    //     button: document.getElementById('settings-nav-sync')
-    // }
+    sync: {
+        view: document.getElementById('settings-panel-sync'), 
+        button: document.getElementById('settings-nav-sync')
+    }
 }
 
 const settingsPageVersion = document.getElementById('settings-version');
@@ -27,6 +27,12 @@ const settingsPageThemeAutoLabel = document.getElementById('settings-theme-auto-
 const settingsPageThemeAuto = document.getElementById('settings-theme-auto');
 const settingsPageThemeDarkLabel = document.getElementById('settings-theme-dark-label');
 const settingsPageThemeDark = document.getElementById('settings-theme-dark');
+
+const settingsPageSyncForm = document.getElementById('settings-sync-form');
+const settingsPageSyncHost = document.getElementById('settings-sync-host');
+const settingsPageSyncUsername = document.getElementById('settings-sync-username');
+const settingsPageSyncPassword = document.getElementById('settings-sync-password');
+const settingsPageStatusText = document.getElementById('settings-sync-status');
 
 /**
  * The settings page
@@ -45,6 +51,7 @@ class SettingsPage extends Page {
             const panelName = keys[i];
             settingsPagePanels[panelName].button.onclick = () => this.onNavButtonClick(panelName);
         }
+        settingsPagePanels.sync.callback = this.onSyncPanel.bind(this);
 
         I18N.initAsyncFunc.then(() => settingsPageVersion.textContent = I18N.getTranslation('version') + ' (' + I18N.getTranslation('id') + ')');
         settingsPageVerifyUpdate.onclick = this.verifyUpdate.bind(this);
@@ -54,6 +61,8 @@ class SettingsPage extends Page {
         settingsPageThemeAuto.onchange = () => this.setThemeRadio('auto');
         settingsPageThemeDark.onchange = () => this.setThemeRadio('dark');
         this.setThemeRadio();
+
+        settingsPageSyncForm.onsubmit = this.onSyncSubmit.bind(this);
     }
 
     /**
@@ -79,8 +88,9 @@ class SettingsPage extends Page {
             this.activePanel = selectedPanel;
             this.activePanel.view.classList.remove('hide');
             this.activePanel.button.classList.add('active');  
-        }
 
+            selectedPanel.callback?.();
+        }
     }
 
     /**
@@ -141,6 +151,79 @@ class SettingsPage extends Page {
     }
 
     /**
+     * When the sync panel is loaded.
+     */
+    onSyncPanel() {
+        if (SyncManager.fetchManager.length > 0) {
+            var fetchManager = SyncManager.fetchManager[0];
+            settingsPageSyncHost.value =  fetchManager.host + '/';
+            settingsPageSyncUsername.value = fetchManager.credentials?.username || "";
+            settingsPageSyncPassword.value = fetchManager.credentials?.password || "";
+        } else {
+            settingsPageSyncHost.value = "";
+            settingsPageSyncUsername.value = "";
+            settingsPageSyncPassword.value = "";
+        }
+        settingsPageStatusText.setAttribute("key", "");
+        settingsPageStatusText.textContent = "";
+    }
+
+    /**
+     * When the sync form is submitted.
+     * @param {*} event the event of the submit
+     */
+    async onSyncSubmit(event) {
+        event.preventDefault();
+        var host = settingsPageSyncHost.value;
+        var username = settingsPageSyncUsername.value;
+        var password = settingsPageSyncPassword.value;
+
+        if (!host) {
+            SyncManager.setSyncAccount([]);
+            this.onSyncPanel();
+            settingsPageStatusText.setAttribute('key', 'settings-sync-deleted');
+            return;
+        }
+
+        if (!host.startsWith('http')) {
+            host = "http://" + host;
+        }
+        try {
+            var url = new URL(host);
+            if (url.protocol !== "http:" && url.protocol !== "https:") throw TypeError();
+            host = url.toString();
+            if (host.endsWith('/')) {
+                host = host.substring(0, host.length - 1);
+            }
+        } catch {
+            settingsPageSyncHost.focus();
+            return;
+        }
+        
+        try {
+            await SyncManager.fetchManager[0]?.authFetch('/logout');
+        } catch {}
+
+        var s = new SyncFetchManager(host, {username: username, password: password});
+        settingsPageStatusText.setAttribute('key', 'settings-sync-loading');
+        settingsPageStatusText.classList.remove('important-font');
+        s.authFetch('/test').then(() => {
+            SyncManager.setSyncAccount([s]);
+            SyncManager.update();
+            this.onSyncPanel();
+            settingsPageStatusText.setAttribute('key', 'settings-sync-success');
+        }).catch((error) => {
+            console.error(error);
+            if (error.error) {
+                settingsPageStatusText.setAttribute('key', 'settings-sync-error');
+            } else {
+                settingsPageStatusText.setAttribute('key', 'settings-sync-login-failed');
+            }
+            settingsPageStatusText.classList.add('important-font');
+        });        
+    }
+
+    /**
      * Verify if there is an update and update the UI (callback of settingsVerifyUpdate)
      */
     async verifyUpdate() {
@@ -166,20 +249,72 @@ class SettingsPage extends Page {
      */
     async updateButton() {
         settingsPageUpdateStatus.classList.remove('important-font');
-        settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-updating');
+        settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-downloading');
         try {
-            if (serviceWorkerRegistration.update) {
-                await serviceWorkerRegistration.update();
+            var swRegistration = await navigator.serviceWorker.getRegistration();
+            if (swRegistration.update) {
+                await swRegistration.update();
+                if (swRegistration.installing) {
+                    this.updateOnInstalling(swRegistration.installing);
+                } else if (swRegistration.waiting) {
+                    this.updateOnWaiting(swRegistration.waiting);
+                } else {
+                    settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-no-update');
+                }
             } else {
-                await serviceWorkerRegistration.unregister();
+                await swRegistration.unregister();
+                updateOnUpdated();
             }
-            settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-updated');
-            setTimeout(() => document.location = document.location, 3000);
         } catch (e) {
-            console.error("[Service Worker] Can't update", e);
-            settingsPageUpdateStatus.classList.add('important-font')
-            settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-cant-update');
+            this.updateFailed(e);
         }
+    }
+
+    /**
+     * When a worker is installing during the update.
+     * @param {ServiceWorker} worker the service worker that is installing
+     */
+    updateOnInstalling(worker) {
+        settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-installing');
+        worker.onstatechange = e => {
+            const state = e.target.state;
+            if (state === 'activating' || state === 'installed') {
+                this.updateOnWaiting(worker);
+                worker.onstatechange = null;
+            } else if (state === 'activated') {
+                this.updateOnActivated();
+            } else if (state === 'redundant') {
+                this.updateFailed(worker);
+            }
+        }
+    }
+
+    /**
+     * When a worker is waiting during the update.
+     * @param {ServiceWorker} worker the service worker that is waiting
+     */
+    updateOnWaiting(worker) {
+        worker.postMessage({action: 'skipWaiting'});
+        this.updateOnActivated();
+    }
+
+    /**
+     * When a worker is activated during the update.
+     * @param {ServiceWorker} worker the service worker that is activated
+     */
+    updateOnActivated() {
+        settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-updated');
+        setTimeout(() => document.location.reload(), 3000);
+    }
+
+    /**
+     * When an update failed.
+     * @param {*} e the error to print
+     */
+    updateFailed(e) {
+        console.error("[Service Worker] Can't update", e);
+        settingsPageUpdateStatus.classList.add('important-font')
+        settingsPageUpdateStatus.textContent = I18N.getTranslation('settings-cant-update');
     }
 }
 

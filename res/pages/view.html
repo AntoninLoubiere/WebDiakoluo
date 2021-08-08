@@ -1,0 +1,99 @@
+<main id="view-page" class="hide page-container">
+    <h1>
+        <div id="view-test-title-sync" class="test-sync-header">
+<!-- INCLUDE START id="sync.svg" -->
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+<!-- INCLUDE END id="sync.svg" --> 
+        </div>
+        <span id="view-test-title"></span>
+    </h1>
+    <div class="card">
+        <div class="action-list">
+            <button class="btn image-button compact" id="view-play-button">
+                <img src="/WebDiakoluo/res/img/play.svg" alt="Play icon">
+                <span><x-i18n key="play" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button compact" id="view-eval-button">
+                <img src="/WebDiakoluo/res/img/grade.svg" alt="Grade icon">
+                <span><x-i18n key="eval" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button compact" id="view-edit-button">
+                <img src="/WebDiakoluo/res/img/edit.svg" alt="Edit icon">
+                <span><x-i18n key="edit" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button compact" id="view-export-button">
+                <img src="/WebDiakoluo/res/img/export.svg" alt="Export icon">
+                <span><x-i18n key="export" caps="upper"></x-i18n></span>
+            </button>
+            <button class="btn image-button compact" id="view-delete-button">
+                <img src="/WebDiakoluo/res/img/delete.svg" alt="Delete icon">
+                <span><x-i18n key="delete" caps="upper"></x-i18n></span>
+            </button>
+        </div>
+        <div class="double-column">
+            <div>
+                <b><x-i18n key="title"></x-i18n> :</b></x-i18n> <span id="view-test-title2"></span><br>
+                <b><x-i18n key="description"></x-i18n> :</b> <span id="view-test-description"></span><br>
+                <b><x-i18n key="created-date"></x-i18n> :</b> <span id="view-test-created-date"></span><br>
+                <b><x-i18n key="modification-date"></x-i18n> :</b> <span id="view-test-modification-date"></span><br>
+                <div id="view-sync">
+                    <b><x-i18n key="sync"></x-i18n> :</b><br>
+                    <div id="view-sync-content">
+                        <x-i18n key="sync-id"></x-i18n> : <span id="view-sync-test-id"></span><br>
+                        <x-i18n key="sync-perms"></x-i18n> : <span id="view-sync-test-perms"></span><br>
+                        <x-i18n key="sync-owner"></x-i18n> : <span id="view-sync-test-owner"></span><br>
+                        <x-i18n key="sync-share"></x-i18n>
+                        <img src="/WebDiakoluo/res/img/view.svg" alt="Share icon" class="view-button" id="sync-share-button">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <b><x-i18n key="columns"></x-i18n> :</b>
+                <div id="view-test-columns"></div>
+            </div>
+        </div>
+    </div>
+    <b><x-i18n key="data"></x-i18n> :</b>
+    <div class="table-parent" tabindex="-1">
+        <table id="view-test-data" class="table">
+            <thead id="view-test-data-header"></thead>
+            <tbody id="view-test-data-body"></tbody>
+        </table>
+    </div>
+</main>
+<div id="view-test-column-modal" class="modal hide">
+    <div class="modal-content">
+        <header><span id="modal-view-column-title1"></span><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <b><x-i18n key="title"></x-i18n></b> <span id="modal-view-column-title2"></span><br>
+            <b><x-i18n key="description"></x-i18n></b> <span id="modal-view-column-description"></span><br>
+            <b><x-i18n key="settings"></x-i18n>:</b>
+            <div id="modal-view-column-settings" class="columns-settings">
+                <div></div><!-- required because of child replace-->
+            </div>
+        </main>
+        <footer id="view-column-nav-bar"></footer>
+    </div>
+</div>
+<div id="view-test-data-modal" class="modal hide">
+    <div class="modal-content">
+        <header><x-i18n key="data-number"></x-i18n><span id="view-test-data-id"></span><button is="modal-close" class="modal-close">&times;</button></header>
+        <main>
+            <div id="view-test-data-content"></div>
+        </main>
+        <footer id="view-data-nav-bar"></footer>
+    </div>
+</div>
+<template id="view-column-child-template">
+    <div class="test-column">
+        <img src="/WebDiakoluo/res/img/view.svg" class="view-button" tabindex="0" alt="View icon">
+        <span class="test-column-text"></span>
+    </div>
+</template>
+<template id="view-data-child-template">
+    <tr class="data clickable">
+        <td class="min">
+            <img src="/WebDiakoluo/res/img/view.svg" class="view-button" tabindex="0" alt="View icon">
+        </td>
+    </tr>
+</template>

@@ -1,8 +1,8 @@
 const LANGUAGES = ['en', 'fr'];
 const LANGUAGES_BUTTONS = {'en': "&#127468;&#127463; English", 'fr': "&#127467;&#127479; Français"};
 const PATH_OFFSET = 13;
-const DEFAULT_LANGUAGE = 'en2';
-const DATE_FORMATER = new Intl.DateTimeFormat(navigator.language, {
+const DEFAULT_LANGUAGE = 'en';
+const DATE_FORMATTER = new Intl.DateTimeFormat(navigator.language, {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
@@ -31,14 +31,16 @@ class I18nElement extends HTMLElement {
     /* Update the translation */
     updateI18n() {
         if (I18N.universal == null || I18N.translations == null) return;
-        var tr = I18N.getTranslation(this.getAttribute('key'))
+        const key = this.getAttribute('key');
+        if (!key) return;
+        var tr = I18N.getTranslation(key)
         var caps = this.getAttribute('caps')
         if (caps == 'upper') this.innerHTML = tr.toUpperCase();
         else if (caps == 'lower') this.innerHTML = tr.toLowerCase();
         else this.innerHTML = tr;
     }
 
-    attributeChangedCallback(name, oldValue, newValue) {
+    attributeChangedCallback(name, _oldValue, newValue) {
         if (name == 'key' && newValue != null || name == 'caps') {
             this.updateI18n();
         }
