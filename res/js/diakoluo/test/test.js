@@ -4,7 +4,7 @@ class Test {
         var nb_c = test.columns.length;
         for (var i = 0; i < test.data.length; i++) {
             if (test.data[i].length != nb_c) {
-                throw new Error("Data length isn't the same as columns");
+                throw new Error(`Data length isn't the same as columns (data: ${i} length = ${test.data[i].length} != ${nb_c})`);
             }
         }
 
@@ -42,7 +42,7 @@ class Test {
         var nb_c = test.columns.length;
         for (var i = 0; i < test.data.length; i++) {
             if (test.data[i].length != nb_c) {
-                throw new Error("Data length isn't the same as columns");
+                throw new Error(`Data length isn't the same as columns (data: ${i})`);
             }
         }
 

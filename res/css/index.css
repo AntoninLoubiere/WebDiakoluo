@@ -314,6 +314,10 @@ textarea.column-string-long {
     flex-grow: 1;
 }
 
+.edit-drag-handle {
+    cursor: grab;
+}
+
 .edit-button {
     outline: none;
     cursor: pointer;

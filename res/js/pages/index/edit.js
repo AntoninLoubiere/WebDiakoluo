@@ -65,6 +65,20 @@ class EditPage extends Page {
 
         editSyncButton.onclick = editSyncModal.show.bind(editSyncModal);
         editSyncNoSync.onclick = editSyncAddSync.onclick = editSyncSync.onclick = this.updateEditSyncDiv.bind(this);
+
+        new Sortable(editPageColumnsList, {
+            animation: 200,
+            ghostClass: 'sortable-ghost',
+            handle: '.edit-drag-handle',
+            onEnd: this.onColumnMove.bind(this)
+        });
+
+        new Sortable(editPageDataTableBody, {
+            animation: 200,
+            ghostClass: 'sortable-ghost',
+            handle: '.edit-drag-handle',
+            onEnd: this.onDataMove.bind(this)
+        });
     }
 
     /* When the page is loaded */
@@ -709,6 +723,12 @@ class EditPage extends Page {
         this.reloadData();
     }
 
+    /* when a column has moved */
+    onColumnMove(event) {
+        currentTest.columns.splice(event.newDraggableIndex, 0, currentTest.columns.splice(event.oldDraggableIndex, 1)[0]);
+        this.resetColumnsClick();
+    }
+
     /* add a data */
     addData() {
         var pos = currentTest.addData();
@@ -720,6 +740,12 @@ class EditPage extends Page {
     removeData(index) {
         currentTest.removeData(index);
         this.removeDataChild(index);
+    }
+
+    /* When a data has moved */
+    onDataMove(event) {
+        currentTest.data.splice(event.newDraggableIndex, 0, currentTest.data.splice(event.oldDraggableIndex, 1)[0]);
+        this.resetDataClick();
     }
 
     /* update the modal from an id */
