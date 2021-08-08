@@ -62,7 +62,7 @@ textarea.column-string-long {
 }
 
 .list-page-button-bar > button {
-    flex-basis: 20%;
+    flex-basis: max(20%, 300px);
 }
 
 .test-list {
@@ -81,7 +81,7 @@ textarea.column-string-long {
     border-radius: .5em;
     border: 1px solid var(--color-primary-100);
 
-    margin: 16px 10px;
+    margin: 6px 10px;
     padding: .2em .5em;
 
     box-shadow: var(--shadow-card);
@@ -111,8 +111,6 @@ textarea.column-string-long {
     padding: 0;
     text-align: center;
 
-    border-bottom: 1px solid var(--color-primary-100);
-
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -121,7 +119,7 @@ textarea.column-string-long {
 }
 
 .test-description {
-    display: -webkit-box;
+    display: none;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     margin-top: 4px;
@@ -577,6 +575,14 @@ div.card-center {
 }
 
 @media (min-width: 800px) {
+    .test-title {
+        border-bottom: 1px solid var(--color-primary-100);
+    }
+    
+    .test-description {
+        display: -webkit-box;    
+    }
+    
     #modal-edit-column-settings-parent {
         grid-column: 1/3;
     }
