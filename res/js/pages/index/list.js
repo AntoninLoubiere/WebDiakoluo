@@ -174,8 +174,6 @@ class ListPage extends Page {
         var resolveFunc = await this.lock();
         let recent = [];
 
-        removeAllChildren(this.recentTestList);
-
         DATABASE_MANAGER.forEachHeader().onsuccess = event => {
             if (this.waitingLock) {
                 resolveFunc();
@@ -188,6 +186,7 @@ class ListPage extends Page {
                 this.registerRecent(recent, test);
                 cursor.continue();
             } else {
+                removeAllChildren(this.recentTestList);
                 for (let t of recent) {
                     this.addTestToSection(t, this.recentTestList, t.sync);
                 }

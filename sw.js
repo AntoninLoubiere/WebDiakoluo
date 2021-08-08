@@ -1,4 +1,4 @@
- const CACHE_NAME = "WebDiakoluo-P2CvPTX3";
+ const CACHE_NAME = "WebDiakoluo-6Lp0SyHx";
  const ORIGIN = "https://antoninloubiere.github.io";
 
 /* get the files of the app */
@@ -54,6 +54,7 @@ function getAppFiles() {
     f.push("/WebDiakoluo/res/img/share.svg");
     f.push("/WebDiakoluo/res/img/save_w.svg");
     f.push("/WebDiakoluo/res/img/right.svg");
+    f.push("/WebDiakoluo/res/img/drag_handle.svg");
     f.push("/WebDiakoluo/res/img/import_w.svg");
     f.push("/WebDiakoluo/res/img/delete.svg");
     f.push("/WebDiakoluo/res/img/grade.svg");
