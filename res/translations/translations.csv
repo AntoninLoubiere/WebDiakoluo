@@ -85,6 +85,7 @@ settings-sync-loading,Connection in progress.,Connexion en cours.
 settings-sync-success,Connected with success.,Connecté avec succés.
 settings-sync-error,An error occur during the connection.,Une erreur est survenue lors de la connexion.
 settings-sync-login-failed,An error occur during the authentification.,Une erreur est survenue lors de l'authentification.
+settings-sync-deleted,Synchronisation account deleted.,Compte de synchronisation supprimé.
 sync,Synchronisation,Synchronisation
 sync-id,Id,Identifiant
 sync-perms,Permissions,Permissions

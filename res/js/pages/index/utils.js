@@ -267,6 +267,8 @@ class Utils {
             SyncManager.isSynced = true;
             SyncManager.onVisibilityChange();
 
+            defaultPage.reloadList();
+
             if (sync.testId) {
                 UTILS.viewTestPage(sync.testId);
             }

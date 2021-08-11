@@ -48,6 +48,8 @@ class API_PAGE extends Page {
             SyncManager.isSynced = true;
             SyncManager.onVisibilityChange();
 
+            defaultPage.reloadList();
+
             backToMain(false);
             if (sync.testId) {
                 UTILS.viewTestPage(sync.testId);

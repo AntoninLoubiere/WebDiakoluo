@@ -5,6 +5,12 @@ const testListSyncTemplate = document.getElementById('list-test-sync');
 const testListSectionParent = document.getElementById('list-page-sections');
 const testListSectionTemplate = document.getElementById('list-page-section-template');
 
+const testListSyncHeader = document.getElementById('list-page-section-header-sync');
+const testListOwnerHeader = document.getElementById('list-page-section-header-sync-owner');
+const testListUserHeader = document.getElementById('list-page-section-header-sync-user');
+const testListGroupHeader = document.getElementById('list-page-section-header-sync-group');
+const testListLinkHeader = document.getElementById('list-page-section-header-sync-link');
+
 document.getElementById('list-add-button').onclick = UTILS.addTestRedirect;
 
 class ListPage extends Page {
@@ -120,6 +126,11 @@ class ListPage extends Page {
         let promises = [];
         let recent = [];
 
+        this.hasOwnerSync = false;
+        this.hasUserSync = false;
+        this.hasGroupSync = false;
+        this.hasLinkSync = false;
+
         DATABASE_MANAGER.forEachHeader().onsuccess = event => {
             var cursor = event.target.result;
             if (cursor) {
@@ -127,7 +138,7 @@ class ListPage extends Page {
                 this.registerRecent(recent, test);
                 if (test.sync && test.id != EDIT_KEY) {
                     promises.push(SyncManager.getSyncFromTest(test).then(async sync => {
-                        if (this.waitingLock) return;
+                        if (this.waitingLock || !sync) return;
                         if (sync.sync.authAccount == SyncManager.LINK) {
                             this.addTestToSection(test, this.createSyncSection({type: SyncManager.LINK}), true);
                         } else {
@@ -156,6 +167,17 @@ class ListPage extends Page {
                 Promise.all(promises).then(() => {
                     this.sectionMayAddEmpty(this.localTestList);
                     this.sectionMayAddEmpty(this.recentTestList);
+                    testListOwnerHeader.hidden = !this.hasOwnerSync;
+                    testListUserHeader.hidden = !this.hasUserSync;
+                    testListGroupHeader.hidden = !this.hasGroupSync;
+                    testListLinkHeader.hidden = !this.hasLinkSync;
+                    testListSyncHeader.hidden = !(
+                        this.hasOwnerSync ||
+                        this.hasUserSync ||
+                        this.hasGroupSync ||
+                        this.hasLinkSync
+                    )
+
                     let keys = Object.keys(this.testLists);
                     for (let k of keys) {
                         let list = this.testLists[k];
@@ -164,6 +186,7 @@ class ListPage extends Page {
                             delete this.testLists[k];
                         }
                     }
+
                     resolveFunc();
                 });
             }
@@ -253,6 +276,8 @@ class ListPage extends Page {
     /* create a sync section */
     createSyncSection(shareMode) {
         if (shareMode.type == "owner") {
+            this.hasOwnerSync = true;
+
             if (this.testLists.owner) {
                 return this.testLists.owner;
             }
@@ -260,6 +285,8 @@ class ListPage extends Page {
             this.testLists.owner = sec;
             return sec;
         } else if (shareMode.type == "link") {
+            this.hasLinkSync = true;
+
             if (this.testLists.link) {
                 return this.testLists.link;
             }
@@ -267,6 +294,8 @@ class ListPage extends Page {
             this.testLists.link = sec;
             return sec;
         } else if (shareMode.type == "user") {
+            this.hasUserSync = true;
+
             if (this.testLists[shareMode.username]) {
                 return this.testLists[shareMode.username];
             }
@@ -277,6 +306,8 @@ class ListPage extends Page {
             this.testLists[shareMode.username] = sec;
             return sec;
         } else if (shareMode.type == "group") {
+            this.hasGroupSync = true;
+
             if (this.testLists[shareMode.name]) {
                 return this.testLists[shareMode.name];
             }
