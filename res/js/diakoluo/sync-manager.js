@@ -227,7 +227,11 @@ class SyncManager {
     static async getSyncFromTest(test) {
         const event = await DATABASE_MANAGER.getSync(test.sync);
         const sync = event.target.result;
-        if (!sync) return null;
+        if (!sync) {
+            console.log()
+            DATABASE_MANAGER.deleteTest(test.id);
+            return null;
+        }
         if (sync.authAccount && sync.authAccount !== this.LINK) {
             return new Sync(sync, SyncManager.fetchManager[sync.authAccount]);
         } else if (sync.host) {
