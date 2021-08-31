@@ -14,6 +14,7 @@ const viewColumnModalTitle1 = document.getElementById('modal-view-column-title1'
 const viewColumnModalTitle2 = document.getElementById('modal-view-column-title2');
 const viewColumnModalDescription = document.getElementById('modal-view-column-description');
 const viewColumnModalSettings = document.getElementById('modal-view-column-settings');
+const viewColumnModalScore = document.getElementById('modal-view-column-settings-score');
 
 const viewSyncDiv = document.getElementById('view-sync');
 const viewSyncId = document.getElementById('view-sync-test-id');
@@ -294,6 +295,24 @@ class ViewPage extends Page {
                 column.getViewColumnSettings(),
                 viewColumnModalSettings.children[0]
             );
+
+            removeAllChildren(viewColumnModalScore);
+
+            let scoreText = I18N.getTranslation('score-view-text');
+            let scoreRules = column.scoreRules;
+            for (let r of scoreRules.rules) {
+                let li = document.createElement('li');
+
+                let ti = document.createElement('span');
+                ti.textContent = I18N.getTranslation(SCORE_REGISTRATION[r.type].m_t);
+                li.appendChild(ti);
+
+                let sc = document.createElement('span');
+                sc.textContent = scoreText.replace('#1', r.score).replace('#2', scoreRules.max);
+                li.appendChild(sc);
+
+                viewColumnModalScore.appendChild(li);
+            }
         }
     }
 

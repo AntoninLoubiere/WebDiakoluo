@@ -426,8 +426,32 @@ textarea.column-string-long {
     align-self: stretch;
 }
 
-#modal-edit-column-settings-parent {
+#modal-edit-column-settings-parent,
+#modal-edit-column-settings-score-parent {
     grid-column: 1/1;
+}
+
+#modal-view-column-settings-score,
+#modal-edit-column-settings-score {
+    margin: 0;
+}
+
+.edit-settings-score-item {
+    display: flex;
+    align-items: center;
+    
+    margin: .5em 0;
+    flex-wrap: wrap;
+    gap: .5em;
+}
+
+.edit-settings-score-item div {
+    display: inline-block;
+}
+
+#modal-edit-column-settings-score select,
+#modal-edit-column-settings-score-add select {
+    width: auto;
 }
 
 #import-file, #import-sync, #import-form {
@@ -587,7 +611,8 @@ div.card-center {
         display: -webkit-box;    
     }
     
-    #modal-edit-column-settings-parent {
+    #modal-edit-column-settings-parent,
+    #modal-edit-column-settings-score-parent {
         grid-column: 1/3;
     }
     

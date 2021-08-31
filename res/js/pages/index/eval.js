@@ -110,7 +110,6 @@ class EvalPage extends Page {
 
         var e;
         var c;
-        var p;
         var set_show;
         var set_ask;
         var is_random;

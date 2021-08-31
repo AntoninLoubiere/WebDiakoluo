@@ -13,6 +13,17 @@ class ColumnString extends Column {
         }
     }
 
+    /* get the default score rule */
+    getDefaultScoreRule() {
+        return {
+            rules: [
+                {type: 'exact-ignore-case', score: 1},
+                {type: 'fail', score: 0}
+            ],
+            max: 1
+        };
+    }
+
     /* get a dom element that show the data */
     getViewView(data) {
         var e = super.getViewView(data);
@@ -63,21 +74,18 @@ class ColumnString extends Column {
         return i;
     }
 
-    /* get if a value is right */
-    isRight(data, value) {
+    /* get the value for comparing in test */
+    cleanDataForScore(data, value) {
         if (this.getSettings(ColumnString.SET_TRIM_SPACES)) {
-            var dv = data.value.trim(); 
-            var v = value.value.trim(); 
+            return {value: data.value.trim()}, {value: value.value.trim()};
         } else {
-            var dv = data.value; 
-            var v = value.value;
+            return data, value;
         }
-        
-        if (this.getSettings(ColumnString.SET_CASE_SENSITIVE)) {
-            return dv === v;
-        } else {
-            return dv.toLowerCase() === v.toLowerCase();
-        }
+    }
+
+    /* get allowed score functions */
+    getAllowedScoreFunctions() {
+        return ['exact', 'exact-ignore-case', 'contains'];
     }
 
     /* get the settings view of the column */

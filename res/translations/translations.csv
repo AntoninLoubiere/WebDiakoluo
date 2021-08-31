@@ -59,6 +59,19 @@ random-columns,Random columns,Colonnes aléatoires
 ask-columns,Columns to ask,Colonnes à demander
 hide-columns,Columns to hide,Colonnes à cacher
 number-columns-random,Number of random columns to show (other will be asked), Nombre de colonnes aléatoire à afficher (les autres seront demandées)
+settings-score,Score settings,Paramètres du score
+settings-score-message,The answer:,La réponse :
+settings-score-column,The column could give <input type="number" step="any" size="1" id="modal-edit-column-score-max"> points.,La colonne peut donner <input type="number" step="any" size="1" id="modal-edit-column-score-max"> points.
+score-view-text,: #1/#2 points., : #1/#2 points.
+score-remove-rule,remove rule,supprimer la règle
+score-add-rule,add rule,ajouter une règle
+score-exact-t,is exact,est exacte
+score-ignore-case-t,is exact (case insensible),est exacte (insensible à la casse)
+score-contains-t,contains,contient
+score-contains-all-words,all words,tout les mots
+score-contains-one-word,at least one word,au moins un mot
+score-contains-exact,exactly,exactement
+score-fail-t,is wrong,est fausse
 play-card-column-name,Show column name,Afficher le nom des colonnes
 play-card-random-side,Randomly invert side shown,Inverser aléatoirement le coté affiché
 play-card-end,The End. It's finish.,La Fin. C'est terminé

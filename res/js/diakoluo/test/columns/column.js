@@ -10,7 +10,7 @@ class Column {
     static cast(column) {
         var columnClass;
         for (var i = 0; i < columnsClass.length; i++) {
-            if (column.type == columnsClass[i].TYPE || columnsClass[i].name) { // backward compatibilty
+            if (column.type == columnsClass[i].TYPE) {
                 columnClass = columnsClass[i];
                 break;
             }
@@ -40,9 +40,9 @@ class Column {
 
     /* get the class constructor from the type */
     static getColumnClassCsv(type) {
-        var columnClass;
         if (type) type = type.toLowerCase();
         else return ColumnString;
+
         for (var i = 0; i < columnsClass.length; i++) {
             if (type == columnsClass[i].TYPE.toLowerCase()) {
                 return columnsClass[i];
@@ -60,6 +60,18 @@ class Column {
             this.description = description;
             this.settings = Column.DEFAULT_SETTINGS;
         }
+        this.scoreRules = this.getDefaultScoreRule();
+    }
+
+    /* get the default score rule */
+    getDefaultScoreRule() {
+        return {
+            rules: [
+                {type: 'exact', score: 1},
+                {type: 'fail', score: 0}
+            ],
+            max: 1
+        };
     }
 
     /* Get a string that represent the data */
@@ -105,38 +117,52 @@ class Column {
         return this.getViewView(data);
     }
 
+    /* get the value for comparing in test */
+    getValueForTest(value) {
+        return value.value;
+    }
+
+    /* clean data for score */
+    cleanDataForScore(data, value) {
+        return data, value;
+    }
+
     /* set the score and show the answer of the view and apply score */
     updateAnswerTestView(data, view, score) {
-        var value = this.getValueFromView(view);
-        if (this.isRight(data, value)) {
-            score?.pushScore(1, 1);
+        var data, value = this.cleanDataForScore(data, this.getValueFromView(view));
+        var viewView = this.getViewView(value);
+        for (let r of this.scoreRules.rules) {
+            let rule = SCORE_REGISTRATION[r.type];
+            if (rule.match(this, r, data, value)) {
+                score?.pushScore(r.score, this.scoreRules.max);
 
-            var e = this.getViewView(value);
-            e.classList.add('right-answer');
-            return e;
-        } else if (this.isSkipped(data, value)) {
-            score?.pushScore(0, 1);
-
-            var div = document.createElement('div');
-            div.appendChild(Column.getSkippedView());
-            var e = this.getViewView(data);
-            e.classList.add('answer-answer');
-            div.appendChild(e);
-
-            return div;
-        }  else {
-            score?.pushScore(0, 1);
-
-            var div = document.createElement('div');
-            var e = this.getViewView(value);
-            e.classList.add('wrong-answer');
-            div.appendChild(e);
-
-            e = this.getViewView(data);
-            e.classList.add('answer-answer');
-            div.appendChild(e);
-            return div;
+                if (rule.showAnswer) {
+                    var div = document.createElement('div');
+                    if (rule.isWrong && this.isSkipped(value)) {
+                        div.appendChild(Column.getSkippedView());
+                    } else {
+                        if (rule.isWrong) {
+                            viewView.classList.add('wrong-answer');
+                        } else {
+                            viewView.classList.add('right-answer');
+                        }
+                        div.appendChild(viewView);
+                    }
+                    var e = this.getViewView(data);
+                    e.classList.add('answer-answer');
+                    div.appendChild(e);
+                    return div;
+                } else {
+                    viewView.classList.add('right-answer');
+                    return viewView;
+                }
+            }
         }
+    }
+
+    /* get allowed score functions */
+    getAllowedScoreFunctions() {
+        throw new Error('Not implemented');
     }
 
     /* get the value stored in the view */
@@ -149,13 +175,8 @@ class Column {
         data.value = view.value;
     }
 
-    /* get if a value is right */
-    isRight(data, value) {
-        return data.value === value.value;
-    }
-
     /* get if a value is skipped */
-    isSkipped(data, value) {
+    isSkipped(value) {
         return value.value === "";
     }
 
@@ -168,7 +189,7 @@ class Column {
     getViewColumnSettings() {
         var div = document.createElement('div');
         div.classList = ['unique-column'];
-        
+
         div.appendChild(
             VIEW_UTILS.booleanView(
                 this.getSettings(Column.SET_CAN_BE_SHOW), 

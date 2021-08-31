@@ -20,6 +20,7 @@ COMPILE_FILES = {
         'res/js/diakoluo/test/test.js',
         'res/js/diakoluo/test/columns/column.js',
         'res/js/diakoluo/test/columns/column-string.js',
+        'res/js/diakoluo/test/score.js',
     ],
     'res/js/pages/index.min.js': [
         'res/js/pages/page.js',
