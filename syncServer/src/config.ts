@@ -8,4 +8,5 @@ export const SECURE_SESSION = true; // if the cookies should be secured
 
 export const API_URL = "/";
 
-export const PORT = 8888;
+export const PORT: any = 8888;
+export const SOCK_PERMS = '';

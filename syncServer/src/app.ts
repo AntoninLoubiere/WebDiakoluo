@@ -1,7 +1,8 @@
 import express from "express";
-import { ALLOWED_ORIGIN, API_URL, PORT } from "./config";
+import { ALLOWED_ORIGIN, API_URL, PORT, SOCK_PERMS } from "./config";
 import router from "./router";
 import cors from "cors"
+import { chmod } from "fs"
 
 var cookieParser = require("cookie-parser");
 
@@ -22,4 +23,9 @@ app.use((_, res) => {
 
 app.disable('x-powered-by');
 
-app.listen(PORT, () => console.log("Server started."))
+app.listen(PORT, () => {
+    if (SOCK_PERMS) {
+        chmod(PORT, SOCK_PERMS, () => null);
+    }
+    console.log("Server started.");
+})
