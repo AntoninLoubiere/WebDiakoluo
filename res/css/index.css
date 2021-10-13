@@ -224,7 +224,7 @@ textarea.column-string-long {
 }
 
 .view-button:hover, .view-button:focus {
-    transform: scale(1.5);
+    transform: scale(.8);
 }
 
 #view-sync-content {
