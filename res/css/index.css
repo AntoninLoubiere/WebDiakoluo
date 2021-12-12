@@ -489,6 +489,7 @@ textarea.column-string-long {
 }
 
 #play-card-card {
+    display: grid;
     flex-grow: 1;
     cursor: pointer;
     -webkit-user-select: none;
